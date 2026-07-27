@@ -3,6 +3,8 @@ import { Reveal, Stagger, StaggerItem } from './Motion';
 import { SectionHeading } from './SectionHeading';
 import { Atom, Network, Telescope, Orbit, Cpu, Waves } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { BackgroundGlow } from './shared/BackgroundGlow';
+import { IconTile } from './shared/IconTile';
 
 interface Tech {
   icon: LucideIcon;
@@ -57,8 +59,8 @@ export function Technology() {
       className="relative overflow-hidden border-y border-[hsl(43_60%_70%_/_0.08)] bg-transparent py-28 md:py-36"
     >
       {/* Atmospheric blue-violet + magenta glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute -left-1/4 top-1/4 h-[55vh] w-[55vh] rounded-full bg-[hsl(256_80%_52%_/_0.40)] blur-[130px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-1/4 bottom-1/4 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.38)] blur-[125px]" />
+      <BackgroundGlow className="-left-1/4 top-1/4 h-[55vh] w-[55vh] rounded-full bg-[hsl(256_80%_52%_/_0.40)] blur-[130px]" />
+      <BackgroundGlow className="-right-1/4 bottom-1/4 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.38)] blur-[125px]" />
 
       {/* Decorative grid */}
       <div
@@ -95,9 +97,7 @@ export function Technology() {
             <StaggerItem key={t.name}>
               <article className="group relative h-full overflow-hidden rounded-2xl glass p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[hsl(43_60%_70%_/_0.28)]">
                 <div className="flex items-center justify-between">
-                  <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-[hsl(43_60%_70%_/_0.2)] bg-[hsl(280_55%_16%_/_0.6)]">
-                    <t.icon className="h-5 w-5 text-[hsl(43_60%_70%)]" strokeWidth={1.5} />
-                  </div>
+                  <IconTile icon={t.icon} />
                   <span className="text-[0.65rem] uppercase tracking-[0.2em] text-[hsl(326_55%_62%_/_0.9)]">
                     {t.tag}
                   </span>

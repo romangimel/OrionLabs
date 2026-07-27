@@ -1,7 +1,8 @@
 import { Reveal } from './Motion';
-import { ArrowRight } from 'lucide-react';
 import { Starfield } from './Starfield';
 import { Aurora } from './Aurora';
+import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
+import { SectionEyebrow } from './shared/SectionEyebrow';
 
 export function CTA() {
   return (
@@ -20,11 +21,7 @@ export function CTA() {
 
       <div className="container-narrow relative z-10 flex flex-col items-center text-center">
         <Reveal>
-          <span className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[hsl(43_60%_70%)]">
-            <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-            Begin
-            <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-          </span>
+          <SectionEyebrow>Begin</SectionEyebrow>
         </Reveal>
 
         <Reveal delay={0.08}>
@@ -46,20 +43,12 @@ export function CTA() {
 
         <Reveal delay={0.26}>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-            <a
-              href="#top"
-              className="group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-8 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02]"
-            >
-              <span className="relative z-10">Begin Analysis</span>
-              <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            </a>
-            <a
-              href="#research"
-              className="inline-flex h-12 items-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-8 text-sm font-medium text-foreground/90 backdrop-blur-md transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground"
-            >
+            <PrimaryActionButton href="#top" className="px-8">
+              Begin Analysis
+            </PrimaryActionButton>
+            <SecondaryActionButton href="#research" className="px-8">
               Read the Research
-            </a>
+            </SecondaryActionButton>
           </div>
         </Reveal>
 

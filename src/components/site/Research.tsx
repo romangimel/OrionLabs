@@ -1,6 +1,7 @@
 import { Reveal, Stagger, StaggerItem } from './Motion';
 import { SectionHeading } from './SectionHeading';
 import { FileText, ArrowUpRight } from 'lucide-react';
+import { BackgroundGlow } from './shared/BackgroundGlow';
 
 interface Paper {
   title: string;
@@ -70,7 +71,7 @@ export function Research() {
         {/* Featured paper */}
         <Reveal delay={0.1} className="mt-16">
           <article className="group relative overflow-hidden rounded-2xl glass-strong p-8 md:p-10">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[hsl(315_80%_58%_/_0.22)] blur-3xl" />
+            <BackgroundGlow className="-right-20 -top-20 h-48 w-48 rounded-full bg-[hsl(315_80%_58%_/_0.22)] blur-3xl" />
             <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
               <div className="max-w-2xl">
                 <div className="flex items-center gap-3">

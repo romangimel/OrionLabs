@@ -1,4 +1,5 @@
 import { Logo } from './Logo';
+import { BackgroundGlow } from './shared/BackgroundGlow';
 
 const COLUMNS = [
   {
@@ -23,8 +24,8 @@ export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-[hsl(43_60%_70%_/_0.1)] bg-transparent pt-20 pb-10">
       {/* Atmospheric violet + pink glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute -right-1/4 -top-1/4 h-[46vh] w-[46vh] rounded-full bg-[hsl(300_75%_48%_/_0.32)] blur-[130px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-1/4 bottom-0 h-[40vh] w-[40vh] rounded-full bg-[hsl(256_78%_50%_/_0.26)] blur-[130px]" />
+      <BackgroundGlow className="-right-1/4 -top-1/4 h-[46vh] w-[46vh] rounded-full bg-[hsl(300_75%_48%_/_0.32)] blur-[130px]" />
+      <BackgroundGlow className="-left-1/4 bottom-0 h-[40vh] w-[40vh] rounded-full bg-[hsl(256_78%_50%_/_0.26)] blur-[130px]" />
       <div className="container-narrow">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           {/* Brand */}

@@ -1,6 +1,8 @@
 import { Reveal, Stagger, StaggerItem } from './Motion';
 import { BarChart3, TrendingUp, Users, Globe2 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { SectionEyebrow } from './shared/SectionEyebrow';
+import { BackgroundGlow } from './shared/BackgroundGlow';
 
 interface Stat {
   icon: LucideIcon;
@@ -40,16 +42,12 @@ export function Evidence() {
   return (
     <section id="evidence" className="relative overflow-hidden py-28 md:py-36">
       {/* Atmospheric magenta + blue-violet glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute left-1/3 -top-1/5 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.32)] blur-[145px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -right-1/4 bottom-0 h-[42vh] w-[42vh] rounded-full bg-[hsl(256_80%_52%_/_0.30)] blur-[130px]" />
+      <BackgroundGlow className="left-1/3 -top-1/5 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.32)] blur-[145px]" />
+      <BackgroundGlow className="-right-1/4 bottom-0 h-[42vh] w-[42vh] rounded-full bg-[hsl(256_80%_52%_/_0.30)] blur-[130px]" />
       <div className="container-narrow">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <span className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[hsl(43_60%_70%)]">
-              <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-              Trust Indicators
-              <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-            </span>
+            <SectionEyebrow>Trust Indicators</SectionEyebrow>
             <h2 className="mt-5 font-serif text-4xl leading-[1.1] md:text-5xl">
               <span className="text-gradient-gold">Backed by statistically</span>
               <br />

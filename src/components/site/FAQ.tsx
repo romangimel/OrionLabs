@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/accordion';
 import { Reveal } from './Motion';
 import { SectionHeading } from './SectionHeading';
+import { BackgroundGlow } from './shared/BackgroundGlow';
 
 const FAQS = [
   {
@@ -45,8 +46,8 @@ export function FAQ() {
       className="relative overflow-hidden border-y border-[hsl(43_60%_70%_/_0.08)] bg-transparent py-28 md:py-36"
     >
       {/* Atmospheric violet + pink glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute left-1/3 top-1/4 h-[55vh] w-[55vh] rounded-full bg-[hsl(295_75%_48%_/_0.36)] blur-[140px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute right-1/4 bottom-0 h-[42vh] w-[42vh] rounded-full bg-[hsl(330_72%_48%_/_0.28)] blur-[130px]" />
+      <BackgroundGlow className="left-1/3 top-1/4 h-[55vh] w-[55vh] rounded-full bg-[hsl(295_75%_48%_/_0.36)] blur-[140px]" />
+      <BackgroundGlow className="right-1/4 bottom-0 h-[42vh] w-[42vh] rounded-full bg-[hsl(330_72%_48%_/_0.28)] blur-[130px]" />
 
       <div className="container-narrow">
         <SectionHeading

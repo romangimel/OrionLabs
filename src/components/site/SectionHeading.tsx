@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { Reveal } from './Motion';
+import { SectionEyebrow } from './shared/SectionEyebrow';
 
 interface SectionHeadingProps {
   eyebrow?: string;
@@ -27,11 +28,7 @@ export function SectionHeading({
     >
       {eyebrow && (
         <Reveal>
-          <span className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[hsl(43_60%_70%)]">
-            <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-            {eyebrow}
-            <span className="h-px w-6 bg-[hsl(43_60%_70%_/_0.5)]" />
-          </span>
+          <SectionEyebrow>{eyebrow}</SectionEyebrow>
         </Reveal>
       )}
       <Reveal delay={0.05}>

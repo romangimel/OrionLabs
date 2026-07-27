@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import { Starfield } from './Starfield';
 import { FadeIn } from './Motion';
+import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
 
 export function Hero() {
   const reduce = useReducedMotion();
@@ -88,21 +89,13 @@ export function Hero() {
 
         <FadeIn delay={0.55}>
           <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-            <a
-              href="#cta"
-              className="group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02]"
-            >
-              <span className="relative z-10">Begin Analysis</span>
-              <ArrowRight className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-            </a>
-            <a
-              href="#research"
-              className="inline-flex h-12 items-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground/90 backdrop-blur-md transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground"
-            >
+            <PrimaryActionButton href="#cta" className="px-7">
+              Begin Analysis
+            </PrimaryActionButton>
+            <SecondaryActionButton href="#research" className="px-7">
               <BookOpen className="h-4 w-4" />
               Read the Research
-            </a>
+            </SecondaryActionButton>
           </div>
         </FadeIn>
 

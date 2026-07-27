@@ -1,6 +1,7 @@
 import { Reveal, Stagger, StaggerItem } from './Motion';
 import { SectionHeading } from './SectionHeading';
 import { Star } from 'lucide-react';
+import { BackgroundGlow } from './shared/BackgroundGlow';
 
 interface Voice {
   quote: string;
@@ -61,8 +62,8 @@ export function Voices() {
       className="relative overflow-hidden border-y border-[hsl(43_60%_70%_/_0.08)] bg-transparent py-28 md:py-36"
     >
       {/* Atmospheric magenta + blue-violet glow */}
-      <div aria-hidden="true" className="pointer-events-none absolute right-1/4 top-0 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.38)] blur-[130px]" />
-      <div aria-hidden="true" className="pointer-events-none absolute -left-1/4 bottom-0 h-[46vh] w-[46vh] rounded-full bg-[hsl(256_80%_52%_/_0.38)] blur-[125px]" />
+      <BackgroundGlow className="right-1/4 top-0 h-[50vh] w-[50vh] rounded-full bg-[hsl(326_78%_50%_/_0.38)] blur-[130px]" />
+      <BackgroundGlow className="-left-1/4 bottom-0 h-[46vh] w-[46vh] rounded-full bg-[hsl(256_80%_52%_/_0.38)] blur-[125px]" />
 
       <div className="container-narrow">
         <SectionHeading
