@@ -1,4 +1,4 @@
-# AstroLabs
+# OrionLabs
 
 > *Enterprise-grade cosmic intelligence for the scientifically adjacent.*
 
@@ -6,11 +6,11 @@
 
 # Vision
 
-AstroLabs is a fictional AI startup that claims to generate hyper-personalized astrological insights using proprietary artificial intelligence.
+OrionLabs is a fictional AI startup that claims to generate hyper-personalized astrological insights using proprietary artificial intelligence.
 
 The company is completely fake.
 
-The satire comes from the fact that AstroLabs never admits this.
+The satire comes from the fact that OrionLabs never admits this.
 
 Everything—from the branding to the UI to the copywriting—should be presented with absolute confidence.
 
@@ -78,7 +78,7 @@ The design should be beautiful enough that screenshots are worth sharing.
 
 # Brand Personality
 
-AstroLabs genuinely believes it is changing humanity.
+OrionLabs genuinely believes it is changing humanity.
 
 It speaks like a billion-dollar startup.
 
@@ -218,7 +218,7 @@ Gold:
 - Important words
 - Statistics
 - Numbers
-- AstroLabs branding
+- OrionLabs branding
 
 White:
 
@@ -319,7 +319,7 @@ Write code another engineer would enjoy maintaining.
 
 ---
 
-# Things AstroLabs Never Does
+# Things OrionLabs Never Does
 
 Never explains the joke.
 

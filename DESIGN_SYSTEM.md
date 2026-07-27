@@ -1,10 +1,10 @@
-# AstroLabs Design System
+# OrionLabs Design System
 
-> **Status: frozen visual identity.** This handbook records the approved landing-page system as implemented. Future AstroLabs pages must extend this system without introducing a new aesthetic. The current codebase renders the product name **OrionLabs**; preserve that existing wordmark treatment wherever the rendered brand name is used.
+> **Status: frozen visual identity.** This handbook records the approved landing-page system as implemented. Future OrionLabs pages must extend this system without introducing a new aesthetic. The current codebase renders the product name **OrionLabs**; preserve that existing wordmark treatment wherever the rendered brand name is used.
 
 ## Brand
 
-AstroLabs is **cinematic cosmic luxury with a premium-AI façade**. It combines a near-black, violet-night foundation with nebulous blue, violet, and magenta light; warm antique gold carries the moments of authority and aspiration. The result is mysterious, elegant, technically theatrical, and intentionally restrained rather than playful.
+OrionLabs is **cinematic cosmic luxury with a premium-AI façade**. It combines a near-black, violet-night foundation with nebulous blue, violet, and magenta light; warm antique gold carries the moments of authority and aspiration. The result is mysterious, elegant, technically theatrical, and intentionally restrained rather than playful.
 
 The design earns this atmosphere through:
 
@@ -211,7 +211,7 @@ Use **Lucide** line icons exclusively for interface and thematic symbols. Defaul
 - Keep the enterprise-AI visual tone straight-faced. Humor and satire come from copy, never from cartoonish color, iconography, or motion.
 - Preserve accessibility: usable contrast, visible focus behavior, semantic controls, smooth scrolling only when motion preference permits, and a skip link.
 
-## Rules Every Future AstroLabs Page Must Follow
+## Rules Every Future OrionLabs Page Must Follow
 
 1. Do not introduce new brand colors, gradients, typefaces, button treatments, icon families, or visual metaphors.
 2. Use `Cormorant Garamond` for display/headline typography and `Inter` for body and UI typography; keep headline weight at the established refined 500 baseline.
