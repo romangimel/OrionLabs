@@ -131,15 +131,15 @@ function ConstellationDiagram() {
   ];
 
   return (
-    <div className="relative mx-auto aspect-[16/9] w-full max-w-4xl overflow-hidden rounded-2xl glass-strong p-6">
-      <div className="absolute left-6 top-5 flex items-center gap-2">
+    <div className="relative mx-auto flex min-h-[24rem] w-full max-w-4xl flex-col overflow-hidden rounded-2xl glass-strong p-5 sm:min-h-[26rem] sm:p-6 md:block md:aspect-[16/9] md:min-h-0 md:p-6">
+      <div className="flex max-w-[15rem] shrink-0 items-start gap-2 sm:max-w-none md:absolute md:left-6 md:top-5 md:items-center">
         <span className="h-2 w-2 rounded-full bg-[hsl(43_74%_66%)] animate-pulse-glow" />
         <span className="text-[0.65rem] uppercase tracking-[0.2em] text-[hsl(43_60%_70%)]">
           DeepConstellation™ — live architecture
         </span>
       </div>
 
-      <svg viewBox="0 0 100 90" className="h-full w-full" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 100 90" className="mt-4 min-h-0 w-full flex-1 md:mt-0 md:h-full" preserveAspectRatio="xMidYMid meet">
         {/* Edges */}
         {edges.map(([a, b], i) => (
           <motion.line
@@ -196,8 +196,8 @@ function ConstellationDiagram() {
         ))}
       </svg>
 
-      <div className="absolute bottom-5 right-6 text-right">
-        <p className="text-[0.65rem] uppercase tracking-[0.2em] text-[hsl(326_55%_62%_/_0.8)]">
+      <div className="mt-4 shrink-0 text-right md:absolute md:bottom-5 md:right-6 md:mt-0">
+        <p className="whitespace-nowrap text-[clamp(0.55rem,2.3vw,0.65rem)] uppercase tracking-[0.2em] text-[hsl(326_55%_62%_/_0.8)] md:text-[0.65rem]">
           Throughput: 4.2M readings / retrograde
         </p>
       </div>
