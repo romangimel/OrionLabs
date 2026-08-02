@@ -10,8 +10,13 @@ import { FAQ } from '@/components/site/FAQ';
 import { CTA } from '@/components/site/CTA';
 import { Footer } from '@/components/site/Footer';
 import { Aurora } from '@/components/site/Aurora';
+import { QuestionnairePage } from '@/pages/QuestionnairePage';
 
 function App() {
+  if (window.location.pathname === '/questionnaire') {
+    return <QuestionnairePage />;
+  }
+
   return (
     <>
       {/* Global cosmic nebula — fixed behind all content */}
