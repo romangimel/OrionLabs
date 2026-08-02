@@ -8,7 +8,7 @@ import { QUESTIONNAIRE_STEPS } from '@/data/questionnaire';
 
 const CURRENT_STEP = 1;
 const TOTAL_STEPS = QUESTIONNAIRE_STEPS.length;
-const PERCENTAGE = 25;
+const PERCENTAGE = ((CURRENT_STEP - 1) / TOTAL_STEPS) * 100;
 
 export function QuestionnairePage() {
   const activeStep = QUESTIONNAIRE_STEPS[CURRENT_STEP - 1];
@@ -56,21 +56,22 @@ export function QuestionnairePage() {
         id="questionnaire-content"
         className="container-narrow relative z-10 pb-14 pt-8 sm:pb-20 sm:pt-10 md:pb-24 md:pt-12"
       >
-        <QuestionnaireProgress
-          currentStep={CURRENT_STEP}
-          totalSteps={TOTAL_STEPS}
-          percentage={PERCENTAGE}
-        />
-        <QuestionnaireCard
-          step={activeStep}
-          stepNumber={CURRENT_STEP}
-          totalSteps={TOTAL_STEPS}
-        />
-        <p className="mx-auto mt-6 max-w-3xl text-center text-[0.68rem] leading-relaxed tracking-wide text-muted-foreground/55">
-          Your profile remains local until analysis begins.
-        </p>
+        <div className="mx-auto w-full max-w-3xl lg:max-w-5xl">
+          <QuestionnaireProgress
+            currentStep={CURRENT_STEP}
+            totalSteps={TOTAL_STEPS}
+            percentage={PERCENTAGE}
+          />
+          <QuestionnaireCard
+            step={activeStep}
+            stepNumber={CURRENT_STEP}
+            totalSteps={TOTAL_STEPS}
+          />
+          <p className="mx-auto mt-6 text-center text-[0.68rem] leading-relaxed tracking-wide text-muted-foreground/55">
+            Your profile remains local until analysis begins.
+          </p>
+        </div>
       </main>
     </div>
   );
 }
-

@@ -10,7 +10,7 @@ export function QuestionnaireNavigation({
   isFinalStep = false,
 }: QuestionnaireNavigationProps) {
   return (
-    <div className="flex items-center gap-3 border-t border-[hsl(43_60%_70%_/_0.1)] pt-6 sm:justify-between">
+    <div className="flex items-center gap-3 border-t border-[hsl(43_60%_70%_/_0.1)] pt-6 sm:justify-between lg:pt-8">
       <button
         type="button"
         disabled={isFirstStep}
@@ -37,4 +37,3 @@ export function QuestionnaireNavigation({
     </div>
   );
 }
-
