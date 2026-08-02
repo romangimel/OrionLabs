@@ -11,10 +11,17 @@ import { CTA } from '@/components/site/CTA';
 import { Footer } from '@/components/site/Footer';
 import { Aurora } from '@/components/site/Aurora';
 import { QuestionnairePage } from '@/pages/QuestionnairePage';
+import { AnalysisPage } from '@/pages/AnalysisPage';
 
 function App() {
-  if (window.location.pathname === '/questionnaire') {
+  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+
+  if (pathname === '/questionnaire') {
     return <QuestionnairePage />;
+  }
+
+  if (pathname === '/analysis') {
+    return <AnalysisPage />;
   }
 
   return (

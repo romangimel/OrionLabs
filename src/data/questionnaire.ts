@@ -1,27 +1,29 @@
+import type { QuestionnaireQuestionId } from '@/lib/questionnaire-state';
+
 export type QuestionnaireQuestion =
   | {
-      id: string;
+      id: QuestionnaireQuestionId;
       type: 'text' | 'date';
       label: string;
       helper: string;
       placeholder?: string;
     }
   | {
-      id: string;
+      id: QuestionnaireQuestionId;
       type: 'options';
       label: string;
       helper: string;
       options: readonly string[];
     }
   | {
-      id: string;
+      id: QuestionnaireQuestionId;
       type: 'zodiac';
       label: string;
       helper: string;
       defaultValue?: string;
     }
   | {
-      id: string;
+      id: QuestionnaireQuestionId;
       type: 'textarea';
       label: string;
       helper: string;

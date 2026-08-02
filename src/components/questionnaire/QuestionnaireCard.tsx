@@ -2,17 +2,34 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { QuestionnaireStep } from '@/data/questionnaire';
 import { QuestionnaireNavigation } from './QuestionnaireNavigation';
 import { QuestionnaireQuestion } from './QuestionnaireQuestion';
+import type {
+  QuestionnaireAnswerField,
+  QuestionnaireAnswers,
+} from '@/lib/questionnaire-state';
+import type { RefObject } from 'react';
 
 interface QuestionnaireCardProps {
   step: QuestionnaireStep;
   stepNumber: number;
   totalSteps: number;
+  answers: QuestionnaireAnswers;
+  isTransitioning: boolean;
+  headingRef: RefObject<HTMLHeadingElement>;
+  onAnswerChange: (field: QuestionnaireAnswerField, value: string) => void;
+  onBack: () => void;
+  onContinue: () => void;
 }
 
 export function QuestionnaireCard({
   step,
   stepNumber,
   totalSteps,
+  answers,
+  isTransitioning,
+  headingRef,
+  onAnswerChange,
+  onBack,
+  onContinue,
 }: QuestionnaireCardProps) {
   const reduceMotion = useReducedMotion();
 
@@ -36,7 +53,9 @@ export function QuestionnaireCard({
           </p>
           <h1
             id="questionnaire-step-title"
-            className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl lg:mt-4 lg:text-[2.75rem]"
+            ref={headingRef}
+            tabIndex={-1}
+            className="mt-3 font-serif text-3xl leading-tight text-gradient-gold outline-none sm:text-4xl lg:mt-4 lg:text-[2.75rem]"
           >
             {step.title}
           </h1>
@@ -47,13 +66,26 @@ export function QuestionnaireCard({
 
         <div className="my-7 h-px bg-gradient-to-r from-[hsl(43_60%_70%_/_0.18)] via-[hsl(326_55%_65%_/_0.12)] to-transparent sm:my-8 lg:my-10" />
 
-        <form className="space-y-8 lg:space-y-10" onSubmit={(event) => event.preventDefault()}>
+        <form
+          className="space-y-8 lg:space-y-10"
+          onSubmit={(event) => {
+            event.preventDefault();
+            onContinue();
+          }}
+        >
           {step.questions.map((question) => (
-            <QuestionnaireQuestion key={question.id} question={question} />
+            <QuestionnaireQuestion
+              key={question.id}
+              question={question}
+              answers={answers}
+              onAnswerChange={onAnswerChange}
+            />
           ))}
           <QuestionnaireNavigation
             isFirstStep={stepNumber === 1}
             isFinalStep={stepNumber === totalSteps}
+            disabled={isTransitioning}
+            onBack={onBack}
           />
         </form>
       </div>

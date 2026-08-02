@@ -2,12 +2,26 @@ import type { QuestionnaireQuestion as QuestionnaireQuestionData } from '@/data/
 import { OptionSelector } from './OptionSelector';
 import { TextInput } from './TextInput';
 import { ZodiacSelector } from './ZodiacSelector';
+import {
+  QUESTION_FIELD_MAP,
+  type QuestionnaireAnswerField,
+  type QuestionnaireAnswers,
+} from '@/lib/questionnaire-state';
 
 interface QuestionnaireQuestionProps {
   question: QuestionnaireQuestionData;
+  answers: QuestionnaireAnswers;
+  onAnswerChange: (field: QuestionnaireAnswerField, value: string) => void;
 }
 
-export function QuestionnaireQuestion({ question }: QuestionnaireQuestionProps) {
+export function QuestionnaireQuestion({
+  question,
+  answers,
+  onAnswerChange,
+}: QuestionnaireQuestionProps) {
+  const field = QUESTION_FIELD_MAP[question.id];
+  const value = answers[field];
+
   switch (question.type) {
     case 'text':
     case 'date':
@@ -18,6 +32,8 @@ export function QuestionnaireQuestion({ question }: QuestionnaireQuestionProps) 
           helper={question.helper}
           placeholder={question.placeholder}
           type={question.type}
+          value={value}
+          onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />
       );
     case 'options':
@@ -27,6 +43,8 @@ export function QuestionnaireQuestion({ question }: QuestionnaireQuestionProps) 
           label={question.label}
           helper={question.helper}
           options={question.options}
+          value={value}
+          onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />
       );
     case 'zodiac':
@@ -35,7 +53,8 @@ export function QuestionnaireQuestion({ question }: QuestionnaireQuestionProps) 
           id={question.id}
           label={question.label}
           helper={question.helper}
-          defaultValue={question.defaultValue}
+          value={value}
+          onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />
       );
     case 'textarea':
@@ -47,8 +66,9 @@ export function QuestionnaireQuestion({ question }: QuestionnaireQuestionProps) 
           placeholder={question.placeholder}
           multiline
           optional={question.optional}
+          value={value}
+          onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />
       );
   }
 }
-

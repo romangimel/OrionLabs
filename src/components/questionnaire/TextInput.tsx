@@ -11,6 +11,8 @@ interface TextInputProps {
   type?: 'text' | 'date';
   multiline?: boolean;
   optional?: boolean;
+  value: string;
+  onChange: (value: string) => void;
 }
 
 const controlStyles =
@@ -24,6 +26,8 @@ export function TextInput({
   type = 'text',
   multiline = false,
   optional = false,
+  value,
+  onChange,
 }: TextInputProps) {
   return (
     <div>
@@ -33,6 +37,9 @@ export function TextInput({
           id={id}
           name={id}
           placeholder={placeholder}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onBlur={(event) => onChange(event.currentTarget.value)}
           className={cn(controlStyles, 'min-h-36 resize-y rounded-xl px-4 py-3')}
         />
       ) : (
@@ -41,6 +48,9 @@ export function TextInput({
           name={id}
           type={type}
           placeholder={placeholder}
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          onBlur={(event) => onChange(event.currentTarget.value)}
           className={cn(
             controlStyles,
             'h-12 rounded-xl px-4',
@@ -51,4 +61,3 @@ export function TextInput({
     </div>
   );
 }
-

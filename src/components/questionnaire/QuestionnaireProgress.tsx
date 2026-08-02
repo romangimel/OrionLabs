@@ -2,17 +2,16 @@ interface QuestionnaireProgressProps {
   currentStep: number;
   totalSteps: number;
   percentage: number;
+  isReviewing: boolean;
 }
 
 export function QuestionnaireProgress({
   currentStep,
   totalSteps,
   percentage,
+  isReviewing,
 }: QuestionnaireProgressProps) {
-  const markerPositions = Array.from(
-    { length: Math.max(totalSteps - 1, 0) },
-    (_, index) => ((index + 1) / totalSteps) * 100,
-  );
+  const markerPositions = [25, 50, 75] as const;
 
   return (
     <section aria-label="Questionnaire progress" className="w-full">
@@ -22,7 +21,13 @@ export function QuestionnaireProgress({
             Calibration sequence
           </p>
           <p className="mt-1 text-sm text-muted-foreground lg:mt-1.5 lg:text-base">
-            Step <span className="text-foreground">{currentStep}</span> of {totalSteps}
+            {isReviewing ? (
+              <span className="text-foreground">Final Review</span>
+            ) : (
+              <>
+                Step <span className="text-foreground">{currentStep}</span> of {totalSteps}
+              </>
+            )}
           </p>
         </div>
         <p className="font-serif text-2xl leading-none text-gradient-gold lg:text-3xl" aria-hidden="true">
