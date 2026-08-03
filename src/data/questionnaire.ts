@@ -1,39 +1,42 @@
 import type { QuestionnaireQuestionId } from '@/lib/questionnaire-state';
 
+type QuestionnaireRequirement =
+  | {
+      required: true;
+      validationMessage: string;
+    }
+  | {
+      required: false;
+      validationMessage?: never;
+    };
+
+interface QuestionnaireQuestionBase {
+  id: QuestionnaireQuestionId;
+  label: string;
+  helper: string;
+}
+
 /**
  * Supported question definitions for the configuration-driven questionnaire.
  * The `type` discriminant determines both available configuration and renderer.
  */
-export type QuestionnaireQuestion =
-  | {
-      id: QuestionnaireQuestionId;
+export type QuestionnaireQuestion = QuestionnaireQuestionBase &
+  QuestionnaireRequirement &
+  ({
       type: 'text' | 'date';
-      label: string;
-      helper: string;
       placeholder?: string;
     }
   | {
-      id: QuestionnaireQuestionId;
       type: 'options';
-      label: string;
-      helper: string;
       options: readonly string[];
     }
   | {
-      id: QuestionnaireQuestionId;
       type: 'zodiac';
-      label: string;
-      helper: string;
-      defaultValue?: string;
     }
   | {
-      id: QuestionnaireQuestionId;
       type: 'textarea';
-      label: string;
-      helper: string;
       placeholder: string;
-      optional?: boolean;
-    };
+    });
 
 /** One ordered screen in the questionnaire, containing one or more related questions. */
 export interface QuestionnaireStep {
@@ -74,7 +77,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         type: 'zodiac',
         label: 'Select your zodiac sign',
         helper: 'This gives the model its primary celestial reference point.',
-        defaultValue: 'Leo',
+        required: true,
+        validationMessage: 'Please select a zodiac sign.',
       },
       {
         id: 'first-name',
@@ -82,6 +86,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         label: 'What should we call you?',
         helper: 'Your first name will personalize the analysis experience.',
         placeholder: 'First name',
+        required: true,
+        validationMessage: 'Please enter your first name.',
       },
     ],
   },
@@ -95,6 +101,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         type: 'date',
         label: 'What is your birth date?',
         helper: 'Your date of birth helps establish a more precise celestial baseline.',
+        required: true,
+        validationMessage: 'Please enter your birth date.',
       },
       {
         id: 'pronouns',
@@ -102,6 +110,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         label: 'How should OrionLabs refer to you?',
         helper: 'Choose the language you would like us to use in your report.',
         options: ['He / Him', 'She / Her', 'They / Them', 'Prefer not to say'],
+        required: true,
+        validationMessage: 'Please choose how OrionLabs should refer to you.',
       },
     ],
   },
@@ -124,6 +134,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
           'Personal growth',
           'Something else',
         ],
+        required: true,
+        validationMessage: 'Please select what is occupying most of your attention.',
       },
       {
         id: 'behavior',
@@ -137,6 +149,8 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
           'I adapt as I go',
           'I usually leave things until later',
         ],
+        required: true,
+        validationMessage: 'Please choose the statement that best describes you.',
       },
     ],
   },
@@ -152,7 +166,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         helper: 'Optional context can help shape the tone and emphasis of your report.',
         placeholder:
           'Goals, interests, current challenges, recent events, or anything else OrionLabs should consider.',
-        optional: true,
+        required: false,
       },
     ],
   },

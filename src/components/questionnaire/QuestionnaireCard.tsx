@@ -2,10 +2,12 @@ import { motion, useReducedMotion } from 'framer-motion';
 import type { QuestionnaireStep } from '@/data/questionnaire';
 import { QuestionnaireNavigation } from './QuestionnaireNavigation';
 import { QuestionnaireQuestion } from './QuestionnaireQuestion';
-import type {
-  QuestionnaireAnswerField,
-  QuestionnaireAnswers,
+import {
+  QUESTION_FIELD_MAP,
+  type QuestionnaireAnswerField,
+  type QuestionnaireAnswers,
 } from '@/lib/questionnaire-state';
+import type { QuestionnaireValidationErrors } from '@/lib/questionnaire-validation';
 import type { RefObject } from 'react';
 
 interface QuestionnaireCardProps {
@@ -13,6 +15,7 @@ interface QuestionnaireCardProps {
   stepNumber: number;
   totalSteps: number;
   answers: QuestionnaireAnswers;
+  validationErrors: QuestionnaireValidationErrors;
   isTransitioning: boolean;
   headingRef: RefObject<HTMLHeadingElement>;
   onAnswerChange: (field: QuestionnaireAnswerField, value: string) => void;
@@ -30,6 +33,7 @@ export function QuestionnaireCard({
   stepNumber,
   totalSteps,
   answers,
+  validationErrors,
   isTransitioning,
   headingRef,
   onAnswerChange,
@@ -72,6 +76,7 @@ export function QuestionnaireCard({
         <div className="my-7 h-px bg-gradient-to-r from-[hsl(43_60%_70%_/_0.18)] via-[hsl(326_55%_65%_/_0.12)] to-transparent sm:my-8 lg:my-10" />
 
         <form
+          noValidate
           className="space-y-8 lg:space-y-10"
           onSubmit={(event) => {
             event.preventDefault();
@@ -83,6 +88,7 @@ export function QuestionnaireCard({
               key={question.id}
               question={question}
               answers={answers}
+              error={validationErrors[QUESTION_FIELD_MAP[question.id]]}
               onAnswerChange={onAnswerChange}
             />
           ))}

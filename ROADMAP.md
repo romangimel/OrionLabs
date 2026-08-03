@@ -55,7 +55,7 @@ Landing Page
 - [x] Decide what information the report should contain
 - [ ] Define the structured report data schema
 - [ ] Define how users are redirected when required data is missing
-- [ ] Define which questionnaire fields are required and optional
+- [x] Define which questionnaire fields are required and optional
 
 ---
 
@@ -94,13 +94,13 @@ Landing Page
 
 ### Validation and Accessibility
 
-- [ ] Mark required and optional fields clearly
-- [ ] Prevent users from continuing when required answers are missing
-- [ ] Add useful field-level validation messages
+- [x] Mark required and optional fields clearly
+- [x] Prevent users from continuing when required answers are missing
+- [x] Add useful field-level validation messages
 - [ ] Connect labels correctly to form controls
 - [ ] Verify complete keyboard navigation
 - [ ] Verify visible focus states
-- [ ] Ensure disabled buttons communicate their state correctly
+- [x] Ensure disabled buttons communicate their state correctly
 - [ ] Ensure errors can be understood by screen-reader users
 - [ ] Respect reduced-motion preferences where relevant
 

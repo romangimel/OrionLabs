@@ -19,12 +19,18 @@ export function QuestionnaireNavigation({
       <button
         type="button"
         disabled={isFirstStep || disabled}
+        aria-describedby={isFirstStep ? 'questionnaire-back-unavailable' : undefined}
         onClick={onBack}
         className="group inline-flex h-12 min-w-24 items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.24)] px-5 text-sm font-medium text-foreground/85 transition-all duration-300 hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] disabled:cursor-not-allowed disabled:border-[hsl(43_60%_70%_/_0.1)] disabled:text-muted-foreground/35"
       >
         <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
         Back
       </button>
+      {isFirstStep && (
+        <span id="questionnaire-back-unavailable" className="sr-only">
+          Back is unavailable on the first step.
+        </span>
+      )}
 
       {/* Submission is handled by the parent form so validation can be added at one boundary. */}
       <button

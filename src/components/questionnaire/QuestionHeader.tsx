@@ -2,7 +2,7 @@ interface QuestionHeaderProps {
   label: string;
   helper: string;
   htmlFor?: string;
-  optional?: boolean;
+  required: boolean;
   asLegend?: boolean;
 }
 
@@ -15,18 +15,16 @@ export function QuestionHeader({
   label,
   helper,
   htmlFor,
-  optional = false,
+  required,
   asLegend = false,
 }: QuestionHeaderProps) {
   const content = (
     <>
-      <span className="flex items-baseline gap-2">
+      <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
         <span className="text-gradient-gold">{label}</span>
-        {optional && (
-          <span className="text-[0.65rem] font-normal uppercase tracking-[0.18em] text-[hsl(326_55%_68%)]">
-            Optional
-          </span>
-        )}
+        <span className="text-[0.65rem] font-normal uppercase tracking-[0.18em] text-[hsl(326_55%_68%)]">
+          {required ? 'Required' : 'Optional'}
+        </span>
       </span>
       <span className="mt-2 block max-w-2xl text-sm font-normal leading-relaxed text-muted-foreground lg:max-w-3xl lg:text-base">
         {helper}

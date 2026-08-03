@@ -8,6 +8,7 @@ import { QuestionnaireProgress } from '@/components/questionnaire/QuestionnaireP
 import { QuestionnaireReview } from '@/components/questionnaire/QuestionnaireReview';
 import { QUESTIONNAIRE_STEPS } from '@/data/questionnaire';
 import {
+  QUESTION_FIELD_MAP,
   createQuestionnaireState,
   loadCompletedQuestionnaireData,
   saveCompletedQuestionnaireData,
@@ -16,6 +17,12 @@ import {
   type QuestionnaireState,
   type QuestionnaireStepIndex,
 } from '@/lib/questionnaire-state';
+import {
+  getFirstInvalidQuestionId,
+  hasQuestionnaireAnswer,
+  validateQuestionnaireStep,
+  type QuestionnaireValidationErrors,
+} from '@/lib/questionnaire-validation';
 
 const TOTAL_STEPS = QUESTIONNAIRE_STEPS.length;
 // Matches the card entrance duration closely enough to prevent overlapping navigation events.
@@ -35,6 +42,9 @@ export function QuestionnairePage() {
   );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [persistenceError, setPersistenceError] = useState('');
+  const [validationErrors, setValidationErrors] =
+    useState<QuestionnaireValidationErrors>({});
+  const [hasAttemptedCurrentStep, setHasAttemptedCurrentStep] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const hasMounted = useRef(false);
   const navigationLocked = useRef(false);
@@ -81,6 +91,22 @@ export function QuestionnairePage() {
 
   const handleAnswerChange = (field: QuestionnaireAnswerField, value: string) => {
     setPersistenceError('');
+    if (hasAttemptedCurrentStep) {
+      setValidationErrors((currentErrors) => {
+        const activeQuestion = activeStep.questions.find(
+          (question) => QUESTION_FIELD_MAP[question.id] === field,
+        );
+        const nextErrors = { ...currentErrors };
+
+        if (activeQuestion?.required && !hasQuestionnaireAnswer(value)) {
+          nextErrors[field] = activeQuestion.validationMessage;
+        } else {
+          delete nextErrors[field];
+        }
+
+        return nextErrors;
+      });
+    }
     setQuestionnaire((currentState) => ({
       ...currentState,
       answers: {
@@ -93,6 +119,23 @@ export function QuestionnairePage() {
   };
 
   const handleContinue = () => {
+    const nextErrors = validateQuestionnaireStep(activeStep, questionnaire.answers);
+    const firstInvalidQuestionId = getFirstInvalidQuestionId(activeStep, nextErrors);
+
+    if (firstInvalidQuestionId) {
+      setHasAttemptedCurrentStep(true);
+      setValidationErrors(nextErrors);
+      // All controls share their configured question ID as a name, including radio groups.
+      window.requestAnimationFrame(() => {
+        document
+          .querySelector<HTMLElement>(`[name="${firstInvalidQuestionId}"]`)
+          ?.focus({ preventScroll: true });
+      });
+      return;
+    }
+
+    setHasAttemptedCurrentStep(false);
+    setValidationErrors({});
     performTransition(() => {
       setQuestionnaire((currentState) => {
         if (currentState.currentStep === TOTAL_STEPS - 1) {
@@ -109,6 +152,8 @@ export function QuestionnairePage() {
   };
 
   const handleBack = () => {
+    setHasAttemptedCurrentStep(false);
+    setValidationErrors({});
     performTransition(() => {
       setQuestionnaire((currentState) => {
         if (currentState.isReviewing) {
@@ -129,6 +174,8 @@ export function QuestionnairePage() {
   };
 
   const handleEdit = (step: QuestionnaireStepIndex) => {
+    setHasAttemptedCurrentStep(false);
+    setValidationErrors({});
     performTransition(() => {
       setQuestionnaire((currentState) => ({
         ...currentState,
@@ -233,6 +280,7 @@ export function QuestionnairePage() {
               stepNumber={currentStepNumber}
               totalSteps={TOTAL_STEPS}
               answers={questionnaire.answers}
+              validationErrors={validationErrors}
               isTransitioning={isTransitioning}
               headingRef={headingRef}
               onAnswerChange={handleAnswerChange}

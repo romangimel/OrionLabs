@@ -52,7 +52,7 @@ export type QuestionnaireQuestionId = keyof typeof QUESTION_FIELD_MAP;
 
 const EMPTY_ANSWERS: QuestionnaireAnswers = {
   firstName: '',
-  zodiacSign: 'Leo',
+  zodiacSign: '',
   birthDate: '',
   pronouns: '',
   attentionArea: '',
