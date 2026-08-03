@@ -20,6 +20,11 @@ interface QuestionnaireCardProps {
   onContinue: () => void;
 }
 
+/**
+ * Presents one configured questionnaire step and delegates each question to
+ * the matching reusable input. Submitting the form advances the flow, which
+ * also makes Enter-key submission work for text fields.
+ */
 export function QuestionnaireCard({
   step,
   stepNumber,

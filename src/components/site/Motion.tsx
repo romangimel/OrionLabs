@@ -2,10 +2,6 @@ import { type ReactNode, type ElementType } from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
-/* ------------------------------------------------------------------ */
-/* Reveal — fades + lifts children into view on scroll.              */
-/* ------------------------------------------------------------------ */
-
 interface RevealProps {
   children: ReactNode;
   className?: string;
@@ -15,6 +11,11 @@ interface RevealProps {
   once?: boolean;
 }
 
+/**
+ * Reveals a single content block when it enters the viewport.
+ * The wrapper centralizes OrionLabs timing and reduced-motion behavior so
+ * landing sections do not each invent their own animation contract.
+ */
 export function Reveal({
   children,
   className,
@@ -39,10 +40,6 @@ export function Reveal({
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* Stagger — orchestrates a group of children.                       */
-/* ------------------------------------------------------------------ */
-
 const containerVariants: Variants = {
   hidden: {},
   show: {
@@ -65,6 +62,7 @@ interface StaggerProps {
   once?: boolean;
 }
 
+/** Coordinates the entrance timing of descendant `StaggerItem` components. */
 export function Stagger({ children, className, once = true }: StaggerProps) {
   const reduce = useReducedMotion();
   return (
@@ -80,6 +78,7 @@ export function Stagger({ children, className, once = true }: StaggerProps) {
   );
 }
 
+/** Participates in the nearest `Stagger` animation while preserving layout composition. */
 export function StaggerItem({
   children,
   className,
@@ -98,10 +97,7 @@ export function StaggerItem({
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* FadeIn — simple opacity entrance for hero text.                   */
-/* ------------------------------------------------------------------ */
-
+/** Runs an immediate entrance animation for above-the-fold hero content. */
 export function FadeIn({
   children,
   className,

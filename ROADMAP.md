@@ -29,9 +29,9 @@ development skills.
 -   [x] Create `PROJECT.md`
 -   [x] Create `DESIGN_SYSTEM.md`
 -   [x] Refactor landing page into reusable components
--   [ ] Fix mobile spacing issue
--   [ ] Check that the refactor did not change the design
--   [ ] Commit and push the stable version
+-   [x] Fix mobile spacing issue
+-   [x] Check that the refactor did not change the design
+-   [x] Commit and push the stable version
 
 ------------------------------------------------------------------------
 
@@ -46,9 +46,9 @@ Landing Page
 → Report Page
 ```
 
--   [ ] Decide the questionnaire questions
--   [ ] Decide the questionnaire step order
--   [ ] Decide what information the report should contain
+-   [x] Decide the questionnaire questions
+-   [x] Decide the questionnaire step order
+-   [x] Decide what information the report should contain
 
 ------------------------------------------------------------------------
 
@@ -56,17 +56,17 @@ Landing Page
 
 ### UI
 
--   [ ] Design the questionnaire layout
--   [ ] Add a progress bar
--   [ ] Design the different input types
--   [ ] Check desktop and mobile layouts
+-   [x] Design the questionnaire layout
+-   [x] Add a progress bar
+-   [x] Design the different input types
+-   [x] Check desktop and mobile layouts
 
 ### Basic Behaviour
 
--   [ ] Add Continue and Back buttons
--   [ ] Update the progress bar between steps
--   [ ] Keep answers when moving between steps
--   [ ] Connect the final step to a mock loading screen
+-   [x] Add Continue and Back buttons functionality
+-   [x] Update the progress bar between steps
+-   [x] Keep answers when moving between steps
+-   [x] Connect the final step to a mock loading screen
 
 ------------------------------------------------------------------------
 
@@ -113,6 +113,7 @@ Landing Page
 
 ## 8. Final Polish and Launch
 
+-   [ ] Polish copy throughout all the website
 -   [ ] Review desktop layout
 -   [ ] Review mobile layout
 -   [ ] Improve accessibility

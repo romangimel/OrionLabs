@@ -5,6 +5,11 @@ import { Starfield } from './Starfield';
 import { FadeIn } from './Motion';
 import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
 
+/**
+ * Establishes the landing page's cinematic first impression and primary actions.
+ * Independent background layers keep text contrast, atmospheric imagery, and
+ * decorative motion adjustable without altering the content hierarchy.
+ */
 export function Hero() {
   const reduce = useReducedMotion();
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -126,10 +131,7 @@ export function Hero() {
   );
 }
 
-/* ------------------------------------------------------------------ */
-/* OrbitRing — a slowly rotating ring of stars around the hero.      */
-/* ------------------------------------------------------------------ */
-
+/** Decorative orbit whose motion stops when the user requests reduced motion. */
 function OrbitRing({
   size,
   duration,
@@ -153,6 +155,7 @@ function OrbitRing({
         transition={reduce ? { duration: 0 } : { duration, repeat: Infinity, ease: 'linear' }}
       >
         {Array.from({ length: stars }, (_, i) => {
+          // Equal angular spacing keeps every ring balanced regardless of star count.
           const angle = (i / stars) * Math.PI * 2;
           const x = Math.cos(angle) * (size / 2);
           const y = Math.sin(angle) * (size / 2);

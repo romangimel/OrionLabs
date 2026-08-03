@@ -13,7 +13,15 @@ import { Aurora } from '@/components/site/Aurora';
 import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
 
+/**
+ * Selects the active page and composes the public landing experience.
+ *
+ * OrionLabs currently has only three routes, so pathname matching keeps routing
+ * dependency-free. A dedicated router can replace this boundary when the
+ * roadmap adds report, article, and not-found pages.
+ */
 function App() {
+  // Treat trailing-slash variants as the same route, including `/` itself.
   const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
 
   if (pathname === '/questionnaire') {
@@ -26,7 +34,7 @@ function App() {
 
   return (
     <>
-      {/* Global cosmic nebula — fixed behind all content */}
+      {/* One fixed backdrop lets transparent landing sections share a continuous nebula. */}
       <div aria-hidden="true" className="fixed inset-0 -z-10 bg-cosmic-page">
         <Aurora className="opacity-70" />
       </div>

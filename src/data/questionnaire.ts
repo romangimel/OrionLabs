@@ -1,5 +1,9 @@
 import type { QuestionnaireQuestionId } from '@/lib/questionnaire-state';
 
+/**
+ * Supported question definitions for the configuration-driven questionnaire.
+ * The `type` discriminant determines both available configuration and renderer.
+ */
 export type QuestionnaireQuestion =
   | {
       id: QuestionnaireQuestionId;
@@ -31,6 +35,7 @@ export type QuestionnaireQuestion =
       optional?: boolean;
     };
 
+/** One ordered screen in the questionnaire, containing one or more related questions. */
 export interface QuestionnaireStep {
   id: string;
   title: string;
@@ -38,6 +43,7 @@ export interface QuestionnaireStep {
   questions: readonly QuestionnaireQuestion[];
 }
 
+/** Display metadata for the dedicated zodiac radio-card control. */
 export const ZODIAC_SIGNS = [
   { name: 'Aries', symbol: '♈︎' },
   { name: 'Taurus', symbol: '♉︎' },
@@ -53,6 +59,10 @@ export const ZODIAC_SIGNS = [
   { name: 'Pisces', symbol: '♓︎' },
 ] as const;
 
+/**
+ * Ordered questionnaire content. Navigation treats array position as the step
+ * index, while each question ID maps to answer state in `questionnaire-state`.
+ */
 export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
   {
     id: 'celestial-identity',

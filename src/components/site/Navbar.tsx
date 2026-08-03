@@ -13,12 +13,18 @@ const NAV_LINKS = [
   { label: 'FAQ', href: '#faq' },
 ] as const;
 
+/**
+ * Fixed landing-page navigation with desktop anchors and a collapsible mobile menu.
+ * The background appears only after the hero begins scrolling underneath it,
+ * preserving the transparent opening composition without sacrificing legibility.
+ */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
 
   useEffect(() => {
+    // A passive listener avoids blocking scrolling; 24px matches the design-system threshold.
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });

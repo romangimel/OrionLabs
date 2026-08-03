@@ -14,11 +14,17 @@ interface QuestionnaireQuestionProps {
   onAnswerChange: (field: QuestionnaireAnswerField, value: string) => void;
 }
 
+/**
+ * Converts a questionnaire definition into its concrete controlled input.
+ * This is the bridge between content configuration and the normalized answer
+ * object, so adding an input kind should be handled exhaustively here.
+ */
 export function QuestionnaireQuestion({
   question,
   answers,
   onAnswerChange,
 }: QuestionnaireQuestionProps) {
+  // Content IDs deliberately remain separate from the camel-cased storage fields.
   const field = QUESTION_FIELD_MAP[question.id];
   const value = answers[field];
 

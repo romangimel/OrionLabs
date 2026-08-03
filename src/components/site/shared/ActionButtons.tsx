@@ -6,6 +6,7 @@ type ActionButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
+/** Primary gold-gradient anchor used for the landing page's dominant actions. */
 export function PrimaryActionButton({
   children,
   className,
@@ -26,6 +27,7 @@ export function PrimaryActionButton({
   );
 }
 
+/** Lower-emphasis outlined anchor paired with a primary landing action. */
 export function SecondaryActionButton({
   children,
   className,

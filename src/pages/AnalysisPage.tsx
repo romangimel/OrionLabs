@@ -4,6 +4,14 @@ import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { loadCompletedQuestionnaireData } from '@/lib/questionnaire-state';
 
+/**
+ * Placeholder destination for the post-questionnaire analysis flow.
+ *
+ * The route deliberately reads the confirmed session snapshot rather than
+ * accepting navigation state. This survives a refresh while keeping the data
+ * scoped to the current browser tab. Actual loading and report generation are
+ * planned work; the current screen only communicates readiness.
+ */
 export function AnalysisPage() {
   const completedData = loadCompletedQuestionnaireData();
 
@@ -61,6 +69,7 @@ export function AnalysisPage() {
             </div>
           ) : (
             <div>
+              {/* Direct visits, expired tabs, and invalid stored payloads all recover here. */}
               <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
                 Calibration required
               </p>

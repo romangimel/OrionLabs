@@ -43,6 +43,7 @@ interface State {
 
 const toastTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
+// Closing and removal are separate so Radix can finish a toast's exit animation.
 const addToRemoveQueue = (toastId: string) => {
   if (toastTimeouts.has(toastId)) {
     return;
@@ -78,8 +79,7 @@ export const reducer = (state: State, action: Action): State => {
     case 'DISMISS_TOAST': {
       const { toastId } = action;
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
+      // Every dismiss path schedules removal so Radix has time to render its closed state.
       if (toastId) {
         addToRemoveQueue(toastId);
       } else {
@@ -156,6 +156,7 @@ function toast({ ...props }: Toast) {
   };
 }
 
+/** Subscribes a component to the module-level toast store and exposes its actions. */
 function useToast() {
   const [state, setState] = React.useState<State>(memoryState);
 

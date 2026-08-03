@@ -6,6 +6,11 @@ interface QuestionHeaderProps {
   asLegend?: boolean;
 }
 
+/**
+ * Provides consistent question labels and helper text for every input type.
+ * Radio groups request a semantic `legend`; individual controls receive a
+ * `label`, so the same visual treatment does not compromise form semantics.
+ */
 export function QuestionHeader({
   label,
   helper,

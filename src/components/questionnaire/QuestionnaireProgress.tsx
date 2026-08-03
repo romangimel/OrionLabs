@@ -5,12 +5,18 @@ interface QuestionnaireProgressProps {
   isReviewing: boolean;
 }
 
+/**
+ * Displays completion based on finished steps rather than visual position.
+ * With four configured steps, the three internal markers divide the track at
+ * 25% intervals; the review state is the terminal 100% milestone.
+ */
 export function QuestionnaireProgress({
   currentStep,
   totalSteps,
   percentage,
   isReviewing,
 }: QuestionnaireProgressProps) {
+  // The start and end markers are rendered separately at 0% and 100%.
   const markerPositions = [25, 50, 75] as const;
 
   return (

@@ -4,6 +4,7 @@ interface SectionEyebrowProps {
   children: ReactNode;
 }
 
+/** Compact gold label that introduces a landing-page section. */
 export function SectionEyebrow({ children }: SectionEyebrowProps) {
   return (
     <span className="inline-flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.28em] text-[hsl(43_60%_70%)]">

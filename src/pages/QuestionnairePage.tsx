@@ -18,8 +18,17 @@ import {
 } from '@/lib/questionnaire-state';
 
 const TOTAL_STEPS = QUESTIONNAIRE_STEPS.length;
+// Matches the card entrance duration closely enough to prevent overlapping navigation events.
 const TRANSITION_LOCK_MS = 450;
 
+/**
+ * Owns the complete questionnaire flow: answers, step navigation, review mode,
+ * accessibility focus, and the handoff to the mock analysis route.
+ *
+ * Answer state is lifted to this page so each configuration-driven input can be
+ * remounted between steps without losing values. Only confirmed answers are
+ * persisted; partially completed sessions intentionally remain in memory.
+ */
 export function QuestionnairePage() {
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireState>(() =>
     createQuestionnaireState(loadCompletedQuestionnaireData()),
@@ -32,10 +41,13 @@ export function QuestionnairePage() {
   const transitionTimer = useRef<number>();
   const analysisStarted = useRef(false);
 
+  // These values are derived from the state instead of stored separately, avoiding drift.
   const activeStep = QUESTIONNAIRE_STEPS[questionnaire.currentStep];
   const currentStepNumber = questionnaire.currentStep + 1;
+  // Progress represents completed steps, so Step 1 begins at 0% and review reaches 100%.
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
 
+  // Move keyboard focus to the new heading after navigation, but not on the initial render.
   useEffect(() => {
     if (hasMounted.current) {
       headingRef.current?.focus({ preventScroll: true });
@@ -75,6 +87,7 @@ export function QuestionnairePage() {
         ...currentState.answers,
         [field]: value,
       },
+      // Any edit makes the previously confirmed snapshot stale until confirmation runs again.
       completedData: null,
     }));
   };
@@ -83,6 +96,7 @@ export function QuestionnairePage() {
     performTransition(() => {
       setQuestionnaire((currentState) => {
         if (currentState.currentStep === TOTAL_STEPS - 1) {
+          // Review is a separate UI state rather than a fifth question definition.
           return { ...currentState, isReviewing: true };
         }
 
@@ -98,6 +112,7 @@ export function QuestionnairePage() {
     performTransition(() => {
       setQuestionnaire((currentState) => {
         if (currentState.isReviewing) {
+          // Back from review returns to the last editable questionnaire step.
           return { ...currentState, isReviewing: false, currentStep: 3 };
         }
 
@@ -124,6 +139,7 @@ export function QuestionnairePage() {
   };
 
   const handleBeginAnalysis = () => {
+    // Guard against repeated clicks before location navigation completes.
     if (analysisStarted.current) {
       return;
     }
@@ -134,6 +150,7 @@ export function QuestionnairePage() {
       answers: { ...questionnaire.answers },
     };
 
+    // Analysis must never open with an unsaved profile because it reads this snapshot by route.
     if (!saveCompletedQuestionnaireData(completedData)) {
       analysisStarted.current = false;
       setPersistenceError(

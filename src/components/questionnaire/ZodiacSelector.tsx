@@ -9,6 +9,11 @@ interface ZodiacSelectorProps {
   onChange: (value: string) => void;
 }
 
+/**
+ * Specialized single-choice control for the zodiac dataset. Native radio
+ * inputs remain in the accessibility tree while peer styles create the visual
+ * card selection treatment.
+ */
 export function ZodiacSelector({
   id,
   label,

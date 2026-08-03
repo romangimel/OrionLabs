@@ -11,6 +11,10 @@ interface SectionHeadingProps {
   className?: string;
 }
 
+/**
+ * Standard landing-section heading composition with shared reveal timing,
+ * typography, alignment, and optional eyebrow/description slots.
+ */
 export function SectionHeading({
   eyebrow,
   title,

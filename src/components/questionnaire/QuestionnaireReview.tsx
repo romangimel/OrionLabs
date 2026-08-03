@@ -20,10 +20,12 @@ interface ReviewSection {
   items: { label: string; value: string }[];
 }
 
+/** Produces review-safe copy for blank optional or incomplete answers. */
 function displayValue(value: string, fallback = 'Not provided') {
   return value.trim() || fallback;
 }
 
+/** Formats an HTML date value without allowing the viewer's timezone to shift the day. */
 function formatBirthDate(value: string) {
   if (!value) {
     return 'Not provided';
@@ -42,6 +44,11 @@ function formatBirthDate(value: string) {
   }).format(parsedDate);
 }
 
+/**
+ * Groups the normalized answer state into the same sections the user completed.
+ * Each edit action returns to its original step with all other answers intact;
+ * confirmation is the only action that persists data for the analysis route.
+ */
 export function QuestionnaireReview({
   answers,
   headingRef,
@@ -53,6 +60,7 @@ export function QuestionnaireReview({
   onConfirm,
 }: QuestionnaireReviewProps) {
   const reduceMotion = useReducedMotion();
+  // Review presentation is derived from canonical answers rather than duplicated state.
   const sections: ReviewSection[] = [
     {
       title: 'Celestial Identity',

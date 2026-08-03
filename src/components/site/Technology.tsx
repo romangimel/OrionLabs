@@ -117,6 +117,7 @@ export function Technology() {
 /* ConstellationDiagram — a decorative animated "engine" diagram.    */
 /* ------------------------------------------------------------------ */
 
+/** Decorative architecture diagram; labels illustrate the satire rather than live data. */
 function ConstellationDiagram() {
   const reduce = useReducedMotion();
   const nodes = [

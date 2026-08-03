@@ -7,6 +7,7 @@ interface IconTileProps {
   className?: string;
 }
 
+/** Applies the shared glass-and-gold treatment to Lucide feature icons. */
 export function IconTile({ icon: Icon, className }: IconTileProps) {
   return (
     <div

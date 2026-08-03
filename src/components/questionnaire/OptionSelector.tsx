@@ -9,6 +9,11 @@ interface OptionSelectorProps {
   onChange: (value: string) => void;
 }
 
+/**
+ * Renders a single-choice question as accessible native radio inputs with
+ * custom visual cards. The selected value remains controlled by the page-level
+ * answer state, which preserves it when steps unmount.
+ */
 export function OptionSelector({
   id,
   label,
@@ -22,6 +27,7 @@ export function OptionSelector({
       <QuestionHeader label={label} helper={helper} asLegend />
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
+          // Stable, readable IDs connect each visual label to its hidden radio control.
           const optionId = `${id}-${option.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
           return (
             <label key={option} htmlFor={optionId} className="group relative cursor-pointer">

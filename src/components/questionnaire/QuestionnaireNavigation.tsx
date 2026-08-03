@@ -7,6 +7,7 @@ interface QuestionnaireNavigationProps {
   onBack: () => void;
 }
 
+/** Shared back/submit controls for each questionnaire step. */
 export function QuestionnaireNavigation({
   isFirstStep,
   isFinalStep = false,
@@ -25,6 +26,7 @@ export function QuestionnaireNavigation({
         Back
       </button>
 
+      {/* Submission is handled by the parent form so validation can be added at one boundary. */}
       <button
         type="submit"
         disabled={disabled}
