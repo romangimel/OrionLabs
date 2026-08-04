@@ -110,15 +110,15 @@ Landing Page
 
 Before designing the final report page, define the shape of the data it will display.
 
-- [ ] Create typed mock report data
-- [ ] Define the report TypeScript interfaces
-- [ ] Decide which sections are always present
-- [ ] Decide which sections may be optional
-- [ ] Define how questionnaire answers influence each section
-- [ ] Define how OrionLabs confidence metrics appear
-- [ ] Define the balance between horoscope content and personalized roast content
-- [ ] Decide how long each report section should be
-- [ ] Decide how missing or incomplete AI output should be handled
+- [x] Create typed mock report data
+- [x] Define the report TypeScript interfaces
+- [x] Decide which sections are always present
+- [x] Decide which sections may be optional
+- [x] Define how questionnaire answers influence each section
+- [x] Define how OrionLabs confidence metrics appear
+- [x] Define the balance between horoscope content and personalized roast content
+- [x] Decide how long each report section should be
+- [x] Decide how missing or incomplete AI output should be handled
 
 Possible report sections:
 
