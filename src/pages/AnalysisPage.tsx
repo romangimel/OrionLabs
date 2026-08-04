@@ -30,7 +30,7 @@ export function AnalysisPage() {
             className="group flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
             aria-label="Return to OrionLabs home"
           >
-            <Logo className="h-8 w-8 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.3)] transition-transform duration-500 group-hover:rotate-[18deg] sm:h-9 sm:w-9" />
+            <Logo className="h-8 w-8 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.3)] transition-transform duration-500 group-hover:rotate-[18deg] motion-reduce:transform-none sm:h-9 sm:w-9" />
             <span className="font-serif text-xl tracking-tight text-foreground sm:text-2xl">
               Orion<span className="text-gradient-gold">Labs</span>
             </span>
@@ -48,7 +48,7 @@ export function AnalysisPage() {
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.2)] bg-[hsl(43_74%_66%_/_0.08)]">
                 <LoaderCircle
                   aria-hidden="true"
-                  className="h-6 w-6 animate-spin text-[hsl(43_74%_70%)]"
+                  className="h-6 w-6 animate-spin text-[hsl(43_74%_70%)] motion-reduce:animate-none"
                   strokeWidth={1.5}
                 />
               </div>
@@ -84,7 +84,7 @@ export function AnalysisPage() {
               </p>
               <a
                 href="/questionnaire"
-                className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)]"
+                className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
               >
                 Start Questionnaire
               </a>

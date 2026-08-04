@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
+import { useReducedMotion } from 'framer-motion';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { Aurora } from '@/components/site/Aurora';
@@ -37,6 +38,7 @@ const TRANSITION_LOCK_MS = 450;
  * persisted; partially completed sessions intentionally remain in memory.
  */
 export function QuestionnairePage() {
+  const reduceMotion = useReducedMotion();
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireState>(() =>
     createQuestionnaireState(loadCompletedQuestionnaireData()),
   );
@@ -81,8 +83,22 @@ export function QuestionnairePage() {
     }
 
     navigationLocked.current = true;
-    setIsTransitioning(true);
+
+    // CSS handles the visuals, but the navigation lock must also stop waiting
+    // for an entrance animation when the user requests reduced motion.
+    if (!reduceMotion) {
+      setIsTransitioning(true);
+    }
+
     update();
+
+    if (reduceMotion) {
+      window.queueMicrotask(() => {
+        navigationLocked.current = false;
+      });
+      return;
+    }
+
     transitionTimer.current = window.setTimeout(() => {
       navigationLocked.current = false;
       setIsTransitioning(false);
@@ -232,7 +248,7 @@ export function QuestionnairePage() {
             className="group flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
             aria-label="Return to OrionLabs home"
           >
-            <Logo className="h-8 w-8 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.3)] transition-transform duration-500 group-hover:rotate-[18deg] sm:h-9 sm:w-9" />
+            <Logo className="h-8 w-8 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.3)] transition-transform duration-500 group-hover:rotate-[18deg] motion-reduce:transform-none sm:h-9 sm:w-9" />
             <span className="font-serif text-xl tracking-tight text-foreground sm:text-2xl">
               Orion<span className="text-gradient-gold">Labs</span>
             </span>
@@ -244,7 +260,7 @@ export function QuestionnairePage() {
           >
             <span className="hidden sm:inline">Exit analysis</span>
             <span className="sm:hidden">Exit</span>
-            <X aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
+            <X aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90 motion-reduce:transform-none" />
           </a>
         </div>
       </header>

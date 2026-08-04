@@ -50,7 +50,7 @@ export function QuestionnaireProgress({
         aria-label={`${percentage}% complete`}
       >
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#C9A24A] via-[#F5E6B0] to-[#E8C77A] shadow-[0_0_14px_hsl(43_74%_66%_/_0.6)] transition-[width] duration-700"
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#C9A24A] via-[#F5E6B0] to-[#E8C77A] shadow-[0_0_14px_hsl(43_74%_66%_/_0.6)] transition-[width] duration-700 motion-reduce:transition-none"
           style={{ width: `${percentage}%` }}
         />
         <span

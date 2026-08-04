@@ -43,7 +43,7 @@ export function Starfield({ density = 1, className = '' }: StarfieldProps) {
       {stars.map((s) => (
         <span
           key={s.id}
-          className="absolute rounded-full bg-[#F5E6B0] animate-twinkle"
+          className="absolute rounded-full bg-[#F5E6B0] animate-twinkle motion-reduce:animate-none"
           style={{
             top: `${s.top}%`,
             left: `${s.left}%`,

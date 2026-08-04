@@ -102,7 +102,7 @@ Landing Page
 - [x] Verify visible focus states
 - [x] Ensure button states and unavailable actions are communicated clearly
 - [x] Ensure errors can be understood by screen-reader users
-- [ ] Respect reduced-motion preferences where relevant
+- [x] Respect reduced-motion preferences in the questionnaire flow
 
 ---
 
@@ -313,6 +313,7 @@ Possible platforms:
 ### Accessibility
 
 - [ ] Perform a full keyboard-navigation audit
+- [ ] Perform a project-wide reduced-motion audit
 - [ ] Perform a screen-reader structure review
 - [ ] Check color contrast
 - [ ] Check focus visibility
