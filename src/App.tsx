@@ -12,11 +12,12 @@ import { Footer } from '@/components/site/Footer';
 import { Aurora } from '@/components/site/Aurora';
 import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
+import { ReportPage } from '@/pages/ReportPage';
 
 /**
  * Selects the active page and composes the public landing experience.
  *
- * OrionLabs currently has only three routes, so pathname matching keeps routing
+ * OrionLabs currently has only four routes, so pathname matching keeps routing
  * dependency-free. A dedicated router can replace this boundary when the
  * roadmap adds report, article, and not-found pages.
  */
@@ -30,6 +31,10 @@ function App() {
 
   if (pathname === '/analysis') {
     return <AnalysisPage />;
+  }
+
+  if (pathname === '/report') {
+    return <ReportPage />;
   }
 
   return (

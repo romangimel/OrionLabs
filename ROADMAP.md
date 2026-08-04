@@ -138,12 +138,12 @@ Possible report sections:
 
 ### Report Page
 
-- [ ] Build the report page UI using mock report data
-- [ ] Create reusable report-section components
+- [x] Build the report page UI using mock report data
+- [x] Create reusable report-section components
 - [ ] Display personalized questionnaire information
-- [ ] Display mock confidence metrics
-- [ ] Design desktop and mobile report layouts
-- [ ] Handle long and short content gracefully
+- [x] Display mock confidence metrics
+- [x] Design desktop and mobile report layouts
+- [x] Handle long and short content gracefully
 - [ ] Add a temporary action for starting another analysis
 - [ ] Add temporary sharing controls if appropriate
 
