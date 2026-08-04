@@ -7,18 +7,15 @@ import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
 import { loadCompletedQuestionnaireData } from '@/lib/questionnaire-state';
 
 const PROCESSING_MESSAGES = [
-  'Securing calibration profile...',
   'Mapping behavioral resonance...',
   'Ignoring centuries of scientific consensus...',
-  'Assigning causality where correlation was unavailable...',
-  'Increasing confidence beyond available evidence...',
   'Resolving ambiguity through proprietary optimism...',
   'Finalizing conclusions before reviewing the evidence...',
 ] as const;
 
-const MOCK_ANALYSIS_DURATION_MS = 7_000;
-const MESSAGE_INTERVAL_MS = 1_000;
-const COMPLETION_PAUSE_MS = 950;
+const MOCK_ANALYSIS_DURATION_MS = 12_000;
+const MESSAGE_INTERVAL_MS = 3_000;
+const COMPLETION_PAUSE_MS = 3_000;
 
 /**
  * Owns route-level data validation and navigation for the mock analysis flow.
@@ -71,7 +68,7 @@ export function AnalysisPage() {
         </div>
       </header>
 
-      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4rem)] items-center justify-center py-10 sm:py-14 md:min-h-[calc(100svh-5rem)] md:py-16">
+      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-10 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16">
         {completedData ? (
           <AnalysisLoadingExperience
             firstName={completedData.answers.firstName}

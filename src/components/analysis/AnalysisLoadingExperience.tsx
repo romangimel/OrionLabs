@@ -24,7 +24,7 @@ export function AnalysisLoadingExperience({
   return (
     <section
       aria-labelledby="analysis-title"
-      className="glass-strong relative w-full max-w-[46rem] overflow-hidden rounded-[1.75rem] px-5 py-10 text-center shadow-[0_36px_120px_-42px_hsl(255_80%_2%_/_0.96)] sm:px-10 sm:py-12 md:rounded-[2rem] md:px-14 md:py-14"
+      className="glass-strong relative w-full max-w-[36rem] overflow-hidden rounded-[1.5rem] px-5 py-7 text-center shadow-[0_36px_120px_-42px_hsl(255_80%_2%_/_0.96)] sm:px-8 sm:py-8 md:rounded-[1.75rem] md:px-10 md:py-9"
     >
       <div
         aria-hidden="true"
@@ -36,17 +36,17 @@ export function AnalysisLoadingExperience({
         </p>
         <h1
           id="analysis-title"
-          className="mx-auto mt-4 max-w-2xl font-serif text-[2.15rem] leading-[1.06] text-gradient-gold sm:text-5xl md:text-[3.35rem]"
+          className="mx-auto mt-3 max-w-xl font-serif text-[1.9rem] leading-[1.06] text-gradient-gold sm:text-[2.5rem] md:text-[2.8rem]"
         >
           Calibrating your celestial profile
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+        <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[0.95rem]">
           {subjectName
             ? `${subjectName}'s confirmed profile is being aligned with the OrionLabs assessment framework.`
             : 'Your confirmed profile is being aligned with the OrionLabs assessment framework.'}
         </p>
 
-        <div className="mx-auto my-8 flex justify-center sm:my-10">
+        <div className="mx-auto my-5 flex justify-center sm:my-6">
           <CelestialCalibrationIndicator isComplete={isComplete} />
         </div>
 
@@ -54,7 +54,7 @@ export function AnalysisLoadingExperience({
           role="status"
           aria-live="polite"
           aria-atomic="true"
-          className="mx-auto flex min-h-[4.75rem] max-w-xl items-center justify-center rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.3)] px-4 py-4 sm:min-h-[5rem] sm:px-6"
+          className="mx-auto flex min-h-16 max-w-lg items-center justify-center rounded-xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.3)] px-4 py-3 sm:px-5"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.p
@@ -63,18 +63,14 @@ export function AnalysisLoadingExperience({
               animate={{ opacity: 1, y: 0 }}
               exit={reduceMotion ? undefined : { opacity: 0, y: -5 }}
               transition={{ duration: reduceMotion ? 0 : 0.28, ease: 'easeOut' }}
-              className={`text-sm leading-relaxed sm:text-base ${
-                isComplete
-                  ? 'font-medium text-[hsl(43_74%_72%)]'
-                  : 'text-foreground/82'
-              }`}
+              className="text-gradient-gold text-sm font-medium leading-relaxed sm:text-[0.95rem]"
             >
               {displayedMessage}
             </motion.p>
           </AnimatePresence>
         </div>
 
-        <p className="mt-5 text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground/45 sm:text-[0.66rem]">
+        <p className="mt-3 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground/45 sm:text-[0.63rem]">
           Session-local assessment protocol · No external transmission
         </p>
       </div>

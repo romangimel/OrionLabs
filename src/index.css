@@ -209,7 +209,7 @@
 /* Analysis-page celestial calibration instrument */
 .celestial-calibration {
   position: relative;
-  width: clamp(10.5rem, 38vw, 13rem);
+  width: clamp(8.5rem, 30vw, 10rem);
   aspect-ratio: 1;
   isolation: isolate;
 }
