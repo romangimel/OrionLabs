@@ -149,12 +149,12 @@ Possible report sections:
 
 ### Loading Page
 
-- [ ] Build the final analysis loading-screen UI
-- [ ] Create a restrained loading animation
-- [ ] Add OrionLabs processing messages
-- [ ] Ensure the loading experience matches the fictional AI-company tone
-- [ ] Design desktop and mobile layouts
-- [ ] Avoid implying that the current mock process is real AI generation
+- [x] Build the final analysis loading-screen UI
+- [x] Create a restrained loading animation
+- [x] Add OrionLabs processing messages
+- [x] Ensure the loading experience matches the fictional AI-company tone
+- [x] Design desktop and mobile layouts
+- [x] Avoid implying that the current mock process is real AI generation
 
 ### Additional Pages
 

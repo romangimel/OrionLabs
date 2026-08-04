@@ -206,6 +206,198 @@
   50% { opacity: 0.9; }
 }
 
+/* Analysis-page celestial calibration instrument */
+.celestial-calibration {
+  position: relative;
+  width: clamp(10.5rem, 38vw, 13rem);
+  aspect-ratio: 1;
+  isolation: isolate;
+}
+
+.celestial-calibration__aura {
+  position: absolute;
+  inset: 20%;
+  z-index: -1;
+  border-radius: 9999px;
+  background: hsl(286 78% 52% / 0.24);
+  filter: blur(2.4rem);
+  animation: calibration-breathe 5s ease-in-out infinite;
+}
+
+.celestial-calibration__ticks {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: repeating-conic-gradient(
+    from 2deg,
+    hsl(43 74% 72% / 0.52) 0deg 0.7deg,
+    transparent 0.7deg 15deg
+  );
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 0.35rem),
+    #000 calc(100% - 0.34rem)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 0.35rem),
+    #000 calc(100% - 0.34rem)
+  );
+  opacity: 0.62;
+}
+
+.celestial-calibration__ring {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px solid hsl(43 60% 70% / 0.22);
+}
+
+.celestial-calibration__ring::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  border-top-color: hsl(43 74% 72% / 0.88);
+  border-right-color: hsl(326 65% 68% / 0.38);
+  filter: drop-shadow(0 0 0.45rem hsl(43 74% 66% / 0.22));
+}
+
+.celestial-calibration__ring--outer {
+  inset: 7%;
+  animation: calibration-orbit 20s linear infinite;
+}
+
+.celestial-calibration__ring--middle {
+  inset: 20%;
+  border-color: hsl(326 55% 68% / 0.2);
+  animation: calibration-orbit-reverse 15s linear infinite;
+}
+
+.celestial-calibration__ring--middle::before {
+  border-top-color: hsl(326 65% 70% / 0.6);
+  border-right-color: transparent;
+  border-bottom-color: hsl(254 78% 68% / 0.48);
+}
+
+.celestial-calibration__ring--inner {
+  inset: 34%;
+  border-color: hsl(43 60% 70% / 0.32);
+  animation: calibration-orbit 24s linear infinite;
+}
+
+.celestial-calibration__ring--inner::before {
+  border-top-color: hsl(43 74% 76% / 0.72);
+  border-right-color: transparent;
+}
+
+.celestial-calibration__marker {
+  position: absolute;
+  width: 0.38rem;
+  height: 0.38rem;
+  border-radius: 9999px;
+  box-shadow: 0 0 0.75rem currentColor;
+}
+
+.celestial-calibration__marker--gold {
+  top: 12%;
+  right: 16%;
+  color: hsl(43 74% 72%);
+  background: currentColor;
+}
+
+.celestial-calibration__marker--pink {
+  bottom: 7%;
+  left: 29%;
+  width: 0.28rem;
+  height: 0.28rem;
+  color: hsl(326 65% 68%);
+  background: currentColor;
+}
+
+.celestial-calibration__marker--violet {
+  top: 45%;
+  left: -0.22rem;
+  width: 0.3rem;
+  height: 0.3rem;
+  color: hsl(254 78% 70%);
+  background: currentColor;
+}
+
+.celestial-calibration__axis {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    hsl(43 60% 70% / 0.18),
+    transparent
+  );
+  transform: translate(-50%, -50%);
+}
+
+.celestial-calibration__axis--horizontal {
+  width: 55%;
+  height: 1px;
+}
+
+.celestial-calibration__axis--vertical {
+  width: 55%;
+  height: 1px;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.celestial-calibration__core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 2.45rem;
+  height: 2.45rem;
+  place-items: center;
+  border: 1px solid hsl(43 60% 70% / 0.38);
+  border-radius: 9999px;
+  background: hsl(262 45% 8% / 0.82);
+  box-shadow:
+    0 0 0 0.45rem hsl(43 74% 66% / 0.04),
+    0 0 2rem hsl(286 78% 52% / 0.2);
+  transform: translate(-50%, -50%);
+  transition: border-color 400ms ease, box-shadow 400ms ease;
+}
+
+.celestial-calibration__core-light {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 9999px;
+  background: hsl(43 74% 72%);
+  box-shadow: 0 0 1rem hsl(43 74% 66% / 0.78);
+}
+
+.celestial-calibration--complete .celestial-calibration__ring {
+  animation-play-state: paused;
+}
+
+.celestial-calibration--complete .celestial-calibration__core {
+  border-color: hsl(43 74% 72% / 0.75);
+  box-shadow:
+    0 0 0 0.6rem hsl(43 74% 66% / 0.07),
+    0 0 2.5rem hsl(43 74% 66% / 0.34);
+}
+
+@keyframes calibration-orbit {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes calibration-orbit-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes calibration-breathe {
+  0%, 100% { opacity: 0.62; transform: scale(0.94); }
+  50% { opacity: 0.9; transform: scale(1.04); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -214,6 +406,10 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  .celestial-calibration__aura,
+  .celestial-calibration__ring {
+    animation: none !important;
   }
 }
 

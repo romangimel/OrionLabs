@@ -1,19 +1,52 @@
-import { LoaderCircle } from 'lucide-react';
+import { useEffect } from 'react';
+import { AnalysisLoadingExperience } from '@/components/analysis/AnalysisLoadingExperience';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
+import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
 import { loadCompletedQuestionnaireData } from '@/lib/questionnaire-state';
 
+const PROCESSING_MESSAGES = [
+  'Securing calibration profile...',
+  'Mapping behavioral resonance...',
+  'Ignoring centuries of scientific consensus...',
+  'Assigning causality where correlation was unavailable...',
+  'Increasing confidence beyond available evidence...',
+  'Resolving ambiguity through proprietary optimism...',
+  'Finalizing conclusions before reviewing the evidence...',
+] as const;
+
+const MOCK_ANALYSIS_DURATION_MS = 7_000;
+const MESSAGE_INTERVAL_MS = 1_000;
+const COMPLETION_PAUSE_MS = 950;
+
 /**
- * Placeholder destination for the post-questionnaire analysis flow.
+ * Owns route-level data validation and navigation for the mock analysis flow.
  *
  * The route deliberately reads the confirmed session snapshot rather than
  * accepting navigation state. This survives a refresh while keeping the data
- * scoped to the current browser tab. Actual loading and report generation are
- * planned work; the current screen only communicates readiness.
+ * scoped to the current browser tab. The timed sequence remains intentionally
+ * separate from the report composition that occurs on the next route.
  */
 export function AnalysisPage() {
   const completedData = loadCompletedQuestionnaireData();
+  const { currentMessageIndex, phase } = useMockAnalysisSequence({
+    durationMs: MOCK_ANALYSIS_DURATION_MS,
+    messageIntervalMs: MESSAGE_INTERVAL_MS,
+    messageCount: PROCESSING_MESSAGES.length,
+  });
+
+  useEffect(() => {
+    if (!completedData || phase !== 'complete') {
+      return;
+    }
+
+    const redirectTimer = window.setTimeout(() => {
+      window.location.assign('/report');
+    }, COMPLETION_PAUSE_MS);
+
+    return () => window.clearTimeout(redirectTimer);
+  }, [completedData, phase]);
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
@@ -38,68 +71,39 @@ export function AnalysisPage() {
         </div>
       </header>
 
-      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4rem)] items-center justify-center py-16 md:min-h-[calc(100svh-5rem)]">
-        <section
-          aria-labelledby="analysis-title"
-          className="glass-strong w-full max-w-xl rounded-2xl p-8 text-center shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-10 md:p-12"
-        >
-          {completedData ? (
-            <div>
-              <div role="status" aria-live="polite">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.2)] bg-[hsl(43_74%_66%_/_0.08)]">
-                  <LoaderCircle
-                    aria-hidden="true"
-                    className="h-6 w-6 animate-spin text-[hsl(43_74%_70%)] motion-reduce:animate-none"
-                    strokeWidth={1.5}
-                  />
-                </div>
-                <p className="mt-7 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
-                  DeepConstellation™
-                </p>
-                <h1
-                  id="analysis-title"
-                  className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
-                >
-                  Initializing celestial analysis
-                </h1>
-                <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  {completedData.answers.firstName
-                    ? `${completedData.answers.firstName}'s calibration profile is secured and ready for analysis.`
-                    : 'Your calibration profile is secured and ready for analysis.'}
-                </p>
-              </div>
-              <a
-                href="/report"
-                className="group relative mt-7 inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
-              >
-                <span className="relative z-10">View Report</span>
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full motion-reduce:hidden" />
-              </a>
-            </div>
-          ) : (
-            <div>
-              {/* Direct visits, expired tabs, and invalid stored payloads all recover here. */}
-              <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
-                Calibration required
-              </p>
-              <h1
-                id="analysis-title"
-                className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
-              >
-                No profile is ready for analysis
-              </h1>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-                Complete the questionnaire and confirm your answers before beginning analysis.
-              </p>
-              <a
-                href="/questionnaire"
-                className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
-              >
-                Start Questionnaire
-              </a>
-            </div>
-          )}
-        </section>
+      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4rem)] items-center justify-center py-10 sm:py-14 md:min-h-[calc(100svh-5rem)] md:py-16">
+        {completedData ? (
+          <AnalysisLoadingExperience
+            firstName={completedData.answers.firstName}
+            message={PROCESSING_MESSAGES[currentMessageIndex]}
+            phase={phase}
+          />
+        ) : (
+          <section
+            aria-labelledby="analysis-title"
+            className="glass-strong w-full max-w-xl rounded-2xl p-8 text-center shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-10 md:p-12"
+          >
+            {/* Direct visits, expired tabs, and invalid stored payloads all recover here. */}
+            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
+              Calibration required
+            </p>
+            <h1
+              id="analysis-title"
+              className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
+            >
+              No profile is ready for analysis
+            </h1>
+            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Complete the questionnaire and confirm your answers before beginning analysis.
+            </p>
+            <a
+              href="/questionnaire"
+              className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
+            >
+              Start Questionnaire
+            </a>
+          </section>
+        )}
       </main>
     </div>
   );
