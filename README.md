@@ -8,7 +8,7 @@ The project is also a frontend portfolio and learning project: its current focus
 
 The landing page and four-step questionnaire are implemented. Users can move backward and forward without losing answers, review and edit their responses, and confirm a session-scoped profile before opening the mock analysis route.
 
-The analysis page is currently a readiness screen, not a generated report. The questionnaire now has step-level required-field validation, while the broader accessibility audit remains planned. AI report generation, a real loading sequence, report and article pages, a 404 page, and several landing-page links are also still planned. The landing-page calls to action still use in-page anchors rather than opening the questionnaire.
+The analysis page is currently a readiness screen, not a generated report. The questionnaire now has step-level required-field validation and has completed its focused form-accessibility and keyboard audit; the broader site-wide accessibility audit remains planned. AI report generation, a real loading sequence, report and article pages, a 404 page, and several landing-page links are also still planned. The landing-page calls to action still use in-page anchors rather than opening the questionnaire.
 
 ## Technology
 

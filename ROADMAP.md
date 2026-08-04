@@ -97,11 +97,11 @@ Landing Page
 - [x] Mark required and optional fields clearly
 - [x] Prevent users from continuing when required answers are missing
 - [x] Add useful field-level validation messages
-- [ ] Connect labels correctly to form controls
-- [ ] Verify complete keyboard navigation
-- [ ] Verify visible focus states
-- [x] Ensure disabled buttons communicate their state correctly
-- [ ] Ensure errors can be understood by screen-reader users
+- [x] Connect labels correctly to form controls
+- [x] Verify complete keyboard navigation
+- [x] Verify visible focus states
+- [x] Ensure button states and unavailable actions are communicated clearly
+- [x] Ensure errors can be understood by screen-reader users
 - [ ] Respect reduced-motion preferences where relevant
 
 ---

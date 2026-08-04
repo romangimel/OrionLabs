@@ -27,9 +27,22 @@ export function OptionSelector({
   value,
   onChange,
 }: OptionSelectorProps) {
+  const helperId = `${id}-helper`;
+  const describedBy = error ? `${helperId} ${id}-error` : helperId;
+
   return (
-    <fieldset aria-invalid={error ? true : undefined} aria-describedby={error ? `${id}-error` : undefined}>
-      <QuestionHeader label={label} helper={helper} required={required} asLegend />
+    <fieldset
+      aria-invalid={error ? true : undefined}
+      aria-describedby={describedBy}
+      aria-required={required}
+    >
+      <QuestionHeader
+        label={label}
+        helper={helper}
+        helperId={helperId}
+        required={required}
+        asLegend
+      />
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         {options.map((option) => {
           // Stable, readable IDs connect each visual label to its hidden radio control.
@@ -44,7 +57,7 @@ export function OptionSelector({
                 type="radio"
                 required={required}
                 aria-invalid={error ? true : undefined}
-                aria-describedby={error ? `${id}-error` : undefined}
+                aria-describedby={describedBy}
                 value={option}
                 onChange={(event) => onChange(event.target.value)}
               />
@@ -62,7 +75,7 @@ export function OptionSelector({
       </div>
       <div className="mt-2 min-h-5">
         {error && (
-          <p id={`${id}-error`} role="alert" className="text-sm leading-5 text-[hsl(0_72%_72%)]">
+          <p id={`${id}-error`} className="text-sm leading-5 text-[hsl(0_72%_72%)]">
             {error}
           </p>
         )}

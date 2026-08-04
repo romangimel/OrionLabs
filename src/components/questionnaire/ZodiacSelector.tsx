@@ -26,9 +26,22 @@ export function ZodiacSelector({
   value,
   onChange,
 }: ZodiacSelectorProps) {
+  const helperId = `${id}-helper`;
+  const describedBy = error ? `${helperId} ${id}-error` : helperId;
+
   return (
-    <fieldset aria-invalid={error ? true : undefined} aria-describedby={error ? `${id}-error` : undefined}>
-      <QuestionHeader label={label} helper={helper} required={required} asLegend />
+    <fieldset
+      aria-invalid={error ? true : undefined}
+      aria-describedby={describedBy}
+      aria-required={required}
+    >
+      <QuestionHeader
+        label={label}
+        helper={helper}
+        helperId={helperId}
+        required={required}
+        asLegend
+      />
       <div className="mt-5 grid grid-cols-3 gap-2.5 sm:gap-3 md:grid-cols-4 lg:mt-6 lg:gap-4">
         {ZODIAC_SIGNS.map((sign) => {
           const optionId = `${id}-${sign.name.toLowerCase()}`;
@@ -42,7 +55,7 @@ export function ZodiacSelector({
                 type="radio"
                 required={required}
                 aria-invalid={error ? true : undefined}
-                aria-describedby={error ? `${id}-error` : undefined}
+                aria-describedby={describedBy}
                 value={sign.name}
                 onChange={(event) => onChange(event.target.value)}
               />
@@ -73,7 +86,7 @@ export function ZodiacSelector({
       </div>
       <div className="mt-2 min-h-5">
         {error && (
-          <p id={`${id}-error`} role="alert" className="text-sm leading-5 text-[hsl(0_72%_72%)]">
+          <p id={`${id}-error`} className="text-sm leading-5 text-[hsl(0_72%_72%)]">
             {error}
           </p>
         )}

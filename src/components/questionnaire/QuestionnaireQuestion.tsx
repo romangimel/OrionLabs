@@ -80,6 +80,7 @@ export function QuestionnaireQuestion({
           placeholder={question.placeholder}
           multiline
           required={question.required}
+          error={error}
           value={value}
           onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />

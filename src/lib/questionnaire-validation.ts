@@ -39,26 +39,10 @@ export function validateQuestionnaireStep(
   return errors;
 }
 
-/**
- * Returns the control that should receive focus after a failed submission.
- * The order follows the product's required-field sequence, including first
- * name before zodiac sign on the opening step.
- */
+/** Returns the first invalid control in the current step's visual and DOM order. */
 export function getFirstInvalidQuestionId(
   step: QuestionnaireStep,
   errors: QuestionnaireValidationErrors,
 ) {
-  const fieldOrder: readonly QuestionnaireAnswerField[] = [
-    'firstName',
-    'zodiacSign',
-    'birthDate',
-    'pronouns',
-    'attentionArea',
-    'behavioralStatement',
-  ];
-
-  const firstInvalidField = fieldOrder.find((field) => errors[field]);
-  return step.questions.find(
-    (question) => QUESTION_FIELD_MAP[question.id] === firstInvalidField,
-  )?.id;
+  return step.questions.find((question) => errors[QUESTION_FIELD_MAP[question.id]])?.id;
 }

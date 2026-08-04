@@ -57,10 +57,10 @@ export function QuestionnairePage() {
   // Progress represents completed steps, so Step 1 begins at 0% and review reaches 100%.
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
 
-  // Move keyboard focus to the new heading after navigation, but not on the initial render.
+  // Move focus to the new heading after navigation, but not on the initial render.
   useEffect(() => {
     if (hasMounted.current) {
-      headingRef.current?.focus({ preventScroll: true });
+      headingRef.current?.focus();
     } else {
       hasMounted.current = true;
     }
@@ -129,7 +129,7 @@ export function QuestionnairePage() {
       window.requestAnimationFrame(() => {
         document
           .querySelector<HTMLElement>(`[name="${firstInvalidQuestionId}"]`)
-          ?.focus({ preventScroll: true });
+          ?.focus();
       });
       return;
     }
@@ -244,7 +244,7 @@ export function QuestionnairePage() {
           >
             <span className="hidden sm:inline">Exit analysis</span>
             <span className="sm:hidden">Exit</span>
-            <X className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
+            <X aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
           </a>
         </div>
       </header>

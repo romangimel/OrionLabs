@@ -36,9 +36,18 @@ export function TextInput({
   value,
   onChange,
 }: TextInputProps) {
+  const helperId = `${id}-helper`;
+  const describedBy = error ? `${helperId} ${id}-error` : helperId;
+
   return (
     <div>
-      <QuestionHeader label={label} helper={helper} htmlFor={id} required={required} />
+      <QuestionHeader
+        label={label}
+        helper={helper}
+        helperId={helperId}
+        htmlFor={id}
+        required={required}
+      />
       {multiline ? (
         <Textarea
           id={id}
@@ -46,7 +55,7 @@ export function TextInput({
           placeholder={placeholder}
           required={required}
           aria-invalid={error ? true : undefined}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={describedBy}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onBlur={(event) => onChange(event.currentTarget.value)}
@@ -54,7 +63,7 @@ export function TextInput({
             controlStyles,
             'min-h-36 resize-y rounded-xl px-4 py-3',
             error &&
-              'border-[hsl(0_72%_62%_/_0.78)] focus:border-[hsl(0_72%_68%)] focus:ring-2 focus:ring-[hsl(0_72%_55%_/_0.24)]',
+              'border-[hsl(0_72%_62%_/_0.78)] focus-visible:border-[hsl(0_72%_68%)] focus-visible:ring-2 focus-visible:ring-[hsl(0_72%_55%_/_0.24)]',
           )}
         />
       ) : (
@@ -65,7 +74,7 @@ export function TextInput({
           placeholder={placeholder}
           required={required}
           aria-invalid={error ? true : undefined}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={describedBy}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onBlur={(event) => onChange(event.currentTarget.value)}
@@ -73,7 +82,7 @@ export function TextInput({
             controlStyles,
             'h-12 rounded-xl px-4',
             error &&
-              'border-[hsl(0_72%_62%_/_0.78)] focus:border-[hsl(0_72%_68%)] focus:ring-2 focus:ring-[hsl(0_72%_55%_/_0.24)]',
+              'border-[hsl(0_72%_62%_/_0.78)] focus-visible:border-[hsl(0_72%_68%)] focus-visible:ring-2 focus-visible:ring-[hsl(0_72%_55%_/_0.24)]',
             // Native date controls otherwise adopt a light color scheme in some browsers.
             type === 'date' && 'scheme-dark [color-scheme:dark]',
           )}
@@ -81,7 +90,7 @@ export function TextInput({
       )}
       <div className="mt-2 min-h-5">
         {error && (
-          <p id={`${id}-error`} role="alert" className="text-sm leading-5 text-[hsl(0_72%_72%)]">
+          <p id={`${id}-error`} className="text-sm leading-5 text-[hsl(0_72%_72%)]">
             {error}
           </p>
         )}
