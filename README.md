@@ -6,9 +6,9 @@ The project is also a frontend portfolio and learning project: its current focus
 
 ## Current status
 
-The landing page and four-step questionnaire are implemented. Users can move backward and forward without losing answers, review and edit their responses, and confirm a session-scoped profile before opening the mock analysis route.
+The landing page, four-step questionnaire, mock analysis handoff, and personalized mock report are implemented. Users can move backward and forward without losing answers, review and edit their responses, and confirm a session-scoped profile before opening a report composed from approved local content and selected questionnaire values.
 
-The analysis page is currently a readiness screen, not a generated report. The questionnaire now has step-level required-field validation and has completed its focused form-accessibility and keyboard audit; the broader site-wide accessibility audit remains planned. AI report generation, a real loading sequence, report and article pages, a 404 page, and several landing-page links are also still planned. The landing-page calls to action still use in-page anchors rather than opening the questionnaire.
+The analysis page remains a temporary readiness screen rather than a real loading sequence. The report derives its personalization from the confirmed browser-session snapshot; no AI provider, backend, or generated report content is involved. The questionnaire has step-level required-field validation and has completed its focused form-accessibility and keyboard audit; the broader site-wide accessibility audit, AI report generation, article page, 404 page, and several landing-page links remain planned. The landing-page calls to action still use in-page anchors rather than opening the questionnaire.
 
 ## Technology
 
@@ -29,9 +29,10 @@ The implemented routes are:
 /                  Landing page
 /questionnaire     Four questionnaire steps -> review
 /analysis          Mock analysis readiness or missing-profile recovery
+/report            Personalized report composed from local mock content
 ```
 
-After review confirmation, answers are saved to `sessionStorage` and the browser navigates to `/analysis`. Storage is versioned and validated before use. Invalid, unavailable, or expired data is treated as a missing profile and sends the visitor back toward the questionnaire.
+After review confirmation, answers are saved to `sessionStorage` and the browser navigates to `/analysis`. A temporary action continues to `/report`, where the report is derived from the same snapshot. Storage is versioned and checked before use; invalid, unavailable, incomplete, or expired report data returns the visitor to a fresh questionnaire without rendering the sample subject.
 
 Because routing is currently handled with lightweight pathname matching in `src/App.tsx`, a deployed host must serve `index.html` for these client-side paths.
 

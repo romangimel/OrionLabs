@@ -44,28 +44,37 @@ export function AnalysisPage() {
           className="glass-strong w-full max-w-xl rounded-2xl p-8 text-center shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-10 md:p-12"
         >
           {completedData ? (
-            <div role="status" aria-live="polite">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.2)] bg-[hsl(43_74%_66%_/_0.08)]">
-                <LoaderCircle
-                  aria-hidden="true"
-                  className="h-6 w-6 animate-spin text-[hsl(43_74%_70%)] motion-reduce:animate-none"
-                  strokeWidth={1.5}
-                />
+            <div>
+              <div role="status" aria-live="polite">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.2)] bg-[hsl(43_74%_66%_/_0.08)]">
+                  <LoaderCircle
+                    aria-hidden="true"
+                    className="h-6 w-6 animate-spin text-[hsl(43_74%_70%)] motion-reduce:animate-none"
+                    strokeWidth={1.5}
+                  />
+                </div>
+                <p className="mt-7 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
+                  DeepConstellation™
+                </p>
+                <h1
+                  id="analysis-title"
+                  className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
+                >
+                  Initializing celestial analysis
+                </h1>
+                <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
+                  {completedData.answers.firstName
+                    ? `${completedData.answers.firstName}'s calibration profile is secured and ready for analysis.`
+                    : 'Your calibration profile is secured and ready for analysis.'}
+                </p>
               </div>
-              <p className="mt-7 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
-                DeepConstellation™
-              </p>
-              <h1
-                id="analysis-title"
-                className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
+              <a
+                href="/report"
+                className="group relative mt-7 inline-flex h-12 items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
               >
-                Initializing celestial analysis
-              </h1>
-              <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-                {completedData.answers.firstName
-                  ? `${completedData.answers.firstName}'s calibration profile is secured and ready for analysis.`
-                  : 'Your calibration profile is secured and ready for analysis.'}
-              </p>
+                <span className="relative z-10">View Report</span>
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full motion-reduce:hidden" />
+              </a>
             </div>
           ) : (
             <div>

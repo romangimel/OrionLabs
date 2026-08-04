@@ -62,6 +62,36 @@ export const ZODIAC_SIGNS = [
   { name: 'Pisces', symbol: '♓︎' },
 ] as const;
 
+/** Reusable option labels shared by questionnaire rendering and report personalization. */
+export const REFERENCE_PREFERENCES = [
+  'He / Him',
+  'She / Her',
+  'They / Them',
+  'Prefer not to say',
+] as const;
+
+export const ATTENTION_AREAS = [
+  'Career',
+  'Relationships',
+  'Money',
+  'Family',
+  'Health',
+  'Personal growth',
+  'Something else',
+] as const;
+
+export const BEHAVIORAL_STATEMENTS = [
+  'I overthink things',
+  'I trust my instincts',
+  'I like having a plan',
+  'I adapt as I go',
+  'I usually leave things until later',
+] as const;
+
+export type ReferencePreference = (typeof REFERENCE_PREFERENCES)[number];
+export type AttentionArea = (typeof ATTENTION_AREAS)[number];
+export type BehavioralStatement = (typeof BEHAVIORAL_STATEMENTS)[number];
+
 /**
  * Ordered questionnaire content. Navigation treats array position as the step
  * index, while each question ID maps to answer state in `questionnaire-state`.
@@ -109,7 +139,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         type: 'options',
         label: 'How should OrionLabs refer to you?',
         helper: 'Choose the language you would like us to use in your report.',
-        options: ['He / Him', 'She / Her', 'They / Them', 'Prefer not to say'],
+        options: REFERENCE_PREFERENCES,
         required: true,
         validationMessage: 'Please choose how OrionLabs should refer to you.',
       },
@@ -125,15 +155,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         type: 'options',
         label: 'What is occupying most of your attention lately?',
         helper: 'Select the area that currently receives most of your focus.',
-        options: [
-          'Career',
-          'Relationships',
-          'Money',
-          'Family',
-          'Health',
-          'Personal growth',
-          'Something else',
-        ],
+        options: ATTENTION_AREAS,
         required: true,
         validationMessage: 'Please select what is occupying most of your attention.',
       },
@@ -142,13 +164,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         type: 'options',
         label: 'Which statement sounds most like you?',
         helper: 'Choose the statement that best reflects how you usually operate.',
-        options: [
-          'I overthink things',
-          'I trust my instincts',
-          'I like having a plan',
-          'I adapt as I go',
-          'I usually leave things until later',
-        ],
+        options: BEHAVIORAL_STATEMENTS,
         required: true,
         validationMessage: 'Please choose the statement that best describes you.',
       },

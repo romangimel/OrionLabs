@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
@@ -9,14 +10,50 @@ import { ReportHeader } from '@/components/report/ReportHeader';
 import { ReportInsightList } from '@/components/report/ReportInsightList';
 import { ReportMetrics } from '@/components/report/ReportMetrics';
 import { ReportSection } from '@/components/report/ReportSection';
-import { mockReport } from '@/data/report';
+import {
+  canCreateMockReportFromAnswers,
+  createMockReportFromAnswers,
+} from '@/lib/mock-report';
+import {
+  clearCompletedQuestionnaireData,
+  loadCompletedQuestionnaireData,
+} from '@/lib/questionnaire-state';
 
 /**
- * Composes the complete mock report from the typed local data contract. No
- * questionnaire state or generation behavior is intentionally connected yet.
+ * Resolves the confirmed questionnaire snapshot once, composes its local mock
+ * report, and passes that typed data through the existing report components.
  */
 export function ReportPage() {
-  const report = mockReport;
+  const [completedData] = useState(loadCompletedQuestionnaireData);
+  const [restartError, setRestartError] = useState('');
+  const canRenderReport = Boolean(
+    completedData && canCreateMockReportFromAnswers(completedData.answers),
+  );
+
+  useEffect(() => {
+    if (!canRenderReport) {
+      clearCompletedQuestionnaireData();
+      window.location.replace('/questionnaire');
+    }
+  }, [canRenderReport]);
+
+  if (!completedData || !canRenderReport) {
+    // Returning nothing prevents the static sample report from flashing before recovery.
+    return null;
+  }
+
+  const report = createMockReportFromAnswers(completedData.answers);
+
+  const handleStartAnotherAnalysis = () => {
+    if (!clearCompletedQuestionnaireData()) {
+      setRestartError(
+        'The current session could not be cleared. Please allow session storage and try again.',
+      );
+      return;
+    }
+
+    window.location.assign('/questionnaire');
+  };
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
@@ -150,14 +187,20 @@ export function ReportPage() {
             <h2 id="report-actions-title" className="font-serif text-2xl text-foreground">
               Analysis archived locally
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              A new analysis flow will be connected in a future release.
-            </p>
+            {restartError ? (
+              <p role="alert" className="mt-1 text-sm text-[hsl(326_65%_74%)]">
+                {restartError}
+              </p>
+            ) : (
+              <p className="mt-1 text-sm text-muted-foreground">
+                Begin a fresh calibration when you are ready.
+              </p>
+            )}
           </div>
           <button
             type="button"
-            disabled
-            className="inline-flex h-12 shrink-0 cursor-not-allowed items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.16)] px-6 text-sm font-medium text-muted-foreground/55"
+            onClick={handleStartAnotherAnalysis}
+            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.24)] px-6 text-sm font-medium text-foreground/85 transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
           >
             <RotateCcw aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
             Start Another Analysis

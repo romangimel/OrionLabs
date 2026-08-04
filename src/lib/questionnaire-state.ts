@@ -118,3 +118,13 @@ export function saveCompletedQuestionnaireData(data: CompletedQuestionnaireData)
     return false;
   }
 }
+
+/** Removes only the confirmed OrionLabs profile used by analysis and report routes. */
+export function clearCompletedQuestionnaireData(): boolean {
+  try {
+    window.sessionStorage.removeItem(QUESTIONNAIRE_STORAGE_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+}
