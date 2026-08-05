@@ -59,15 +59,10 @@ export function QuestionnairePage() {
   // Progress represents completed steps, so Step 1 begins at 0% and review reaches 100%.
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
 
-  // Keep each new step anchored at its heading. preventScroll avoids the browser
-  // moving the viewport a second time when keyboard focus is restored.
+  // Announce each successful transition from the new heading without moving the
+  // questionnaire in the viewport. Validation keeps its separate field focus.
   useEffect(() => {
     if (hasMounted.current) {
-      window.scrollTo({
-        top: 0,
-        behavior: reduceMotion ? 'auto' : 'smooth',
-      });
-
       window.requestAnimationFrame(() => {
         headingRef.current?.focus({ preventScroll: true });
       });
@@ -275,9 +270,9 @@ export function QuestionnairePage() {
 
       <main
         id="questionnaire-content"
-        className="container-narrow relative z-10 pb-14 pt-8 sm:pb-20 sm:pt-10 md:pb-24 md:pt-12"
+        className="container-narrow relative z-10 pb-14 pt-8 sm:pb-20 sm:pt-10 md:pb-14 md:pt-8"
       >
-        <div className="mx-auto w-full max-w-3xl lg:max-w-5xl">
+        <div className="mx-auto w-full max-w-3xl lg:max-w-5xl xl:max-w-6xl">
           <QuestionnaireProgress
             currentStep={currentStepNumber}
             totalSteps={TOTAL_STEPS}

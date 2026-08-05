@@ -50,7 +50,7 @@ export function QuestionnaireCard({
       transition={
         reduceMotion ? { duration: 0 } : { duration: 0.7, ease: [0.22, 1, 0.36, 1] }
       }
-      className="glass-strong relative mt-7 w-full overflow-hidden rounded-2xl p-5 shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-8 md:mt-9 md:p-10 lg:mt-10 lg:p-12"
+      className="glass-strong relative mt-7 w-full overflow-hidden rounded-2xl p-5 shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-8 md:mt-7 md:p-8"
     >
       <div
         aria-hidden="true"
@@ -75,11 +75,11 @@ export function QuestionnaireCard({
           </p>
         </div>
 
-        <div className="my-7 h-px bg-gradient-to-r from-[hsl(43_60%_70%_/_0.18)] via-[hsl(326_55%_65%_/_0.12)] to-transparent sm:my-8 lg:my-10" />
+        <div className="my-7 h-px bg-gradient-to-r from-[hsl(43_60%_70%_/_0.18)] via-[hsl(326_55%_65%_/_0.12)] to-transparent sm:my-8 lg:my-6" />
 
         <form
           noValidate
-          className="space-y-8 lg:space-y-10"
+          className="space-y-8 lg:space-y-6"
           onSubmit={(event) => {
             event.preventDefault();
             onContinue();

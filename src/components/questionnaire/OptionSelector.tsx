@@ -43,7 +43,7 @@ export function OptionSelector({
         required={required}
         asLegend
       />
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-4 lg:grid-cols-4">
         {options.map((option) => {
           // Stable, readable IDs connect each visual label to its hidden radio control.
           const optionId = `${id}-${option.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
@@ -73,13 +73,13 @@ export function OptionSelector({
           );
         })}
       </div>
-      <div className="mt-2 min-h-5">
-        {error && (
+      {error && (
+        <div className="mt-2 min-h-5">
           <p id={`${id}-error`} className="text-sm leading-5 text-[hsl(0_72%_72%)]">
             {error}
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </fieldset>
   );
 }

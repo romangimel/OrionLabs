@@ -88,13 +88,13 @@ export function TextInput({
           )}
         />
       )}
-      <div className="mt-2 min-h-5">
-        {error && (
+      {error && (
+        <div className="mt-2 min-h-5">
           <p id={`${id}-error`} className="text-sm leading-5 text-[hsl(0_72%_72%)]">
             {error}
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
