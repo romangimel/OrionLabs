@@ -1,7 +1,10 @@
 import type { RefObject } from 'react';
 import { ArrowLeft, Pencil, Sparkles } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
+import { createOrbitalProfile } from '@/lib/orbital-profile';
 import type { QuestionnaireAnswers, QuestionnaireStepIndex } from '@/lib/questionnaire-state';
+import { cn } from '@/lib/utils';
 
 interface QuestionnaireReviewProps {
   answers: QuestionnaireAnswers;
@@ -60,6 +63,7 @@ export function QuestionnaireReview({
   onConfirm,
 }: QuestionnaireReviewProps) {
   const reduceMotion = useReducedMotion();
+  const orbitalProfile = createOrbitalProfile(answers);
   // Review presentation is derived from canonical answers rather than duplicated state.
   const sections: ReviewSection[] = [
     {
@@ -114,31 +118,77 @@ export function QuestionnaireReview({
       />
 
       <div className="relative">
-        <div className="max-w-3xl">
-          <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)] lg:text-xs">
-            Final Review
-          </p>
-          <h1
-            id="questionnaire-review-title"
-            ref={headingRef}
-            tabIndex={-1}
-            className="mt-3 font-serif text-3xl leading-tight text-gradient-gold outline-none sm:text-4xl lg:mt-4 lg:text-[2.75rem]"
-          >
-            Review Answers
-          </h1>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base lg:mt-4 lg:text-lg">
-            Confirm your calibration profile before OrionLabs begins its analysis.
-          </p>
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(19rem,0.72fr)] lg:gap-12">
+          <div className="max-w-3xl">
+            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)] lg:text-xs">
+              Final Review
+            </p>
+            <h1
+              id="questionnaire-review-title"
+              ref={headingRef}
+              tabIndex={-1}
+              className="mt-3 font-serif text-3xl leading-tight text-gradient-gold outline-none sm:text-4xl lg:mt-4 lg:text-[2.75rem]"
+            >
+              Review Answers
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base lg:mt-4 lg:text-lg">
+              Confirm your calibration profile before OrionLabs begins its analysis.
+            </p>
+
+            <div className="mt-7 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(43_60%_70%_/_0.1)] sm:grid-cols-3">
+              {[
+                ['Subject', displayValue(answers.firstName)],
+                ['Baseline', displayValue(answers.zodiacSign)],
+                ['Current focus', displayValue(answers.attentionArea)],
+              ].map(([label, value], index) => (
+                <div
+                  key={label}
+                  className={cn(
+                    'bg-[hsl(268_50%_9%_/_0.82)] px-3 py-3.5',
+                    index === 2 && 'col-span-2 sm:col-span-1',
+                  )}
+                >
+                  <p className="text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground/55">
+                    {label}
+                  </p>
+                  <p className="mt-1 truncate font-serif text-lg text-foreground">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(262_45%_7%_/_0.28)] p-4 sm:p-5">
+            <div className="flex items-center justify-between gap-3 text-[0.6rem] font-medium uppercase tracking-[0.18em] text-muted-foreground/55">
+              <span>Subject profile seed</span>
+              <span className="text-[hsl(43_60%_72%)]">Ready</span>
+            </div>
+            <OrbitalProfile
+              profile={orbitalProfile}
+              variant="review"
+              stage={3}
+              className="mx-auto mt-1"
+            />
+            <div className="flex items-center justify-between gap-3 border-t border-[hsl(43_60%_70%_/_0.1)] pt-3 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground/50">
+              <span>{orbitalProfile.signature}</span>
+              <span>{orbitalProfile.focusCode} / {orbitalProfile.behaviorCode}</span>
+            </div>
+          </div>
         </div>
 
         <div className="my-7 h-px bg-gradient-to-r from-[hsl(43_60%_70%_/_0.18)] via-[hsl(326_55%_65%_/_0.12)] to-transparent sm:my-8 lg:my-10" />
 
-        <div className="grid gap-4 md:grid-cols-2 lg:gap-5">
-          {sections.map((section) => (
+        <div className="grid overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(43_60%_70%_/_0.08)] md:grid-cols-2">
+          {sections.map((section, index) => (
             <section
               key={section.title}
               aria-labelledby={`review-${section.step}-title`}
-              className="rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(275_45%_12%_/_0.38)] p-5 sm:p-6"
+              className={cn(
+                'bg-[hsl(275_45%_12%_/_0.3)] p-5 sm:p-6',
+                index < sections.length - 1 && 'border-b border-[hsl(43_60%_70%_/_0.1)]',
+                'md:border-b-0',
+                index < 2 && 'md:border-b md:border-[hsl(43_60%_70%_/_0.1)]',
+                index % 2 === 0 && 'md:border-r md:border-[hsl(43_60%_70%_/_0.1)]',
+              )}
             >
               <div className="flex items-start justify-between gap-4">
                 <h2

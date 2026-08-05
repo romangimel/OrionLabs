@@ -59,14 +59,22 @@ export function QuestionnairePage() {
   // Progress represents completed steps, so Step 1 begins at 0% and review reaches 100%.
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
 
-  // Move focus to the new heading after navigation, but not on the initial render.
+  // Keep each new step anchored at its heading. preventScroll avoids the browser
+  // moving the viewport a second time when keyboard focus is restored.
   useEffect(() => {
     if (hasMounted.current) {
-      headingRef.current?.focus();
+      window.scrollTo({
+        top: 0,
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
+
+      window.requestAnimationFrame(() => {
+        headingRef.current?.focus({ preventScroll: true });
+      });
     } else {
       hasMounted.current = true;
     }
-  }, [questionnaire.currentStep, questionnaire.isReviewing]);
+  }, [questionnaire.currentStep, questionnaire.isReviewing, reduceMotion]);
 
   useEffect(
     () => () => {

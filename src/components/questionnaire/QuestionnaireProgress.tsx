@@ -36,9 +36,19 @@ export function QuestionnaireProgress({
             )}
           </p>
         </div>
-        <p className="font-serif text-2xl leading-none text-gradient-gold lg:text-3xl" aria-hidden="true">
-          {percentage}%
-        </p>
+        <div className="flex items-center gap-3" aria-hidden="true">
+          <span className="relative hidden h-9 w-9 place-items-center rounded-full border border-[hsl(43_60%_70%_/_0.16)] sm:grid">
+            <span className="absolute inset-[0.32rem] rounded-full border border-[hsl(326_55%_68%_/_0.18)]" />
+            <span
+              className="absolute left-1/2 top-1/2 h-[1px] w-3.5 origin-left bg-gradient-to-r from-[hsl(43_74%_72%_/_0.85)] to-transparent transition-transform duration-700 motion-reduce:transition-none"
+              style={{ transform: `rotate(${percentage * 2.7 - 90}deg)` }}
+            />
+            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(43_74%_72%)] shadow-[0_0_8px_hsl(43_74%_66%_/_0.7)]" />
+          </span>
+          <p className="font-serif text-2xl leading-none text-gradient-gold lg:text-3xl">
+            {percentage}%
+          </p>
+        </div>
       </div>
 
       <div
@@ -74,6 +84,10 @@ export function QuestionnaireProgress({
             );
           })}
         </div>
+      </div>
+      <div className="mt-3 flex items-center justify-between gap-4 text-[0.58rem] font-medium uppercase tracking-[0.18em] text-muted-foreground/40 sm:text-[0.62rem]">
+        <span>Subject model initialized</span>
+        <span>{isReviewing ? 'Orbital profile ready' : 'Profile geometry pending'}</span>
       </div>
     </section>
   );
