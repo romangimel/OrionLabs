@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
-import { Aurora } from '@/components/site/Aurora';
-import { Logo } from '@/components/site/Logo';
-import { Starfield } from '@/components/site/Starfield';
+import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
 import { ClosingVerdict } from '@/components/report/ClosingVerdict';
 import { CurrentLifeSection } from '@/components/report/CurrentLifeSection';
 import { RecommendationSection } from '@/components/report/RecommendationSection';
@@ -10,18 +8,23 @@ import { ReportHeader } from '@/components/report/ReportHeader';
 import { ReportInsightList } from '@/components/report/ReportInsightList';
 import { ReportMetrics } from '@/components/report/ReportMetrics';
 import { ReportSection } from '@/components/report/ReportSection';
+import { Aurora } from '@/components/site/Aurora';
+import { Logo } from '@/components/site/Logo';
+import { Reveal } from '@/components/site/Motion';
+import { Starfield } from '@/components/site/Starfield';
 import {
   canCreateMockReportFromAnswers,
   createMockReportFromAnswers,
 } from '@/lib/mock-report';
+import { createOrbitalProfile } from '@/lib/orbital-profile';
 import {
   clearCompletedQuestionnaireData,
   loadCompletedQuestionnaireData,
 } from '@/lib/questionnaire-state';
 
 /**
- * Resolves the confirmed questionnaire snapshot once, composes its local mock
- * report, and passes that typed data through the existing report components.
+ * Resolves one confirmed snapshot into both report copy and its deterministic
+ * orbital profile, then composes the result as an alternating long-form brief.
  */
 export function ReportPage() {
   const [completedData] = useState(loadCompletedQuestionnaireData);
@@ -38,11 +41,12 @@ export function ReportPage() {
   }, [canRenderReport]);
 
   if (!completedData || !canRenderReport) {
-    // Returning nothing prevents the static sample report from flashing before recovery.
+    // Returning nothing prevents sample content from flashing before recovery.
     return null;
   }
 
   const report = createMockReportFromAnswers(completedData.answers);
+  const orbitalProfile = createOrbitalProfile(completedData.answers);
 
   const handleStartAnotherAnalysis = () => {
     if (!clearCompletedQuestionnaireData()) {
@@ -60,7 +64,7 @@ export function ReportPage() {
       <div aria-hidden="true" className="fixed inset-0 bg-cosmic-page">
         <Aurora className="opacity-35" />
         <Starfield density={0.46} className="opacity-45" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.28),hsl(262_48%_6%_/_0.78))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.3),hsl(262_48%_6%_/_0.82))]" />
       </div>
 
       <a
@@ -85,98 +89,159 @@ export function ReportPage() {
               Orion<span className="text-gradient-gold">Labs</span>
             </span>
           </a>
-          <span className="text-[0.64rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/60 sm:text-[0.68rem]">
+          <span className="text-[0.6rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/60 sm:text-[0.68rem]">
             Analysis report
           </span>
         </div>
       </nav>
 
-      <main id="report-content" className="container-narrow relative z-10 pb-20 sm:pb-24 md:pb-32">
-        <ReportHeader subject={report.subject} />
+      <main
+        id="report-content"
+        className="container-narrow relative z-10 pb-20 sm:pb-24 md:pb-32"
+      >
+        <ReportHeader subject={report.subject} profile={orbitalProfile} />
 
-        <article className="glass-strong overflow-hidden rounded-[1.75rem] shadow-[0_36px_120px_-42px_hsl(255_80%_2%_/_0.96)] sm:rounded-[2rem]">
-          <section aria-labelledby="executive-summary-title" className="px-5 py-14 sm:px-8 sm:py-16 md:px-12 lg:px-16 lg:py-20">
-            <p className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-[hsl(326_55%_68%)]">
-              Executive celestial summary
-            </p>
-            <h2
-              id="executive-summary-title"
-              className="mt-4 max-w-4xl font-serif text-4xl leading-[1.05] text-gradient-gold sm:text-5xl md:text-6xl"
+        <article className="space-y-5 sm:space-y-7">
+          <Reveal>
+            <section
+              id="executive-summary"
+              aria-labelledby="executive-summary-title"
+              className="relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.13)] bg-[linear-gradient(135deg,hsl(285_58%_14%_/_0.6),hsl(270_52%_8%_/_0.48))] px-5 py-14 shadow-[0_32px_110px_-52px_hsl(255_80%_2%_/_0.96)] sm:px-8 sm:py-16 md:px-10 lg:px-14 lg:py-20"
             >
-              {report.summary.headline}
-            </h2>
-            <p className="mt-7 max-w-3xl text-base leading-[1.9] text-foreground/85 sm:text-lg md:text-xl">
-              {report.summary.body}
-            </p>
-          </section>
-
-          <ReportMetrics metrics={report.metrics} />
-
-          <ReportSection
-            id="personality-analysis"
-            eyebrow="Personality architecture"
-            title="A disciplined system with extensive internal governance."
-            description="The model's primary reading of temperament, decision style, and supporting behavioral evidence."
-          >
-            <p className="text-base leading-[1.85] text-foreground/85 sm:text-lg">
-              {report.personalityAnalysis.overview}
-            </p>
-            <div className="mt-9 rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.24)] p-5 sm:p-7">
-              <h3 id="supporting-traits-title" className="mb-6 text-[0.7rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
-                Supporting traits
-              </h3>
-              <ReportInsightList
-                insights={report.personalityAnalysis.traits}
-                variant="trait"
-                labelledBy="supporting-traits-title"
+              <OrbitalProfile
+                profile={orbitalProfile}
+                variant="echo"
+                className="absolute -right-32 -top-36 h-[34rem] w-[34rem] opacity-[0.14]"
               />
-            </div>
-          </ReportSection>
-
-          <CurrentLifeSection analysis={report.currentLifeAnalysis} />
-
-          <ReportSection
-            id="strengths-risks"
-            eyebrow="Pattern review"
-            title="Capability and recurring friction"
-            description="The same operating habits can produce leverage or unnecessary complexity, depending on planetary oversight."
-            contentClassName="lg:col-span-2"
-          >
-            <div className="grid gap-5 lg:grid-cols-2">
-              <section
-                aria-labelledby="strengths-title"
-                className="rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(43_74%_66%_/_0.035)] p-5 sm:p-7"
-              >
-                <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/65">
-                  Productive signals
+              <div className="relative max-w-4xl">
+                <p className="flex items-center gap-3 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/45">
+                  <span className="text-[hsl(43_60%_72%)]">01</span>
+                  <span aria-hidden="true" className="h-px w-7 bg-[hsl(43_60%_70%_/_0.4)]" />
+                  <span className="text-[hsl(326_55%_68%)]">Executive celestial summary</span>
                 </p>
-                <h3 id="strengths-title" className="mt-2 font-serif text-3xl text-gradient-gold">
-                  Strengths
-                </h3>
-                <div className="mt-7">
-                  <ReportInsightList insights={report.strengths} variant="strength" labelledBy="strengths-title" />
-                </div>
-              </section>
-
-              <section
-                aria-labelledby="risks-title"
-                className="rounded-2xl border border-[hsl(326_55%_68%_/_0.14)] bg-[hsl(326_70%_45%_/_0.025)] p-5 sm:p-7"
-              >
-                <p className="text-[0.65rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/65">
-                  Monitored patterns
+                <h2
+                  id="executive-summary-title"
+                  className="mt-5 max-w-4xl font-serif text-4xl leading-[1.03] text-gradient-gold sm:text-5xl md:text-6xl"
+                >
+                  {report.summary.headline}
+                </h2>
+                <p className="mt-7 max-w-3xl text-base leading-[1.88] text-foreground/85 sm:text-lg md:text-xl">
+                  {report.summary.body}
                 </p>
-                <h3 id="risks-title" className="mt-2 font-serif text-3xl text-foreground">
-                  Risks and recurring patterns
-                </h3>
-                <div className="mt-7">
-                  <ReportInsightList insights={report.risks} variant="risk" labelledBy="risks-title" />
-                </div>
-              </section>
-            </div>
-          </ReportSection>
+              </div>
+            </section>
+          </Reveal>
 
-          <RecommendationSection recommendation={report.recommendedAction} />
-          <ClosingVerdict subjectName={report.subject.name} verdict={report.closingVerdict} />
+          <Reveal>
+            <ReportMetrics metrics={report.metrics} profile={orbitalProfile} />
+          </Reveal>
+
+          <Reveal>
+            <ReportSection
+              id="personality-analysis"
+              chapter="02"
+              eyebrow="Personality architecture"
+              title="A disciplined system with extensive internal governance."
+              description="The model's primary reading of temperament, decision style, and supporting behavioral evidence."
+              profile={orbitalProfile}
+            >
+              <p className="text-base leading-[1.85] text-foreground/85 sm:text-lg">
+                {report.personalityAnalysis.overview}
+              </p>
+              <div className="mt-9 border-y border-[hsl(43_60%_70%_/_0.12)] py-7">
+                <h3
+                  id="supporting-traits-title"
+                  className="mb-7 text-[0.65rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]"
+                >
+                  Supporting traits
+                </h3>
+                <ReportInsightList
+                  insights={report.personalityAnalysis.traits}
+                  variant="trait"
+                  labelledBy="supporting-traits-title"
+                />
+              </div>
+            </ReportSection>
+          </Reveal>
+
+          <Reveal>
+            <CurrentLifeSection
+              analysis={report.currentLifeAnalysis}
+              profile={orbitalProfile}
+            />
+          </Reveal>
+
+          <Reveal>
+            <ReportSection
+              id="strengths-risks"
+              chapter="04"
+              eyebrow="Pattern review"
+              title="Capability and recurring friction"
+              description="The same operating habits can produce leverage or unnecessary complexity, depending on planetary oversight."
+              layout="stacked"
+              profile={orbitalProfile}
+            >
+              <div className="grid gap-10 lg:grid-cols-2 lg:gap-0">
+                <section
+                  aria-labelledby="strengths-title"
+                  className="border-t-2 border-[hsl(43_60%_70%_/_0.38)] pt-6 lg:pr-10"
+                >
+                  <p className="text-[0.62rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
+                    Productive signals
+                  </p>
+                  <h3
+                    id="strengths-title"
+                    className="mt-2 font-serif text-3xl text-gradient-gold"
+                  >
+                    Strengths
+                  </h3>
+                  <div className="mt-7">
+                    <ReportInsightList
+                      insights={report.strengths}
+                      variant="strength"
+                      labelledBy="strengths-title"
+                    />
+                  </div>
+                </section>
+
+                <section
+                  aria-labelledby="risks-title"
+                  className="border-t-2 border-[hsl(326_55%_68%_/_0.32)] pt-6 lg:border-l lg:border-t-[2px] lg:border-l-[hsl(43_60%_70%_/_0.1)] lg:pl-10"
+                >
+                  <p className="text-[0.62rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/55">
+                    Monitored patterns
+                  </p>
+                  <h3
+                    id="risks-title"
+                    className="mt-2 font-serif text-3xl text-foreground"
+                  >
+                    Risks and recurring patterns
+                  </h3>
+                  <div className="mt-7">
+                    <ReportInsightList
+                      insights={report.risks}
+                      variant="risk"
+                      labelledBy="risks-title"
+                    />
+                  </div>
+                </section>
+              </div>
+            </ReportSection>
+          </Reveal>
+
+          <Reveal>
+            <RecommendationSection
+              recommendation={report.recommendedAction}
+              profile={orbitalProfile}
+            />
+          </Reveal>
+          <Reveal>
+            <ClosingVerdict
+              subjectName={report.subject.name}
+              verdict={report.closingVerdict}
+              profile={orbitalProfile}
+            />
+          </Reveal>
         </article>
 
         <aside

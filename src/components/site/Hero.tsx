@@ -94,7 +94,7 @@ export function Hero() {
 
         <FadeIn delay={0.55}>
           <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-            <PrimaryActionButton href="#cta" className="px-7">
+            <PrimaryActionButton href="/questionnaire" className="px-7">
               Begin Analysis
             </PrimaryActionButton>
             <SecondaryActionButton href="#research" className="px-7">

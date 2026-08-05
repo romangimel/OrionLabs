@@ -43,7 +43,7 @@ export function CTA() {
 
         <Reveal delay={0.26}>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-            <PrimaryActionButton href="#top" className="px-8">
+            <PrimaryActionButton href="/questionnaire" className="px-8">
               Begin Analysis
             </PrimaryActionButton>
             <SecondaryActionButton href="#research" className="px-8">

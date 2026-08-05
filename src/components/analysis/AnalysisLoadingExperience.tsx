@@ -1,78 +1,148 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { CelestialCalibrationIndicator } from '@/components/analysis/CelestialCalibrationIndicator';
 import type { MockAnalysisPhase } from '@/hooks/useMockAnalysisSequence';
+import type { OrbitalProfileData } from '@/lib/orbital-profile';
 
 interface AnalysisLoadingExperienceProps {
-  firstName: string;
+  profile: OrbitalProfileData;
   message: string;
+  messageIndex: number;
+  messageCount: number;
   phase: MockAnalysisPhase;
 }
 
 const COMPLETION_MESSAGE = 'Report synthesis complete.';
 
-/** Presents the active and completed analysis states without owning their timing. */
+/** Presents the prominent status narrative and its evolving subject model. */
 export function AnalysisLoadingExperience({
-  firstName,
+  profile,
   message,
+  messageIndex,
+  messageCount,
   phase,
 }: AnalysisLoadingExperienceProps) {
   const reduceMotion = useReducedMotion();
   const isComplete = phase === 'complete';
   const displayedMessage = isComplete ? COMPLETION_MESSAGE : message;
-  const subjectName = firstName.trim();
 
   return (
     <section
       aria-labelledby="analysis-title"
-      className="glass-strong relative w-full max-w-[36rem] overflow-hidden rounded-[1.5rem] px-5 py-7 text-center shadow-[0_36px_120px_-42px_hsl(255_80%_2%_/_0.96)] sm:px-8 sm:py-8 md:rounded-[1.75rem] md:px-10 md:py-9"
+      className="glass-strong relative w-full max-w-5xl overflow-hidden rounded-[1.5rem] px-4 py-4 shadow-[0_40px_140px_-44px_hsl(255_80%_2%_/_0.98)] sm:rounded-[1.75rem] sm:px-8 sm:py-8 md:rounded-[2rem] md:px-10 md:py-10 lg:px-12"
     >
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-0 h-40 w-3/4 -translate-x-1/2 rounded-full bg-[hsl(280_78%_48%_/_0.15)] blur-[72px]"
+        className="absolute -right-16 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[hsl(280_78%_48%_/_0.16)] blur-[110px]"
       />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[hsl(43_60%_70%_/_0.45)] to-transparent"
+      />
+
       <div className="relative">
-        <p className="text-[0.64rem] font-medium uppercase tracking-[0.24em] text-[hsl(326_55%_68%)] sm:text-[0.68rem]">
-          DeepConstellation™ · Calibration sequence
-        </p>
-        <h1
-          id="analysis-title"
-          className="mx-auto mt-3 max-w-xl font-serif text-[1.9rem] leading-[1.06] text-gradient-gold sm:text-[2.5rem] md:text-[2.8rem]"
-        >
-          Calibrating your celestial profile
-        </h1>
-        <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground sm:text-[0.95rem]">
-          {subjectName
-            ? `${subjectName}'s confirmed profile is being aligned with the OrionLabs assessment framework.`
-            : 'Your confirmed profile is being aligned with the OrionLabs assessment framework.'}
-        </p>
-
-        <div className="mx-auto my-5 flex justify-center sm:my-6">
-          <CelestialCalibrationIndicator isComplete={isComplete} />
+        <div className="flex items-center justify-between gap-4 border-b border-[hsl(43_60%_70%_/_0.1)] pb-3 text-[0.55rem] font-medium uppercase tracking-[0.18em] text-muted-foreground/55 sm:pb-5 sm:text-[0.63rem] sm:tracking-[0.2em]">
+          <span className="text-[hsl(326_55%_68%)]">
+            DeepConstellation™ · Calibration sequence
+          </span>
+          <span>{profile.signature}</span>
         </div>
 
-        <div
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-          className="mx-auto flex min-h-16 max-w-lg items-center justify-center rounded-xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.3)] px-4 py-3 sm:px-5"
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.p
-              key={displayedMessage}
-              initial={reduceMotion ? false : { opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduceMotion ? undefined : { opacity: 0, y: -5 }}
-              transition={{ duration: reduceMotion ? 0 : 0.28, ease: 'easeOut' }}
-              className="text-gradient-gold text-sm font-medium leading-relaxed sm:text-[0.95rem]"
+        <div className="grid items-center gap-3 pt-3 sm:gap-7 sm:pt-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(24rem,1.12fr)] lg:gap-10 lg:pt-7">
+          <div className="text-left">
+            <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
+              Subject model · {profile.zodiacCode} / {profile.focusCode}
+            </p>
+            <h1
+              id="analysis-title"
+              className="mt-2 max-w-xl font-serif text-[1.9rem] leading-[1.02] text-gradient-gold sm:mt-3 sm:text-[2.75rem] lg:text-[3.25rem]"
             >
-              {displayedMessage}
-            </motion.p>
-          </AnimatePresence>
-        </div>
+              Calibrating your celestial profile
+            </h1>
+            <p className="mt-2 max-w-lg text-xs leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
+              {profile.subjectName}'s confirmed profile is being aligned with the OrionLabs
+              assessment framework.
+            </p>
 
-        <p className="mt-3 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground/45 sm:text-[0.63rem]">
-          Session-local assessment protocol · No external transmission
-        </p>
+            <div
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
+              className="relative mt-4 min-h-[7.75rem] overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[linear-gradient(135deg,hsl(43_74%_66%_/_0.055),hsl(262_50%_7%_/_0.44))] px-4 py-4 sm:mt-7 sm:min-h-[9.25rem] sm:px-6 sm:py-6"
+            >
+              <div className="flex items-center justify-between gap-4 text-[0.58rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
+                <span>{isComplete ? 'Calibration outcome' : 'Current operation'}</span>
+                <span>
+                  {isComplete
+                    ? '04 / 04'
+                    : `${String(messageIndex + 1).padStart(2, '0')} / ${String(messageCount).padStart(2, '0')}`}
+                </span>
+              </div>
+
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.p
+                  key={displayedMessage}
+                  initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+                  transition={{
+                    duration: reduceMotion ? 0 : 0.45,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="mt-3 font-serif text-[1.65rem] leading-[1.08] text-gradient-cosmic sm:mt-4 sm:text-[2rem] sm:leading-[1.12] lg:text-[2.15rem]"
+                >
+                  {displayedMessage}
+                </motion.p>
+              </AnimatePresence>
+
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-4 bottom-3 flex gap-1.5 sm:inset-x-6 sm:bottom-4"
+              >
+                {Array.from({ length: messageCount }, (_, index) => (
+                  <span
+                    key={index}
+                    className="h-px flex-1 overflow-hidden bg-[hsl(43_60%_70%_/_0.12)]"
+                  >
+                    <span
+                      className={`block h-full bg-gradient-to-r from-[#C9A24A] to-[#F5E6B0] transition-[width] duration-700 motion-reduce:transition-none ${
+                        index <= messageIndex || isComplete ? 'w-full' : 'w-0'
+                      }`}
+                    />
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-3 grid grid-cols-2 gap-4 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground/45 sm:mt-5 sm:text-[0.6rem] sm:tracking-[0.16em]">
+              <p>Session-local protocol</p>
+              <p className="text-right">No external transmission</p>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[14rem] rounded-[1.25rem] border border-[hsl(43_60%_70%_/_0.1)] bg-[hsl(262_50%_6%_/_0.25)] p-1 sm:max-w-[31rem] sm:rounded-[1.5rem] sm:p-3">
+            <span
+              aria-hidden="true"
+              className="absolute left-4 top-4 h-5 w-5 border-l border-t border-[hsl(43_60%_70%_/_0.38)]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute right-4 top-4 h-5 w-5 border-r border-t border-[hsl(43_60%_70%_/_0.38)]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute bottom-4 left-4 h-5 w-5 border-b border-l border-[hsl(43_60%_70%_/_0.38)]"
+            />
+            <span
+              aria-hidden="true"
+              className="absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[hsl(43_60%_70%_/_0.38)]"
+            />
+            <CelestialCalibrationIndicator
+              profile={profile}
+              stage={messageIndex}
+              isComplete={isComplete}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

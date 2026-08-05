@@ -1,20 +1,31 @@
+import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
 import type { OrionReport } from '@/data/report';
+import type { OrbitalProfileData } from '@/lib/orbital-profile';
 
 interface ReportMetricsProps {
   metrics: OrionReport['metrics'];
+  profile: OrbitalProfileData;
 }
 
 /** Renders fictional confidence evidence with complete text equivalents. */
-export function ReportMetrics({ metrics }: ReportMetricsProps) {
+export function ReportMetrics({ metrics, profile }: ReportMetricsProps) {
   return (
     <section
+      id="report-metrics"
       aria-labelledby="report-metrics-title"
-      className="border-t border-[hsl(43_60%_70%_/_0.1)] px-5 py-12 sm:px-8 sm:py-14 md:px-12 lg:px-16"
+      className="relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.13)] bg-[hsl(275_48%_10%_/_0.54)] px-5 py-12 shadow-[0_28px_100px_-55px_hsl(255_80%_2%_/_0.95)] sm:px-8 sm:py-14 md:px-10 lg:px-12"
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+      <OrbitalProfile
+        profile={profile}
+        variant="echo"
+        className="absolute -right-28 -top-32 h-[24rem] w-[24rem] opacity-[0.13]"
+      />
+      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
         <div>
-          <p className="text-[0.68rem] font-medium uppercase tracking-[0.24em] text-[hsl(326_55%_68%)]">
-            Model confidence
+          <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/45">
+            <span className="text-[hsl(43_60%_72%)]">Data</span>
+            <span aria-hidden="true" className="mx-3 text-[hsl(43_60%_70%_/_0.4)]">—</span>
+            <span className="text-[hsl(326_55%_68%)]">Model confidence</span>
           </p>
           <h2 id="report-metrics-title" className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">
             Measurable celestial indicators
@@ -25,7 +36,7 @@ export function ReportMetrics({ metrics }: ReportMetricsProps) {
         </p>
       </div>
 
-      <div className="mt-8 grid overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.35)] sm:grid-cols-3">
+      <div className="relative mt-8 grid overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.42)] sm:grid-cols-3">
         {metrics.map((metric, index) => (
           <div
             key={metric.id}

@@ -4,6 +4,7 @@ import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
+import { createOrbitalProfile } from '@/lib/orbital-profile';
 import { loadCompletedQuestionnaireData } from '@/lib/questionnaire-state';
 
 const PROCESSING_MESSAGES = [
@@ -27,6 +28,9 @@ const COMPLETION_PAUSE_MS = 3_000;
  */
 export function AnalysisPage() {
   const completedData = loadCompletedQuestionnaireData();
+  const orbitalProfile = completedData
+    ? createOrbitalProfile(completedData.answers)
+    : null;
   const { currentMessageIndex, phase } = useMockAnalysisSequence({
     durationMs: MOCK_ANALYSIS_DURATION_MS,
     messageIntervalMs: MESSAGE_INTERVAL_MS,
@@ -68,11 +72,13 @@ export function AnalysisPage() {
         </div>
       </header>
 
-      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-10 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16">
-        {completedData ? (
+      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-4 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16 lg:py-4">
+        {completedData && orbitalProfile ? (
           <AnalysisLoadingExperience
-            firstName={completedData.answers.firstName}
+            profile={orbitalProfile}
             message={PROCESSING_MESSAGES[currentMessageIndex]}
+            messageIndex={currentMessageIndex}
+            messageCount={PROCESSING_MESSAGES.length}
             phase={phase}
           />
         ) : (
