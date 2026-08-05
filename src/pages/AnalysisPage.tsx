@@ -52,9 +52,9 @@ export function AnalysisPage() {
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
       <div aria-hidden="true" className="fixed inset-0 bg-cosmic-page">
-        <Aurora className="opacity-45" />
+        <Aurora className="opacity-65" />
         <Starfield density={0.48} className="opacity-50" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.2),hsl(262_48%_6%_/_0.72))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.1),hsl(262_48%_6%_/_0.4))]" />
       </div>
 
       <header className="relative z-10 border-b border-[hsl(43_60%_70%_/_0.1)] bg-[hsl(262_45%_7%_/_0.42)] backdrop-blur-lg">

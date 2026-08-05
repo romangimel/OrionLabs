@@ -62,9 +62,9 @@ export function ReportPage() {
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
       <div aria-hidden="true" className="fixed inset-0 bg-cosmic-page">
-        <Aurora className="opacity-35" />
+        <Aurora className="opacity-60" />
         <Starfield density={0.46} className="opacity-45" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.3),hsl(262_48%_6%_/_0.82))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.12),hsl(262_48%_6%_/_0.46))]" />
       </div>
 
       <a

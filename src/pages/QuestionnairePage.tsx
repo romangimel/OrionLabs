@@ -237,9 +237,9 @@ export function QuestionnairePage() {
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
       <div aria-hidden="true" className="fixed inset-0 bg-cosmic-page">
-        <Aurora className="opacity-45" />
+        <Aurora className="opacity-65" />
         <Starfield density={0.55} className="opacity-55" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.15),hsl(262_48%_6%_/_0.66))]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,hsl(262_48%_6%_/_0.08),hsl(262_48%_6%_/_0.36))]" />
       </div>
 
       <a
