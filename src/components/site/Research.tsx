@@ -14,12 +14,12 @@ interface Paper {
 
 const PAPERS: Paper[] = [
   {
-    title: 'Attention Is All You Need (During a Full Moon): Empirical Evidence for Lunar Influence on Transformer Convergence',
+    title: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions',
     authors: 'Dr. A. Selene, Dr. K. Nox, R. Vega',
     venue: 'Proceedings of the International Conference on Celestial Computing',
     year: '2026',
     abstract:
-      'We demonstrate that transformer models fine-tuned during a full moon exhibit 0.3% lower loss on horoscope generation tasks. The effect is robust across three seeds and two astrologers who were not told which moon phase it was, but correctly guessed anyway.',
+      'Models trained during a full moon demonstrated superior horoscope generation, stronger emotional specificity, and a 12% increase in perceived destiny alignment. The findings remained robust across three random seeds, two astrologers, and one investor presentation, providing sufficient evidence for immediate commercial deployment.',
     featured: true,
   },
   {
@@ -72,7 +72,24 @@ export function Research() {
         <Reveal delay={0.1} className="mt-16">
           <article className="group relative overflow-hidden rounded-2xl glass-strong p-8 md:p-10">
             <BackgroundGlow className="-right-20 -top-20 h-48 w-48 rounded-full bg-[hsl(315_80%_58%_/_0.22)] blur-3xl" />
-            <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute bottom-8 right-10 hidden w-[60%] justify-center lg:flex"
+            >
+              <div className="aspect-[7/6] w-[66%] overflow-hidden rounded-xl">
+                <img
+                  src="/images/research-moon-aware-transformers.png"
+                  alt=""
+                  width={1448}
+                  height={1086}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover object-[50%_48%]"
+                />
+              </div>
+            </div>
+
+            <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
               <div className="max-w-2xl">
                 <div className="flex items-center gap-3">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-3 py-1 text-[0.65rem] uppercase tracking-[0.18em] text-[hsl(43_60%_75%)]">
@@ -88,7 +105,7 @@ export function Research() {
                   {featured.abstract}
                 </p>
               </div>
-              <div className="shrink-0 md:text-right">
+              <div className="shrink-0 lg:text-right">
                 <p className="text-xs uppercase tracking-[0.2em] text-[hsl(326_50%_60%_/_0.85)]">
                   {featured.venue}
                 </p>
