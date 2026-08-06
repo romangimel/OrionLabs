@@ -53,8 +53,8 @@ Landing Page
 - [x] Decide the questionnaire questions
 - [x] Decide the questionnaire step order
 - [x] Decide what information the report should contain
-- [ ] Define the structured report data schema
-- [ ] Define how users are redirected when required data is missing
+- [x] Define the structured report data schema
+- [x] Define how users are redirected when required data is missing
 - [x] Define which questionnaire fields are required and optional
 
 ---
@@ -145,7 +145,6 @@ Possible report sections:
 - [x] Design desktop and mobile report layouts
 - [x] Handle long and short content gracefully
 - [x] Add a temporary action for starting another analysis
-- [ ] Add temporary sharing controls if appropriate
 
 ### Loading Page
 
@@ -188,7 +187,6 @@ Possible report sections:
 - [x] Clear incomplete questionnaire data when users leave the analysis journey
 - [x] Save completed reports as standalone session records
 - [x] Preserve the active completed report while browsing OrionLabs
-- [ ] Add a deliberate return path to the active report if needed
 - [x] Centralize report persistence behind a replaceable storage module
 
 ### Route Safety
@@ -197,7 +195,6 @@ Possible report sections:
 - [x] Handle direct access to `/report` without report data
 - [x] Handle missing or invalid `sessionStorage` data
 - [x] Handle refreshes on questionnaire, analysis, and report routes
-- [ ] Verify deployed routes support SPA fallback
 - [ ] Redirect users gracefully instead of showing broken screens
 
 ---
@@ -309,6 +306,7 @@ Possible platforms:
 
 - [ ] Polish copy throughout the website
 - [ ] Finalize all questionnaire helper text
+- [ ] Polish generated art throughout the website
 - [ ] Make the OrionLabs humor consistent across every page
 - [ ] Review the complete desktop experience
 - [ ] Review the complete tablet experience
@@ -362,6 +360,7 @@ Possible platforms:
 - [ ] Add screenshots or a short product preview
 - [ ] Deploy OrionLabs
 - [ ] Verify the deployed site
+- [ ] Verify deployed routes support SPA fallback
 - [ ] Add the live URL to the GitHub repository
 - [ ] Add OrionLabs to the portfolio
 
