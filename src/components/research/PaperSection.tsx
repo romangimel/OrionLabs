@@ -37,7 +37,7 @@ export function PaperSection({
           </p>
           <h2
             id={headingId}
-            className="mt-3 max-w-3xl font-serif text-3xl leading-[1.08] text-foreground sm:text-4xl md:text-[2.75rem]"
+            className="mt-3 max-w-3xl font-serif text-3xl leading-[1.08] text-gradient-gold sm:text-4xl md:text-[2.75rem]"
           >
             {title}
           </h2>

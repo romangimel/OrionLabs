@@ -1,38 +1,85 @@
+import { useEffect, useState } from 'react';
+
 const INDEX_ITEMS = [
-  ['01', 'Introduction', '#introduction'],
-  ['03', 'Methodology', '#methodology'],
-  ['05', 'Architecture', '#architecture'],
-  ['06', 'Results', '#results'],
-  ['07', 'Ablations', '#ablations'],
-  ['09', 'Investor validation', '#investor-validation'],
-  ['10', 'Limitations', '#limitations'],
-  ['11', 'Commercial implications', '#commercial-implications'],
-  ['14', 'References', '#references'],
+  ['01', 'Introduction', 'introduction'],
+  ['02', 'Related work', 'related-work'],
+  ['03', 'Methodology', 'methodology'],
+  ['04', 'Dataset', 'dataset'],
+  ['05', 'Architecture', 'architecture'],
+  ['06', 'Results', 'results'],
+  ['07', 'Ablations', 'ablations'],
+  ['08', 'Belief control', 'belief-control'],
+  ['09', 'Investor validation', 'investor-validation'],
+  ['10', 'Limitations', 'limitations'],
+  ['11', 'Commercial implications', 'commercial-implications'],
+  ['12', 'Ethics', 'ethics'],
+  ['13', 'Conclusion', 'conclusion'],
+  ['14', 'References', 'references'],
 ] as const;
 
-/** Slim desktop index; mobile readers retain the numbered section hierarchy. */
+/** Persistent desktop index that highlights the section crossing the reading line. */
 export function PaperIndex() {
+  const [activeSectionId, setActiveSectionId] = useState<string>(INDEX_ITEMS[0][2]);
+
+  useEffect(() => {
+    const sectionElements = INDEX_ITEMS.map(([, , id]) =>
+      document.getElementById(id),
+    ).filter((section): section is HTMLElement => Boolean(section));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntry = entries.find((entry) => entry.isIntersecting);
+
+        if (visibleEntry) {
+          setActiveSectionId(visibleEntry.target.id);
+        }
+      },
+      // The narrow observation band follows the upper third of the viewport,
+      // which is where a section becomes the reader's primary context.
+      { rootMargin: '-24% 0px -70% 0px' },
+    );
+
+    sectionElements.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <nav
       aria-label="Paper sections"
-      className="hidden xl:block xl:self-start xl:pt-20"
+      className="hidden xl:sticky xl:top-4 xl:block xl:self-start xl:pt-20"
     >
-      <div className="sticky top-8 border-l border-[hsl(43_60%_70%_/_0.14)] pl-5">
+      <div className="border-l border-[hsl(43_60%_70%_/_0.14)] pl-5">
         <p className="text-[0.58rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
           Paper index
         </p>
-        <ol className="mt-5 space-y-3">
-          {INDEX_ITEMS.map(([number, label, href]) => (
-            <li key={href}>
-              <a
-                href={href}
-                className="group flex items-start gap-3 text-[0.68rem] leading-snug text-muted-foreground/65 transition-colors hover:text-foreground focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)]"
-              >
-                <span className="text-[hsl(326_50%_68%)]">{number}</span>
-                <span>{label}</span>
-              </a>
-            </li>
-          ))}
+        <ol className="mt-5 space-y-2.5">
+          {INDEX_ITEMS.map(([number, label, id]) => {
+            const isActive = activeSectionId === id;
+
+            return (
+              <li key={id}>
+                <a
+                  href={`#${id}`}
+                  aria-current={isActive ? 'location' : undefined}
+                  className={`group flex items-start gap-3 text-[0.68rem] leading-snug transition-colors focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] ${
+                    isActive ? '' : 'text-muted-foreground/65 hover:text-foreground'
+                  }`}
+                >
+                  <span
+                    className={
+                      isActive ? 'text-gradient-gold' : 'text-[hsl(326_50%_68%)]'
+                    }
+                  >
+                    {number}
+                  </span>
+                  <span className={isActive ? 'text-gradient-gold' : undefined}>
+                    {label}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ol>
       </div>
     </nav>

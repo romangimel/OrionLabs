@@ -19,7 +19,7 @@ export function ReferencesSection() {
           <p className="text-[0.64rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
             References
           </p>
-          <h2 id="references-title" className="mt-3 font-serif text-4xl text-foreground">
+          <h2 id="references-title" className="mt-3 font-serif text-4xl text-gradient-gold">
             Prior work of suitable alignment
           </h2>
         </div>
