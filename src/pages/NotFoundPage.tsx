@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
+import { resetAnalysisSession } from '@/lib/analysis-session';
 
 /** Branded recovery route for URLs that do not match an OrionLabs destination. */
 export function NotFoundPage() {
@@ -53,6 +54,7 @@ export function NotFoundPage() {
             </a>
             <a
               href="/questionnaire"
+              onClick={resetAnalysisSession}
               className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.38)] px-7 text-sm font-medium text-foreground backdrop-blur-sm transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.55)] hover:bg-[hsl(280_45%_14%_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)]"
             >
               Start an Analysis

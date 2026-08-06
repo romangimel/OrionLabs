@@ -12,51 +12,39 @@ import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Reveal } from '@/components/site/Motion';
 import { Starfield } from '@/components/site/Starfield';
-import {
-  canCreateMockReportFromAnswers,
-  createMockReportFromAnswers,
-} from '@/lib/mock-report';
-import { createOrbitalProfile } from '@/lib/orbital-profile';
-import {
-  clearCompletedQuestionnaireData,
-  loadCompletedQuestionnaireData,
-} from '@/lib/questionnaire-state';
+import { createOrbitalProfileFromReport } from '@/lib/orbital-profile';
+import { getActiveReport } from '@/lib/report-storage';
+import { startNewAnalysisJourney } from '@/lib/analysis-session';
 
 /**
- * Resolves one confirmed snapshot into both report copy and its deterministic
- * orbital profile, then composes the result as an alternating long-form brief.
+ * Resolves the private active report ID into one immutable completed snapshot,
+ * then composes that report as an alternating long-form brief.
  */
 export function ReportPage() {
-  const [completedData] = useState(loadCompletedQuestionnaireData);
+  const [savedReport] = useState(getActiveReport);
   const [restartError, setRestartError] = useState('');
-  const canRenderReport = Boolean(
-    completedData && canCreateMockReportFromAnswers(completedData.answers),
-  );
+  const canRenderReport = Boolean(savedReport);
 
   useEffect(() => {
     if (!canRenderReport) {
-      clearCompletedQuestionnaireData();
       window.location.replace('/questionnaire');
     }
   }, [canRenderReport]);
 
-  if (!completedData || !canRenderReport) {
+  if (!savedReport || !canRenderReport) {
     // Returning nothing prevents sample content from flashing before recovery.
     return null;
   }
 
-  const report = createMockReportFromAnswers(completedData.answers);
-  const orbitalProfile = createOrbitalProfile(completedData.answers);
+  const report = savedReport.report;
+  const orbitalProfile = createOrbitalProfileFromReport(report);
 
   const handleStartAnotherAnalysis = () => {
-    if (!clearCompletedQuestionnaireData()) {
+    if (!startNewAnalysisJourney()) {
       setRestartError(
         'The current session could not be cleared. Please allow session storage and try again.',
       );
-      return;
     }
-
-    window.location.assign('/questionnaire');
   };
 
   return (

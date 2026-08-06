@@ -1,5 +1,6 @@
 import { Copy, ExternalLink } from 'lucide-react';
 import { researchPaper } from '@/data/research-paper';
+import { resetAnalysisSession } from '@/lib/analysis-session';
 
 export function ReferencesSection() {
   const { metadata, references } = researchPaper;
@@ -79,6 +80,7 @@ export function ReferencesSection() {
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <a
             href="/questionnaire"
+            onClick={resetAnalysisSession}
             className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.8)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)] motion-reduce:transform-none"
           >
             <span className="relative z-10">Run Your Analysis</span>

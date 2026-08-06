@@ -4,6 +4,7 @@ import { BookOpen } from 'lucide-react';
 import { Starfield } from './Starfield';
 import { FadeIn } from './Motion';
 import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
+import { resetAnalysisSession } from '@/lib/analysis-session';
 
 /**
  * Establishes the landing page's cinematic first impression and primary actions.
@@ -94,7 +95,11 @@ export function Hero() {
 
         <FadeIn delay={0.55}>
           <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-            <PrimaryActionButton href="/questionnaire" className="px-7">
+            <PrimaryActionButton
+              href="/questionnaire"
+              onClick={resetAnalysisSession}
+              className="px-7"
+            >
               Begin Analysis
             </PrimaryActionButton>
             <SecondaryActionButton href="#research" className="px-7">

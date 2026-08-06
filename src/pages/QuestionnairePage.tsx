@@ -10,14 +10,16 @@ import { QuestionnaireReview } from '@/components/questionnaire/QuestionnaireRev
 import { QUESTIONNAIRE_STEPS } from '@/data/questionnaire';
 import {
   QUESTION_FIELD_MAP,
+  createQuestionnaireDraft,
   createQuestionnaireState,
-  loadCompletedQuestionnaireData,
-  saveCompletedQuestionnaireData,
-  type CompletedQuestionnaireData,
+  loadQuestionnaireDraft,
+  saveQuestionnaireDraft,
   type QuestionnaireAnswerField,
   type QuestionnaireState,
   type QuestionnaireStepIndex,
 } from '@/lib/questionnaire-state';
+import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
+import { clearAllSessionReports, createReportId } from '@/lib/report-storage';
 import {
   getFirstInvalidQuestionId,
   hasQuestionnaireAnswer,
@@ -34,14 +36,17 @@ const TRANSITION_LOCK_MS = 450;
  * accessibility focus, and the handoff to the mock analysis route.
  *
  * Answer state is lifted to this page so each configuration-driven input can be
- * remounted between steps without losing values. Only confirmed answers are
- * persisted; partially completed sessions intentionally remain in memory.
+ * remounted between steps without losing values. A versioned draft mirrors that
+ * state into session storage so a refresh does not abandon the active journey.
  */
 export function QuestionnairePage() {
   const reduceMotion = useReducedMotion();
-  const [questionnaire, setQuestionnaire] = useState<QuestionnaireState>(() =>
-    createQuestionnaireState(loadCompletedQuestionnaireData()),
-  );
+  const [questionnaire, setQuestionnaire] = useState<QuestionnaireState>(() => {
+    const draft = loadQuestionnaireDraft();
+    // Entering the questionnaire makes this the prototype's single active run.
+    clearAllSessionReports();
+    return createQuestionnaireState(draft);
+  });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [persistenceError, setPersistenceError] = useState('');
   const [validationErrors, setValidationErrors] =
@@ -79,6 +84,14 @@ export function QuestionnairePage() {
     },
     [],
   );
+
+  useEffect(() => {
+    if (!saveQuestionnaireDraft(createQuestionnaireDraft(questionnaire))) {
+      setPersistenceError(
+        'We could not preserve this profile in the current session. Please allow session storage and try again.',
+      );
+    }
+  }, [questionnaire]);
 
   const performTransition = (update: () => void) => {
     if (navigationLocked.current) {
@@ -132,8 +145,8 @@ export function QuestionnairePage() {
         ...currentState.answers,
         [field]: value,
       },
-      // Any edit makes the previously confirmed snapshot stale until confirmation runs again.
-      completedData: null,
+      // Any edit invalidates a previously prepared analysis run.
+      pendingReportId: null,
     }));
   };
 
@@ -211,13 +224,13 @@ export function QuestionnairePage() {
     }
 
     analysisStarted.current = true;
-    const completedData: CompletedQuestionnaireData = {
-      version: 1,
-      answers: { ...questionnaire.answers },
+    const analysisReadyState: QuestionnaireState = {
+      ...questionnaire,
+      pendingReportId: questionnaire.pendingReportId ?? createReportId(),
     };
 
-    // Analysis must never open with an unsaved profile because it reads this snapshot by route.
-    if (!saveCompletedQuestionnaireData(completedData)) {
+    // Analysis must never open with an unsaved draft because it reads this state by route.
+    if (!saveQuestionnaireDraft(createQuestionnaireDraft(analysisReadyState))) {
       analysisStarted.current = false;
       setPersistenceError(
         'We could not secure this profile in the current session. Please allow session storage and try again.',
@@ -225,7 +238,7 @@ export function QuestionnairePage() {
       return;
     }
 
-    setQuestionnaire((currentState) => ({ ...currentState, completedData }));
+    setQuestionnaire(analysisReadyState);
     window.location.assign('/analysis');
   };
 
@@ -248,6 +261,7 @@ export function QuestionnairePage() {
         <div className="container-narrow flex h-16 items-center justify-between md:h-20">
           <a
             href="/"
+            onClick={clearIncompleteQuestionnaireForExit}
             className="group flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
             aria-label="Return to OrionLabs home"
           >
@@ -259,6 +273,7 @@ export function QuestionnairePage() {
 
           <a
             href="/"
+            onClick={clearIncompleteQuestionnaireForExit}
             className="group inline-flex h-10 items-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.16)] px-3.5 text-xs font-medium text-muted-foreground transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.38)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)] sm:px-4 sm:text-sm"
           >
             <span className="hidden sm:inline">Exit analysis</span>

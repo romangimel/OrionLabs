@@ -385,6 +385,16 @@ No unnecessary dependencies.
 
 ---
 
+# Session Persistence Policy
+
+Incomplete questionnaire progress is temporary. Answers, the current step, and review state remain in `sessionStorage` while the visitor stays within the questionnaire, analysis, and report journey, so ordinary refreshes do not discard active work. A deliberate OrionLabs navigation action that leaves an incomplete journey clears that draft.
+
+Completed reports are separate, immutable snapshots of the full `OrionReport`, with an internal ID, creation timestamp, schema version, and minimal subject metadata. The active completed report remains available for the current browser-tab session while the visitor browses other OrionLabs pages. The public route remains `/report`; it resolves the private active report ID internally, and visible return navigation or report history is intentionally deferred.
+
+Questionnaire and report persistence are isolated behind small typed storage functions. A future API or database can replace that browser-storage boundary without requiring the report page to know where its snapshot came from.
+
+---
+
 # Folder Philosophy
 
 Favor composition over duplication.

@@ -3,6 +3,7 @@ import { Starfield } from './Starfield';
 import { Aurora } from './Aurora';
 import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
 import { SectionEyebrow } from './shared/SectionEyebrow';
+import { resetAnalysisSession } from '@/lib/analysis-session';
 
 export function CTA() {
   return (
@@ -43,7 +44,11 @@ export function CTA() {
 
         <Reveal delay={0.26}>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-            <PrimaryActionButton href="/questionnaire" className="px-8">
+            <PrimaryActionButton
+              href="/questionnaire"
+              onClick={resetAnalysisSession}
+              className="px-8"
+            >
               Begin Analysis
             </PrimaryActionButton>
             <SecondaryActionButton href="#research" className="px-8">

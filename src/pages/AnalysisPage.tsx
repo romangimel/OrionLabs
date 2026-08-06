@@ -1,15 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AnalysisLoadingExperience } from '@/components/analysis/AnalysisLoadingExperience';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
-import { canCreateMockReportFromAnswers } from '@/lib/mock-report';
-import { createOrbitalProfile } from '@/lib/orbital-profile';
 import {
-  clearCompletedQuestionnaireData,
-  loadCompletedQuestionnaireData,
+  canCreateMockReportFromAnswers,
+  createMockReportFromAnswers,
+} from '@/lib/mock-report';
+import { createOrbitalProfileFromReport } from '@/lib/orbital-profile';
+import {
+  clearQuestionnaireDraft,
+  loadQuestionnaireDraft,
 } from '@/lib/questionnaire-state';
+import {
+  getReportById,
+  saveReport,
+  setActiveReportId,
+  type SavedReport,
+} from '@/lib/report-storage';
+import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 
 const PROCESSING_MESSAGES = [
   'Mapping behavioral resonance...',
@@ -25,19 +35,21 @@ const COMPLETION_PAUSE_MS = 3_000;
 /**
  * Owns route-level data validation and navigation for the mock analysis flow.
  *
- * The route deliberately reads the confirmed session snapshot rather than
+ * The route deliberately reads the confirmed session draft rather than
  * accepting navigation state. This survives a refresh while keeping the data
  * scoped to the current browser tab. The timed sequence remains intentionally
  * separate from the report composition that occurs on the next route.
  */
 export function AnalysisPage() {
-  const [completedData] = useState(loadCompletedQuestionnaireData);
+  const [draft] = useState(loadQuestionnaireDraft);
   const canRenderAnalysis = Boolean(
-    completedData && canCreateMockReportFromAnswers(completedData.answers),
+    draft?.pendingReportId && canCreateMockReportFromAnswers(draft.answers),
   );
-  const orbitalProfile = completedData && canRenderAnalysis
-    ? createOrbitalProfile(completedData.answers)
-    : null;
+  const report = useMemo(
+    () => (draft && canRenderAnalysis ? createMockReportFromAnswers(draft.answers) : null),
+    [canRenderAnalysis, draft],
+  );
+  const orbitalProfile = report ? createOrbitalProfileFromReport(report) : null;
   const { currentMessageIndex, phase } = useMockAnalysisSequence({
     durationMs: MOCK_ANALYSIS_DURATION_MS,
     messageIntervalMs: MESSAGE_INTERVAL_MS,
@@ -50,23 +62,42 @@ export function AnalysisPage() {
     }
 
     // Remove only OrionLabs' invalid snapshot before returning to a fresh questionnaire.
-    clearCompletedQuestionnaireData();
+    clearQuestionnaireDraft();
     window.location.replace('/questionnaire');
   }, [canRenderAnalysis]);
 
   useEffect(() => {
-    if (!canRenderAnalysis || phase !== 'complete') {
+    if (!draft?.pendingReportId || !report || !canRenderAnalysis || phase !== 'complete') {
+      return;
+    }
+
+    const existingReport = getReportById(draft.pendingReportId);
+    const savedReport: SavedReport = existingReport ?? {
+      id: draft.pendingReportId,
+      createdAt: new Date().toISOString(),
+      schemaVersion: 1,
+      status: 'completed',
+      subject: { ...report.subject },
+      report,
+    };
+
+    // A stable per-run ID makes repeated effect execution resolve the same record.
+    if ((!existingReport && !saveReport(savedReport)) || !setActiveReportId(savedReport.id)) {
+      window.location.replace('/questionnaire');
       return;
     }
 
     const redirectTimer = window.setTimeout(() => {
+      // Keep the ready draft through the completion pause so a refresh can
+      // recover the same run; remove it immediately before leaving analysis.
+      clearQuestionnaireDraft();
       window.location.assign('/report');
     }, COMPLETION_PAUSE_MS);
 
     return () => window.clearTimeout(redirectTimer);
-  }, [canRenderAnalysis, phase]);
+  }, [canRenderAnalysis, draft, phase, report]);
 
-  if (!completedData || !canRenderAnalysis || !orbitalProfile) {
+  if (!draft || !canRenderAnalysis || !orbitalProfile) {
     // Returning nothing prevents protected mock content from flashing before recovery.
     return null;
   }
@@ -83,6 +114,7 @@ export function AnalysisPage() {
         <div className="container-narrow flex h-16 items-center md:h-20">
           <a
             href="/"
+            onClick={clearIncompleteQuestionnaireForExit}
             className="group flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
             aria-label="Return to OrionLabs home"
           >

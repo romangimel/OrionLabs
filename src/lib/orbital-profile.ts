@@ -3,6 +3,7 @@ import {
   BEHAVIORAL_STATEMENTS,
   ZODIAC_SIGNS,
 } from '@/data/questionnaire';
+import type { OrionReport } from '@/data/report';
 import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
 
 export type OrbitalMarkerTone = 'gold' | 'pink' | 'violet';
@@ -40,6 +41,13 @@ export interface OrbitalProfileData {
 
 const FOCUS_CODES = ['CR', 'RL', 'MN', 'FM', 'HL', 'PG', 'SE'] as const;
 const BEHAVIOR_CODES = ['HD', 'IC', 'SF', 'RN', 'DA'] as const;
+const BEHAVIOR_BY_TRAIT_TITLE: Record<string, string> = {
+  'High-resolution deliberation': 'I overthink things',
+  'Instinctive conviction': 'I trust my instincts',
+  'Structured foresight': 'I like having a plan',
+  'Responsive navigation': 'I adapt as I go',
+  'Deadline-activated clarity': 'I usually leave things until later',
+};
 
 function findNormalizedIndex(value: string, options: readonly string[]) {
   const normalizedValue = value.trim().toLowerCase();
@@ -129,4 +137,24 @@ export function createOrbitalProfile(
       },
     ],
   };
+}
+
+/**
+ * Recreates the report artifact from fields inside the immutable report snapshot.
+ * Mock reports retain their original behavior marker through the first trait title;
+ * future output can fall back safely without requiring questionnaire storage.
+ */
+export function createOrbitalProfileFromReport(
+  report: OrionReport,
+): OrbitalProfileData {
+  return createOrbitalProfile({
+    firstName: report.subject.name,
+    zodiacSign: report.subject.zodiacSign,
+    birthDate: '',
+    pronouns: '',
+    attentionArea: report.currentLifeAnalysis.focusArea,
+    behavioralStatement:
+      BEHAVIOR_BY_TRAIT_TITLE[report.personalityAnalysis.traits[0]?.title] ?? '',
+    additionalContext: '',
+  });
 }

@@ -174,7 +174,7 @@ Possible report sections:
 - [x] Connect the questionnaire review stage to the analysis route
 - [x] Add the report route
 - [x] Add the fake article route
-- [ ] Add the 404 route
+- [x] Add the 404 route
 
 ### User Journey
 
@@ -183,16 +183,20 @@ Possible report sections:
 - [x] Connect report actions to the correct destinations
 - [x] Connect “Read More” to the fake article
 - [x] Finish all landing-page buttons and links
-- [ ] Add mobile navigation if needed
+- [x] Add mobile navigation if needed
 - [x] Add a clear way to return to the landing page
-- [ ] Decide what happens when users exit the questionnaire
+- [x] Clear incomplete questionnaire data when users leave the analysis journey
+- [x] Save completed reports as standalone session records
+- [x] Preserve the active completed report while browsing OrionLabs
+- [ ] Add a deliberate return path to the active report if needed
+- [x] Centralize report persistence behind a replaceable storage module
 
 ### Route Safety
 
 - [x] Handle direct access to `/analysis` without questionnaire data
 - [x] Handle direct access to `/report` without report data
-- [ ] Handle missing or invalid `sessionStorage` data
-- [ ] Handle refreshes on questionnaire, analysis, and report routes
+- [x] Handle missing or invalid `sessionStorage` data
+- [x] Handle refreshes on questionnaire, analysis, and report routes
 - [ ] Verify deployed routes support SPA fallback
 - [ ] Redirect users gracefully instead of showing broken screens
 
@@ -205,9 +209,9 @@ Possible report sections:
 - [ ] Display the mock report using the real report components
 - [x] Add loading-sequence behaviour
 - [x] Connect loading completion to the report page
-- [ ] Preserve report data across route navigation
-- [ ] Handle restarting the questionnaire
-- [ ] Handle clearing or replacing old questionnaire data
+- [x] Preserve report data across route navigation
+- [x] Handle restarting the questionnaire
+- [x] Handle clearing or replacing old questionnaire data
 - [ ] Add useful error and fallback states
 - [ ] Ensure repeated submissions do not produce broken state
 
@@ -272,6 +276,10 @@ Do not call the AI provider directly from frontend browser code.
 - [ ] Add basic rate limiting
 - [ ] Add basic usage and cost protection
 - [ ] Add appropriate server-side logging without exposing private user content
+- [ ] Persist completed reports server-side
+- [ ] Add authenticated report history
+- [ ] Add stable report URLs and sharing permissions
+- [ ] Add report deletion and privacy controls
 
 Possible platforms:
 

@@ -6,9 +6,9 @@ The project is also a frontend portfolio and learning project: its current focus
 
 ## Current status
 
-The landing page, four-step questionnaire, timed mock analysis sequence, and personalized mock report are implemented. Users can move backward and forward without losing answers, review and edit their responses, and confirm a session-scoped profile before the analysis screen automatically opens a report composed from approved local content and selected questionnaire values.
+The landing page, four-step questionnaire, timed mock analysis sequence, and personalized mock report are implemented. Users can move backward and forward without losing answers, refresh within the active journey, review and edit their responses, and confirm a session-scoped profile before the analysis screen automatically saves and opens a report composed from approved local content and selected questionnaire values.
 
-The analysis page uses a temporary seven-second local timer, rotating OrionLabs status messages, and an automatic report redirect. It does not represent real report generation. The report derives its personalization from the confirmed browser-session snapshot; no AI provider, backend, API request, or generated report content is involved. The questionnaire has step-level required-field validation and has completed its focused form-accessibility and keyboard audit; the broader site-wide accessibility audit, AI report generation, article page, 404 page, and several landing-page links remain planned. The landing-page calls to action still use in-page anchors rather than opening the questionnaire.
+The analysis page uses a temporary local timer, rotating OrionLabs status messages, and an automatic report redirect. It does not represent real report generation. Analysis completion creates an immutable, active report snapshot in the current tab; the report page loads that saved snapshot instead of regenerating it from questionnaire answers. No AI provider, backend, API request, or generated report content is involved. The questionnaire has step-level required-field validation and has completed its focused form-accessibility and keyboard audit; broader site-wide accessibility work and real AI generation remain planned.
 
 ## Technology
 
@@ -32,7 +32,7 @@ The implemented routes are:
 /report            Personalized report composed from local mock content
 ```
 
-After review confirmation, answers are saved to `sessionStorage` and the browser navigates to `/analysis`. A timed local sequence then redirects automatically to `/report`, where the report is derived from the same snapshot. Storage is versioned and checked before use; invalid, unavailable, incomplete, or expired report data returns the visitor to a fresh questionnaire without rendering the sample subject.
+Questionnaire progress is saved as a temporary `sessionStorage` draft throughout the active journey. After review confirmation, the browser navigates to `/analysis`; the timed local sequence creates one versioned completed-report record, sets its private ID as active, clears the draft, and redirects automatically to `/report`. The report route resolves and validates that active snapshot without exposing its ID in the URL. Invalid, unavailable, or incomplete data returns the visitor to a fresh questionnaire without rendering sample or partial report content.
 
 Because routing is currently handled with lightweight pathname matching in `src/App.tsx`, a deployed host must serve `index.html` for these client-side paths.
 
@@ -83,4 +83,4 @@ npm run preview
 
 ## Data and privacy
 
-The current project has no account system and sends no questionnaire answers to a server. Confirmed answers live only in the current tab's `sessionStorage`; partial answers are held in React state and disappear when the page is refreshed or closed.
+The current project has no account system and sends no questionnaire answers or report content to a server. Incomplete progress and completed-report snapshots live only in the current tab's `sessionStorage`. Deliberately leaving an incomplete analysis journey clears its draft; completed reports remain available in that tab until a new analysis starts or the tab session ends.
