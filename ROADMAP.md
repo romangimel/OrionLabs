@@ -218,33 +218,43 @@ Possible report sections:
 
 Testing should happen throughout development, not only before launch.
 
-### Questionnaire Tests
+### Verified Questionnaire Behavior
 
-- [ ] Test Continue and Back navigation
-- [ ] Test that answers remain when moving backward and forward
-- [ ] Test questionnaire validation
-- [ ] Test the progress values
-- [ ] Test the Review Answers stage
-- [ ] Test each Edit action
-- [ ] Test that edited answers update the review summary
-- [ ] Test the Begin Analysis action
+The completed items below are manual behavior checks, not automated regression tests. They can be reused while their relevant implementation remains unchanged.
 
-### Routing and Persistence Tests
+- [x] Continue and Back navigation, including first/last-step boundaries and Review entry
+- [x] Answers remain when moving backward, forward, editing from Review, and returning to Review
+- [x] Step-local required-field validation, optional free text, corrected-error clearing, and first-invalid-field focus
+- [x] Progress values: Step 1 = 0%, Step 2 = 25%, Step 3 = 50%, Step 4 = 75%, Review = 100%
+- [x] Review Answers displays readable values, optional-answer fallbacks, and accessible Edit names
+- [x] Each of the four Edit actions returns to its matching question group without clearing answers
+- [x] Edited answers replace the prior review-summary values
+- [x] Begin Analysis saves one pending report identity and opens the mock analysis route
 
-- [ ] Test questionnaire data persistence
-- [ ] Test missing or corrupted stored data
-- [ ] Test direct access to protected routes
-- [ ] Test page refreshes on each route
-- [ ] Test the complete mock user journey
+### Verified Routing and Persistence Behavior
 
-### Ongoing Checks
+- [x] Questionnaire drafts persist during the active journey and survive a questionnaire refresh
+- [ ] Missing or corrupted stored data across every documented case. Current validators safely reject malformed drafts and report records; the strengthened malformed-draft guard still needs a focused browser check.
+- [x] Protected-route recovery: `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
+- [ ] Refresh every current route locally and verify deployed SPA fallback after deployment. Local pathname routing is implemented, but deployed-host behavior cannot be confirmed yet.
+- [x] Complete mock journey: Landing → Questionnaire → Review → Analysis → saved Report → Start Another Analysis
 
-- [ ] Run TypeScript checks after meaningful functionality changes
-- [ ] Run linting after meaningful functionality changes
-- [ ] Run the production build before each milestone
-- [ ] Check the browser console for errors
-- [ ] Verify desktop and mobile layouts after major UI changes
-- [ ] Confirm unrelated pages remain unchanged after scoped edits
+### Automated Regression Coverage
+
+No automated test framework or test files are currently configured. The checked items above are verified manually; they do not imply repeatable automated coverage.
+
+- [ ] Add a lightweight, focused test setup only when the project is ready to maintain it. The strongest first candidates are storage validation and questionnaire progress/state helpers; browser-automation infrastructure is deferred.
+
+### Recurring Quality Requirements
+
+After meaningful changes, run the applicable checks below. These are continuing development practices, not one-time milestones.
+
+- Run TypeScript checks after meaningful functionality changes.
+- Run linting after meaningful functionality changes.
+- Run the production build before each milestone.
+- Check the affected browser console for errors.
+- Verify affected desktop and mobile layouts after major UI changes.
+- Confirm unrelated pages remain unchanged after scoped edits.
 
 ---
 
