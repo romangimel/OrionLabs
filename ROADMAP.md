@@ -159,9 +159,9 @@ Possible report sections:
 ### Additional Pages
 
 - [x] Build the fake article page UI
-- [ ] Connect the article to the wider OrionLabs fictional research universe
-- [ ] Build a simple branded 404 page
-- [ ] Add a fallback page or state for missing questionnaire data
+- [x] Connect the article to the wider OrionLabs fictional research universe
+- [x] Build a simple branded 404 page
+- [x] Add a fallback page or state for missing questionnaire data
 
 ---
 
@@ -172,25 +172,25 @@ Possible report sections:
 - [x] Add the questionnaire route
 - [x] Add the mock analysis route
 - [x] Connect the questionnaire review stage to the analysis route
-- [ ] Add the report route
-- [ ] Add the fake article route
+- [x] Add the report route
+- [x] Add the fake article route
 - [ ] Add the 404 route
 
 ### User Journey
 
-- [ ] Connect the landing-page primary CTA to the questionnaire
-- [ ] Connect the loading screen to the mock report
-- [ ] Connect report actions to the correct destinations
-- [ ] Connect “Read More” to the fake article
-- [ ] Finish all landing-page buttons and links
+- [x] Connect the landing-page primary CTA to the questionnaire
+- [x] Connect the loading screen to the mock report
+- [x] Connect report actions to the correct destinations
+- [x] Connect “Read More” to the fake article
+- [x] Finish all landing-page buttons and links
 - [ ] Add mobile navigation if needed
-- [ ] Add a clear way to return to the landing page
+- [x] Add a clear way to return to the landing page
 - [ ] Decide what happens when users exit the questionnaire
 
 ### Route Safety
 
-- [ ] Handle direct access to `/analysis` without questionnaire data
-- [ ] Handle direct access to `/report` without report data
+- [x] Handle direct access to `/analysis` without questionnaire data
+- [x] Handle direct access to `/report` without report data
 - [ ] Handle missing or invalid `sessionStorage` data
 - [ ] Handle refreshes on questionnaire, analysis, and report routes
 - [ ] Verify deployed routes support SPA fallback
@@ -200,11 +200,11 @@ Possible report sections:
 
 ## 7. Add Core Functionality
 
-- [ ] Pass completed questionnaire answers into mock report generation
-- [ ] Generate a mock report from structured local data
+- [x] Pass completed questionnaire answers into mock report generation
+- [x] Generate a mock report from structured local data
 - [ ] Display the mock report using the real report components
-- [ ] Add loading-sequence behaviour
-- [ ] Connect loading completion to the report page
+- [x] Add loading-sequence behaviour
+- [x] Connect loading completion to the report page
 - [ ] Preserve report data across route navigation
 - [ ] Handle restarting the questionnaire
 - [ ] Handle clearing or replacing old questionnaire data

@@ -14,6 +14,7 @@ import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
 import { ReportPage } from '@/pages/ReportPage';
 import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
 
 /**
  * Selects the active page and composes the public landing experience.
@@ -40,6 +41,10 @@ function App() {
 
   if (pathname === '/research/moon-aware-transformers') {
     return <ResearchPaperPage />;
+  }
+
+  if (pathname !== '/') {
+    return <NotFoundPage />;
   }
 
   return (

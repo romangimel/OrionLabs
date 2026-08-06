@@ -1,11 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { AnalysisLoadingExperience } from '@/components/analysis/AnalysisLoadingExperience';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
+import { canCreateMockReportFromAnswers } from '@/lib/mock-report';
 import { createOrbitalProfile } from '@/lib/orbital-profile';
-import { loadCompletedQuestionnaireData } from '@/lib/questionnaire-state';
+import {
+  clearCompletedQuestionnaireData,
+  loadCompletedQuestionnaireData,
+} from '@/lib/questionnaire-state';
 
 const PROCESSING_MESSAGES = [
   'Mapping behavioral resonance...',
@@ -27,8 +31,11 @@ const COMPLETION_PAUSE_MS = 3_000;
  * separate from the report composition that occurs on the next route.
  */
 export function AnalysisPage() {
-  const completedData = loadCompletedQuestionnaireData();
-  const orbitalProfile = completedData
+  const [completedData] = useState(loadCompletedQuestionnaireData);
+  const canRenderAnalysis = Boolean(
+    completedData && canCreateMockReportFromAnswers(completedData.answers),
+  );
+  const orbitalProfile = completedData && canRenderAnalysis
     ? createOrbitalProfile(completedData.answers)
     : null;
   const { currentMessageIndex, phase } = useMockAnalysisSequence({
@@ -38,7 +45,17 @@ export function AnalysisPage() {
   });
 
   useEffect(() => {
-    if (!completedData || phase !== 'complete') {
+    if (canRenderAnalysis) {
+      return;
+    }
+
+    // Remove only OrionLabs' invalid snapshot before returning to a fresh questionnaire.
+    clearCompletedQuestionnaireData();
+    window.location.replace('/questionnaire');
+  }, [canRenderAnalysis]);
+
+  useEffect(() => {
+    if (!canRenderAnalysis || phase !== 'complete') {
       return;
     }
 
@@ -47,7 +64,12 @@ export function AnalysisPage() {
     }, COMPLETION_PAUSE_MS);
 
     return () => window.clearTimeout(redirectTimer);
-  }, [completedData, phase]);
+  }, [canRenderAnalysis, phase]);
+
+  if (!completedData || !canRenderAnalysis || !orbitalProfile) {
+    // Returning nothing prevents protected mock content from flashing before recovery.
+    return null;
+  }
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
@@ -73,40 +95,13 @@ export function AnalysisPage() {
       </header>
 
       <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-4 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16 lg:py-4">
-        {completedData && orbitalProfile ? (
-          <AnalysisLoadingExperience
-            profile={orbitalProfile}
-            message={PROCESSING_MESSAGES[currentMessageIndex]}
-            messageIndex={currentMessageIndex}
-            messageCount={PROCESSING_MESSAGES.length}
-            phase={phase}
-          />
-        ) : (
-          <section
-            aria-labelledby="analysis-title"
-            className="glass-strong w-full max-w-xl rounded-2xl p-8 text-center shadow-[0_28px_90px_-38px_hsl(255_80%_2%_/_0.95)] sm:p-10 md:p-12"
-          >
-            {/* Direct visits, expired tabs, and invalid stored payloads all recover here. */}
-            <p className="text-[0.68rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
-              Calibration required
-            </p>
-            <h1
-              id="analysis-title"
-              className="mt-3 font-serif text-3xl leading-tight text-gradient-gold sm:text-4xl"
-            >
-              No profile is ready for analysis
-            </h1>
-            <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Complete the questionnaire and confirm your answers before beginning analysis.
-            </p>
-            <a
-              href="/questionnaire"
-              className="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
-            >
-              Start Questionnaire
-            </a>
-          </section>
-        )}
+        <AnalysisLoadingExperience
+          profile={orbitalProfile}
+          message={PROCESSING_MESSAGES[currentMessageIndex]}
+          messageIndex={currentMessageIndex}
+          messageCount={PROCESSING_MESSAGES.length}
+          phase={phase}
+        />
       </main>
     </div>
   );
