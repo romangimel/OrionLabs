@@ -1,3 +1,10 @@
+import {
+  ATTENTION_AREAS,
+  BEHAVIORAL_STATEMENTS,
+  REFERENCE_PREFERENCES,
+  ZODIAC_SIGNS,
+} from '@/data/questionnaire';
+
 /**
  * Canonical answer model shared by the questionnaire, review, and analysis routes.
  * Every field remains a string so controlled inputs always receive a stable value.
@@ -103,7 +110,30 @@ function isQuestionnaireAnswers(value: unknown): value is QuestionnaireAnswers {
   }
 
   const answers = value as Record<string, unknown>;
-  return Object.keys(EMPTY_ANSWERS).every((key) => typeof answers[key] === 'string');
+  if (!Object.keys(EMPTY_ANSWERS).every((key) => typeof answers[key] === 'string')) {
+    return false;
+  }
+
+  // In-progress drafts may be incomplete, but values written by the controlled
+  // selectors must still belong to their configured option sets when present.
+  const isAllowedOrEmpty = (answer: string, options: readonly string[]) =>
+    answer === '' || options.includes(answer);
+  const isDateOrEmpty = (answer: string) =>
+    answer === '' ||
+    (/^\d{4}-\d{2}-\d{2}$/.test(answer) &&
+      !Number.isNaN(new Date(`${answer}T00:00:00Z`).getTime()) &&
+      new Date(`${answer}T00:00:00Z`).toISOString().slice(0, 10) === answer);
+
+  return (
+    isAllowedOrEmpty(
+      answers.zodiacSign as string,
+      ZODIAC_SIGNS.map((sign) => sign.name),
+    ) &&
+    isDateOrEmpty(answers.birthDate as string) &&
+    isAllowedOrEmpty(answers.pronouns as string, REFERENCE_PREFERENCES) &&
+    isAllowedOrEmpty(answers.attentionArea as string, ATTENTION_AREAS) &&
+    isAllowedOrEmpty(answers.behavioralStatement as string, BEHAVIORAL_STATEMENTS)
+  );
 }
 
 function isQuestionnaireStepIndex(value: unknown): value is QuestionnaireStepIndex {

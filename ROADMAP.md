@@ -195,7 +195,7 @@ Possible report sections:
 - [x] Handle direct access to `/report` without report data
 - [x] Handle missing or invalid `sessionStorage` data
 - [x] Handle refreshes on questionnaire, analysis, and report routes
-- [ ] Redirect users gracefully instead of showing broken screens
+- [x] Redirect users gracefully instead of showing broken screens
 
 ---
 
@@ -203,14 +203,14 @@ Possible report sections:
 
 - [x] Pass completed questionnaire answers into mock report generation
 - [x] Generate a mock report from structured local data
-- [ ] Display the mock report using the real report components
+- [x] Display the mock report using the real report components
 - [x] Add loading-sequence behaviour
 - [x] Connect loading completion to the report page
 - [x] Preserve report data across route navigation
 - [x] Handle restarting the questionnaire
 - [x] Handle clearing or replacing old questionnaire data
-- [ ] Add useful error and fallback states
-- [ ] Ensure repeated submissions do not produce broken state
+- [x] Add useful error and fallback states
+- [x] Ensure repeated submissions do not produce broken state
 
 ---
 
