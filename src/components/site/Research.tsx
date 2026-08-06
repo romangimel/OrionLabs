@@ -110,7 +110,7 @@ export function Research() {
                   {featured.venue}
                 </p>
                 <a
-                  href="#research"
+                  href="/research/moon-aware-transformers"
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[hsl(43_60%_75%)] transition-colors hover:text-[hsl(43_70%_85%)]"
                 >
                   Read paper <ArrowUpRight className="h-4 w-4" />

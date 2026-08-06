@@ -13,13 +13,14 @@ import { Aurora } from '@/components/site/Aurora';
 import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
 import { ReportPage } from '@/pages/ReportPage';
+import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
 
 /**
  * Selects the active page and composes the public landing experience.
  *
- * OrionLabs currently has only four routes, so pathname matching keeps routing
- * dependency-free. A dedicated router can replace this boundary when the
- * roadmap adds report, article, and not-found pages.
+ * OrionLabs has a small route set, so pathname matching keeps routing
+ * dependency-free. A dedicated router can replace this boundary if navigation
+ * requirements later expand beyond these static route-level pages.
  */
 function App() {
   // Treat trailing-slash variants as the same route, including `/` itself.
@@ -35,6 +36,10 @@ function App() {
 
   if (pathname === '/report') {
     return <ReportPage />;
+  }
+
+  if (pathname === '/research/moon-aware-transformers') {
+    return <ResearchPaperPage />;
   }
 
   return (

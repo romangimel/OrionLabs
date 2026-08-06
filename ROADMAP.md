@@ -158,7 +158,7 @@ Possible report sections:
 
 ### Additional Pages
 
-- [ ] Build the fake article page UI
+- [x] Build the fake article page UI
 - [ ] Connect the article to the wider OrionLabs fictional research universe
 - [ ] Build a simple branded 404 page
 - [ ] Add a fallback page or state for missing questionnaire data
