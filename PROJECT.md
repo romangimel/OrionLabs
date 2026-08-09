@@ -344,11 +344,19 @@ These ranges guide mock data and future AI prompts. They are writing targets rat
 | Metric interpretation | 2–4 words |
 | Closing verdict | 25–60 words |
 
-## Future malformed-output policy
+## Generated-report validation policy
 
-Future AI-generated reports must be validated before rendering. Required sections must never silently disappear, and malformed or incomplete output must not be displayed as a partially broken report. The application may retry generation once when appropriate; if generation still fails, it should show a clear error state that eventually offers **Try Again** and **Return to Questionnaire** actions.
+AI-generated reports are validated before they leave the server and again before the browser stores them. Required sections must never silently disappear, and malformed or incomplete output must not be displayed as a partially broken report. OrionLabs makes one initial Gemini request and at most one retry for transient provider failures or malformed structured output. If generation still fails, the Analysis page shows an explicit retry action while preserving the questionnaire draft.
 
-Never render `undefined`, empty required cards, raw malformed data, or placeholder strings presented as real analysis. Application-controlled subject identity, report IDs, timestamps, and other operational metadata must remain separate from AI-generated content rather than depending entirely on model output. Fine-grained repair of individual malformed sections may be considered later, but is not required for version 1.
+Never render `undefined`, empty required cards, raw malformed data, or placeholder strings presented as real analysis. Application-controlled subject identity, focus area, report IDs, timestamps, and other operational metadata remain protected from silent model replacement. Fine-grained repair of individual malformed sections may be considered later, but is not required for version 1.
+
+## AI report-generation architecture
+
+The first real generation path uses the official `@google/genai` SDK with the stable `gemini-3.6-flash` model. The browser posts an approved `ReportGenerationInput` to `POST /api/generate-report`; a Vercel Function validates it, invokes Gemini with stable system/report prompts plus separate runtime subject data, validates the structured result against the `OrionReport` schema, and returns only a complete report.
+
+`GEMINI_API_KEY` is server-only. It must never use a `VITE_` prefix or appear in frontend code. The approved provider payload contains name, zodiac sign, application-calculated age, focus area, behavioral statement, and bounded optional context. Raw birth date and reference preference remain in questionnaire state and are intentionally excluded.
+
+The prompt currently uses a deliberately roast-heavy calibration (approximately 80% savage and 20% uncomfortably accurate at roughly 9/10 intensity) inside the broader report composition rules above. This is a starting calibration, not a final prompt. Prompt evaluation and tuning remain active work.
 
 ---
 
@@ -392,7 +400,7 @@ Incomplete questionnaire progress is temporary. Answers, the current step, and r
 
 Completed reports are separate, immutable snapshots of the full `OrionReport`, with an internal ID, creation timestamp, schema version, and minimal subject metadata. The active completed report remains available for the current browser-tab session while the visitor browses other OrionLabs pages. The public route remains `/report`; it resolves the private active report ID internally, and visible return navigation or report history is intentionally deferred.
 
-Questionnaire and report persistence are isolated behind small typed storage functions. A future API or database can replace that browser-storage boundary without requiring the report page to know where its snapshot came from. Before future AI generation, the application maps questionnaire answers to a small generation-input boundary: it derives current age from birth date, retains the raw birth date only in questionnaire state, and deliberately omits reference preference. The server-side endpoint should receive that mapped input rather than the full browser draft.
+Questionnaire and report persistence are isolated behind small typed storage functions. A future API or database can replace that browser-storage boundary without requiring the report page to know where its snapshot came from. Before calling the Vercel Function, the application maps questionnaire answers to a small generation-input boundary: it derives current age from birth date, retains the raw birth date only in questionnaire state, and deliberately omits reference preference. Completed reports still remain session-local in version 1; server-side report persistence and account history are deferred.
 
 ---
 

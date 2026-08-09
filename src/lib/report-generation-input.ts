@@ -1,8 +1,9 @@
 import { calculateAge } from '@/lib/age';
+import { reportGenerationInputSchema } from '@/lib/report-schemas';
 import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
 
 /**
- * The application-controlled context eligible for future AI report generation.
+ * The application-controlled context eligible for AI report generation.
  * Reference preference remains in the questionnaire journey but is deliberately
  * omitted: reports use second-person language for every subject.
  */
@@ -18,8 +19,8 @@ export interface ReportGenerationInput {
 }
 
 /**
- * Replaces the birth date with an application-calculated age before the future
- * server-side generation boundary. No provider request exists in this prototype.
+ * Replaces birth date with application-calculated age and returns only data that
+ * satisfies the shared client/server generation boundary.
  */
 export function createReportGenerationInput(
   answers: QuestionnaireAnswers,
@@ -30,14 +31,17 @@ export function createReportGenerationInput(
   }
 
   const additionalContext = answers.additionalContext.trim();
-  return {
+  const candidate: ReportGenerationInput = {
     subject: {
       name: answers.firstName.trim(),
-      zodiacSign: answers.zodiacSign,
+      zodiacSign: answers.zodiacSign.trim(),
       age,
     },
-    focusArea: answers.attentionArea,
-    behavioralStatement: answers.behavioralStatement,
+    focusArea: answers.attentionArea.trim(),
+    behavioralStatement: answers.behavioralStatement.trim(),
     ...(additionalContext ? { additionalContext } : {}),
   };
+
+  const result = reportGenerationInputSchema.safeParse(candidate);
+  return result.success ? result.data : null;
 }

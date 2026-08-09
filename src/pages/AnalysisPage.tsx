@@ -1,25 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AnalysisLoadingExperience } from '@/components/analysis/AnalysisLoadingExperience';
+import {
+  AnalysisLoadingExperience,
+  type AnalysisPhase,
+} from '@/components/analysis/AnalysisLoadingExperience';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
-import { useMockAnalysisSequence } from '@/hooks/useMockAnalysisSequence';
-import {
-  canCreateMockReportFromAnswers,
-  createMockReportFromAnswers,
-} from '@/lib/mock-report';
-import { createOrbitalProfileFromReport } from '@/lib/orbital-profile';
+import { REFERENCE_PREFERENCES } from '@/data/questionnaire';
+import { useAnalysisPresentationSequence } from '@/hooks/useAnalysisPresentationSequence';
+import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
+import { createOrbitalProfile } from '@/lib/orbital-profile';
+import { requestGeneratedReport } from '@/lib/report-generation-client';
+import { createReportGenerationInput } from '@/lib/report-generation-input';
 import {
   clearQuestionnaireDraft,
   loadQuestionnaireDraft,
 } from '@/lib/questionnaire-state';
 import {
   getReportById,
-  saveReport,
-  setActiveReportId,
-  type SavedReport,
+  persistGeneratedReport,
 } from '@/lib/report-storage';
-import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 
 const PROCESSING_MESSAGES = [
   'Mapping behavioral resonance...',
@@ -28,79 +28,148 @@ const PROCESSING_MESSAGES = [
   'Finalizing conclusions before reviewing the evidence...',
 ] as const;
 
-const MOCK_ANALYSIS_DURATION_MS = 12_000;
+const MINIMUM_ANALYSIS_DURATION_MS = 12_000;
 const MESSAGE_INTERVAL_MS = 3_000;
 const COMPLETION_PAUSE_MS = 3_000;
 
+type GenerationStatus = 'loading' | 'succeeded' | 'failed';
+
 /**
- * Owns route-level data validation and navigation for the mock analysis flow.
- *
- * The route deliberately reads the confirmed session draft rather than
- * accepting navigation state. This survives a refresh while keeping the data
- * scoped to the current browser tab. The timed sequence remains intentionally
- * separate from the report composition that occurs on the next route.
+ * Owns the secure questionnaire-to-function request, report persistence, and
+ * route navigation while the existing loading UI remains presentation-only.
  */
 export function AnalysisPage() {
   const [draft] = useState(loadQuestionnaireDraft);
+  const generationInput = useMemo(
+    () => (draft ? createReportGenerationInput(draft.answers) : null),
+    [draft],
+  );
+  const hasRequiredReferencePreference = Boolean(
+    draft &&
+      REFERENCE_PREFERENCES.includes(
+        draft.answers.pronouns as (typeof REFERENCE_PREFERENCES)[number],
+      ),
+  );
   const canRenderAnalysis = Boolean(
-    draft?.pendingReportId && canCreateMockReportFromAnswers(draft.answers),
+    draft?.pendingReportId && generationInput && hasRequiredReferencePreference,
   );
-  const report = useMemo(
-    () => (draft && canRenderAnalysis ? createMockReportFromAnswers(draft.answers) : null),
-    [canRenderAnalysis, draft],
+  const [generatedReport, setGeneratedReport] = useState(() =>
+    draft?.pendingReportId ? getReportById(draft.pendingReportId)?.report ?? null : null,
   );
-  const orbitalProfile = report ? createOrbitalProfileFromReport(report) : null;
-  const { currentMessageIndex, phase } = useMockAnalysisSequence({
-    durationMs: MOCK_ANALYSIS_DURATION_MS,
-    messageIntervalMs: MESSAGE_INTERVAL_MS,
-    messageCount: PROCESSING_MESSAGES.length,
-  });
+  const [generationStatus, setGenerationStatus] = useState<GenerationStatus>(
+    generatedReport ? 'succeeded' : 'loading',
+  );
+  const [attempt, setAttempt] = useState(0);
+  const orbitalProfile =
+    draft && canRenderAnalysis ? createOrbitalProfile(draft.answers) : null;
+  const { currentMessageIndex, minimumExperienceComplete } =
+    useAnalysisPresentationSequence({
+      durationMs: MINIMUM_ANALYSIS_DURATION_MS,
+      messageIntervalMs: MESSAGE_INTERVAL_MS,
+      messageCount: PROCESSING_MESSAGES.length,
+      runKey: attempt,
+    });
 
   useEffect(() => {
     if (canRenderAnalysis) {
       return;
     }
 
-    // Remove only OrionLabs' invalid snapshot before returning to a fresh questionnaire.
     clearQuestionnaireDraft();
     window.location.replace('/questionnaire');
   }, [canRenderAnalysis]);
 
   useEffect(() => {
-    if (!draft?.pendingReportId || !report || !canRenderAnalysis || phase !== 'complete') {
+    if (
+      !draft?.pendingReportId ||
+      !generationInput ||
+      !canRenderAnalysis ||
+      generatedReport
+    ) {
       return;
     }
 
-    const existingReport = getReportById(draft.pendingReportId);
-    const savedReport: SavedReport = existingReport ?? {
-      id: draft.pendingReportId,
-      createdAt: new Date().toISOString(),
-      schemaVersion: 2,
-      status: 'completed',
-      subject: { ...report.subject },
-      report,
-    };
+    let isCurrentRequest = true;
+    setGenerationStatus('loading');
 
-    // A stable per-run ID makes repeated effect execution resolve the same record.
-    if ((!existingReport && !saveReport(savedReport)) || !setActiveReportId(savedReport.id)) {
-      window.location.replace('/questionnaire');
+    requestGeneratedReport(
+      generationInput,
+      `${draft.pendingReportId}:${attempt}`,
+    ).then(
+      (report) => {
+        if (isCurrentRequest) {
+          setGeneratedReport(report);
+          setGenerationStatus('succeeded');
+        }
+      },
+      () => {
+        if (isCurrentRequest) {
+          setGenerationStatus('failed');
+        }
+      },
+    );
+
+    return () => {
+      // The shared request continues across React Strict Mode's effect replay;
+      // only the obsolete effect callback is prevented from updating state.
+      isCurrentRequest = false;
+    };
+  }, [attempt, canRenderAnalysis, draft, generatedReport, generationInput]);
+
+  useEffect(() => {
+    if (
+      !draft?.pendingReportId ||
+      !generatedReport ||
+      !canRenderAnalysis ||
+      !minimumExperienceComplete ||
+      generationStatus !== 'succeeded'
+    ) {
+      return;
+    }
+
+    const savedReport = persistGeneratedReport(draft.pendingReportId, generatedReport);
+    if (!savedReport) {
+      setGenerationStatus('failed');
       return;
     }
 
     const redirectTimer = window.setTimeout(() => {
-      // Keep the ready draft through the completion pause so a refresh can
-      // recover the same run; remove it immediately before leaving analysis.
+      // A failed request never reaches this point, so its questionnaire data
+      // remains available for retry without asking the subject to start over.
       clearQuestionnaireDraft();
       window.location.assign('/report');
     }, COMPLETION_PAUSE_MS);
 
     return () => window.clearTimeout(redirectTimer);
-  }, [canRenderAnalysis, draft, phase, report]);
+  }, [
+    canRenderAnalysis,
+    draft,
+    generatedReport,
+    generationStatus,
+    minimumExperienceComplete,
+  ]);
 
   if (!draft || !canRenderAnalysis || !orbitalProfile) {
-    // Returning nothing prevents protected mock content from flashing before recovery.
     return null;
   }
+
+  const phase: AnalysisPhase =
+    generationStatus === 'failed'
+      ? 'error'
+      : generatedReport && minimumExperienceComplete
+        ? 'complete'
+        : 'loading';
+
+  const handleRetry = () => {
+    if (generatedReport) {
+      // Storage failures can be retried without paying for another model call.
+      setGenerationStatus('succeeded');
+      return;
+    }
+
+    setAttempt((currentAttempt) => currentAttempt + 1);
+    setGenerationStatus('loading');
+  };
 
   return (
     <div className="relative min-h-[100svh] overflow-hidden bg-[hsl(262_48%_6%)]">
@@ -133,6 +202,7 @@ export function AnalysisPage() {
           messageIndex={currentMessageIndex}
           messageCount={PROCESSING_MESSAGES.length}
           phase={phase}
+          onRetry={handleRetry}
         />
       </main>
     </div>

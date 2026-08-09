@@ -229,7 +229,7 @@ The completed items below are manual behavior checks, not automated regression t
 - [x] Review Answers displays readable values, optional-answer fallbacks, and accessible Edit names
 - [x] Each of the four Edit actions returns to its matching question group without clearing answers
 - [x] Edited answers replace the prior review-summary values
-- [x] Begin Analysis saves one pending report identity and opens the mock analysis route
+- [x] Begin Analysis saves one pending report identity and opens the analysis route
 
 ### Verified Routing and Persistence Behavior
 
@@ -241,9 +241,9 @@ The completed items below are manual behavior checks, not automated regression t
 
 ### Automated Regression Coverage
 
-No automated test framework or test files are currently configured. The checked items above are verified manually; they do not imply repeatable automated coverage.
+Vitest now provides focused regression coverage for the AI input boundary, generated-report validation, bounded retries, the Vercel handler, duplicate in-flight browser requests, and session report persistence. Browser automation remains deferred.
 
-- [ ] Add a lightweight, focused test setup only when the project is ready to maintain it. The strongest first candidates are storage validation and questionnaire progress/state helpers; browser-automation infrastructure is deferred.
+- [x] Add a lightweight, focused test setup for security-sensitive generation and persistence boundaries
 
 ### Recurring Quality Requirements
 
@@ -264,25 +264,25 @@ Do not call the AI provider directly from frontend browser code.
 
 ### AI Planning
 
-- [ ] Choose an AI provider
+- [x] Choose Google Gemini as the first AI provider
 - [ ] Review pricing, rate limits, and response capabilities
-- [ ] Define the final structured AI response format
-- [ ] Create the OrionLabs system prompt
-- [ ] Create the report-generation prompt
+- [x] Define the structured AI response format from the `OrionReport` runtime schema
+- [x] Create the OrionLabs system prompt
+- [x] Create the reusable report-generation prompt
 - [x] Decide which questionnaire answers are sent to the model: mapped name, zodiac sign, application-calculated age, focus area, behavioral statement, and optional context
 - [x] Decide what information should never be sent: raw birth date and reference preference; reports always use second-person language
 
 ### Server-Side Integration
 
-- [ ] Choose a server-side platform
-- [ ] Create a secure server-side API endpoint
-- [ ] Keep API keys outside the frontend codebase
-- [ ] Validate questionnaire input on the server
-- [ ] Sanitize user-provided free text
-- [ ] Add request-size limits
+- [x] Choose Vercel Functions as the first server-side platform
+- [x] Create the secure `POST /api/generate-report` endpoint
+- [x] Keep `GEMINI_API_KEY` outside the frontend codebase
+- [x] Validate and normalize the approved generation input on the server
+- [x] Bound optional user-provided free text
+- [x] Add request-size limits
 - [ ] Add basic rate limiting
 - [ ] Add basic usage and cost protection
-- [ ] Add appropriate server-side logging without exposing private user content
+- [x] Add appropriate server-side diagnostics without exposing private user content
 - [ ] Persist completed reports server-side
 - [ ] Add authenticated report history
 - [ ] Add stable report URLs and sharing permissions
@@ -297,16 +297,16 @@ Possible platforms:
 
 ### AI Response Handling
 
-- [ ] Send questionnaire answers through the secure server endpoint
-- [ ] Validate the AI response structure
-- [ ] Reject or repair malformed responses safely
-- [ ] Display the generated report
-- [ ] Handle provider errors
-- [ ] Handle timeouts
-- [ ] Add retry behaviour
-- [ ] Add a useful fallback when generation fails
-- [ ] Prevent duplicate report-generation requests
-- [ ] Ensure the loading page reflects real request state
+- [x] Send only `ReportGenerationInput` through the secure server endpoint
+- [x] Validate the AI response structure on the server and client
+- [x] Reject malformed responses safely and retry once when appropriate
+- [x] Display the generated report through existing report components
+- [x] Handle provider errors without exposing provider internals
+- [x] Add a bounded provider timeout
+- [x] Add one-retry behaviour for transient or malformed generation
+- [x] Add an explicit Analysis-page retry state that preserves answers
+- [x] Prevent duplicate in-flight report-generation requests in the browser
+- [x] Keep presentation timing separate from real request state
 
 ---
 

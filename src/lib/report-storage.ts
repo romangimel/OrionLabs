@@ -1,4 +1,5 @@
-import type { OrionReport, ReportInsight } from '@/data/report';
+import type { OrionReport } from '@/data/report';
+import { orionReportSchema } from '@/lib/report-schemas';
 
 const REPORT_SCHEMA_VERSION = 2;
 const REPORT_STORAGE_PREFIX = 'orionlabs.report.v2.';
@@ -30,72 +31,8 @@ function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.trim().length > 0;
 }
 
-function isReportInsight(value: unknown): value is ReportInsight {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-
-  const insight = value as Record<string, unknown>;
-  return isNonEmptyString(insight.title) && isNonEmptyString(insight.description);
-}
-
-function isReportInsightArray(value: unknown): value is ReportInsight[] {
-  return Array.isArray(value) && value.length === 3 && value.every(isReportInsight);
-}
-
 function isOrionReport(value: unknown): value is OrionReport {
-  if (!value || typeof value !== 'object') {
-    return false;
-  }
-
-  const report = value as Record<string, unknown>;
-  const subject = report.subject as Record<string, unknown> | undefined;
-  const summary = report.summary as Record<string, unknown> | undefined;
-  const personality = report.personalityAnalysis as Record<string, unknown> | undefined;
-  const currentLife = report.currentLifeAnalysis as Record<string, unknown> | undefined;
-  const recommendation = report.recommendedAction as Record<string, unknown> | undefined;
-  const metrics = report.metrics;
-
-  return Boolean(
-    subject &&
-      isNonEmptyString(subject.name) &&
-      isNonEmptyString(subject.zodiacSign) &&
-      typeof subject.age === 'number' &&
-      Number.isInteger(subject.age) &&
-      subject.age >= 0 &&
-      summary &&
-      isNonEmptyString(summary.headline) &&
-      isNonEmptyString(summary.body) &&
-      personality &&
-      isNonEmptyString(personality.overview) &&
-      isReportInsightArray(personality.traits) &&
-      currentLife &&
-      isNonEmptyString(currentLife.focusArea) &&
-      isNonEmptyString(currentLife.headline) &&
-      isNonEmptyString(currentLife.analysis) &&
-      isNonEmptyString(currentLife.forecast) &&
-      isReportInsightArray(report.strengths) &&
-      isReportInsightArray(report.risks) &&
-      recommendation &&
-      isNonEmptyString(recommendation.title) &&
-      isNonEmptyString(recommendation.description) &&
-      Array.isArray(metrics) &&
-      metrics.length === 3 &&
-      metrics.every((metric) => {
-        if (!metric || typeof metric !== 'object') {
-          return false;
-        }
-        const item = metric as Record<string, unknown>;
-        return (
-          isNonEmptyString(item.id) &&
-          isNonEmptyString(item.label) &&
-          typeof item.value === 'number' &&
-          Number.isFinite(item.value) &&
-          isNonEmptyString(item.interpretation)
-        );
-      }) &&
-      isNonEmptyString(report.closingVerdict)
-  );
+  return orionReportSchema.safeParse(value).success;
 }
 
 function isValidIsoTimestamp(value: unknown): value is string {
@@ -194,6 +131,29 @@ export function setActiveReportId(id: string): boolean {
   } catch {
     return false;
   }
+}
+
+/** Persists one generated report and makes it the active report atomically enough for session storage. */
+export function persistGeneratedReport(
+  id: string,
+  report: OrionReport,
+  createdAt = new Date().toISOString(),
+): SavedReport | null {
+  const existingReport = getReportById(id);
+  if (existingReport) {
+    return setActiveReportId(existingReport.id) ? existingReport : null;
+  }
+
+  const savedReport: SavedReport = {
+    id,
+    createdAt,
+    schemaVersion: 2,
+    status: 'completed',
+    subject: { ...report.subject },
+    report,
+  };
+
+  return saveReport(savedReport) && setActiveReportId(id) ? savedReport : null;
 }
 
 /** Resolves `/report` through the private active ID and cleans broken references. */

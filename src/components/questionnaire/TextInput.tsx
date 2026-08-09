@@ -10,6 +10,7 @@ interface TextInputProps {
   placeholder?: string;
   type?: 'text' | 'date';
   multiline?: boolean;
+  maxLength?: number;
   required: boolean;
   error?: string;
   value: string;
@@ -31,6 +32,7 @@ export function TextInput({
   placeholder,
   type = 'text',
   multiline = false,
+  maxLength,
   required,
   error,
   value,
@@ -54,6 +56,7 @@ export function TextInput({
           name={id}
           placeholder={placeholder}
           required={required}
+          maxLength={maxLength}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           value={value}
@@ -73,6 +76,7 @@ export function TextInput({
           type={type}
           placeholder={placeholder}
           required={required}
+          maxLength={maxLength}
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           value={value}

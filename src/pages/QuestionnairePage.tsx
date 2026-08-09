@@ -19,6 +19,7 @@ import {
   type QuestionnaireStepIndex,
 } from '@/lib/questionnaire-state';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
+import { createReportGenerationInput } from '@/lib/report-generation-input';
 import { clearAllSessionReports, createReportId } from '@/lib/report-storage';
 import {
   getFirstInvalidQuestionId,
@@ -33,7 +34,7 @@ const TRANSITION_LOCK_MS = 450;
 
 /**
  * Owns the complete questionnaire flow: answers, step navigation, review mode,
- * accessibility focus, and the handoff to the mock analysis route.
+ * accessibility focus, and the handoff to the analysis route.
  *
  * Answer state is lifted to this page so each configuration-driven input can be
  * remounted between steps without losing values. A versioned draft mirrors that
@@ -220,6 +221,13 @@ export function QuestionnairePage() {
   const handleBeginAnalysis = () => {
     // Guard against repeated clicks before location navigation completes.
     if (analysisStarted.current) {
+      return;
+    }
+
+    if (!createReportGenerationInput(questionnaire.answers)) {
+      setPersistenceError(
+        'Some profile data exceeds the supported analysis limits. Please review your answers and try again.',
+      );
       return;
     }
 

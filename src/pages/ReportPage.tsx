@@ -261,7 +261,7 @@ export function ReportPage() {
         </aside>
 
         <p className="mt-8 text-center text-[0.68rem] leading-relaxed tracking-wide text-muted-foreground/45">
-          This report uses temporary local mock content. No AI generation or diagnostic service is active.
+          Generated for reflection and entertainment. OrionLabs reports are not diagnostic guidance.
         </p>
       </main>
     </div>

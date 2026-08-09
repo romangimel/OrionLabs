@@ -1,4 +1,8 @@
 import type { QuestionnaireQuestionId } from '@/lib/questionnaire-state';
+import {
+  MAX_ADDITIONAL_CONTEXT_LENGTH,
+  MAX_SUBJECT_NAME_LENGTH,
+} from '@/lib/report-generation-constraints';
 
 type QuestionnaireRequirement =
   | {
@@ -25,6 +29,7 @@ export type QuestionnaireQuestion = QuestionnaireQuestionBase &
   ({
       type: 'text' | 'date';
       placeholder?: string;
+      maxLength?: number;
     }
   | {
       type: 'options';
@@ -36,6 +41,7 @@ export type QuestionnaireQuestion = QuestionnaireQuestionBase &
   | {
       type: 'textarea';
       placeholder: string;
+      maxLength?: number;
     });
 
 /** One ordered screen in the questionnaire, containing one or more related questions. */
@@ -116,6 +122,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         label: 'What should we call you?',
         helper: 'Your first name will personalize the analysis experience.',
         placeholder: 'First name',
+        maxLength: MAX_SUBJECT_NAME_LENGTH,
         required: true,
         validationMessage: 'Please enter your first name.',
       },
@@ -182,6 +189,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         helper: 'Optional context can help shape the tone and emphasis of your report.',
         placeholder:
           'Goals, interests, current challenges, recent events, or anything else OrionLabs should consider.',
+        maxLength: MAX_ADDITIONAL_CONTEXT_LENGTH,
         required: false,
       },
     ],

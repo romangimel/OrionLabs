@@ -85,8 +85,8 @@ export function canCreateMockReportFromAnswers(answers: QuestionnaireAnswers) {
 
 /**
  * Composes approved local report copy with selected questionnaire values.
- * This intentionally lightweight mock step will later be replaced by validated
- * AI output; optional free text is preserved in state but is not interpreted here.
+ * This intentionally lightweight mock path remains available for tests and
+ * offline UI work; the normal user journey uses validated AI output instead.
  */
 export function createMockReportFromAnswers(
   answers: QuestionnaireAnswers,

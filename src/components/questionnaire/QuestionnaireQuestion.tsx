@@ -39,6 +39,7 @@ export function QuestionnaireQuestion({
           label={question.label}
           helper={question.helper}
           placeholder={question.placeholder}
+          maxLength={question.maxLength}
           type={question.type}
           required={question.required}
           error={error}
@@ -79,6 +80,7 @@ export function QuestionnaireQuestion({
           helper={question.helper}
           placeholder={question.placeholder}
           multiline
+          maxLength={question.maxLength}
           required={question.required}
           error={error}
           value={value}

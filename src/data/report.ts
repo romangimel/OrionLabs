@@ -4,7 +4,7 @@ export interface ReportInsight {
   description: string;
 }
 
-/** Defines the data contract that the future report UI will consume. */
+/** Defines the validated data contract consumed by the report UI. */
 export interface OrionReport {
   subject: {
     name: string;
@@ -40,7 +40,7 @@ export interface OrionReport {
   closingVerdict: string;
 }
 
-/** Temporary local content used until AI report generation is implemented. */
+/** Local fixture retained for component development, offline UI work, and tests. */
 export const mockReport: OrionReport = {
   subject: {
     name: 'Maya',

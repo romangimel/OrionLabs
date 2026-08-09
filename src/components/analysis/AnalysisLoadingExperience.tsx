@@ -1,14 +1,16 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { CelestialCalibrationIndicator } from '@/components/analysis/CelestialCalibrationIndicator';
-import type { MockAnalysisPhase } from '@/hooks/useMockAnalysisSequence';
 import type { OrbitalProfileData } from '@/lib/orbital-profile';
+
+export type AnalysisPhase = 'loading' | 'complete' | 'error';
 
 interface AnalysisLoadingExperienceProps {
   profile: OrbitalProfileData;
   message: string;
   messageIndex: number;
   messageCount: number;
-  phase: MockAnalysisPhase;
+  phase: AnalysisPhase;
+  onRetry: () => void;
 }
 
 const COMPLETION_MESSAGE = 'Report synthesis complete.';
@@ -20,10 +22,16 @@ export function AnalysisLoadingExperience({
   messageIndex,
   messageCount,
   phase,
+  onRetry,
 }: AnalysisLoadingExperienceProps) {
   const reduceMotion = useReducedMotion();
   const isComplete = phase === 'complete';
-  const displayedMessage = isComplete ? COMPLETION_MESSAGE : message;
+  const isError = phase === 'error';
+  const displayedMessage = isComplete
+    ? COMPLETION_MESSAGE
+    : isError
+      ? 'Celestial synthesis encountered an administrative anomaly.'
+      : message;
 
   return (
     <section
@@ -70,7 +78,13 @@ export function AnalysisLoadingExperience({
               className="relative mt-4 min-h-[7.75rem] overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[linear-gradient(135deg,hsl(43_74%_66%_/_0.055),hsl(262_50%_7%_/_0.44))] px-4 py-4 sm:mt-7 sm:min-h-[9.25rem] sm:px-6 sm:py-6"
             >
               <div className="flex items-center justify-between gap-4 text-[0.58rem] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">
-                <span>{isComplete ? 'Calibration outcome' : 'Current operation'}</span>
+                <span>
+                  {isComplete
+                    ? 'Calibration outcome'
+                    : isError
+                      ? 'Sequence interrupted'
+                      : 'Current operation'}
+                </span>
                 <span>
                   {isComplete
                     ? '04 / 04'
@@ -94,6 +108,22 @@ export function AnalysisLoadingExperience({
                 </motion.p>
               </AnimatePresence>
 
+              {isError && (
+                <div className="relative z-10 mt-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <p className="max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                    Your confirmed answers remain secured in this session. The sequence can be
+                    attempted again without recalibration.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={onRetry}
+                    className="inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] px-5 text-xs font-medium text-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.58)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+                  >
+                    Retry analysis
+                  </button>
+                </div>
+              )}
+
               <div
                 aria-hidden="true"
                 className="absolute inset-x-4 bottom-3 flex gap-1.5 sm:inset-x-6 sm:bottom-4"
@@ -114,8 +144,8 @@ export function AnalysisLoadingExperience({
             </div>
 
             <div className="mt-3 grid grid-cols-2 gap-4 text-[0.55rem] uppercase tracking-[0.14em] text-muted-foreground/45 sm:mt-5 sm:text-[0.6rem] sm:tracking-[0.16em]">
-              <p>Session-local protocol</p>
-              <p className="text-right">No external transmission</p>
+              <p>Server-mediated protocol</p>
+              <p className="text-right">Approved fields only</p>
             </div>
           </div>
 
