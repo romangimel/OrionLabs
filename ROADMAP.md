@@ -265,7 +265,7 @@ Do not call the AI provider directly from frontend browser code.
 ### AI Planning
 
 - [x] Choose Google Gemini as the first AI provider
-- [ ] Review pricing, rate limits, and response capabilities
+- [x] Review pricing, rate limits, and response capabilities
 - [x] Define the structured AI response format from the `OrionReport` runtime schema
 - [x] Create the OrionLabs system prompt
 - [x] Create the reusable report-generation prompt
