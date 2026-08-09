@@ -112,9 +112,9 @@ Create an ignored `.env.local` containing:
 GEMINI_API_KEY=your_development_key
 ```
 
-Use `npx vercel dev` for the complete flow. Plain `npm run dev` runs Vite but does not execute the `/api` function.
+Use `npx vercel dev` for the complete flow. Plain `npm run dev` runs Vite but does not execute the `/api` function. The `vercel.json` SPA fallback excludes `/api/*` and Vite development-resource namespaces; keep those exclusions if the fallback is changed later.
 
-In Vercel, add `GEMINI_API_KEY` as a sensitive Environment Variable for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback; Vercel serves the physical API function before the catch-all rewrite.
+In Vercel, add `GEMINI_API_KEY` as a sensitive Environment Variable for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback while explicitly keeping the physical API namespace and local Vite development resources outside that rewrite.
 
 ## Verification
 

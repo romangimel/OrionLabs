@@ -40,7 +40,7 @@ Questionnaire progress is saved as a temporary `sessionStorage` draft. After rev
 
 Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Invalid data returns the visitor to a fresh questionnaire without displaying mock or partial content.
 
-`vercel.json` provides the SPA fallback needed by the pathname-based routes while Vercel serves the physical `/api/generate-report` function before that rewrite.
+`vercel.json` provides the SPA fallback needed by the pathname-based routes. Its fallback explicitly excludes `/api/*` and Vite development-resource namespaces so `npx vercel dev` can serve both the frontend development modules and the physical `/api/generate-report` function.
 
 ## Codebase overview
 
