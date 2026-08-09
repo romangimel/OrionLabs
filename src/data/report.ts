@@ -9,6 +9,7 @@ export interface OrionReport {
   subject: {
     name: string;
     zodiacSign: string;
+    age: number;
   };
   summary: {
     headline: string;
@@ -44,6 +45,7 @@ export const mockReport: OrionReport = {
   subject: {
     name: 'Maya',
     zodiacSign: 'Capricorn',
+    age: 32,
   },
   summary: {
     headline: 'Strategic patience is approaching its operational limit.',

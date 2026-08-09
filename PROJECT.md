@@ -299,8 +299,9 @@ All nine sections are required. Version 1 has no optional major report sections.
 | --- | --- |
 | First name | Subject identity, executive summary, closing verdict, and natural direct address where appropriate |
 | Zodiac sign | Horoscope framing, personality analysis, celestial terminology, confidence metrics, and closing verdict |
-| Birth date | Subject context, chronological framing where appropriate, and possible future age-related personalization; version 1 does not define age-based logic |
-| Pronoun or reference preference | Correct pronouns, wording, and direct references throughout the report; never a separate visible section |
+| Birth date | Remains questionnaire-only source data. The application derives the current age before report generation; the raw date is not generation input. |
+| Age | Application-controlled subject context. It may inform personalized analysis and roast material, but must not be used to invent expected life milestones. |
+| Pronoun or reference preference | Remains required questionnaire and review data, but is intentionally excluded from report-generation input. Generated reports use second-person language (`you`, `your`, `yourself`) for every subject. |
 | Main area of attention | Current-life analysis, forecast, recommended action, and relevant risks |
 | Behavioral statement | Personality overview, supporting traits, strengths, risks and recurring patterns, and recommended action |
 | Optional free-text response | May improve the executive summary, current-life analysis, risks, recommended action, and closing verdict; never a required dedicated section |
@@ -391,7 +392,7 @@ Incomplete questionnaire progress is temporary. Answers, the current step, and r
 
 Completed reports are separate, immutable snapshots of the full `OrionReport`, with an internal ID, creation timestamp, schema version, and minimal subject metadata. The active completed report remains available for the current browser-tab session while the visitor browses other OrionLabs pages. The public route remains `/report`; it resolves the private active report ID internally, and visible return navigation or report history is intentionally deferred.
 
-Questionnaire and report persistence are isolated behind small typed storage functions. A future API or database can replace that browser-storage boundary without requiring the report page to know where its snapshot came from.
+Questionnaire and report persistence are isolated behind small typed storage functions. A future API or database can replace that browser-storage boundary without requiring the report page to know where its snapshot came from. Before future AI generation, the application maps questionnaire answers to a small generation-input boundary: it derives current age from birth date, retains the raw birth date only in questionnaire state, and deliberately omits reference preference. The server-side endpoint should receive that mapped input rather than the full browser draft.
 
 ---
 

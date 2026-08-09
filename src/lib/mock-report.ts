@@ -4,15 +4,10 @@ import {
   REFERENCE_PREFERENCES,
   ZODIAC_SIGNS,
   type BehavioralStatement,
-  type ReferencePreference,
 } from '@/data/questionnaire';
 import { mockReport, type OrionReport, type ReportInsight } from '@/data/report';
 import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
-
-interface SubjectLanguage {
-  subject: string;
-  possessive: string;
-}
+import { createReportGenerationInput } from '@/lib/report-generation-input';
 
 const BEHAVIORAL_TRAIT_BY_ANSWER: Record<BehavioralStatement, ReportInsight> = {
   'I overthink things': {
@@ -40,13 +35,6 @@ const BEHAVIORAL_TRAIT_BY_ANSWER: Record<BehavioralStatement, ReportInsight> = {
     description:
       'The profile can preserve energy until urgency makes the correct priority impossible to ignore. Results still arrive, though the operating model relies on deadlines providing part of the executive function.',
   },
-};
-
-const SUBJECT_LANGUAGE_BY_PREFERENCE: Record<ReferencePreference, SubjectLanguage> = {
-  'He / Him': { subject: 'he', possessive: 'his' },
-  'She / Her': { subject: 'she', possessive: 'her' },
-  'They / Them': { subject: 'they', possessive: 'their' },
-  'Prefer not to say': { subject: 'they', possessive: 'their' },
 };
 
 function normalizeOption<T extends string>(
@@ -86,9 +74,12 @@ export function canCreateMockReportFromAnswers(answers: QuestionnaireAnswers) {
         ZODIAC_SIGNS.map((sign) => sign.name),
       ) &&
       isValidBirthDate(answers.birthDate) &&
+      // This remains a required questionnaire answer even though it is not
+      // eligible for report-generation input.
       normalizeOption(answers.pronouns, REFERENCE_PREFERENCES) &&
       normalizeOption(answers.attentionArea, ATTENTION_AREAS) &&
-      normalizeOption(answers.behavioralStatement, BEHAVIORAL_STATEMENTS),
+      normalizeOption(answers.behavioralStatement, BEHAVIORAL_STATEMENTS) &&
+      createReportGenerationInput(answers),
   );
 }
 
@@ -113,28 +104,22 @@ export function createMockReportFromAnswers(
     answers.behavioralStatement,
     BEHAVIORAL_STATEMENTS,
   );
-  const referencePreference = normalizeOption(
-    answers.pronouns,
-    REFERENCE_PREFERENCES,
-  );
-  const language = referencePreference
-    ? SUBJECT_LANGUAGE_BY_PREFERENCE[referencePreference]
-    : SUBJECT_LANGUAGE_BY_PREFERENCE['Prefer not to say'];
-  const capitalizedSubject =
-    language.subject.charAt(0).toUpperCase() + language.subject.slice(1);
+  const generationInput = createReportGenerationInput(answers);
+  const age = generationInput?.subject.age ?? mockReport.subject.age;
 
   return {
     ...mockReport,
     subject: {
       name,
       zodiacSign,
+      age,
     },
     summary: {
       ...mockReport.summary,
-      body: `${name} combines disciplined ambition with a private suspicion that every plan could still be improved. This has produced reliable progress, several excellent contingency plans, and a growing need to choose one direction before the universe schedules it on ${language.possessive} behalf. The ${zodiacSign} profile interprets this as strategic patience, although OrionLabs has also detected the less prestigious possibility that keeping decisions in draft form is simply part of the process.`,
+      body: `You combine disciplined ambition with a private suspicion that every plan could still be improved. This has produced reliable progress, several excellent contingency plans, and a growing need to choose one direction before the universe schedules it on your behalf. Your ${zodiacSign} profile interprets this as strategic patience, although OrionLabs has also detected the less prestigious possibility that keeping decisions in draft form is simply part of the process.`,
     },
     personalityAnalysis: {
-      overview: `A strong ${zodiacSign} baseline gives ${name} a preference for structure, evidence, and outcomes that can be quietly measured. ${capitalizedSubject} can appear composed while conducting an extensive internal review of every available variable. Practicality remains important, but even an ordinary feeling may be asked to provide a fully documented rationale.`,
+      overview: `A strong ${zodiacSign} baseline gives you a preference for structure, evidence, and outcomes that can be quietly measured. You can appear composed while conducting an extensive internal review of every available variable. Practicality remains important, but even an ordinary feeling may be asked to provide a fully documented rationale.`,
       traits: [
         behavioralStatement
           ? BEHAVIORAL_TRAIT_BY_ANSWER[behavioralStatement]
@@ -150,12 +135,12 @@ export function createMockReportFromAnswers(
     currentLifeAnalysis: {
       ...mockReport.currentLifeAnalysis,
       focusArea,
-      analysis: `Momentum is building around ${focusArea.toLowerCase()}, but ${name} may be treating preparation as a substitute for visibility. The current cycle favors work that can be shared, tested, and improved in public rather than perfected in private. Attention remains fixed on ${focusArea.toLowerCase()}, yet the preferred method involves becoming exceptionally ready for opportunities that would benefit from knowing this profile exists. OrionLabs classifies this as a temporary visibility deficit with strong administrative support.`,
+      analysis: `Momentum is building around ${focusArea.toLowerCase()}, but you may be treating preparation as a substitute for visibility. The current cycle favors work that can be shared, tested, and improved in public rather than perfected in private. Your attention remains fixed on ${focusArea.toLowerCase()}, yet your preferred method involves becoming exceptionally ready for opportunities that would benefit from knowing you exist. OrionLabs classifies this as a temporary visibility deficit with strong administrative support.`,
     },
     strengths: [
       {
         ...mockReport.strengths[0],
-        description: `${name} can sustain effort after novelty fades, which gives long-range plans unusual structural integrity. This is especially useful when everyone else has begun confusing reduced enthusiasm with a strategic pivot.`,
+        description: `You can sustain effort after novelty fades, which gives your long-range plans unusual structural integrity. This is especially useful when everyone else has begun confusing reduced enthusiasm with a strategic pivot.`,
       },
       {
         ...mockReport.strengths[1],
@@ -164,14 +149,14 @@ export function createMockReportFromAnswers(
       },
       {
         ...mockReport.strengths[2],
-        description: `Others trust ${language.possessive} conclusions because they rarely arrive before the underlying details have been examined. A casual opinion from ${name} may therefore have already passed through three internal review committees.`,
+        description: `Others trust your conclusions because they rarely arrive before the underlying details have been examined. A casual opinion from you may therefore have already passed through three internal review committees.`,
       },
     ],
     risks: [
       mockReport.risks[0],
       {
         ...mockReport.risks[1],
-        description: `Quiet competence may leave important work under-recognized by people who cannot evaluate what they cannot see. ${name} may respond by becoming even more quietly competent, a strategy with limited promotional reach.`,
+        description: `Quiet competence may leave your important work under-recognized by people who cannot evaluate what they cannot see. You may respond by becoming even more quietly competent, a strategy with limited promotional reach.`,
       },
       {
         ...mockReport.risks[2],
@@ -183,6 +168,6 @@ export function createMockReportFromAnswers(
       ...mockReport.recommendedAction,
       description: `Choose one decision connected to ${focusArea.toLowerCase()} that has remained under review, define the smallest credible next step, and complete it within seven days. Share the result before it feels entirely finished, then use real feedback instead of imagined objections to guide the next revision. Further celestial authorization is unlikely to improve the outcome, and Saturn has declined another planning meeting.`,
     },
-    closingVerdict: `${name} is entering a high-potential period in which disciplined action will outperform immaculate preparation. The outlook is favorable, provided the next step is taken before it becomes another planning document.`,
+    closingVerdict: `You are entering a high-potential period in which disciplined action will outperform immaculate preparation. The outlook is favorable, provided you take the next step before it becomes another planning document.`,
   };
 }

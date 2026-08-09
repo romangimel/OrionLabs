@@ -75,7 +75,7 @@ export function AnalysisPage() {
     const savedReport: SavedReport = existingReport ?? {
       id: draft.pendingReportId,
       createdAt: new Date().toISOString(),
-      schemaVersion: 1,
+      schemaVersion: 2,
       status: 'completed',
       subject: { ...report.subject },
       report,

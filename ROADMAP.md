@@ -269,8 +269,8 @@ Do not call the AI provider directly from frontend browser code.
 - [ ] Define the final structured AI response format
 - [ ] Create the OrionLabs system prompt
 - [ ] Create the report-generation prompt
-- [ ] Decide which questionnaire answers are sent to the model
-- [ ] Decide what information should never be sent
+- [x] Decide which questionnaire answers are sent to the model: mapped name, zodiac sign, application-calculated age, focus area, behavioral statement, and optional context
+- [x] Decide what information should never be sent: raw birth date and reference preference; reports always use second-person language
 
 ### Server-Side Integration
 

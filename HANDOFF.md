@@ -358,16 +358,17 @@ Influences:
 
 Influences:
 
-- Subject context
-- Future chronological or age-related personalization
+- Remains in questionnaire/session state as the source date
+- The application derives current age before report generation
+- Raw birth date is not included in the future generation input
 
-No age-based logic should be invented unless explicitly requested.
+Age may inform subject context, personalized analysis, and roast material. It must not be used to invent expected life milestones.
 
 ### Pronoun/reference preference
 
-Influences wording throughout the report.
+Remains a required questionnaire answer, persists in session state, and appears in Review Answers.
 
-It does not create a separate visible section.
+It is intentionally excluded from the future AI-generation input. Generated reports use second-person language (`you`, `your`, `yourself`) for every subject, so it does not influence report wording or create a visible report section.
 
 ### Main area of attention
 
@@ -475,6 +476,7 @@ When AI is added:
 - Use a secure server-side endpoint.
 - Keep API keys outside the frontend.
 - Validate and sanitize questionnaire input.
+- Build the server request from the application-controlled generation input, not the full questionnaire draft. That input contains calculated age instead of birth date and intentionally excludes reference preference.
 - Validate the structured AI response before rendering.
 - Retry once when appropriate.
 - Show a clear failure state if generation fails.

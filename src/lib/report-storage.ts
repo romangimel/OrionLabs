@@ -1,8 +1,10 @@
 import type { OrionReport, ReportInsight } from '@/data/report';
 
-const REPORT_SCHEMA_VERSION = 1;
-const REPORT_STORAGE_PREFIX = 'orionlabs.report.v1.';
-const ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v1';
+const REPORT_SCHEMA_VERSION = 2;
+const REPORT_STORAGE_PREFIX = 'orionlabs.report.v2.';
+const ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v2';
+const LEGACY_REPORT_STORAGE_PREFIX = 'orionlabs.report.v1.';
+const LEGACY_ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v1';
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -10,11 +12,12 @@ const UUID_PATTERN =
 export interface SavedReport {
   id: string;
   createdAt: string;
-  schemaVersion: 1;
+  schemaVersion: 2;
   status: 'completed';
   subject: {
     name: string;
     zodiacSign: string;
+    age: number;
   };
   report: OrionReport;
 }
@@ -57,6 +60,9 @@ function isOrionReport(value: unknown): value is OrionReport {
     subject &&
       isNonEmptyString(subject.name) &&
       isNonEmptyString(subject.zodiacSign) &&
+      typeof subject.age === 'number' &&
+      Number.isInteger(subject.age) &&
+      subject.age >= 0 &&
       summary &&
       isNonEmptyString(summary.headline) &&
       isNonEmptyString(summary.body) &&
@@ -118,9 +124,13 @@ function isSavedReport(value: unknown): value is SavedReport {
       subject &&
       isNonEmptyString(subject.name) &&
       isNonEmptyString(subject.zodiacSign) &&
+      typeof subject.age === 'number' &&
+      Number.isInteger(subject.age) &&
+      subject.age >= 0 &&
       isOrionReport(savedReport.report) &&
       subject.name === savedReport.report.subject.name &&
-      subject.zodiacSign === savedReport.report.subject.zodiacSign,
+      subject.zodiacSign === savedReport.report.subject.zodiacSign &&
+      subject.age === savedReport.report.subject.age,
   );
 }
 
@@ -208,19 +218,23 @@ export function getActiveReport(): SavedReport | null {
   }
 }
 
-/** Clears all current-tab report records while preserving unrelated session data. */
+/** Clears current and superseded OrionLabs report records without touching unrelated data. */
 export function clearAllSessionReports(): boolean {
   try {
     const reportKeys: string[] = [];
     for (let index = 0; index < window.sessionStorage.length; index += 1) {
       const key = window.sessionStorage.key(index);
-      if (key?.startsWith(REPORT_STORAGE_PREFIX)) {
+      if (
+        key?.startsWith(REPORT_STORAGE_PREFIX) ||
+        key?.startsWith(LEGACY_REPORT_STORAGE_PREFIX)
+      ) {
         reportKeys.push(key);
       }
     }
 
     reportKeys.forEach((key) => window.sessionStorage.removeItem(key));
     window.sessionStorage.removeItem(ACTIVE_REPORT_ID_STORAGE_KEY);
+    window.sessionStorage.removeItem(LEGACY_ACTIVE_REPORT_ID_STORAGE_KEY);
     return true;
   } catch {
     return false;
