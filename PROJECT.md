@@ -10,13 +10,13 @@ OrionLabs is a fictional AI startup that claims to generate hyper-personalized a
 
 The company is completely fake.
 
-The satire comes from the fact that OrionLabs never admits this.
+The satire comes from OrionLabs treating its fictional methodology as real, proprietary, and professionally defensible.
 
 Everything—from the branding to the UI to the copywriting—should be presented with absolute confidence.
 
 The website should initially appear to be a legitimate venture-backed AI company.
 
-Only after spending time reading the content should visitors begin realizing that everything is built on increasingly ridiculous logic.
+Visitors may recognize the absurdity immediately or discover it through increasingly ridiculous institutional logic. OrionLabs remains sincere in-universe either way.
 
 The project is ultimately a satire of:
 
@@ -27,7 +27,7 @@ The project is ultimately a satire of:
 - Corporate jargon
 - People's desire to feel uniquely understood
 
-The humor should reward attention rather than shouting jokes.
+The humor should reward attention without requiring every strong joke to be hidden.
 
 ---
 
@@ -97,39 +97,46 @@ The company should sound completely convinced that its absurd claims are legitim
 
 # Humor Philosophy
 
-Humor should emerge slowly.
+OrionLabs is sincere in-universe, not oblivious to its own questionable methodology.
 
-Never explain the joke.
+The company speaks with polished corporate and scientific authority while applying fake rigor, unnecessary precision, startup bureaucracy, and legal or methodological distinctions to obviously absurd subject matter. It may openly describe its methods as `highly questionable`, its conclusions as `subsequent overreach`, or its claims as `legally distinct`. These phrases let the audience recognize the joke while OrionLabs continues treating the underlying method as a legitimate product capability.
 
-Never wink at the audience.
+Do not step out of character to explain the joke. Acknowledging absurd methodology is not the same as breaking character: OrionLabs may admit that it is ignoring scientific consensus, then frame that decision as rigorous operating policy. It should never become embarrassed by its premise or tell the audience that the company, astrology, or the experience is "just a joke."
+
+Humor may range from subtle corporate absurdity through obvious fake-scientific overreach and recognizable roast lines to occasional strong punchlines. Not every sentence should be a joke, but obviousness alone is not a reason to weaken a line that is funny, polished, and true to the institutional voice.
+
+The most reliable constructions are:
+
+- A professional setup followed by an incriminating qualifier
+- A serious methodology applied to an absurd objective
+- A corporate euphemism used to legitimize obvious nonsense
+- Openly questionable behavior presented as a product capability
+- A scientific or legal distinction used to defend an indefensible claim
+- Institutional acknowledgment of absurdity framed as policy, rigor, or competitive advantage
+
+Good examples can be quiet:
+
+> Included as part of a broader analytical framework.
+
+Or openly incriminating:
+
+> Ignoring centuries of scientific consensus since 2026.
+
+Or an obvious joke built entirely from institutional logic:
+
+> We are not saying the planets control your destiny. We are saying our proprietary interpretation of the planets controls your destiny, which is an entirely different and legally distinct claim.
+
+All three belong to the same voice because OrionLabs never abandons its confidence or professional framing.
 
 Never say:
 
-"We're joking."
+- "Obviously astrology is fake."
+- "Yes, we know this is ridiculous."
+- "Haha, just kidding."
+- "This whole company is satire."
+- "Get it?"
 
-Instead:
-
-Present ridiculous ideas with complete sincerity.
-
-Good example:
-
-> Powered by DeepConstellation™
-
-Better example:
-
-> DeepConstellation™ has analyzed thousands of years of celestial observations and several highly opinionated Reddit discussions.
-
-Excellent example:
-
-> Customer confidence: 97.8%
-
-> *confidence may refer to ours.*
-
-The user should constantly wonder:
-
-"Wait...
-
-Are they serious?"
+The audience is allowed to see the joke. OrionLabs is not allowed to stop being OrionLabs in order to point at it.
 
 ---
 
@@ -165,7 +172,7 @@ Never use:
 - emoji jokes
 - childish language
 
-Less is more.
+Use restraint at the page level, not as a requirement to bury the funniest individual lines. Contrast keeps the jokes effective.
 
 ---
 
@@ -255,11 +262,11 @@ Respect reduced motion preferences.
 
 # User Experience
 
-The experience should gradually escalate.
+The experience should support a range of comedic intensity and generally escalate.
 
 Beginning:
 
-Looks legitimate.
+Looks legitimate while already permitting recognizable institutional absurdity.
 
 Middle:
 
@@ -269,7 +276,7 @@ End:
 
 The company is confidently presenting complete nonsense.
 
-The joke should become stronger over time.
+The joke should become more personal and aggressive over time, with the generated report as the strongest payoff.
 
 ---
 
@@ -320,7 +327,7 @@ Use a first-version writing target of 40% polished horoscope and personality ana
 
 The report should initially resemble a legitimate premium horoscope or personality assessment. Professional framing should disguise and strengthen the roast, while questionnaire answers supply specific material about the subject's habits, contradictions, decisions, priorities, and self-perception. Weak celestial signals should be treated as highly predictive evidence, and OrionLabs should present absurd conclusions with institutional confidence without breaking character or explaining the joke.
 
-Serious observations, flattering insights, and credible advice create the contrast that makes sharper lines effective. Strengths may be sincere while exposing contradictions; personality analysis should combine meaningful personalization with subtle ridicule; current-life analysis should strongly use the selected focus area and optional context; risks should contain some of the strongest personalized roast material; recommended action should remain useful; and the closing verdict should deliver one of the most memorable observations.
+Serious observations, flattering insights, and credible advice create the contrast that makes sharper lines effective. Strengths may be sincere while exposing contradictions; personality analysis should combine meaningful personalization with recognizable ridicule; current-life analysis should strongly use the selected focus area and optional context; risks should contain some of the strongest personalized roast material; recommended action should remain useful; and the closing verdict should deliver one of the most memorable, screenshot-worthy observations.
 
 The intended reactions are: "This is complete nonsense, but it somehow described me" and "I need to send this to my friends." Avoid generic zodiac copy, safe motivational filler, setup-and-punchline formatting, loud meme humor, excessive winking, or insults unrelated to the subject's answers. The roast must remain playful and must not target protected characteristics, trauma, medical conditions, appearance, or similarly sensitive personal areas.
 
@@ -422,7 +429,7 @@ Write code another engineer would enjoy maintaining.
 
 # Things OrionLabs Never Does
 
-Never explains the joke.
+Never steps out of character to explain the joke.
 
 Never apologizes.
 

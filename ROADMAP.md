@@ -12,12 +12,12 @@ Build a premium-looking fictional AI startup that satirizes astrology, AI hype, 
 
 ## Guiding Principles
 
-- Make OrionLabs feel like a real AI company before the joke becomes obvious.
+- Make OrionLabs feel like a real AI company even when the joke is obvious.
 - Prioritize a polished user experience over adding lots of features.
 - Build every feature as if it could exist in a real SaaS product.
 - Learn modern frontend development by understanding each decision, not just shipping code.
 - Every new page should strengthen the OrionLabs universe.
-- Keep the humor subtle, serious, and professionally presented.
+- Keep the humor sincere in-universe and professionally presented across subtle, obvious, and occasionally punchy intensities.
 - Prefer a short, enjoyable user journey over excessive personalization.
 - Build accessibility into each feature rather than treating it only as final cleanup.
 

@@ -19,11 +19,11 @@ Preserve OrionLabs’ core identity:
 
 - Premium and polished presentation
 - Serious fictional AI-company tone
-- Subtle, deadpan absurdity
+- Institutional absurdity delivered with polished corporate confidence
 - Satire of astrology, AI hype, and startup culture
-- Humor that sounds professionally stated rather than obviously written as a joke
+- Humor that may be obvious, sharp, or self-incriminating while remaining professionally stated and sincere in-universe
 
-Do not introduce loud meme humor, excessive self-awareness, or unrelated comedy without explicit approval.
+OrionLabs may acknowledge questionable methodology when it reframes that absurdity as policy, rigor, legal distinction, or product capability. Do not step out of character to explain the joke, and do not introduce loud meme humor, internet-slang comedy, embarrassed self-awareness, or unrelated punchlines without explicit approval.
 
 ## Design consistency
 

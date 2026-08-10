@@ -11,7 +11,7 @@ The design earns this atmosphere through:
 - Deep spatial backgrounds: starfields, oversized diffused nebula pools, orbital lines, and sparse gold highlights.
 - Editorial contrast: romantic, high-contrast serif display type against rational sans-serif UI copy.
 - Quietly premium surfaces: translucent violet glass, thin low-opacity gold/pink borders, large radii, and soft light rather than hard shadows.
-- A confident enterprise layout with deliberately dry, self-aware copy. Humor belongs in the writing; the visual layer stays composed and credible.
+- A confident enterprise layout with professionally delivered, institutionally self-incriminating copy. Humor belongs in the writing; the visual layer stays composed and credible.
 
 ## Colors
 

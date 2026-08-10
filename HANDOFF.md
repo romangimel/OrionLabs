@@ -2,7 +2,7 @@
 
 ## Project summary
 
-OrionLabs is a satirical horoscope and fictional AI-startup portfolio project. It presents premium, highly confident astrological analysis and a personalized roast without breaking character. The joke should feel professionally stated, not like loud meme writing.
+OrionLabs is a satirical horoscope and fictional AI-startup portfolio project. It presents premium, highly confident astrological analysis and a personalized roast without breaking character. Jokes may be obvious or sharply self-incriminating, but they should sound like official company language rather than loud meme writing.
 
 Before meaningful work, read `AGENTS.md`, `PROJECT.md`, `DESIGN_SYSTEM.md`, `ROADMAP.md`, `README.md`, this file, and the relevant source files. The repository is the source of truth.
 
@@ -30,11 +30,11 @@ Preserve:
 - Premium, restrained, cinematic presentation
 - Serious fictional AI-company tone
 - Gold accents, cosmic backgrounds, existing typography, borders, spacing, and motion
-- Deadpan astrology/AI/startup satire
+- Institutionally confident astrology/AI/startup satire across subtle and obvious intensities
 - Personalized roast as the central payoff
 - Existing responsive and reduced-motion behavior
 
-Avoid loud meme humor, constant punchlines, obvious joke framing, profanity, unrelated redesigns, or a second visual language.
+Avoid loud meme humor, constant punchlines, out-of-character joke explanations, profanity, unrelated redesigns, or a second visual language.
 
 ## Questionnaire contract
 
@@ -74,7 +74,7 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 
 The technical report contract is `OrionReport` in `src/data/report.ts`. Every successful report requires subject, summary, personality analysis with three traits, current-life analysis and forecast, three strengths, three risks, recommended action, exactly three 0-100 integer metrics, and closing verdict.
 
-The current prompt calibration is intentionally roast-heavy: approximately 80% hilariously savage and 20% disturbingly accurate at roughly 9/10 intensity. It must preserve analytical coherence, genuine strengths, useful advice, deadpan fake rigor, and a memorable closing verdict.
+The current prompt calibration is intentionally roast-heavy: approximately 80% hilariously savage and 20% disturbingly accurate at roughly 9/10 intensity. It must preserve analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable, occasionally screenshot-worthy closing verdict.
 
 The model may exaggerate interpretations, implications, metaphors, fake science, celestial framing, and fictional measurements. It may not invent underlying evidence such as durations, quantities, events, histories, motives, or outcomes that the user did not provide.
 
