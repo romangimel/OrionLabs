@@ -348,6 +348,10 @@ These ranges guide mock data and future AI prompts. They are writing targets rat
 
 AI-generated reports are validated before they leave the server and again before the browser stores them. Required sections must never silently disappear, and malformed or incomplete output must not be displayed as a partially broken report. OrionLabs makes one initial Gemini request and at most one retry for transient provider failures or malformed structured output. If generation still fails, the Analysis page shows an explicit retry action while preserving the questionnaire draft.
 
+The Gemini project currently uses the Free tier with billing disabled. Provider quota is an intentional MVP safety boundary: Gemini `429` resource-exhaustion responses bypass the immediate second attempt and become a safe `ANALYSIS_CAPACITY_EXHAUSTED` response. The installed SDK does not expose stable structured quota dimensions, so the product intentionally does not claim whether a limit is per-minute, token-based, daily, or another provider-capacity condition. The Analysis page presents one conservative try-later state and preserves the questionnaire draft.
+
+Vercel Firewall separately limits `/api/generate-report` to five requests per 60 seconds per IP address. That rule runs before the Function, is configured in Vercel rather than repository code, and may return a non-OrionLabs HTTP 429 response. The browser handles that response as the same broad temporary-capacity state without conflating the two enforcement layers.
+
 Never render `undefined`, empty required cards, raw malformed data, or placeholder strings presented as real analysis. Application-controlled subject identity, focus area, report IDs, timestamps, and other operational metadata remain protected from silent model replacement. Fine-grained repair of individual malformed sections may be considered later, but is not required for version 1.
 
 ## AI report-generation architecture

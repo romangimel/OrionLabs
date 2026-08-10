@@ -10,7 +10,7 @@ The landing page, four-step questionnaire, real AI-backed Analysis flow, and per
 
 The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. It waits for both the request and the minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
 
-Prompt tuning, usage/cost protection, production rate limiting, server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
+Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
 
 ## Technology
 
@@ -97,6 +97,8 @@ npm run preview
 
 In the Vercel project dashboard, add `GEMINI_API_KEY` under Settings -> Environment Variables for the environments that should generate reports (Development, Preview, and Production as appropriate), then redeploy. Keep the value marked sensitive and do not prefix it with `VITE_`.
 
+The current Gemini project uses the Free tier with billing disabled, making provider quota an intentional MVP safety boundary. Separately, Vercel Firewall limits `/api/generate-report` to five requests per 60 seconds per IP address. The firewall rule is external Vercel infrastructure and is not represented in this repository.
+
 Server-side TypeScript is executed as Node ESM. Every local runtime import reachable from an `api/` Function therefore uses a relative path with a `.js` extension, which TypeScript maps back to the corresponding `.ts` source file. Do not use the frontend `@/` alias in that runtime graph: Vercel Functions do not rewrite TypeScript path mappings in deployed imports.
 
 ## Validation, retries, and privacy
@@ -104,5 +106,7 @@ Server-side TypeScript is executed as Node ESM. Every local runtime import reach
 The server accepts only the strict `ReportGenerationInput` shape, limits request size, bounds optional context to 1,000 characters, and rejects unexpected fields. Gemini receives stable system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
 
 The Gemini SDK's implicit retry loop is disabled. OrionLabs performs one initial request and at most one retry for transient provider failures or malformed output. Browser errors never include provider internals, stack traces, API keys, or questionnaire free text.
+
+Gemini resource-exhaustion responses use HTTP 429 with the safe machine code `ANALYSIS_CAPACITY_EXHAUSTED` and do not spend the immediate second provider attempt. Because the SDK exposes the HTTP status but not stable structured quota dimensions, OrionLabs does not claim whether the boundary is per-minute, token-based, daily, or another capacity condition. The Analysis page asks the visitor to return later, preserves the questionnaire draft, and suppresses its normal immediate Retry action. A plain HTTP 429 returned by Vercel Firewall before the Function runs is handled by the browser as the same conservative capacity state without requiring OrionLabs JSON.
 
 Questionnaire drafts and completed reports still live only in the current tab's `sessionStorage`. Approved generation fields are transmitted to the Vercel Function and Gemini to create the report; raw birth date and reference preference are not transmitted. OrionLabs currently has no server-side report history or deletion system because it does not persist completed reports on the server.

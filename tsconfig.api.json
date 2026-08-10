@@ -21,6 +21,7 @@
     "src/lib/questionnaire-state.ts",
     "src/lib/report-generation-constraints.ts",
     "src/lib/report-generation-input.ts",
+    "src/lib/report-generation-errors.ts",
     "src/lib/report-schemas.ts"
   ]
 }

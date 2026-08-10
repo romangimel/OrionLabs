@@ -2,7 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { CelestialCalibrationIndicator } from '@/components/analysis/CelestialCalibrationIndicator';
 import type { OrbitalProfileData } from '@/lib/orbital-profile';
 
-export type AnalysisPhase = 'loading' | 'complete' | 'error';
+export type AnalysisPhase = 'loading' | 'complete' | 'error' | 'capacity';
 
 interface AnalysisLoadingExperienceProps {
   profile: OrbitalProfileData;
@@ -26,9 +26,12 @@ export function AnalysisLoadingExperience({
 }: AnalysisLoadingExperienceProps) {
   const reduceMotion = useReducedMotion();
   const isComplete = phase === 'complete';
-  const isError = phase === 'error';
+  const isCapacityUnavailable = phase === 'capacity';
+  const isError = phase === 'error' || isCapacityUnavailable;
   const displayedMessage = isComplete
     ? COMPLETION_MESSAGE
+    : isCapacityUnavailable
+      ? 'Analysis capacity is temporarily unavailable.'
     : isError
       ? 'Celestial synthesis encountered an administrative anomaly.'
       : message;
@@ -81,6 +84,8 @@ export function AnalysisLoadingExperience({
                 <span>
                   {isComplete
                     ? 'Calibration outcome'
+                    : isCapacityUnavailable
+                      ? 'Capacity boundary reached'
                     : isError
                       ? 'Sequence interrupted'
                       : 'Current operation'}
@@ -111,16 +116,26 @@ export function AnalysisLoadingExperience({
               {isError && (
                 <div className="relative z-10 mt-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <p className="max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                    Your confirmed answers remain secured in this session. The sequence can be
-                    attempted again without recalibration.
+                    {isCapacityUnavailable
+                      ? 'Your confirmed answers remain secured in this session. Return later to resume without recalibration.'
+                      : 'Your confirmed answers remain secured in this session. The sequence can be attempted again without recalibration.'}
                   </p>
-                  <button
-                    type="button"
-                    onClick={onRetry}
-                    className="inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] px-5 text-xs font-medium text-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.58)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
-                  >
-                    Retry analysis
-                  </button>
+                  {isCapacityUnavailable ? (
+                    <a
+                      href="/questionnaire"
+                      className="inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] px-5 text-xs font-medium text-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.58)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+                    >
+                      Return to review
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={onRetry}
+                      className="inline-flex h-10 shrink-0 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] px-5 text-xs font-medium text-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.58)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+                    >
+                      Retry analysis
+                    </button>
+                  )}
                 </div>
               )}
 

@@ -19,12 +19,36 @@ type GenerateCandidate = (input: ReportGenerationInput) => Promise<unknown>;
 
 export class MissingGeminiApiKeyError extends Error {}
 
+/** Provider capacity is unavailable for the current request window or quota boundary. */
+export class GeminiCapacityExhaustedError extends Error {}
+
+function getProviderHttpStatus(error: unknown): number | null {
+  if (error instanceof ApiError) {
+    return error.status;
+  }
+
+  if (!error || typeof error !== 'object') {
+    return null;
+  }
+
+  // The SDK's Interactions API currently wraps failures in compatibility
+  // errors with numeric `status`/`statusCode` fields instead of public ApiError.
+  const providerError = error as Record<string, unknown>;
+  const status = providerError.status ?? providerError.statusCode;
+  return typeof status === 'number' ? status : null;
+}
+
+function isGeminiCapacityExhaustion(error: unknown) {
+  return getProviderHttpStatus(error) === 429;
+}
+
 function isRetryableGenerationError(error: unknown) {
+  const providerStatus = getProviderHttpStatus(error);
   return (
     error instanceof SyntaxError ||
     error instanceof ZodError ||
     error instanceof TypeError ||
-    (error instanceof ApiError && RETRYABLE_STATUS_CODES.has(error.status)) ||
+    (providerStatus !== null && RETRYABLE_STATUS_CODES.has(providerStatus)) ||
     error instanceof GeneratedReportIdentityError
   );
 }
@@ -42,6 +66,13 @@ export async function generateReportWithRetry(
       return parseGeneratedReportForInput(candidate, input);
     } catch (error) {
       lastError = error;
+      if (isGeminiCapacityExhaustion(error)) {
+        // Treat 429 broadly as capacity exhaustion without parsing unstable
+        // provider payload/message details or claiming a specific limit type.
+        throw new GeminiCapacityExhaustedError(
+          'Gemini report-generation capacity is exhausted.',
+        );
+      }
       if (attempt === MAX_GENERATION_ATTEMPTS || !isRetryableGenerationError(error)) {
         throw error;
       }

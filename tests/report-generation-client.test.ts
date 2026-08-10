@@ -1,5 +1,8 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { requestGeneratedReport } from '@/lib/report-generation-client';
+import {
+  ReportGenerationRequestError,
+  requestGeneratedReport,
+} from '@/lib/report-generation-client';
 import { createValidReport, validGenerationInput } from './fixtures';
 
 afterEach(() => {
@@ -34,5 +37,54 @@ describe('browser report-generation request', () => {
 
     await expect(Promise.all([firstRequest, secondRequest])).rejects.toThrow();
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('recognizes the semantic capacity error', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        Response.json(
+          {
+            error: {
+              code: 'ANALYSIS_CAPACITY_EXHAUSTED',
+              message: 'Analysis capacity is temporarily unavailable.',
+            },
+          },
+          { status: 429 },
+        ),
+      ),
+    );
+
+    const request = requestGeneratedReport(validGenerationInput, 'capacity-run');
+    await expect(request).rejects.toMatchObject<Partial<ReportGenerationRequestError>>({
+      kind: 'capacity',
+    });
+  });
+
+  it('handles a plain Vercel Firewall 429 without parsing failure or draft loss', async () => {
+    const savedDraft = '{"version":1,"answers":"preserved"}';
+    const sessionStorage = new Map([['orionlabs.questionnaire.draft.v1', savedDraft]]);
+    vi.stubGlobal('window', {
+      sessionStorage: {
+        getItem: (key: string) => sessionStorage.get(key) ?? null,
+      },
+    });
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response('Too many requests', {
+          status: 429,
+          headers: { 'Content-Type': 'text/plain' },
+        }),
+      ),
+    );
+
+    const request = requestGeneratedReport(validGenerationInput, 'firewall-run');
+    await expect(request).rejects.toMatchObject<Partial<ReportGenerationRequestError>>({
+      kind: 'capacity',
+    });
+    expect(window.sessionStorage.getItem('orionlabs.questionnaire.draft.v1')).toBe(
+      savedDraft,
+    );
   });
 });

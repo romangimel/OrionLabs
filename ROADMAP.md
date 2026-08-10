@@ -280,8 +280,8 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Validate and normalize the approved generation input on the server
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
-- [ ] Add basic rate limiting
-- [ ] Add basic usage and cost protection
+- [x] Add basic rate limiting
+- [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
 - [ ] Persist completed reports server-side
 - [ ] Add authenticated report history

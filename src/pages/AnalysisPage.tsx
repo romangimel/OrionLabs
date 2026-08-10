@@ -10,7 +10,10 @@ import { REFERENCE_PREFERENCES } from '@/data/questionnaire';
 import { useAnalysisPresentationSequence } from '@/hooks/useAnalysisPresentationSequence';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 import { createOrbitalProfile } from '@/lib/orbital-profile';
-import { requestGeneratedReport } from '@/lib/report-generation-client';
+import {
+  ReportGenerationRequestError,
+  requestGeneratedReport,
+} from '@/lib/report-generation-client';
 import { createReportGenerationInput } from '@/lib/report-generation-input';
 import {
   clearQuestionnaireDraft,
@@ -32,7 +35,7 @@ const MINIMUM_ANALYSIS_DURATION_MS = 12_000;
 const MESSAGE_INTERVAL_MS = 3_000;
 const COMPLETION_PAUSE_MS = 3_000;
 
-type GenerationStatus = 'loading' | 'succeeded' | 'failed';
+type GenerationStatus = 'loading' | 'succeeded' | 'failed' | 'capacity';
 
 /**
  * Owns the secure questionnaire-to-function request, report persistence, and
@@ -102,9 +105,13 @@ export function AnalysisPage() {
           setGenerationStatus('succeeded');
         }
       },
-      () => {
+      (error) => {
         if (isCurrentRequest) {
-          setGenerationStatus('failed');
+          setGenerationStatus(
+            error instanceof ReportGenerationRequestError && error.kind === 'capacity'
+              ? 'capacity'
+              : 'failed',
+          );
         }
       },
     );
@@ -154,7 +161,9 @@ export function AnalysisPage() {
   }
 
   const phase: AnalysisPhase =
-    generationStatus === 'failed'
+    generationStatus === 'capacity'
+      ? 'capacity'
+      : generationStatus === 'failed'
       ? 'error'
       : generatedReport && minimumExperienceComplete
         ? 'complete'

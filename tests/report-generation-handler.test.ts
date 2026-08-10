@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createReportGenerationHandler } from '../server/report-generation-handler';
+import { GeminiCapacityExhaustedError } from '../server/gemini-report-generator';
 import { createValidReport, validGenerationInput } from './fixtures';
 
 afterEach(() => {
@@ -64,6 +65,40 @@ describe('report-generation HTTP handler', () => {
       error: {
         code: 'SERVICE_NOT_CONFIGURED',
         message: 'Report generation is not configured for this environment.',
+      },
+    });
+  });
+
+  it('returns a safe semantic capacity response', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const generateReport = vi
+      .fn()
+      .mockRejectedValue(new GeminiCapacityExhaustedError('private provider detail'));
+    const response = await createReportGenerationHandler(generateReport)(
+      createRequest(validGenerationInput),
+    );
+
+    expect(response.status).toBe(429);
+    expect(await response.json()).toEqual({
+      error: {
+        code: 'ANALYSIS_CAPACITY_EXHAUSTED',
+        message: 'Analysis capacity is temporarily unavailable. Please try again later.',
+      },
+    });
+  });
+
+  it('keeps unknown provider failures generic and safe', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => undefined);
+    const generateReport = vi.fn().mockRejectedValue(new Error('private provider detail'));
+    const response = await createReportGenerationHandler(generateReport)(
+      createRequest(validGenerationInput),
+    );
+
+    expect(response.status).toBe(502);
+    expect(await response.json()).toEqual({
+      error: {
+        code: 'REPORT_GENERATION_FAILED',
+        message: 'OrionLabs could not complete this analysis. Please try again.',
       },
     });
   });

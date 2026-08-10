@@ -1,10 +1,32 @@
 import type { OrionReport } from '@/data/report';
 import type { ReportGenerationInput } from '@/lib/report-generation-input';
+import {
+  ANALYSIS_CAPACITY_EXHAUSTED_CODE,
+  getReportGenerationErrorCode,
+} from '@/lib/report-generation-errors';
 import { orionReportSchema } from '@/lib/report-schemas';
 
 const pendingRequests = new Map<string, Promise<OrionReport>>();
 
-export class ReportGenerationRequestError extends Error {}
+export type ReportGenerationFailureKind = 'capacity' | 'generic';
+
+export class ReportGenerationRequestError extends Error {
+  constructor(
+    message: string,
+    readonly kind: ReportGenerationFailureKind = 'generic',
+  ) {
+    super(message);
+    this.name = 'ReportGenerationRequestError';
+  }
+}
+
+async function readJsonPayload(response: Response): Promise<unknown> {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
 
 async function postReportGenerationInput(
   input: ReportGenerationInput,
@@ -21,13 +43,25 @@ async function postReportGenerationInput(
   }
 
   if (!response.ok) {
+    const errorPayload = await readJsonPayload(response);
+    const errorCode = getReportGenerationErrorCode(errorPayload);
+    if (
+      errorCode === ANALYSIS_CAPACITY_EXHAUSTED_CODE ||
+      response.status === 429
+    ) {
+      // A plain 429 may come from Vercel Firewall before the Function runs, so
+      // the browser treats it as broad temporary capacity without assuming a source.
+      throw new ReportGenerationRequestError(
+        'Analysis capacity is temporarily unavailable.',
+        'capacity',
+      );
+    }
+
     throw new ReportGenerationRequestError('The report service rejected the request.');
   }
 
-  let payload: unknown;
-  try {
-    payload = await response.json();
-  } catch {
+  const payload = await readJsonPayload(response);
+  if (payload === null) {
     throw new ReportGenerationRequestError('The report service returned invalid data.');
   }
 

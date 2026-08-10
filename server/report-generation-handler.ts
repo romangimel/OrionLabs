@@ -2,9 +2,11 @@ import type { OrionReport } from '../src/data/report.js';
 import type { ReportGenerationInput } from '../src/lib/report-generation-input.js';
 import { reportGenerationInputSchema } from '../src/lib/report-schemas.js';
 import {
+  GeminiCapacityExhaustedError,
   generateGeminiReport,
   MissingGeminiApiKeyError,
 } from './gemini-report-generator.js';
+import { ANALYSIS_CAPACITY_EXHAUSTED_CODE } from '../src/lib/report-generation-errors.js';
 
 const MAX_REQUEST_BODY_BYTES = 16_384;
 
@@ -92,6 +94,19 @@ export function createReportGenerationHandler(
       const report = await generateReport(inputResult.data);
       return jsonResponse({ report }, 200);
     } catch (error) {
+      if (error instanceof GeminiCapacityExhaustedError) {
+        console.error('[generate-report] Provider capacity is exhausted.');
+        return jsonResponse(
+          {
+            error: {
+              code: ANALYSIS_CAPACITY_EXHAUSTED_CODE,
+              message: 'Analysis capacity is temporarily unavailable. Please try again later.',
+            },
+          },
+          429,
+        );
+      }
+
       if (error instanceof MissingGeminiApiKeyError) {
         console.error('[generate-report] GEMINI_API_KEY is not configured.');
         return jsonResponse(

@@ -91,8 +91,13 @@ The Vercel Function:
 - Requests Gemini structured JSON from the same schema used at runtime
 - Rejects missing sections, malformed insights, wrong array counts, invalid metrics, or altered application-controlled identity/focus data
 - Makes one initial provider request and at most one retry for transient errors or malformed output
+- Converts Gemini HTTP 429 resource exhaustion into `ANALYSIS_CAPACITY_EXHAUSTED` without spending the immediate second attempt
 - Disables the Gemini SDK's larger implicit retry loop
 - Returns safe errors without provider details, stack traces, secrets, or user free text
+
+The Gemini project currently uses the Free tier with billing disabled, and provider quota is an intentional MVP safety boundary. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
+
+Vercel Firewall is a separate pre-Function layer configured externally at five `/api/generate-report` requests per 60 seconds per IP address. Its rule is not stored in repository code. A plain firewall HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
 
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
@@ -138,7 +143,7 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 - Real-key local provider smoke test and Vercel preview verification
 - Prompt evaluation across varied fixtures and final prompt tuning
-- Basic rate limiting and durable usage/cost protection
+- Durable usage accounting beyond the Free-tier provider boundary and external Vercel Firewall
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
 - Stable shareable URLs and downloadable reports
