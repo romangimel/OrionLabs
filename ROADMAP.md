@@ -1,6 +1,6 @@
 # OrionLabs Roadmap
 
-> Build the visual product first, connect the product flow, validate it with mock data, then add AI securely.
+> Build the visual product first, connect the product flow, validate it with local fixtures, add AI securely, then complete final release polish.
 
 ---
 
@@ -47,6 +47,8 @@ Landing Page
 → Questionnaire
 → Review Answers
 → Analysis Loading Screen
+→ Vercel Function
+→ Gemini
 → Report Page
 ```
 
@@ -89,7 +91,7 @@ Landing Page
 - [x] Add Edit actions for individual sections
 - [x] Preserve answers while editing earlier steps
 - [x] Add a Change Answers action
-- [x] Connect Begin Analysis to a separate mock analysis page
+- [x] Connect Begin Analysis to a separate analysis page
 - [x] Preserve questionnaire data across route navigation
 
 ### Validation and Accessibility
@@ -110,7 +112,7 @@ Landing Page
 
 Before designing the final report page, define the shape of the data it will display.
 
-- [x] Create typed mock report data
+- [x] Create typed local report fixture data
 - [x] Define the report TypeScript interfaces
 - [x] Decide which sections are always present
 - [x] Decide which sections may be optional
@@ -138,10 +140,10 @@ Possible report sections:
 
 ### Report Page
 
-- [x] Build the report page UI using mock report data
+- [x] Build the report page UI using typed local report fixtures
 - [x] Create reusable report-section components
 - [x] Display personalized questionnaire information
-- [x] Display mock confidence metrics
+- [x] Display fixture-based confidence metrics
 - [x] Design desktop and mobile report layouts
 - [x] Handle long and short content gracefully
 - [x] Add a temporary action for starting another analysis
@@ -153,7 +155,7 @@ Possible report sections:
 - [x] Add OrionLabs processing messages
 - [x] Ensure the loading experience matches the fictional AI-company tone
 - [x] Design desktop and mobile layouts
-- [x] Avoid implying that the current mock process is real AI generation
+- [x] Keep presentation messages distinct from actual report-generation stages
 
 ### Additional Pages
 
@@ -169,7 +171,7 @@ Possible report sections:
 ### Routing
 
 - [x] Add the questionnaire route
-- [x] Add the mock analysis route
+- [x] Add the analysis route
 - [x] Connect the questionnaire review stage to the analysis route
 - [x] Add the report route
 - [x] Add the fake article route
@@ -178,7 +180,7 @@ Possible report sections:
 ### User Journey
 
 - [x] Connect the landing-page primary CTA to the questionnaire
-- [x] Connect the loading screen to the mock report
+- [x] Connect the analysis screen to the report flow
 - [x] Connect report actions to the correct destinations
 - [x] Connect “Read More” to the fake article
 - [x] Finish all landing-page buttons and links
@@ -199,11 +201,11 @@ Possible report sections:
 
 ---
 
-## 7. Add Core Functionality
+## 7. Add the Local Product Foundation
 
-- [x] Pass completed questionnaire answers into mock report generation
-- [x] Generate a mock report from structured local data
-- [x] Display the mock report using the real report components
+- [x] Pass completed questionnaire answers into the structured report foundation
+- [x] Generate a development report fixture from structured local data
+- [x] Display the development fixture using the real report components
 - [x] Add loading-sequence behaviour
 - [x] Connect loading completion to the report page
 - [x] Preserve report data across route navigation
@@ -234,10 +236,12 @@ The completed items below are manual behavior checks, not automated regression t
 ### Verified Routing and Persistence Behavior
 
 - [x] Questionnaire drafts persist during the active journey and survive a questionnaire refresh
-- [ ] Missing or corrupted stored data across every documented case. Current validators safely reject malformed drafts and report records; the strengthened malformed-draft guard still needs a focused browser check.
+- [x] Draft and report validators safely reject corrupted stored data
+- [ ] Perform focused browser checks for malformed questionnaire drafts and report records
 - [x] Protected-route recovery: `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
-- [ ] Refresh every current route locally and verify deployed SPA fallback after deployment. Local pathname routing is implemented, but deployed-host behavior cannot be confirmed yet.
-- [x] Complete mock journey: Landing → Questionnaire → Review → Analysis → saved Report → Start Another Analysis
+- [x] Refresh the landing, questionnaire, analysis, report, and article routes locally and in deployed Vercel environments
+- [x] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
+- [x] Complete real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
 
 ### Automated Regression Coverage
 
@@ -280,20 +284,9 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Validate and normalize the approved generation input on the server
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
-- [x] Add basic rate limiting
+- [x] Configure Vercel Firewall rate limiting at five report-generation requests per 60 seconds per IP address
 - [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
-- [ ] Persist completed reports server-side
-- [ ] Add authenticated report history
-- [ ] Add stable report URLs and sharing permissions
-- [ ] Add report deletion and privacy controls
-
-Possible platforms:
-
-- Vercel Functions
-- Netlify Functions
-- Cloudflare Workers
-- A small Node.js backend
 
 ### AI Response Handling
 
@@ -322,7 +315,7 @@ Possible platforms:
 - [ ] Review the complete tablet experience
 - [ ] Review the complete mobile experience
 - [ ] Review empty, loading, error, and success states
-- [ ] Remove obsolete mock content
+- [ ] Remove obsolete fixture or demo content while preserving development and test fixtures
 - [ ] Remove unused code and assets
 - [ ] Confirm all technical comments remain accurate
 
@@ -354,29 +347,44 @@ Possible platforms:
 - [ ] Test on multiple desktop widths
 - [ ] Test around 375px and 430px mobile widths
 - [ ] Test on at least one real mobile device
-- [ ] Test route refreshes in production
+- [ ] Re-test route refreshes on the final production release candidate
 - [ ] Test AI failure and timeout states
-- [ ] Confirm no API keys are exposed
+- [ ] Re-confirm no API keys are exposed in the final release candidate
 - [ ] Confirm no console errors remain
 - [ ] Run the final production build
 
 ### Documentation and Deployment
 
 - [ ] Update the README for the finished version
-- [ ] Document the final technology stack
-- [ ] Document local development setup
-- [ ] Document environment variables without exposing secrets
-- [ ] Clearly identify the project as satire
+- [x] Document the current technology stack
+- [x] Document local development setup
+- [x] Document environment variables without exposing secrets
+- [x] Clearly identify the project as satire
 - [ ] Add screenshots or a short product preview
-- [ ] Deploy OrionLabs
-- [ ] Verify the deployed site
-- [ ] Verify deployed routes support SPA fallback
+- [x] Deploy OrionLabs to Vercel with `main` as Production and feature-branch Previews
+- [x] Verify the current Preview and Production deployments, including real Gemini report generation
+- [x] Verify deployed routes support SPA fallback and static assets load correctly
+- [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work
 - [ ] Add the live URL to the GitHub repository
 - [ ] Add OrionLabs to the portfolio
 
 ---
 
 ## Later Ideas
+
+### Sharing and Persistence
+
+- [ ] Optional server-side report persistence
+- [ ] Anonymous, stable shareable report URLs
+- [ ] Report retention and deletion controls if server persistence is introduced
+- [ ] Optional sharing and privacy permissions where relevant
+
+### Accounts
+
+- [ ] Authentication
+- [ ] Authenticated report history
+
+### Product Expansion
 
 - [ ] Shareable horoscope cards
 - [ ] Downloadable report images
@@ -385,8 +393,6 @@ Possible platforms:
 - [ ] Easter eggs
 - [ ] Different roast styles
 - [ ] Different analysis tones
-- [ ] Anonymous report links
-- [ ] Report history
 - [ ] Darker or lighter report themes
 - [ ] Additional fictional OrionLabs products
 - [ ] A fictional company team page
