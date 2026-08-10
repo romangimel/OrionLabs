@@ -1,4 +1,4 @@
-import { createReportGenerationHandler } from '../server/report-generation-handler';
+import { createReportGenerationHandler } from '../server/report-generation-handler.js';
 
 export const maxDuration = 60;
 

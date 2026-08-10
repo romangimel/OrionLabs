@@ -2,19 +2,25 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2023", "DOM"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "tsBuildInfoFile": "./node_modules/.cache/tsconfig.api.tsbuildinfo",
     "isolatedModules": true,
     "moduleDetection": "force",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
     "types": ["node"]
   },
-  "include": ["api", "server", "src/data", "src/lib"]
+  "include": [
+    "api",
+    "server",
+    "src/data/questionnaire.ts",
+    "src/data/report.ts",
+    "src/lib/age.ts",
+    "src/lib/questionnaire-state.ts",
+    "src/lib/report-generation-constraints.ts",
+    "src/lib/report-generation-input.ts",
+    "src/lib/report-schemas.ts"
+  ]
 }

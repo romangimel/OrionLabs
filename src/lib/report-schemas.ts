@@ -3,15 +3,15 @@ import {
   ATTENTION_AREAS,
   BEHAVIORAL_STATEMENTS,
   ZODIAC_SIGNS,
-} from '@/data/questionnaire';
-import type { OrionReport } from '@/data/report';
-import type { ReportGenerationInput } from '@/lib/report-generation-input';
+} from '../data/questionnaire.js';
+import type { OrionReport } from '../data/report.js';
+import type { ReportGenerationInput } from './report-generation-input.js';
 import {
   MAX_ADDITIONAL_CONTEXT_LENGTH,
   MAX_SUBJECT_NAME_LENGTH,
-} from '@/lib/report-generation-constraints';
+} from './report-generation-constraints.js';
 
-export { MAX_ADDITIONAL_CONTEXT_LENGTH } from '@/lib/report-generation-constraints';
+export { MAX_ADDITIONAL_CONTEXT_LENGTH } from './report-generation-constraints.js';
 
 const zodiacNames = ZODIAC_SIGNS.map((sign) => sign.name);
 const nonEmptyText = z.string().trim().min(1);

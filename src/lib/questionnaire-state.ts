@@ -3,7 +3,7 @@ import {
   BEHAVIORAL_STATEMENTS,
   REFERENCE_PREFERENCES,
   ZODIAC_SIGNS,
-} from '@/data/questionnaire';
+} from '../data/questionnaire.js';
 
 /**
  * Canonical answer model shared by the questionnaire, review, and analysis routes.

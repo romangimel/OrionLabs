@@ -1,4 +1,4 @@
-import type { ReportGenerationInput } from '@/lib/report-generation-input';
+import type { ReportGenerationInput } from '../../src/lib/report-generation-input.js';
 
 /** Stable task instructions, kept separate from the subject values appended at runtime. */
 export const REPORT_GENERATION_PROMPT = `Generate one complete OrionLabs report that conforms exactly to the supplied JSON schema.

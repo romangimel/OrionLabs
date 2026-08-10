@@ -116,6 +116,8 @@ Use `npx vercel dev` for the complete flow. Plain `npm run dev` runs Vite but do
 
 In Vercel, add `GEMINI_API_KEY` as a sensitive Environment Variable for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback while explicitly keeping the physical API namespace and local Vite development resources outside that rewrite.
 
+The Function runtime graph uses Node ESM imports: local server imports must be relative and must name their emitted `.js` extension. TypeScript resolves those specifiers to the `.ts` source during development. Keep the frontend `@/` alias out of modules loaded at Function runtime because Vercel does not rewrite TypeScript path mappings in deployed Function files.
+
 ## Verification
 
 Focused Vitest coverage exists for the AI input boundary, birth-date/reference exclusion, generated-report validation, identity drift, bounded retries, HTTP validation, duplicate in-flight requests, persistence, and draft preservation.

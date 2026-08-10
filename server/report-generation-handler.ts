@@ -1,10 +1,10 @@
-import type { OrionReport } from '@/data/report';
-import type { ReportGenerationInput } from '@/lib/report-generation-input';
-import { reportGenerationInputSchema } from '@/lib/report-schemas';
+import type { OrionReport } from '../src/data/report.js';
+import type { ReportGenerationInput } from '../src/lib/report-generation-input.js';
+import { reportGenerationInputSchema } from '../src/lib/report-schemas.js';
 import {
   generateGeminiReport,
   MissingGeminiApiKeyError,
-} from './gemini-report-generator';
+} from './gemini-report-generator.js';
 
 const MAX_REQUEST_BODY_BYTES = 16_384;
 

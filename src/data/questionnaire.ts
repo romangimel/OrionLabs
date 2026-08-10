@@ -1,8 +1,8 @@
-import type { QuestionnaireQuestionId } from '@/lib/questionnaire-state';
+import type { QuestionnaireQuestionId } from '../lib/questionnaire-state.js';
 import {
   MAX_ADDITIONAL_CONTEXT_LENGTH,
   MAX_SUBJECT_NAME_LENGTH,
-} from '@/lib/report-generation-constraints';
+} from '../lib/report-generation-constraints.js';
 
 type QuestionnaireRequirement =
   | {

@@ -1,15 +1,15 @@
 import { ApiError, GoogleGenAI } from '@google/genai';
 import { ZodError } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
-import type { OrionReport } from '@/data/report';
-import type { ReportGenerationInput } from '@/lib/report-generation-input';
+import type { OrionReport } from '../src/data/report.js';
+import type { ReportGenerationInput } from '../src/lib/report-generation-input.js';
 import {
   GeneratedReportIdentityError,
   orionReportSchema,
   parseGeneratedReportForInput,
-} from '@/lib/report-schemas';
-import { ORIONLABS_SYSTEM_PROMPT } from './prompts/orionlabs-system-prompt';
-import { buildReportGenerationPrompt } from './prompts/report-generation-prompt';
+} from '../src/lib/report-schemas.js';
+import { ORIONLABS_SYSTEM_PROMPT } from './prompts/orionlabs-system-prompt.js';
+import { buildReportGenerationPrompt } from './prompts/report-generation-prompt.js';
 
 export const GEMINI_REPORT_MODEL = 'gemini-3.6-flash';
 const MAX_GENERATION_ATTEMPTS = 2;

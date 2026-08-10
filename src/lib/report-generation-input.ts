@@ -1,6 +1,6 @@
-import { calculateAge } from '@/lib/age';
-import { reportGenerationInputSchema } from '@/lib/report-schemas';
-import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
+import { calculateAge } from './age.js';
+import { reportGenerationInputSchema } from './report-schemas.js';
+import type { QuestionnaireAnswers } from './questionnaire-state.js';
 
 /**
  * The application-controlled context eligible for AI report generation.

@@ -97,6 +97,8 @@ npm run preview
 
 In the Vercel project dashboard, add `GEMINI_API_KEY` under Settings -> Environment Variables for the environments that should generate reports (Development, Preview, and Production as appropriate), then redeploy. Keep the value marked sensitive and do not prefix it with `VITE_`.
 
+Server-side TypeScript is executed as Node ESM. Every local runtime import reachable from an `api/` Function therefore uses a relative path with a `.js` extension, which TypeScript maps back to the corresponding `.ts` source file. Do not use the frontend `@/` alias in that runtime graph: Vercel Functions do not rewrite TypeScript path mappings in deployed imports.
+
 ## Validation, retries, and privacy
 
 The server accepts only the strict `ReportGenerationInput` shape, limits request size, bounds optional context to 1,000 characters, and rejects unexpected fields. Gemini receives stable system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
