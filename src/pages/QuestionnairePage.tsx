@@ -23,7 +23,7 @@ import { createReportGenerationInput } from '@/lib/report-generation-input';
 import { clearAllSessionReports, createReportId } from '@/lib/report-storage';
 import {
   getFirstInvalidQuestionId,
-  hasQuestionnaireAnswer,
+  validateQuestionnaireAnswer,
   validateQuestionnaireStep,
   type QuestionnaireValidationErrors,
 } from '@/lib/questionnaire-validation';
@@ -131,8 +131,12 @@ export function QuestionnairePage() {
         );
         const nextErrors = { ...currentErrors };
 
-        if (activeQuestion?.required && !hasQuestionnaireAnswer(value)) {
-          nextErrors[field] = activeQuestion.validationMessage;
+        const nextError = activeQuestion
+          ? validateQuestionnaireAnswer(activeQuestion, value)
+          : undefined;
+
+        if (nextError) {
+          nextErrors[field] = nextError;
         } else {
           delete nextErrors[field];
         }

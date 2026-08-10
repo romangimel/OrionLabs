@@ -1,5 +1,10 @@
 import type { QuestionnaireStep } from '@/data/questionnaire';
 import {
+  calculateAge,
+  isBirthDateInFuture,
+  isValidBirthDate,
+} from '@/lib/age';
+import {
   QUESTION_FIELD_MAP,
   type QuestionnaireAnswerField,
   type QuestionnaireAnswers,
@@ -15,6 +20,41 @@ export function hasQuestionnaireAnswer(value: string) {
   return value.trim().length > 0;
 }
 
+const INVALID_BIRTH_DATE_MESSAGE = 'Please enter a valid birth date.';
+const FUTURE_BIRTH_DATE_MESSAGE = 'Please enter a birth date that is not in the future.';
+const MINIMUM_AGE_MESSAGE =
+  'OrionLabs analysis is currently limited to subjects aged 18 and over.';
+
+/** Applies the configured presence rule and any validation owned by the input type. */
+export function validateQuestionnaireAnswer(
+  question: QuestionnaireStep['questions'][number],
+  value: string,
+  currentDate = new Date(),
+): string | undefined {
+  if (!hasQuestionnaireAnswer(value)) {
+    return question.required ? question.validationMessage : undefined;
+  }
+
+  if (question.type !== 'date') {
+    return undefined;
+  }
+
+  if (!isValidBirthDate(value)) {
+    return INVALID_BIRTH_DATE_MESSAGE;
+  }
+
+  if (isBirthDateInFuture(value, currentDate)) {
+    return FUTURE_BIRTH_DATE_MESSAGE;
+  }
+
+  const age = calculateAge(value, currentDate);
+  if (age === null) {
+    return INVALID_BIRTH_DATE_MESSAGE;
+  }
+
+  return age < 18 ? MINIMUM_AGE_MESSAGE : undefined;
+}
+
 /**
  * Derives validation results from the active step configuration and current
  * answers. Future steps are intentionally excluded from this calculation.
@@ -22,17 +62,15 @@ export function hasQuestionnaireAnswer(value: string) {
 export function validateQuestionnaireStep(
   step: QuestionnaireStep,
   answers: QuestionnaireAnswers,
+  currentDate = new Date(),
 ): QuestionnaireValidationErrors {
   const errors: QuestionnaireValidationErrors = {};
 
   for (const question of step.questions) {
-    if (!question.required) {
-      continue;
-    }
-
     const field = QUESTION_FIELD_MAP[question.id];
-    if (!hasQuestionnaireAnswer(answers[field])) {
-      errors[field] = question.validationMessage;
+    const error = validateQuestionnaireAnswer(question, answers[field], currentDate);
+    if (error) {
+      errors[field] = error;
     }
   }
 
