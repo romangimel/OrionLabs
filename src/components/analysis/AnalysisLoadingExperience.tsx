@@ -1,11 +1,11 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { CelestialCalibrationIndicator } from '@/components/analysis/CelestialCalibrationIndicator';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
+import type { SubjectSignatureData } from '@/lib/subject-signature';
 
 export type AnalysisPhase = 'loading' | 'complete' | 'error' | 'capacity';
 
 interface AnalysisLoadingExperienceProps {
-  profile: OrbitalProfileData;
+  signature: SubjectSignatureData;
   message: string;
   messageIndex: number;
   messageCount: number;
@@ -17,7 +17,7 @@ const COMPLETION_MESSAGE = 'Report synthesis complete.';
 
 /** Presents the prominent status narrative and its evolving subject model. */
 export function AnalysisLoadingExperience({
-  profile,
+  signature,
   message,
   messageIndex,
   messageCount,
@@ -55,13 +55,13 @@ export function AnalysisLoadingExperience({
           <span className="text-[hsl(326_55%_68%)]">
             DeepConstellation™ · Calibration sequence
           </span>
-          <span>{profile.signature}</span>
+          <span>{signature.identity}</span>
         </div>
 
         <div className="grid items-center gap-3 pt-3 sm:gap-7 sm:pt-6 lg:grid-cols-[minmax(0,0.88fr)_minmax(24rem,1.12fr)] lg:gap-10 lg:pt-7">
           <div className="text-left">
             <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
-              Subject model · {profile.zodiacCode} / {profile.focusCode}
+              Subject signature · {signature.constellationLabel ?? signature.zodiacSign ?? 'Dormant'}
             </p>
             <h1
               id="analysis-title"
@@ -70,8 +70,8 @@ export function AnalysisLoadingExperience({
               Calibrating your celestial profile
             </h1>
             <p className="mt-2 max-w-lg text-xs leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
-              {profile.subjectName}'s confirmed profile is being aligned with the OrionLabs
-              assessment framework.
+              Your confirmed profile is being aligned with the OrionLabs assessment
+              framework.
             </p>
 
             <div
@@ -182,9 +182,7 @@ export function AnalysisLoadingExperience({
               className="absolute bottom-4 right-4 h-5 w-5 border-b border-r border-[hsl(43_60%_70%_/_0.38)]"
             />
             <CelestialCalibrationIndicator
-              profile={profile}
-              stage={messageIndex}
-              isComplete={isComplete}
+              signature={signature}
             />
           </div>
         </div>

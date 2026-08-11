@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
-import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { Aurora } from '@/components/site/Aurora';
+import { Logo } from '@/components/site/Logo';
 import { QuestionnaireCard } from '@/components/questionnaire/QuestionnaireCard';
 import { QuestionnaireProgress } from '@/components/questionnaire/QuestionnaireProgress';
 import { QuestionnaireReview } from '@/components/questionnaire/QuestionnaireReview';
@@ -21,6 +21,7 @@ import {
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 import { createReportGenerationInput } from '@/lib/report-generation-input';
 import { clearAllSessionReports, createReportId } from '@/lib/report-storage';
+import { createSubjectSignatureFromAnswers } from '@/lib/subject-signature';
 import {
   getFirstInvalidQuestionId,
   validateQuestionnaireAnswer,
@@ -64,6 +65,7 @@ export function QuestionnairePage() {
   const currentStepNumber = questionnaire.currentStep + 1;
   // Progress represents completed steps, so Step 1 begins at 0% and review reaches 100%.
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
+  const subjectSignature = createSubjectSignatureFromAnswers(questionnaire.answers);
 
   // Announce each successful transition from the new heading without moving the
   // questionnaire in the viewport. Validation keeps its separate field focus.
@@ -305,6 +307,7 @@ export function QuestionnairePage() {
             totalSteps={TOTAL_STEPS}
             percentage={percentage}
             isReviewing={questionnaire.isReviewing}
+            signature={subjectSignature}
           />
 
           {questionnaire.isReviewing ? (

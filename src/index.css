@@ -206,29 +206,6 @@
   50% { opacity: 0.9; }
 }
 
-/* Shared orbital subject model used from review through the final report. */
-.orbital-profile__rotation--active {
-  animation: orbital-profile-turn 36s linear infinite;
-  transform-origin: 260px 260px;
-}
-
-.orbital-profile__rotation--reverse.orbital-profile__rotation--active {
-  animation-name: orbital-profile-turn-reverse;
-  animation-duration: 29s;
-}
-
-.orbital-profile--complete .orbital-profile__rotation--active {
-  animation-play-state: paused;
-}
-
-@keyframes orbital-profile-turn {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes orbital-profile-turn-reverse {
-  to { transform: rotate(-360deg); }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -237,9 +214,6 @@
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-  .orbital-profile__rotation--active {
-    animation: none !important;
   }
 }
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { RotateCcw } from 'lucide-react';
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
 import { ClosingVerdict } from '@/components/report/ClosingVerdict';
 import { CurrentLifeSection } from '@/components/report/CurrentLifeSection';
 import { RecommendationSection } from '@/components/report/RecommendationSection';
@@ -12,9 +11,9 @@ import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Reveal } from '@/components/site/Motion';
 import { Starfield } from '@/components/site/Starfield';
-import { createOrbitalProfileFromReport } from '@/lib/orbital-profile';
 import { getActiveReport } from '@/lib/report-storage';
 import { startNewAnalysisJourney } from '@/lib/analysis-session';
+import { createSubjectSignature } from '@/lib/subject-signature';
 
 /**
  * Resolves the private active report ID into one immutable completed snapshot,
@@ -37,7 +36,7 @@ export function ReportPage() {
   }
 
   const report = savedReport.report;
-  const orbitalProfile = createOrbitalProfileFromReport(report);
+  const subjectSignature = createSubjectSignature(savedReport.signatureInputs);
 
   const handleStartAnotherAnalysis = () => {
     if (!startNewAnalysisJourney()) {
@@ -87,7 +86,7 @@ export function ReportPage() {
         id="report-content"
         className="container-narrow relative z-10 pb-20 sm:pb-24 md:pb-32"
       >
-        <ReportHeader subject={report.subject} profile={orbitalProfile} />
+        <ReportHeader subject={report.subject} signature={subjectSignature} />
 
         <article className="space-y-5 sm:space-y-7">
           <Reveal>
@@ -96,11 +95,6 @@ export function ReportPage() {
               aria-labelledby="executive-summary-title"
               className="relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.13)] bg-[linear-gradient(135deg,hsl(285_58%_14%_/_0.6),hsl(270_52%_8%_/_0.48))] px-5 py-14 shadow-[0_32px_110px_-52px_hsl(255_80%_2%_/_0.96)] sm:px-8 sm:py-16 md:px-10 lg:px-14 lg:py-20"
             >
-              <OrbitalProfile
-                profile={orbitalProfile}
-                variant="echo"
-                className="absolute -right-32 -top-36 h-[34rem] w-[34rem] opacity-[0.14]"
-              />
               <div className="relative max-w-4xl">
                 <p className="flex items-center gap-3 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/45">
                   <span className="text-[hsl(43_60%_72%)]">01</span>
@@ -121,7 +115,7 @@ export function ReportPage() {
           </Reveal>
 
           <Reveal>
-            <ReportMetrics metrics={report.metrics} profile={orbitalProfile} />
+            <ReportMetrics metrics={report.metrics} />
           </Reveal>
 
           <Reveal>
@@ -131,7 +125,6 @@ export function ReportPage() {
               eyebrow="Personality architecture"
               title="A disciplined system with extensive internal governance."
               description="The model's primary reading of temperament, decision style, and supporting behavioral evidence."
-              profile={orbitalProfile}
             >
               <p className="text-base leading-[1.85] text-foreground/85 sm:text-lg">
                 {report.personalityAnalysis.overview}
@@ -155,7 +148,6 @@ export function ReportPage() {
           <Reveal>
             <CurrentLifeSection
               analysis={report.currentLifeAnalysis}
-              profile={orbitalProfile}
             />
           </Reveal>
 
@@ -167,7 +159,6 @@ export function ReportPage() {
               title="Capability and recurring friction"
               description="The same operating habits can produce leverage or unnecessary complexity, depending on planetary oversight."
               layout="stacked"
-              profile={orbitalProfile}
             >
               <div className="grid gap-10 lg:grid-cols-2 lg:gap-0">
                 <section
@@ -220,14 +211,12 @@ export function ReportPage() {
           <Reveal>
             <RecommendationSection
               recommendation={report.recommendedAction}
-              profile={orbitalProfile}
             />
           </Reveal>
           <Reveal>
             <ClosingVerdict
               subjectName={report.subject.name}
               verdict={report.closingVerdict}
-              profile={orbitalProfile}
             />
           </Reveal>
         </article>

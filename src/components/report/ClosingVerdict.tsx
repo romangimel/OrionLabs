@@ -1,18 +1,14 @@
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
 import { Logo } from '@/components/site/Logo';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
 
 interface ClosingVerdictProps {
   subjectName: string;
   verdict: string;
-  profile: OrbitalProfileData;
 }
 
 /** Delivers a spacious final assessment with a quiet echo of the subject model. */
 export function ClosingVerdict({
   subjectName,
   verdict,
-  profile,
 }: ClosingVerdictProps) {
   return (
     <section
@@ -23,11 +19,6 @@ export function ClosingVerdict({
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,hsl(326_80%_48%_/_0.18),transparent_58%)]"
-      />
-      <OrbitalProfile
-        profile={profile}
-        variant="echo"
-        className="absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 opacity-[0.13]"
       />
       <div className="relative mx-auto max-w-4xl text-center">
         <Logo className="mx-auto h-11 w-11 drop-shadow-[0_0_18px_hsl(43_74%_66%_/_0.32)]" />

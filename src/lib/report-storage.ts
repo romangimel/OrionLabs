@@ -1,11 +1,21 @@
 import type { OrionReport } from '@/data/report';
 import { orionReportSchema } from '@/lib/report-schemas';
+import {
+  isSubjectSignatureInput,
+  type SubjectSignatureInput,
+} from '@/lib/subject-signature';
 
-const REPORT_SCHEMA_VERSION = 2;
-const REPORT_STORAGE_PREFIX = 'orionlabs.report.v2.';
-const ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v2';
-const LEGACY_REPORT_STORAGE_PREFIX = 'orionlabs.report.v1.';
-const LEGACY_ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v1';
+const REPORT_SCHEMA_VERSION = 3;
+const REPORT_STORAGE_PREFIX = 'orionlabs.report.v3.';
+const ACTIVE_REPORT_ID_STORAGE_KEY = 'orionlabs.report.active.v3';
+const LEGACY_REPORT_STORAGE_PREFIXES = [
+  'orionlabs.report.v1.',
+  'orionlabs.report.v2.',
+] as const;
+const LEGACY_ACTIVE_REPORT_ID_STORAGE_KEYS = [
+  'orionlabs.report.active.v1',
+  'orionlabs.report.active.v2',
+] as const;
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
@@ -13,13 +23,14 @@ const UUID_PATTERN =
 export interface SavedReport {
   id: string;
   createdAt: string;
-  schemaVersion: 2;
+  schemaVersion: 3;
   status: 'completed';
   subject: {
     name: string;
     zodiacSign: string;
     age: number;
   };
+  signatureInputs: SubjectSignatureInput;
   report: OrionReport;
 }
 
@@ -64,6 +75,7 @@ function isSavedReport(value: unknown): value is SavedReport {
       typeof subject.age === 'number' &&
       Number.isInteger(subject.age) &&
       subject.age >= 0 &&
+      isSubjectSignatureInput(savedReport.signatureInputs) &&
       isOrionReport(savedReport.report) &&
       subject.name === savedReport.report.subject.name &&
       subject.zodiacSign === savedReport.report.subject.zodiacSign &&
@@ -137,6 +149,7 @@ export function setActiveReportId(id: string): boolean {
 export function persistGeneratedReport(
   id: string,
   report: OrionReport,
+  signatureInputs: SubjectSignatureInput,
   createdAt = new Date().toISOString(),
 ): SavedReport | null {
   const existingReport = getReportById(id);
@@ -147,9 +160,10 @@ export function persistGeneratedReport(
   const savedReport: SavedReport = {
     id,
     createdAt,
-    schemaVersion: 2,
+    schemaVersion: 3,
     status: 'completed',
     subject: { ...report.subject },
+    signatureInputs: { ...signatureInputs },
     report,
   };
 
@@ -186,15 +200,17 @@ export function clearAllSessionReports(): boolean {
       const key = window.sessionStorage.key(index);
       if (
         key?.startsWith(REPORT_STORAGE_PREFIX) ||
-        key?.startsWith(LEGACY_REPORT_STORAGE_PREFIX)
+        LEGACY_REPORT_STORAGE_PREFIXES.some((prefix) => key?.startsWith(prefix))
       ) {
-        reportKeys.push(key);
+        reportKeys.push(key!);
       }
     }
 
     reportKeys.forEach((key) => window.sessionStorage.removeItem(key));
     window.sessionStorage.removeItem(ACTIVE_REPORT_ID_STORAGE_KEY);
-    window.sessionStorage.removeItem(LEGACY_ACTIVE_REPORT_ID_STORAGE_KEY);
+    LEGACY_ACTIVE_REPORT_ID_STORAGE_KEYS.forEach((key) =>
+      window.sessionStorage.removeItem(key),
+    );
     return true;
   } catch {
     return false;

@@ -1,25 +1,17 @@
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
 import type { OrionReport } from '@/data/report';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
 
 interface ReportMetricsProps {
   metrics: OrionReport['metrics'];
-  profile: OrbitalProfileData;
 }
 
 /** Renders fictional confidence evidence with complete text equivalents. */
-export function ReportMetrics({ metrics, profile }: ReportMetricsProps) {
+export function ReportMetrics({ metrics }: ReportMetricsProps) {
   return (
     <section
       id="report-metrics"
       aria-labelledby="report-metrics-title"
       className="relative overflow-hidden rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.13)] bg-[hsl(275_48%_10%_/_0.54)] px-5 py-12 shadow-[0_28px_100px_-55px_hsl(255_80%_2%_/_0.95)] sm:px-8 sm:py-14 md:px-10 lg:px-12"
     >
-      <OrbitalProfile
-        profile={profile}
-        variant="echo"
-        className="absolute -right-28 -top-32 h-[24rem] w-[24rem] opacity-[0.13]"
-      />
       <div className="relative flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
         <div>
           <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/45">

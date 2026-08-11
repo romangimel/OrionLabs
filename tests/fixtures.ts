@@ -12,6 +12,12 @@ export const validGenerationInput: ReportGenerationInput = {
   additionalContext: 'I keep revising two project ideas instead of choosing one.',
 };
 
+export const validSignatureInput = {
+  zodiacSign: 'Capricorn',
+  focusArea: 'Career',
+  behavioralStatement: 'I overthink things',
+} as const;
+
 export function createValidReport(): OrionReport {
   return structuredClone(mockReport);
 }

@@ -8,9 +8,9 @@ The project is also a portfolio and learning project focused on typed React comp
 
 The landing page, four-step questionnaire, real AI-backed Analysis flow, and personalized report are implemented. After review confirmation, the browser creates the approved `ReportGenerationInput` and posts it to a server-side Vercel Function. The function validates the input, calls Google Gemini 3.6 Flash, validates the structured `OrionReport`, and returns only a complete report.
 
-The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. It waits for both the request and the minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
+The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. Independently, it constructs the deterministic Orion Subject Signature over approximately 16 seconds. It waits for both the request and that minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
 
-Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
+The Subject Signature is currently a Capricornus-only visual prototype; the other eleven constellation geometries remain planned. Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing also remain planned.
 
 ## Technology
 
@@ -38,7 +38,7 @@ Supabase and several supporting UI packages remain installed for future developm
 
 Questionnaire progress is saved as a temporary `sessionStorage` draft. After review confirmation, `/analysis` maps that draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the function or Gemini. The function reads `GEMINI_API_KEY` only on the server.
 
-Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Invalid data returns the visitor to a fresh questionnaire without displaying mock or partial content.
+Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Zodiac, focus, and behavior are stored as application-controlled Subject Signature metadata beside the unchanged AI-facing `OrionReport`; Report never infers behavior from Gemini prose. Invalid or superseded records return the visitor to a fresh questionnaire without displaying mock or partial content.
 
 `vercel.json` provides the SPA fallback needed by the pathname-based routes. Its fallback explicitly excludes `/api/*` and Vite development-resource namespaces so `npx vercel dev` can serve both the frontend development modules and the physical `/api/generate-report` function.
 

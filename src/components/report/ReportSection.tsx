@@ -1,6 +1,4 @@
 import type { ReactNode } from 'react';
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
 import { cn } from '@/lib/utils';
 
 type ReportSectionLayout = 'split' | 'reverse' | 'stacked';
@@ -15,7 +13,6 @@ interface ReportSectionProps {
   children: ReactNode;
   layout?: ReportSectionLayout;
   surface?: ReportSectionSurface;
-  profile?: OrbitalProfileData;
   className?: string;
   contentClassName?: string;
 }
@@ -34,7 +31,6 @@ export function ReportSection({
   children,
   layout = 'split',
   surface = 'none',
-  profile,
   className,
   contentClassName,
 }: ReportSectionProps) {
@@ -52,17 +48,6 @@ export function ReportSection({
         className,
       )}
     >
-      {profile && (
-        <OrbitalProfile
-          profile={profile}
-          variant="echo"
-          className={cn(
-            'absolute -right-24 -top-28 h-[25rem] w-[25rem] opacity-[0.16]',
-            isReverse && '-left-28 right-auto rotate-12',
-          )}
-        />
-      )}
-
       <div
         className={cn(
           'relative grid gap-8',

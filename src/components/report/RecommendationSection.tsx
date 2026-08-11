@@ -1,17 +1,14 @@
 import { ArrowUpRight } from 'lucide-react';
 import type { OrionReport } from '@/data/report';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
 import { ReportSection } from './ReportSection';
 
 interface RecommendationSectionProps {
   recommendation: OrionReport['recommendedAction'];
-  profile: OrbitalProfileData;
 }
 
 /** Presents the recommendation as the report's directive chapter. */
 export function RecommendationSection({
   recommendation,
-  profile,
 }: RecommendationSectionProps) {
   return (
     <ReportSection
@@ -20,7 +17,6 @@ export function RecommendationSection({
       eyebrow="Recommended action"
       title={recommendation.title}
       description="The highest-leverage intervention identified by the current celestial model."
-      profile={profile}
     >
       <div className="relative overflow-hidden border-y border-[hsl(43_60%_70%_/_0.18)] bg-[linear-gradient(90deg,hsl(43_74%_66%_/_0.06),transparent)] px-5 py-7 sm:px-7 sm:py-8">
         <ArrowUpRight

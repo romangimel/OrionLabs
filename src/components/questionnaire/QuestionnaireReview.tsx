@@ -1,8 +1,8 @@
 import type { RefObject } from 'react';
 import { ArrowLeft, Pencil, Sparkles } from 'lucide-react';
 import { motion, useReducedMotion } from 'framer-motion';
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
-import { createOrbitalProfile } from '@/lib/orbital-profile';
+import { SubjectSignature } from '@/components/celestial/SubjectSignature';
+import { createSubjectSignatureFromAnswers } from '@/lib/subject-signature';
 import type { QuestionnaireAnswers, QuestionnaireStepIndex } from '@/lib/questionnaire-state';
 import { cn } from '@/lib/utils';
 
@@ -63,7 +63,7 @@ export function QuestionnaireReview({
   onConfirm,
 }: QuestionnaireReviewProps) {
   const reduceMotion = useReducedMotion();
-  const orbitalProfile = createOrbitalProfile(answers);
+  const subjectSignature = createSubjectSignatureFromAnswers(answers);
   // Review presentation is derived from canonical answers rather than duplicated state.
   const sections: ReviewSection[] = [
     {
@@ -159,19 +159,14 @@ export function QuestionnaireReview({
 
           <div className="relative mx-auto w-full max-w-sm rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(262_45%_7%_/_0.28)] p-4 sm:p-5">
             <div className="flex items-center justify-between gap-3 text-[0.6rem] font-medium uppercase tracking-[0.18em] text-muted-foreground/55">
-              <span>Subject profile seed</span>
+              <span>Preliminary subject signature</span>
               <span className="text-[hsl(43_60%_72%)]">Ready</span>
             </div>
-            <OrbitalProfile
-              profile={orbitalProfile}
+            <SubjectSignature
+              signature={subjectSignature}
               variant="review"
-              stage={3}
-              className="mx-auto mt-1"
+              className="mx-auto mt-2"
             />
-            <div className="flex items-center justify-between gap-3 border-t border-[hsl(43_60%_70%_/_0.1)] pt-3 text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground/50">
-              <span>{orbitalProfile.signature}</span>
-              <span>{orbitalProfile.focusCode} / {orbitalProfile.behaviorCode}</span>
-            </div>
           </div>
         </div>
 

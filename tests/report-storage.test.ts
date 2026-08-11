@@ -5,7 +5,8 @@ import {
   getActiveReport,
   persistGeneratedReport,
 } from '@/lib/report-storage';
-import { createValidReport } from './fixtures';
+import { createSubjectSignature } from '@/lib/subject-signature';
+import { createValidReport, validSignatureInput } from './fixtures';
 
 class MemorySessionStorage implements Storage {
   private readonly values = new Map<string, string>();
@@ -49,6 +50,7 @@ describe('generated report persistence', () => {
     const savedReport = persistGeneratedReport(
       reportId,
       createValidReport(),
+      validSignatureInput,
       '2026-08-09T10:00:00.000Z',
     );
 
@@ -62,11 +64,34 @@ describe('generated report persistence', () => {
     malformedReport.metrics[0].value = 101;
 
     expect(
-      persistGeneratedReport(reportId, malformedReport as OrionReport),
+      persistGeneratedReport(
+        reportId,
+        malformedReport as OrionReport,
+        validSignatureInput,
+      ),
     ).toBeNull();
     expect(getActiveReport()).toBeNull();
     expect(window.sessionStorage.getItem(QUESTIONNAIRE_DRAFT_STORAGE_KEY)).toBe(
       'preserved-draft',
     );
+  });
+
+  it('preserves signature behavior explicitly instead of reconstructing it from prose', () => {
+    const report = createValidReport();
+    report.personalityAnalysis.traits[0].title = 'Entirely unrelated generated title';
+
+    const savedReport = persistGeneratedReport(
+      reportId,
+      report,
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+
+    expect(savedReport?.signatureInputs.behavioralStatement).toBe(
+      'I overthink things',
+    );
+    expect(
+      createSubjectSignature(savedReport!.signatureInputs).behavioralStatement,
+    ).toBe('I overthink things');
   });
 });

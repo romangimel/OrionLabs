@@ -9,7 +9,6 @@ import { Starfield } from '@/components/site/Starfield';
 import { REFERENCE_PREFERENCES } from '@/data/questionnaire';
 import { useAnalysisPresentationSequence } from '@/hooks/useAnalysisPresentationSequence';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
-import { createOrbitalProfile } from '@/lib/orbital-profile';
 import {
   ReportGenerationRequestError,
   requestGeneratedReport,
@@ -23,6 +22,11 @@ import {
   getReportById,
   persistGeneratedReport,
 } from '@/lib/report-storage';
+import {
+  createSubjectSignatureFromAnswers,
+  createSubjectSignatureInput,
+  SUBJECT_SIGNATURE_TIMELINE,
+} from '@/lib/subject-signature';
 
 const PROCESSING_MESSAGES = [
   'Mapping behavioral resonance...',
@@ -31,7 +35,7 @@ const PROCESSING_MESSAGES = [
   'Finalizing conclusions before reviewing the evidence...',
 ] as const;
 
-const MINIMUM_ANALYSIS_DURATION_MS = 12_000;
+const MINIMUM_ANALYSIS_DURATION_MS = SUBJECT_SIGNATURE_TIMELINE.totalSeconds * 1_000;
 const MESSAGE_INTERVAL_MS = 3_000;
 const COMPLETION_PAUSE_MS = 3_000;
 
@@ -47,6 +51,10 @@ export function AnalysisPage() {
     () => (draft ? createReportGenerationInput(draft.answers) : null),
     [draft],
   );
+  const signatureInputs = useMemo(
+    () => (draft ? createSubjectSignatureInput(draft.answers) : null),
+    [draft],
+  );
   const hasRequiredReferencePreference = Boolean(
     draft &&
       REFERENCE_PREFERENCES.includes(
@@ -54,7 +62,10 @@ export function AnalysisPage() {
       ),
   );
   const canRenderAnalysis = Boolean(
-    draft?.pendingReportId && generationInput && hasRequiredReferencePreference,
+    draft?.pendingReportId &&
+      generationInput &&
+      signatureInputs &&
+      hasRequiredReferencePreference,
   );
   const [generatedReport, setGeneratedReport] = useState(() =>
     draft?.pendingReportId ? getReportById(draft.pendingReportId)?.report ?? null : null,
@@ -63,8 +74,10 @@ export function AnalysisPage() {
     generatedReport ? 'succeeded' : 'loading',
   );
   const [attempt, setAttempt] = useState(0);
-  const orbitalProfile =
-    draft && canRenderAnalysis ? createOrbitalProfile(draft.answers) : null;
+  const subjectSignature =
+    draft && canRenderAnalysis
+      ? createSubjectSignatureFromAnswers(draft.answers)
+      : null;
   const { currentMessageIndex, minimumExperienceComplete } =
     useAnalysisPresentationSequence({
       durationMs: MINIMUM_ANALYSIS_DURATION_MS,
@@ -127,6 +140,7 @@ export function AnalysisPage() {
     if (
       !draft?.pendingReportId ||
       !generatedReport ||
+      !signatureInputs ||
       !canRenderAnalysis ||
       !minimumExperienceComplete ||
       generationStatus !== 'succeeded'
@@ -134,7 +148,11 @@ export function AnalysisPage() {
       return;
     }
 
-    const savedReport = persistGeneratedReport(draft.pendingReportId, generatedReport);
+    const savedReport = persistGeneratedReport(
+      draft.pendingReportId,
+      generatedReport,
+      signatureInputs,
+    );
     if (!savedReport) {
       setGenerationStatus('failed');
       return;
@@ -154,9 +172,10 @@ export function AnalysisPage() {
     generatedReport,
     generationStatus,
     minimumExperienceComplete,
+    signatureInputs,
   ]);
 
-  if (!draft || !canRenderAnalysis || !orbitalProfile) {
+  if (!draft || !canRenderAnalysis || !subjectSignature) {
     return null;
   }
 
@@ -206,7 +225,7 @@ export function AnalysisPage() {
 
       <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-4 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16 lg:py-4">
         <AnalysisLoadingExperience
-          profile={orbitalProfile}
+          signature={subjectSignature}
           message={PROCESSING_MESSAGES[currentMessageIndex]}
           messageIndex={currentMessageIndex}
           messageCount={PROCESSING_MESSAGES.length}

@@ -1,10 +1,8 @@
-import { OrbitalProfile } from '@/components/celestial/OrbitalProfile';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
+import { SubjectSignature } from '@/components/celestial/SubjectSignature';
+import type { SubjectSignatureData } from '@/lib/subject-signature';
 
 interface CelestialCalibrationIndicatorProps {
-  profile: OrbitalProfileData;
-  stage: number;
-  isComplete: boolean;
+  signature: SubjectSignatureData;
 }
 
 /**
@@ -13,16 +11,12 @@ interface CelestialCalibrationIndicatorProps {
  * reusable visualization rendered again in review and the final report.
  */
 export function CelestialCalibrationIndicator({
-  profile,
-  stage,
-  isComplete,
+  signature,
 }: CelestialCalibrationIndicatorProps) {
   return (
-    <OrbitalProfile
-      profile={profile}
+    <SubjectSignature
+      signature={signature}
       variant="analysis"
-      stage={stage}
-      isComplete={isComplete}
       className="mx-auto"
     />
   );

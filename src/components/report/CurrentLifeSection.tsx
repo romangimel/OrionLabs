@@ -1,15 +1,13 @@
 import { Telescope } from 'lucide-react';
 import type { OrionReport } from '@/data/report';
-import type { OrbitalProfileData } from '@/lib/orbital-profile';
 import { ReportSection } from './ReportSection';
 
 interface CurrentLifeSectionProps {
   analysis: OrionReport['currentLifeAnalysis'];
-  profile: OrbitalProfileData;
 }
 
 /** Gives the focus area a reversed, evidence-led chapter composition. */
-export function CurrentLifeSection({ analysis, profile }: CurrentLifeSectionProps) {
+export function CurrentLifeSection({ analysis }: CurrentLifeSectionProps) {
   return (
     <ReportSection
       id="current-life"
@@ -19,7 +17,6 @@ export function CurrentLifeSection({ analysis, profile }: CurrentLifeSectionProp
       description="Near-term operating conditions derived from the subject's selected area of attention."
       layout="reverse"
       surface="panel"
-      profile={profile}
     >
       <p className="text-base leading-[1.85] text-foreground/85 sm:text-lg">
         {analysis.analysis}
