@@ -222,7 +222,7 @@ Possible report sections:
 - [x] Implement and hand-tune the Capricornus geometry, focus roles, and five behavior patterns
 - [x] Preserve zodiac, focus, and behavior explicitly in the saved report snapshot
 - [x] Integrate progressive static questionnaire state, static Review/Report state, and Analysis-only construction motion
-- [ ] Design and validate the remaining eleven zodiac geometries
+- [x] Design and validate the remaining eleven zodiac geometries
 
 ---
 

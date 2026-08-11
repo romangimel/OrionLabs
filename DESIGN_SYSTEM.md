@@ -139,7 +139,7 @@ An aspect-ratio `16:9` glass-strong panel with a tiny live-status label, thin da
 
 ### Orion Subject Signature prototype
 
-The questionnaire-to-report journey uses a deterministic constellation-derived signature driven only by zodiac sign, focus area, and behavioral pattern. The first validated geometry is Capricornus: ten icy-blue base stars joined by straight dim-blue links, one dominant white-gold focus star, and three soft-gold behavior targets connected only through real constellation edges. Full instances may use a restrained generated night atmosphere; the 32–36px questionnaire instance stays transparent, static, and free of labels or effects. Analysis owns the single staged construction sequence, while Review and Report render the completed static state. The other eleven zodiac geometries remain intentionally unimplemented.
+The questionnaire-to-report journey uses a deterministic constellation-derived signature driven only by zodiac sign, focus area, and behavioral pattern. All 12 zodiac geometries use approximately ten icy-blue base stars joined by straight dim-blue links, one dominant white-gold focus star, and three soft-gold behavior targets connected only through real constellation edges. Capricornus remains the reference implementation. Full instances may use a restrained generated night atmosphere; the 32–36px questionnaire instance stays transparent, static, and free of labels or effects. Analysis owns the single staged construction sequence, while Review and Report render the completed static state.
 
 ### Testimonial card
 

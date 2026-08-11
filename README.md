@@ -10,7 +10,7 @@ The landing page, four-step questionnaire, real AI-backed Analysis flow, and per
 
 The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. Independently, it constructs the deterministic Orion Subject Signature over approximately 16 seconds. It waits for both the request and that minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
 
-The Subject Signature is currently a Capricornus-only visual prototype; the other eleven constellation geometries remain planned. Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing also remain planned.
+The Subject Signature now includes all 12 deterministic zodiac geometries, with hand-tuned focus roles and edge-valid behavior subnetworks. Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
 
 ## Technology
 

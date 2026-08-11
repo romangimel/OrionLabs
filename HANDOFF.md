@@ -107,7 +107,7 @@ The rotating Analysis messages are presentation, not real Gemini stages. They co
 
 Failures show a compact retry action inside the existing Analysis card. The questionnaire draft stays intact. If only browser storage failed, retry attempts persistence again without paying for another model request.
 
-Questionnaire drafts and completed reports remain versioned `sessionStorage` records in the current tab. Completed reports are immutable snapshots with a private UUID, separate active-report pointer, and explicit zodiac/focus/behavior Subject Signature metadata. `/report` consumes only the validated active snapshot through `src/lib/report-storage.ts`; it does not reconstruct signature behavior from generated trait titles. The shared Subject Signature architecture is implemented for Capricornus only, with the remaining eleven geometries intentionally deferred.
+Questionnaire drafts and completed reports remain versioned `sessionStorage` records in the current tab. Completed reports are immutable snapshots with a private UUID, separate active-report pointer, and explicit zodiac/focus/behavior Subject Signature metadata. `/report` consumes only the validated active snapshot through `src/lib/report-storage.ts`; it does not reconstruct signature behavior from generated trait titles. The shared Subject Signature architecture now includes all 12 zodiac geometries with deterministic focus and behavior resolution.
 
 ## Local and Vercel development
 

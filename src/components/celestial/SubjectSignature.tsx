@@ -1,6 +1,6 @@
 import { useId } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import type { CapricornusNodeId } from '@/data/zodiac-constellations';
+import type { ConstellationNodeId } from '@/data/zodiac-constellations';
 import {
   SUBJECT_SIGNATURE_TIMELINE,
   type SubjectSignatureData,
@@ -48,7 +48,7 @@ function getAccessibleLabel(signature: SubjectSignatureData) {
     const focusDescription = signature.focusArea ?? 'focus not yet selected';
     const behaviorDescription =
       signature.behavioralStatement ?? 'behavior pattern not yet selected';
-    return `${signature.zodiacSign} Orion Subject Signature with ${focusDescription} focus and ${behaviorDescription} behavior pattern. Geometry is not available in the Capricornus prototype.`;
+    return `${signature.zodiacSign} Orion Subject Signature with ${focusDescription} focus and ${behaviorDescription} behavior pattern. Constellation geometry is unavailable.`;
   }
 
   const focusDescription = signature.focusArea
@@ -70,7 +70,7 @@ function PrototypeFallback({
 }) {
   const label =
     signature.status === 'unsupported'
-      ? `${signature.zodiacSign?.toUpperCase()} GEOMETRY PENDING`
+      ? `${signature.zodiacSign?.toUpperCase()} GEOMETRY UNAVAILABLE`
       : 'AWAITING CELESTIAL IDENTITY';
 
   return (
@@ -311,7 +311,7 @@ export function SubjectSignature({
           return null;
         }
 
-        const arrival = behaviorArrivalByNode.get(node.id as CapricornusNodeId);
+        const arrival = behaviorArrivalByNode.get(node.id as ConstellationNodeId);
         return (
           <motion.g
             key={`behavior-${node.id}`}

@@ -6,9 +6,9 @@ import {
   type BehavioralStatement,
 } from '@/data/questionnaire';
 import {
-  CAPRICORNUS_CONSTELLATION,
-  type CapricornusNodeId,
+  ZODIAC_CONSTELLATION_BY_SIGN,
   type ConstellationEdge,
+  type ConstellationNodeId,
   type SubjectFocusRole,
   type ZodiacConstellation,
 } from '@/data/zodiac-constellations';
@@ -32,14 +32,14 @@ export interface PartialSubjectSignatureInput {
 
 export interface SubjectSignaturePathEdge {
   edgeId: string;
-  from: CapricornusNodeId;
-  to: CapricornusNodeId;
+  from: ConstellationNodeId;
+  to: ConstellationNodeId;
   arrivalStep: number;
   arrivalSeconds: number;
 }
 
 export interface SubjectSignatureTargetArrival {
-  nodeId: CapricornusNodeId;
+  nodeId: ConstellationNodeId;
   graphDistance: number;
   arrivalSeconds: number;
 }
@@ -53,8 +53,8 @@ export interface SubjectSignatureData {
   focusRole: SubjectFocusRole | null;
   behavioralStatement: BehavioralStatement | null;
   geometry: ZodiacConstellation | null;
-  focusNodeId: CapricornusNodeId | null;
-  behaviorTargetNodeIds: readonly CapricornusNodeId[];
+  focusNodeId: ConstellationNodeId | null;
+  behaviorTargetNodeIds: readonly ConstellationNodeId[];
   behaviorPathEdges: readonly SubjectSignaturePathEdge[];
   behaviorTargetArrivals: readonly SubjectSignatureTargetArrival[];
 }
@@ -96,42 +96,19 @@ const BEHAVIOR_CODES: Readonly<Record<BehavioralStatement, string>> = {
   'I usually leave things until later': 'LTR',
 };
 
-const CAPRICORNUS_NODE_ORDER = CAPRICORNUS_CONSTELLATION.nodes.map(
-  (node) => node.id,
-);
-
-const CAPRICORNUS_PATTERN_TARGETS: Readonly<
-  Record<
-    Exclude<BehavioralStatement, 'I overthink things' | 'I trust my instincts'>,
-    readonly CapricornusNodeId[]
-  >
-> = {
-  // Evenly spaced across the body for an orderly, balanced arrangement.
-  'I like having a plan': ['western-pair', 'shoulder', 'lower-right', 'inner-left'],
-  // Three distinct reaches make branching visually explicit.
-  'I adapt as I go': ['western-tip', 'crown', 'ground-right', 'shoulder'],
-  // Its own normal deterministic cadence; no incomplete or joke rendering.
-  'I usually leave things until later': [
-    'inner-left',
-    'descending-knot',
-    'ground-left',
-    'crown',
-  ],
-};
-
 function isOneOf<T extends string>(value: string | undefined, options: readonly T[]): value is T {
   return Boolean(value && options.includes(value as T));
 }
 
-function getNode(nodeId: CapricornusNodeId) {
-  return CAPRICORNUS_CONSTELLATION.nodes.find((node) => node.id === nodeId)!;
+function getNode(constellation: ZodiacConstellation, nodeId: ConstellationNodeId) {
+  return constellation.nodes.find((node) => node.id === nodeId)!;
 }
 
-function createAdjacency(edges: readonly ConstellationEdge[]) {
-  const adjacency = new Map<CapricornusNodeId, CapricornusNodeId[]>();
-  CAPRICORNUS_NODE_ORDER.forEach((nodeId) => adjacency.set(nodeId, []));
+function createAdjacency(constellation: ZodiacConstellation) {
+  const adjacency = new Map<ConstellationNodeId, ConstellationNodeId[]>();
+  constellation.nodes.forEach((node) => adjacency.set(node.id, []));
 
-  edges.forEach((edge) => {
+  constellation.edges.forEach((edge) => {
     adjacency.get(edge.from)?.push(edge.to);
     adjacency.get(edge.to)?.push(edge.from);
   });
@@ -139,24 +116,26 @@ function createAdjacency(edges: readonly ConstellationEdge[]) {
   return adjacency;
 }
 
-const CAPRICORNUS_ADJACENCY = createAdjacency(CAPRICORNUS_CONSTELLATION.edges);
-
 interface GraphTraversal {
-  distances: Map<CapricornusNodeId, number>;
-  parents: Map<CapricornusNodeId, CapricornusNodeId>;
+  distances: Map<ConstellationNodeId, number>;
+  parents: Map<ConstellationNodeId, ConstellationNodeId>;
 }
 
-/** Builds one deterministic breadth-first tree used by both selection and propagation. */
-function traverseFrom(focusNodeId: CapricornusNodeId): GraphTraversal {
-  const distances = new Map<CapricornusNodeId, number>([[focusNodeId, 0]]);
-  const parents = new Map<CapricornusNodeId, CapricornusNodeId>();
-  const queue: CapricornusNodeId[] = [focusNodeId];
+/** Builds one deterministic breadth-first tree used by selection and propagation. */
+function traverseFrom(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+): GraphTraversal {
+  const adjacency = createAdjacency(constellation);
+  const distances = new Map<ConstellationNodeId, number>([[focusNodeId, 0]]);
+  const parents = new Map<ConstellationNodeId, ConstellationNodeId>();
+  const queue: ConstellationNodeId[] = [focusNodeId];
 
   while (queue.length > 0) {
     const currentNodeId = queue.shift()!;
     const currentDistance = distances.get(currentNodeId)!;
 
-    for (const adjacentNodeId of CAPRICORNUS_ADJACENCY.get(currentNodeId) ?? []) {
+    for (const adjacentNodeId of adjacency.get(currentNodeId) ?? []) {
       if (distances.has(adjacentNodeId)) {
         continue;
       }
@@ -170,34 +149,11 @@ function traverseFrom(focusNodeId: CapricornusNodeId): GraphTraversal {
   return { distances, parents };
 }
 
-function getNearestCluster(
-  focusNodeId: CapricornusNodeId,
-  traversal: GraphTraversal,
-): CapricornusNodeId[] {
-  const focusNode = getNode(focusNodeId);
-
-  return CAPRICORNUS_CONSTELLATION.nodes
-    .filter((node) => node.id !== focusNodeId)
-    .sort((left, right) => {
-      const graphDistanceDifference =
-        traversal.distances.get(left.id)! - traversal.distances.get(right.id)!;
-      if (graphDistanceDifference !== 0) {
-        return graphDistanceDifference;
-      }
-
-      const leftDistance = Math.hypot(left.x - focusNode.x, left.y - focusNode.y);
-      const rightDistance = Math.hypot(right.x - focusNode.x, right.y - focusNode.y);
-      return leftDistance - rightDistance;
-    })
-    .slice(0, 3)
-    .map((node) => node.id);
-}
-
 function pathFromFocus(
-  targetNodeId: CapricornusNodeId,
+  targetNodeId: ConstellationNodeId,
   traversal: GraphTraversal,
-): CapricornusNodeId[] {
-  const reversedPath: CapricornusNodeId[] = [targetNodeId];
+): ConstellationNodeId[] {
+  const reversedPath: ConstellationNodeId[] = [targetNodeId];
   let currentNodeId = targetNodeId;
 
   while (traversal.parents.has(currentNodeId)) {
@@ -208,16 +164,85 @@ function pathFromFocus(
   return reversedPath.reverse();
 }
 
-function getCleanOutwardPath(
-  focusNodeId: CapricornusNodeId,
+/**
+ * Guarantees three valid, unique secondary nodes while retaining authored or
+ * algorithmic preferences first. Dataset order is the stable final tiebreaker.
+ */
+function fillBehaviorTargets(
+  preferredNodeIds: readonly ConstellationNodeId[],
+  focusNodeId: ConstellationNodeId,
+  constellation: ZodiacConstellation,
   traversal: GraphTraversal,
-): CapricornusNodeId[] {
-  const focusNode = getNode(focusNodeId);
-  const farthestNode = CAPRICORNUS_CONSTELLATION.nodes
+) {
+  const validNodeIds = new Set(constellation.nodes.map((node) => node.id));
+  const fallbackNodeIds = constellation.nodes
+    .filter((node) => node.id !== focusNodeId)
+    .sort((left, right) => {
+      const distanceDifference =
+        (traversal.distances.get(right.id) ?? -1) -
+        (traversal.distances.get(left.id) ?? -1);
+      return distanceDifference;
+    })
+    .map((node) => node.id);
+  const uniqueTargets: ConstellationNodeId[] = [];
+
+  [...preferredNodeIds, ...fallbackNodeIds].forEach((nodeId) => {
+    if (
+      uniqueTargets.length < 3 &&
+      nodeId !== focusNodeId &&
+      validNodeIds.has(nodeId) &&
+      traversal.distances.has(nodeId) &&
+      !uniqueTargets.includes(nodeId)
+    ) {
+      uniqueTargets.push(nodeId);
+    }
+  });
+
+  return uniqueTargets;
+}
+
+function getNearestCluster(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const focusNode = getNode(constellation, focusNodeId);
+  const preferredTargets = constellation.nodes
     .filter((node) => node.id !== focusNodeId)
     .sort((left, right) => {
       const graphDistanceDifference =
-        traversal.distances.get(right.id)! - traversal.distances.get(left.id)!;
+        (traversal.distances.get(left.id) ?? Number.POSITIVE_INFINITY) -
+        (traversal.distances.get(right.id) ?? Number.POSITIVE_INFINITY);
+      if (graphDistanceDifference !== 0) {
+        return graphDistanceDifference;
+      }
+
+      const leftDistance = Math.hypot(left.x - focusNode.x, left.y - focusNode.y);
+      const rightDistance = Math.hypot(right.x - focusNode.x, right.y - focusNode.y);
+      return leftDistance - rightDistance;
+    })
+    .map((node) => node.id);
+
+  return fillBehaviorTargets(
+    preferredTargets,
+    focusNodeId,
+    constellation,
+    traversal,
+  );
+}
+
+function getCleanOutwardPath(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const focusNode = getNode(constellation, focusNodeId);
+  const farthestNode = constellation.nodes
+    .filter((node) => node.id !== focusNodeId)
+    .sort((left, right) => {
+      const graphDistanceDifference =
+        (traversal.distances.get(right.id) ?? -1) -
+        (traversal.distances.get(left.id) ?? -1);
       if (graphDistanceDifference !== 0) {
         return graphDistanceDifference;
       }
@@ -226,42 +251,142 @@ function getCleanOutwardPath(
       const rightDistance = Math.hypot(right.x - focusNode.x, right.y - focusNode.y);
       return rightDistance - leftDistance;
     })[0];
+  const outwardPath = pathFromFocus(farthestNode.id, traversal).slice(1, 4);
 
-  return pathFromFocus(farthestNode.id, traversal).slice(1, 4);
+  return fillBehaviorTargets(outwardPath, focusNodeId, constellation, traversal);
+}
+
+function getBalancedTargets(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const lastIndex = constellation.nodes.length - 1;
+  const preferredTargets = [
+    constellation.nodes[Math.round(lastIndex * 0.2)].id,
+    constellation.nodes[Math.round(lastIndex * 0.5)].id,
+    constellation.nodes[Math.round(lastIndex * 0.8)].id,
+  ];
+
+  return fillBehaviorTargets(
+    preferredTargets,
+    focusNodeId,
+    constellation,
+    traversal,
+  );
+}
+
+function getDistributedTargets(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const candidateNodeIds = constellation.nodes
+    .map((node) => node.id)
+    .filter((nodeId) => nodeId !== focusNodeId && traversal.distances.has(nodeId));
+  const selectedNodeIds: ConstellationNodeId[] = [];
+
+  while (selectedNodeIds.length < 3) {
+    const nextNodeId = candidateNodeIds
+      .filter((nodeId) => !selectedNodeIds.includes(nodeId))
+      .sort((left, right) => {
+        const leftTraversal = traverseFrom(constellation, left);
+        const rightTraversal = traverseFrom(constellation, right);
+        const comparisonNodeIds = [focusNodeId, ...selectedNodeIds];
+        const leftSeparation = Math.min(
+          ...comparisonNodeIds.map((nodeId) => leftTraversal.distances.get(nodeId) ?? -1),
+        );
+        const rightSeparation = Math.min(
+          ...comparisonNodeIds.map((nodeId) => rightTraversal.distances.get(nodeId) ?? -1),
+        );
+        return rightSeparation - leftSeparation;
+      })[0];
+
+    if (!nextNodeId) {
+      break;
+    }
+    selectedNodeIds.push(nextNodeId);
+  }
+
+  return fillBehaviorTargets(
+    selectedNodeIds,
+    focusNodeId,
+    constellation,
+    traversal,
+  );
+}
+
+function getDelayedCadenceTargets(
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const lastIndex = constellation.nodes.length - 1;
+  const preferredTargets = [
+    constellation.nodes[lastIndex].id,
+    constellation.nodes[Math.round(lastIndex * 0.65)].id,
+    constellation.nodes[Math.round(lastIndex * 0.3)].id,
+    constellation.nodes[0].id,
+  ];
+
+  return fillBehaviorTargets(
+    preferredTargets,
+    focusNodeId,
+    constellation,
+    traversal,
+  );
 }
 
 function getPatternTargets(
-  behavior: Exclude<BehavioralStatement, 'I overthink things' | 'I trust my instincts'>,
-  focusNodeId: CapricornusNodeId,
-): CapricornusNodeId[] {
-  const preferredTargets = CAPRICORNUS_PATTERN_TARGETS[behavior];
-  const fallbackTargets = CAPRICORNUS_NODE_ORDER.filter(
-    (nodeId) => !preferredTargets.includes(nodeId),
-  );
+  behavior: BehavioralStatement,
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
+  traversal: GraphTraversal,
+) {
+  const preferredTargets = constellation.behaviorTargetPreferences?.[behavior];
+  if (preferredTargets) {
+    return fillBehaviorTargets(
+      preferredTargets,
+      focusNodeId,
+      constellation,
+      traversal,
+    );
+  }
 
-  return [...preferredTargets, ...fallbackTargets]
-    .filter((nodeId) => nodeId !== focusNodeId)
-    .slice(0, 3);
+  if (behavior === 'I overthink things') {
+    return getNearestCluster(constellation, focusNodeId, traversal);
+  }
+
+  if (behavior === 'I trust my instincts') {
+    return getCleanOutwardPath(constellation, focusNodeId, traversal);
+  }
+
+  if (behavior === 'I like having a plan') {
+    return getBalancedTargets(constellation, focusNodeId, traversal);
+  }
+
+  if (behavior === 'I adapt as I go') {
+    return getDistributedTargets(constellation, focusNodeId, traversal);
+  }
+
+  return getDelayedCadenceTargets(constellation, focusNodeId, traversal);
 }
 
 function resolveBehaviorTargets(
   behavior: BehavioralStatement,
-  focusNodeId: CapricornusNodeId,
+  constellation: ZodiacConstellation,
+  focusNodeId: ConstellationNodeId,
   traversal: GraphTraversal,
 ) {
-  if (behavior === 'I overthink things') {
-    return getNearestCluster(focusNodeId, traversal);
-  }
-
-  if (behavior === 'I trust my instincts') {
-    return getCleanOutwardPath(focusNodeId, traversal);
-  }
-
-  return getPatternTargets(behavior, focusNodeId);
+  return getPatternTargets(behavior, constellation, focusNodeId, traversal);
 }
 
-function findEdge(from: CapricornusNodeId, to: CapricornusNodeId) {
-  return CAPRICORNUS_CONSTELLATION.edges.find(
+function findEdge(
+  edges: readonly ConstellationEdge[],
+  from: ConstellationNodeId,
+  to: ConstellationNodeId,
+) {
+  return edges.find(
     (edge) =>
       (edge.from === from && edge.to === to) ||
       (edge.from === to && edge.to === from),
@@ -269,7 +394,8 @@ function findEdge(from: CapricornusNodeId, to: CapricornusNodeId) {
 }
 
 function resolveBehaviorPath(
-  targetNodeIds: readonly CapricornusNodeId[],
+  constellation: ZodiacConstellation,
+  targetNodeIds: readonly ConstellationNodeId[],
   traversal: GraphTraversal,
 ) {
   const pathEdges = new Map<string, Omit<SubjectSignaturePathEdge, 'arrivalSeconds'>>();
@@ -279,7 +405,7 @@ function resolveBehaviorPath(
     for (let index = 1; index < path.length; index += 1) {
       const from = path[index - 1];
       const to = path[index];
-      const edge = findEdge(from, to);
+      const edge = findEdge(constellation.edges, from, to);
       pathEdges.set(edge.id, {
         edgeId: edge.id,
         from,
@@ -353,10 +479,7 @@ export function createSubjectSignatureInput(
   return isSubjectSignatureInput(input) ? input : null;
 }
 
-/**
- * Resolves questionnaire state into rendering instructions without defaulting
- * unanswered fields or inventing geometry for unsupported prototype signs.
- */
+/** Resolves progressive questionnaire state into deterministic rendering data. */
 export function createSubjectSignature(
   input: PartialSubjectSignatureInput,
 ): SubjectSignatureData {
@@ -390,10 +513,11 @@ export function createSubjectSignature(
     };
   }
 
-  if (zodiacSign !== CAPRICORNUS_CONSTELLATION.zodiacSign) {
+  const constellation = ZODIAC_CONSTELLATION_BY_SIGN.get(zodiacSign);
+  if (!constellation) {
     return {
       status: 'unsupported',
-      identity: `OL-${zodiacSign.slice(0, 3).toUpperCase()}-PROTOTYPE`,
+      identity: `OL-${zodiacSign.slice(0, 3).toUpperCase()}-UNAVAILABLE`,
       zodiacSign,
       constellationLabel: null,
       focusArea,
@@ -408,24 +532,23 @@ export function createSubjectSignature(
   }
 
   const focusRole = focusArea ? FOCUS_ROLE_BY_AREA[focusArea] : null;
-  const focusNodeId = focusRole
-    ? CAPRICORNUS_CONSTELLATION.focusRoleNodes[focusRole]
-    : null;
+  const focusNodeId = focusRole ? constellation.focusRoleNodes[focusRole] : null;
   const focusCode = focusRole ? FOCUS_CODE_BY_ROLE[focusRole] : 'NA';
   const behaviorCode = behavioralStatement
     ? BEHAVIOR_CODES[behavioralStatement]
     : 'NA';
+  const identity = `OL-${constellation.code}-${focusCode}-${behaviorCode}`;
 
   if (!focusNodeId || !behavioralStatement) {
     return {
       status: 'resolved',
-      identity: `OL-CAP-${focusCode}-${behaviorCode}`,
+      identity,
       zodiacSign,
-      constellationLabel: CAPRICORNUS_CONSTELLATION.label,
+      constellationLabel: constellation.label,
       focusArea,
       focusRole,
       behavioralStatement,
-      geometry: CAPRICORNUS_CONSTELLATION,
+      geometry: constellation,
       focusNodeId,
       behaviorTargetNodeIds: [],
       behaviorPathEdges: [],
@@ -433,26 +556,28 @@ export function createSubjectSignature(
     };
   }
 
-  const traversal = traverseFrom(focusNodeId);
+  const traversal = traverseFrom(constellation, focusNodeId);
   const behaviorTargetNodeIds = resolveBehaviorTargets(
     behavioralStatement,
+    constellation,
     focusNodeId,
     traversal,
   );
   const { resolvedEdges, targetArrivals } = resolveBehaviorPath(
+    constellation,
     behaviorTargetNodeIds,
     traversal,
   );
 
   return {
     status: 'resolved',
-    identity: `OL-CAP-${focusCode}-${behaviorCode}`,
+    identity,
     zodiacSign,
-    constellationLabel: CAPRICORNUS_CONSTELLATION.label,
+    constellationLabel: constellation.label,
     focusArea,
     focusRole,
     behavioralStatement,
-    geometry: CAPRICORNUS_CONSTELLATION,
+    geometry: constellation,
     focusNodeId,
     behaviorTargetNodeIds,
     behaviorPathEdges: resolvedEdges,
