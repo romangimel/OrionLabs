@@ -248,14 +248,14 @@ The completed items below are manual behavior checks, not automated regression t
 - [x] Questionnaire drafts persist during the active journey and survive a questionnaire refresh
 - [x] Draft and report validators safely reject corrupted stored data
 - [ ] Perform focused browser checks for malformed questionnaire drafts and report records
-- [x] Protected-route recovery: `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
+- [x] Protected-route recovery: `/analysis` redirects completed active reports directly to `/report`; otherwise `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
 - [x] Refresh the landing, questionnaire, analysis, report, and article routes locally and in deployed Vercel environments
 - [x] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
 - [x] Complete real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
 
 ### Automated Regression Coverage
 
-Vitest now provides focused regression coverage for the AI input boundary, generated-report validation, bounded retries, the Vercel handler, duplicate in-flight browser requests, and session report persistence. Browser automation remains deferred.
+Vitest now provides focused regression coverage for the AI input boundary, generated-report validation, bounded retries, the Vercel handler, duplicate in-flight browser requests, session report persistence, and completed-report route recovery. Browser automation remains deferred.
 
 - [x] Add a lightweight, focused test setup for security-sensitive generation and persistence boundaries
 
@@ -323,7 +323,7 @@ Do not call the AI provider directly from frontend browser code.
 - [ ] Redesign analysis page and loading messages
 - [ ] Fix mobile scroll focus on questinnaire flow
 - [ ] Fix landing page mobile navigation
-- [ ] Fix generated report storing and routing
+- [x] Fix generated report storing and routing
 - [x] Move signature ID inside subject signature
 - [ ] Fix research card image placement
 - [ ] Make the article shorter

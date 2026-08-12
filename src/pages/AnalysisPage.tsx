@@ -9,6 +9,7 @@ import { Starfield } from '@/components/site/Starfield';
 import { REFERENCE_PREFERENCES } from '@/data/questionnaire';
 import { useAnalysisPresentationSequence } from '@/hooks/useAnalysisPresentationSequence';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
+import { resolveAnalysisRouteDestination } from '@/lib/analysis-route';
 import {
   ReportGenerationRequestError,
   requestGeneratedReport,
@@ -19,6 +20,7 @@ import {
   loadQuestionnaireDraft,
 } from '@/lib/questionnaire-state';
 import {
+  getActiveReport,
   getReportById,
   persistGeneratedReport,
 } from '@/lib/report-storage';
@@ -46,6 +48,7 @@ type GenerationStatus = 'loading' | 'succeeded' | 'failed' | 'capacity';
  * route navigation while the existing loading UI remains presentation-only.
  */
 export function AnalysisPage() {
+  const [activeCompletedReport] = useState(getActiveReport);
   const [draft] = useState(loadQuestionnaireDraft);
   const generationInput = useMemo(
     () => (draft ? createReportGenerationInput(draft.answers) : null),
@@ -67,6 +70,10 @@ export function AnalysisPage() {
       signatureInputs &&
       hasRequiredReferencePreference,
   );
+  const routeDestination = resolveAnalysisRouteDestination(
+    Boolean(activeCompletedReport),
+    canRenderAnalysis,
+  );
   const [generatedReport, setGeneratedReport] = useState(() =>
     draft?.pendingReportId ? getReportById(draft.pendingReportId)?.report ?? null : null,
   );
@@ -87,19 +94,23 @@ export function AnalysisPage() {
     });
 
   useEffect(() => {
-    if (canRenderAnalysis) {
+    if (!routeDestination) {
       return;
     }
 
-    clearQuestionnaireDraft();
-    window.location.replace('/questionnaire');
-  }, [canRenderAnalysis]);
+    if (routeDestination === '/questionnaire') {
+      clearQuestionnaireDraft();
+    }
+
+    window.location.replace(routeDestination);
+  }, [routeDestination]);
 
   useEffect(() => {
     if (
       !draft?.pendingReportId ||
       !generationInput ||
       !canRenderAnalysis ||
+      activeCompletedReport ||
       generatedReport
     ) {
       return;
@@ -134,7 +145,14 @@ export function AnalysisPage() {
       // only the obsolete effect callback is prevented from updating state.
       isCurrentRequest = false;
     };
-  }, [attempt, canRenderAnalysis, draft, generatedReport, generationInput]);
+  }, [
+    activeCompletedReport,
+    attempt,
+    canRenderAnalysis,
+    draft,
+    generatedReport,
+    generationInput,
+  ]);
 
   useEffect(() => {
     if (
@@ -142,6 +160,7 @@ export function AnalysisPage() {
       !generatedReport ||
       !signatureInputs ||
       !canRenderAnalysis ||
+      activeCompletedReport ||
       !minimumExperienceComplete ||
       generationStatus !== 'succeeded'
     ) {
@@ -167,6 +186,7 @@ export function AnalysisPage() {
 
     return () => window.clearTimeout(redirectTimer);
   }, [
+    activeCompletedReport,
     canRenderAnalysis,
     draft,
     generatedReport,
@@ -175,7 +195,7 @@ export function AnalysisPage() {
     signatureInputs,
   ]);
 
-  if (!draft || !canRenderAnalysis || !subjectSignature) {
+  if (routeDestination || !draft || !subjectSignature) {
     return null;
   }
 
