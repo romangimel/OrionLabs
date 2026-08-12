@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type MouseEvent } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { resetAnalysisSession } from '@/lib/analysis-session';
+import {
+  ANALYSIS_DESTINATION,
+  LANDING_NAV_LINKS,
+  navigateAfterMobileMenuClose,
+} from '@/lib/landing-navigation';
 import { Logo } from './Logo';
-
-const NAV_LINKS = [
-  { label: 'Philosophy', href: '#philosophy' },
-  { label: 'Technology', href: '#technology' },
-  { label: 'Evidence', href: '#evidence' },
-  { label: 'Voices', href: '#voices' },
-  { label: 'Research', href: '#research' },
-  { label: 'FAQ', href: '#faq' },
-] as const;
 
 /**
  * Fixed landing-page navigation with desktop anchors and a collapsible mobile menu.
@@ -22,6 +18,7 @@ const NAV_LINKS = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [pendingMobileDestination, setPendingMobileDestination] = useState<string | null>(null);
   const reduce = useReducedMotion();
 
   useEffect(() => {
@@ -31,6 +28,26 @@ export function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  /**
+   * Lets the sheet finish collapsing before native navigation changes the page.
+   * Otherwise, fragment navigation occurs while the sheet still contributes to
+   * document height; its exit animation can then undo the browser's scroll.
+   */
+  const closeMobileMenuAndNavigate = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setPendingMobileDestination(event.currentTarget.href);
+    setOpen(false);
+  };
+
+  const completeMobileMenuClose = () => {
+    const destination = pendingMobileDestination;
+    setPendingMobileDestination(null);
+    navigateAfterMobileMenuClose(
+      destination,
+      window.location.assign.bind(window.location),
+    );
+  };
 
   return (
     <motion.header
@@ -57,7 +74,7 @@ export function Navbar() {
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-8 md:flex">
-            {NAV_LINKS.map((l) => (
+            {LANDING_NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <a
                   href={l.href}
@@ -71,7 +88,7 @@ export function Navbar() {
 
           <div className="hidden md:block">
             <a
-              href="/questionnaire"
+              href={ANALYSIS_DESTINATION}
               onClick={resetAnalysisSession}
               className="group relative inline-flex h-9 items-center overflow-hidden rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-5 text-sm font-medium text-[hsl(43_60%_75%)] transition-colors duration-300 hover:text-[hsl(43_70%_85%)]"
             >
@@ -94,7 +111,7 @@ export function Navbar() {
       </div>
 
       {/* Mobile sheet */}
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={completeMobileMenuClose}>
         {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -104,11 +121,11 @@ export function Navbar() {
             className="overflow-hidden border-b border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.95)] backdrop-blur-xl md:hidden"
           >
             <ul className="container-narrow flex flex-col gap-1 py-4">
-              {NAV_LINKS.map((l) => (
+              {LANDING_NAV_LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={closeMobileMenuAndNavigate}
                     className="block rounded-lg px-3 py-3 text-base text-muted-foreground transition-colors hover:bg-[hsl(280_40%_18%)] hover:text-foreground"
                   >
                     {l.label}
@@ -117,10 +134,10 @@ export function Navbar() {
               ))}
               <li className="mt-2">
                 <a
-                  href="/questionnaire"
-                  onClick={() => {
+                  href={ANALYSIS_DESTINATION}
+                  onClick={(event) => {
                     resetAnalysisSession();
-                    setOpen(false);
+                    closeMobileMenuAndNavigate(event);
                   }}
                   className="block rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-5 py-3 text-center text-sm font-medium text-[hsl(43_60%_75%)]"
                 >
