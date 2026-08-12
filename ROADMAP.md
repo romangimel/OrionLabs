@@ -317,17 +317,18 @@ Do not call the AI provider directly from frontend browser code.
 
 ### Final fixes
 
-- [ ] Remove zodiac icon from questionnaire when unasigned
+- [x] Remove zodiac icon from questionnaire when unasigned
 - [x] Polish subject signature glow and background
 - [ ] Finalize the landing page presentation order
 - [ ] Redesign analysis page and loading messages
-- [ ] Fix mobile scroll focus on questinnaire flow
+- [x] Fix mobile scroll focus on questinnaire flow
 - [ ] Fix landing page mobile navigation
 - [x] Fix generated report storing and routing
 - [x] Move signature ID inside subject signature
 - [ ] Fix research card image placement
 - [ ] Make the article shorter
 - [ ] Fix report fucos card desktop layout
+- [ ] Polish LP trusted section 
 
 ### Product Polish
 
