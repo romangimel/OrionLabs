@@ -315,11 +315,27 @@ Do not call the AI provider directly from frontend browser code.
 
 ## 10. Final Polish and Launch
 
+### Final fixes
+
+- [ ] Remove zodiac icon from questionnaire when unasigned
+- [x] Polish subject signature glow and background
+- [ ] Finalize the landing page presentation order
+- [ ] Redesign analysis page and loading messages
+- [ ] Fix mobile scroll focus on questinnaire flow
+- [ ] Fix landing page mobile navigation
+- [ ] Fix generated report storing and routing
+- [x] Move signature ID inside subject signature
+- [ ] Fix research card image placement
+- [ ] Make the article shorter
+- [ ] Fix report fucos card desktop layout
+
 ### Product Polish
 
 - [ ] Polish copy throughout the website
-- [ ] Finalize all questionnaire helper text
+- [ ] Polish text color throughout the website
+- [x] Finalize all questionnaire helper text
 - [ ] Polish generated art throughout the website
+- [ ] Set same background opacity across all pages
 - [ ] Make the OrionLabs humor consistent across every page
 - [ ] Review the complete desktop experience
 - [ ] Review the complete tablet experience

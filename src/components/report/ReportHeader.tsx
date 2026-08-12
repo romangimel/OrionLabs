@@ -1,6 +1,7 @@
 import { ShieldCheck } from 'lucide-react';
 import { SubjectSignature } from '@/components/celestial/SubjectSignature';
 import { FadeIn } from '@/components/site/Motion';
+import type { BehavioralStatement } from '@/data/questionnaire';
 import type { OrionReport } from '@/data/report';
 import type { SubjectSignatureData } from '@/lib/subject-signature';
 
@@ -9,8 +10,23 @@ interface ReportHeaderProps {
   signature: SubjectSignatureData;
 }
 
+/** Keeps the report summary concise while preserving the saved signature input. */
+const BEHAVIORAL_PATTERN_LABELS: Record<BehavioralStatement, string> = {
+  'I overthink things': 'Reflective',
+  'I trust my instincts': 'Instinctive',
+  'I like having a plan': 'Planner',
+  'I adapt as I go': 'Adaptive',
+  'I usually leave things until later': 'Deferred',
+};
+
+function getBehavioralPatternLabel(behavioralStatement: BehavioralStatement | null) {
+  return behavioralStatement ? BEHAVIORAL_PATTERN_LABELS[behavioralStatement] : 'Unassigned';
+}
+
 /** Establishes the completed Subject Signature as the report's opening evidence. */
 export function ReportHeader({ subject, signature }: ReportHeaderProps) {
+  const behavioralPattern = getBehavioralPatternLabel(signature.behavioralStatement);
+
   return (
     <header className="relative pb-14 pt-14 sm:pb-16 sm:pt-16 md:pb-20 md:pt-20 lg:pb-24">
       <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(24rem,0.96fr)] lg:gap-12">
@@ -46,7 +62,7 @@ export function ReportHeader({ subject, signature }: ReportHeaderProps) {
               {[
                 ['Primary sign', subject.zodiacSign],
                 ['Current focus', signature.focusArea ?? 'Unassigned'],
-                ['Signature ID', signature.identity],
+                ['Behavioral pattern', behavioralPattern],
               ].map(([label, value], index) => (
                 <div
                   key={label}
@@ -73,9 +89,12 @@ export function ReportHeader({ subject, signature }: ReportHeaderProps) {
               variant="report"
               className="mx-auto"
             />
-            <p className="pointer-events-none absolute left-4 top-4 z-10 max-w-[45%] bg-[linear-gradient(135deg,hsl(262_50%_6%_/_0.9),transparent)] pb-2 pr-3 text-[0.46rem] font-medium uppercase leading-relaxed tracking-[0.12em] sm:left-6 sm:top-6 sm:text-[0.55rem] sm:tracking-[0.17em]">
-              <span className="text-gradient-gold">Completed subject signature</span>
-            </p>
+            <div className="pointer-events-none absolute left-4 top-4 z-10 max-w-[45%] bg-[linear-gradient(135deg,hsl(262_50%_6%_/_0.9),transparent)] pb-2 pr-3 text-[0.46rem] font-medium uppercase leading-relaxed tracking-[0.12em] sm:left-6 sm:top-6 sm:text-[0.55rem] sm:tracking-[0.17em]">
+              <p className="text-gradient-gold">Completed subject signature</p>
+              <p className="mt-1 text-[hsl(326_55%_68%)]">
+                Signature ID: <span className="text-foreground">{signature.identity}</span>
+              </p>
+            </div>
             <dl className="pointer-events-none absolute inset-0 z-10 text-[0.44rem] font-medium uppercase leading-[1.45] tracking-[0.1em] text-[hsl(326_55%_68%)] sm:text-[0.52rem] sm:tracking-[0.14em]">
               <div className="absolute right-4 top-4 max-w-[47%] bg-[linear-gradient(225deg,hsl(262_50%_6%_/_0.9),transparent)] pb-2 pl-3 text-right sm:right-6 sm:top-6">
                 <dt className="text-gradient-gold">Signal integrity:</dt>

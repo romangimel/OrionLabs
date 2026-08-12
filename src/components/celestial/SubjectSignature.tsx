@@ -479,7 +479,7 @@ export function SubjectSignature({
         className="relative h-full w-full overflow-hidden rounded-[1.25rem] bg-cover bg-no-repeat"
         style={{
           backgroundColor: '#070614',
-          backgroundImage: `linear-gradient(rgba(7, 6, 20, 0.12), rgba(7, 6, 20, 0.12)), url("${SUBJECT_SIGNATURE_BACKGROUND}")`,
+          backgroundImage: `linear-gradient(rgba(7, 6, 20, 0.2), rgba(7, 6, 20, 0.2)), url("${SUBJECT_SIGNATURE_BACKGROUND}")`,
           backgroundPosition: '50% 52%',
         }}
       >
