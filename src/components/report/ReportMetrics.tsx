@@ -35,7 +35,7 @@ export function ReportMetrics({ metrics }: ReportMetricsProps) {
             className="border-b border-[hsl(43_60%_70%_/_0.1)] p-5 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0 md:p-6"
           >
             <dl>
-              <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start justify-between gap-4 sm:min-h-[2.5rem]">
                 <dt className="max-w-[11rem] text-sm leading-snug text-foreground/90">
                   {metric.label}
                 </dt>
