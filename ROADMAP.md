@@ -327,7 +327,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Move signature ID inside subject signature
 - [ ] Fix research card image placement
 - [ ] Make the article shorter
-- [ ] Fix report fucos card desktop layout
+- [x] Fix report fucos card desktop layout
 - [ ] Polish LP trusted section 
 
 ### Product Polish

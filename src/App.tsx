@@ -63,10 +63,10 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <TrustBar />
         <Philosophy />
         <Technology />
         <Evidence />
+        <TrustBar />
         <Voices />
         <Research />
         <FAQ />
