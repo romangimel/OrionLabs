@@ -320,7 +320,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Remove zodiac icon from questionnaire when unasigned
 - [x] Polish subject signature glow and background
 - [ ] Finalize the landing page presentation order
-- [ ] Redesign analysis page and loading messages
+- [x] Redesign analysis page and loading messages
 - [x] Fix mobile scroll focus on questinnaire flow
 - [ ] Fix landing page mobile navigation
 - [x] Fix generated report storing and routing

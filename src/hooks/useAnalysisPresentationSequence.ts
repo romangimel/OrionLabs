@@ -1,42 +1,43 @@
 import { useEffect, useState } from 'react';
+import {
+  resolveCalibrationSequence,
+  type CalibrationRowState,
+} from '@/lib/analysis-presentation';
 
 interface AnalysisPresentationSequenceOptions {
   durationMs: number;
-  messageIntervalMs: number;
-  messageCount: number;
+  stageStartMs: readonly number[];
   runKey: number;
 }
 
-/** Rotates presentation copy independently from the real provider request. */
+/** Advances the theatrical calibration sequence independently from the provider request. */
 export function useAnalysisPresentationSequence({
   durationMs,
-  messageIntervalMs,
-  messageCount,
+  stageStartMs,
   runKey,
 }: AnalysisPresentationSequenceOptions) {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [minimumExperienceComplete, setMinimumExperienceComplete] = useState(false);
+  const [elapsedMs, setElapsedMs] = useState(0);
 
   useEffect(() => {
-    setCurrentMessageIndex(0);
-    setMinimumExperienceComplete(false);
+    setElapsedMs(0);
 
-    const messageTimer = window.setInterval(() => {
-      setCurrentMessageIndex((currentIndex) =>
-        Math.min(currentIndex + 1, messageCount - 1),
-      );
-    }, messageIntervalMs);
+    const stageTimers = stageStartMs.slice(1).map((stageStartMs) =>
+      window.setTimeout(() => setElapsedMs(stageStartMs), stageStartMs),
+    );
 
-    const completionTimer = window.setTimeout(() => {
-      window.clearInterval(messageTimer);
-      setMinimumExperienceComplete(true);
-    }, durationMs);
+    const completionTimer = window.setTimeout(() => setElapsedMs(durationMs), durationMs);
 
     return () => {
-      window.clearInterval(messageTimer);
+      stageTimers.forEach((timer) => window.clearTimeout(timer));
       window.clearTimeout(completionTimer);
     };
-  }, [durationMs, messageCount, messageIntervalMs, runKey]);
+  }, [durationMs, runKey, stageStartMs]);
 
-  return { currentMessageIndex, minimumExperienceComplete };
+  const sequence = resolveCalibrationSequence(elapsedMs, durationMs);
+
+  return {
+    activeStageIndex: sequence.activeStageIndex,
+    minimumExperienceComplete: sequence.minimumExperienceComplete,
+    rowStates: sequence.rowStates as readonly CalibrationRowState[],
+  };
 }

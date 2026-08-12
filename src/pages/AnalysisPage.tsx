@@ -8,6 +8,10 @@ import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
 import { REFERENCE_PREFERENCES } from '@/data/questionnaire';
 import { useAnalysisPresentationSequence } from '@/hooks/useAnalysisPresentationSequence';
+import {
+  ANALYSIS_CALIBRATION_MESSAGES,
+  ANALYSIS_CALIBRATION_STAGE_STARTS_MS,
+} from '@/lib/analysis-presentation';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 import { resolveAnalysisRouteDestination } from '@/lib/analysis-route';
 import {
@@ -30,15 +34,7 @@ import {
   SUBJECT_SIGNATURE_TIMELINE,
 } from '@/lib/subject-signature';
 
-const PROCESSING_MESSAGES = [
-  'Mapping behavioral resonance...',
-  'Ignoring centuries of scientific consensus...',
-  'Resolving ambiguity through proprietary optimism...',
-  'Finalizing conclusions before reviewing the evidence...',
-] as const;
-
 const MINIMUM_ANALYSIS_DURATION_MS = SUBJECT_SIGNATURE_TIMELINE.totalSeconds * 1_000;
-const MESSAGE_INTERVAL_MS = 3_000;
 const COMPLETION_PAUSE_MS = 3_000;
 
 type GenerationStatus = 'loading' | 'succeeded' | 'failed' | 'capacity';
@@ -85,11 +81,10 @@ export function AnalysisPage() {
     draft && canRenderAnalysis
       ? createSubjectSignatureFromAnswers(draft.answers)
       : null;
-  const { currentMessageIndex, minimumExperienceComplete } =
+  const { minimumExperienceComplete, rowStates } =
     useAnalysisPresentationSequence({
       durationMs: MINIMUM_ANALYSIS_DURATION_MS,
-      messageIntervalMs: MESSAGE_INTERVAL_MS,
-      messageCount: PROCESSING_MESSAGES.length,
+      stageStartMs: ANALYSIS_CALIBRATION_STAGE_STARTS_MS,
       runKey: attempt,
     });
 
@@ -243,12 +238,11 @@ export function AnalysisPage() {
         </div>
       </header>
 
-      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-4 sm:py-14 md:min-h-[calc(100svh-5.0625rem)] md:py-16 lg:py-4">
+      <main className="container-narrow relative z-10 flex min-h-[calc(100svh-4.0625rem)] items-center justify-center py-4 sm:py-10 md:min-h-[calc(100svh-5.0625rem)] md:py-12 lg:py-4">
         <AnalysisLoadingExperience
           signature={subjectSignature}
-          message={PROCESSING_MESSAGES[currentMessageIndex]}
-          messageIndex={currentMessageIndex}
-          messageCount={PROCESSING_MESSAGES.length}
+          messages={ANALYSIS_CALIBRATION_MESSAGES}
+          rowStates={rowStates}
           phase={phase}
           onRetry={handleRetry}
         />
