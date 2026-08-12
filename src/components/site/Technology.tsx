@@ -52,6 +52,9 @@ const TECH: Tech[] = [
   },
 ];
 
+const DIAGRAM_NODE_RADIUS = 2.4;
+const DIAGRAM_PULSE_SCALE = 5 / DIAGRAM_NODE_RADIUS;
+
 export function Technology() {
   return (
     <section
@@ -89,7 +92,7 @@ export function Technology() {
 
         {/* Engine visualization */}
         <Reveal delay={0.1} className="mt-16">
-          <ConstellationDiagram />
+          <TechnologyDiagram />
         </Reveal>
 
         <Stagger className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -118,8 +121,14 @@ export function Technology() {
 /* ------------------------------------------------------------------ */
 
 /** Decorative architecture diagram; labels illustrate the satire rather than live data. */
-function ConstellationDiagram() {
-  const reduce = useReducedMotion();
+export function TechnologyDiagram({
+  reducedMotion,
+}: {
+  /** Allows focused rendering tests to exercise both motion preferences. */
+  reducedMotion?: boolean;
+}) {
+  const reducedMotionPreference = useReducedMotion();
+  const reduce = reducedMotion ?? reducedMotionPreference;
   const nodes = [
     { label: 'Observation', x: 50, y: 12 },
     { label: 'Ingestion', x: 18, y: 40 },
@@ -162,28 +171,52 @@ function ConstellationDiagram() {
         {/* Nodes */}
         {nodes.map((n, i) => (
           <g key={n.label}>
-            <motion.circle
-              cx={n.x}
-              cy={n.y}
-              r="2.4"
-              fill="hsl(262 45% 7%)"
-              stroke="hsl(43 74% 66%)"
-              strokeWidth="0.4"
+            <motion.g
               initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0 }}
               whileInView={reduce ? {} : { opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 + i * 0.1 }}
-            />
-            <motion.circle
-              cx={n.x}
-              cy={n.y}
-              r="2.4"
-              fill="none"
-              stroke="hsl(43 74% 66% / 0.5)"
-              strokeWidth="0.2"
-              animate={reduce ? {} : { r: [2.4, 5, 2.4], opacity: [0.5, 0, 0.5] }}
-              transition={reduce ? {} : { duration: 3, repeat: Infinity, delay: i * 0.4 }}
-            />
+              style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+            >
+              <circle
+                cx={n.x}
+                cy={n.y}
+                r={DIAGRAM_NODE_RADIUS}
+                fill="hsl(262 45% 7%)"
+                stroke="hsl(43 74% 66%)"
+                strokeWidth="0.4"
+              />
+            </motion.g>
+            {reduce ? (
+              <g>
+                <circle
+                  cx={n.x}
+                  cy={n.y}
+                  r={DIAGRAM_NODE_RADIUS}
+                  fill="none"
+                  stroke="hsl(43 74% 66% / 0.5)"
+                  strokeWidth="0.2"
+                />
+              </g>
+            ) : (
+              <motion.g
+                animate={{
+                  scale: [1, DIAGRAM_PULSE_SCALE, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+                style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+              >
+                <circle
+                  cx={n.x}
+                  cy={n.y}
+                  r={DIAGRAM_NODE_RADIUS}
+                  fill="none"
+                  stroke="hsl(43 74% 66% / 0.5)"
+                  strokeWidth="0.2"
+                />
+              </motion.g>
+            )}
             <text
               x={n.x}
               y={n.y + 6}
