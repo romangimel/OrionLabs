@@ -55,6 +55,7 @@ export function QuestionnairePage() {
     useState<QuestionnaireValidationErrors>({});
   const [hasAttemptedCurrentStep, setHasAttemptedCurrentStep] = useState(false);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const questionnaireContentRef = useRef<HTMLElement>(null);
   const hasMounted = useRef(false);
   const navigationLocked = useRef(false);
   const transitionTimer = useRef<number>();
@@ -67,11 +68,16 @@ export function QuestionnairePage() {
   const percentage = questionnaire.isReviewing ? 100 : questionnaire.currentStep * 25;
   const subjectSignature = createSubjectSignatureFromAnswers(questionnaire.answers);
 
-  // Announce each successful transition from the new heading without moving the
-  // questionnaire in the viewport. Validation keeps its separate field focus.
+  // A new step should begin at the top of its content region. This runs only
+  // when navigation changes the active step or enters/leaves review; answer and
+  // validation updates deliberately do not affect the viewport position.
   useEffect(() => {
     if (hasMounted.current) {
       window.requestAnimationFrame(() => {
+        questionnaireContentRef.current?.scrollIntoView({
+          behavior: reduceMotion ? 'auto' : 'smooth',
+          block: 'start',
+        });
         headingRef.current?.focus({ preventScroll: true });
       });
     } else {
@@ -299,6 +305,7 @@ export function QuestionnairePage() {
 
       <main
         id="questionnaire-content"
+        ref={questionnaireContentRef}
         className="container-narrow relative z-10 pb-14 pt-8 sm:pb-20 sm:pt-10 md:pb-14 md:pt-8"
       >
         <div className="mx-auto w-full max-w-3xl lg:max-w-5xl xl:max-w-6xl">

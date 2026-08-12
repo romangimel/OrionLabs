@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { SubjectSignature } from '@/components/celestial/SubjectSignature';
 import {
   ATTENTION_AREAS,
   BEHAVIORAL_STATEMENTS,
@@ -232,7 +235,36 @@ describe('Subject Signature derivation', () => {
 
     expect(signature.status).toBe('dormant');
     expect(signature.geometry).toBeNull();
+    expect(signature.zodiacSign).toBeNull();
     expect(signature.focusNodeId).toBeNull();
+    expect(signature.behaviorTargetNodeIds).toEqual([]);
+    expect(signature.behaviorPathEdges).toEqual([]);
+  });
+
+  it('renders no compact placeholder before zodiac selection, then renders the selected geometry', () => {
+    const dormantMarkup = renderToStaticMarkup(
+      createElement(SubjectSignature, {
+        signature: createSubjectSignatureFromAnswers({
+          zodiacSign: '',
+          attentionArea: '',
+          behavioralStatement: '',
+        }),
+        variant: 'compact',
+        ariaHidden: true,
+      }),
+    );
+    const ariesMarkup = renderToStaticMarkup(
+      createElement(SubjectSignature, {
+        signature: createSubjectSignature({ zodiacSign: 'Aries' }),
+        variant: 'compact',
+        ariaHidden: true,
+      }),
+    );
+
+    expect(dormantMarkup).not.toContain('<svg');
+    expect(dormantMarkup).not.toContain('<circle');
+    expect(ariesMarkup).toContain('<svg');
+    expect(ariesMarkup).toContain('<circle');
   });
 
   it('never returns the geometry placeholder for a supported zodiac sign', () => {

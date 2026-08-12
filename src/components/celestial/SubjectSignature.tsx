@@ -133,6 +133,12 @@ export function SubjectSignature({
     ? { x: -24, y: -18, width: 548, height: 436 }
     : { x: 0, y: 0, width: 500, height: 400 };
 
+  // The questionnaire reserves this footprint beside its progress percentage,
+  // but an unassigned zodiac must not imply a default constellation or marker.
+  if (compact && signature.status === 'dormant') {
+    return <span className={cn('relative block h-8 w-8 sm:h-9 sm:w-9', className)} aria-hidden="true" />;
+  }
+
   const content = signature.geometry ? (
     <svg
       viewBox={`${fullViewBox.x} ${fullViewBox.y} ${fullViewBox.width} ${fullViewBox.height}`}
