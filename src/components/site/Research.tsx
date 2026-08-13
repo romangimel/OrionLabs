@@ -74,18 +74,30 @@ export function Research() {
             <BackgroundGlow className="-right-20 -top-20 h-48 w-48 rounded-full bg-[hsl(315_80%_58%_/_0.22)] blur-3xl" />
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-8 right-10 hidden w-[60%] justify-center lg:flex"
+              className="pointer-events-none absolute bottom-10 right-10 hidden w-[60%] justify-end lg:flex"
             >
-              <div className="aspect-[7/6] w-[66%] overflow-hidden rounded-xl">
-                <img
-                  src="/images/research-moon-aware-transformers.png"
-                  alt=""
-                  width={1448}
-                  height={1086}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover object-[50%_48%]"
-                />
+              <div className="relative aspect-[7/6] w-[60%] overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.9)] p-2">
+                <div className="relative h-full w-full overflow-hidden rounded-[0.6rem]">
+                  <img
+                    src="/images/research-moon-aware-transformers.png"
+                    alt=""
+                    width={1448}
+                    height={1086}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover object-[50%_48%]"
+                  />
+                  <div className="pointer-events-none absolute bottom-0 left-0 w-[78%] px-5 pb-4">
+                    <div>
+                      <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[hsl(43_60%_75%)]">
+                        OBSERVATIONAL MODEL
+                      </p>
+                      <p className="mt-1.5 text-xs leading-relaxed text-foreground/90">
+                        Documented under conditions carefully selected to support the conclusion.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

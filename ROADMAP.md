@@ -322,13 +322,14 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Finalize the landing page presentation order
 - [x] Redesign analysis page and loading messages
 - [x] Fix mobile scroll focus on questinnaire flow
-- [ ] Fix landing page mobile navigation
+- [x] Fix landing page mobile navigation
 - [x] Fix generated report storing and routing
 - [x] Move signature ID inside subject signature
-- [ ] Fix research card image placement
+- [x] Fix research card image placement
 - [ ] Make the article shorter
 - [x] Fix report fucos card desktop layout
-- [ ] Polish LP trusted section 
+- [ ] Polish LP trusted section
+- [ ] Rename pages
 
 ### Product Polish
 
