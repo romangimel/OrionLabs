@@ -72,61 +72,63 @@ export function Research() {
         <Reveal delay={0.1} className="mt-16">
           <article className="group relative overflow-hidden rounded-2xl glass-strong p-8 md:p-10">
             <BackgroundGlow className="-right-20 -top-20 h-48 w-48 rounded-full bg-[hsl(315_80%_58%_/_0.22)] blur-3xl" />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute bottom-10 right-10 hidden w-[60%] justify-end lg:flex"
-            >
-              <div className="relative aspect-[7/6] w-[60%] overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.9)] p-2">
-                <div className="relative h-full w-full overflow-hidden rounded-[0.6rem]">
-                  <img
-                    src="/images/research-moon-aware-transformers.png"
-                    alt=""
-                    width={1448}
-                    height={1086}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover object-[50%_48%]"
-                  />
-                  <div className="pointer-events-none absolute bottom-0 left-0 w-[78%] px-5 pb-4">
-                    <div>
-                      <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[hsl(43_60%_75%)]">
-                        OBSERVATIONAL MODEL
-                      </p>
-                      <p className="mt-1.5 text-xs leading-relaxed text-foreground/90">
-                        Documented under conditions carefully selected to support the conclusion.
-                      </p>
+            <div className="relative z-10">
+              <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+                <div className="max-w-2xl">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-3 py-1 text-[0.65rem] uppercase tracking-[0.18em] text-[hsl(43_60%_75%)]">
+                      <FileText className="h-3 w-3" /> Featured
+                    </span>
+                    <span className="text-xs text-[hsl(326_55%_62%)]">{featured.year}</span>
+                  </div>
+                  <h3 className="mt-5 font-serif text-2xl leading-snug text-gradient-gold md:text-3xl">
+                    {featured.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground">{featured.authors}</p>
+                  <p className="mt-5 text-sm leading-relaxed text-foreground/80">
+                    {featured.abstract}
+                  </p>
+                </div>
+                <div className="shrink-0 lg:text-right">
+                  <p className="text-xs uppercase tracking-[0.2em] text-[hsl(326_50%_60%_/_0.85)]">
+                    {featured.venue}
+                  </p>
+                  <a
+                    href="/research/moon-aware-transformers"
+                    className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[hsl(43_60%_75%)] transition-colors hover:text-[hsl(43_70%_85%)]"
+                  >
+                    Read paper <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+
+              <div
+                aria-hidden="true"
+                className="pointer-events-none mt-8 w-full max-w-[36rem] xl:absolute xl:bottom-10 xl:right-10 xl:mt-0 xl:w-[36%]"
+              >
+                <div className="relative aspect-[7/6] w-full overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.9)] p-2">
+                  <div className="relative h-full w-full overflow-hidden rounded-[0.6rem]">
+                    <img
+                      src="/images/research-moon-aware-transformers.png"
+                      alt=""
+                      width={1448}
+                      height={1086}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover object-[50%_48%]"
+                    />
+                    <div className="pointer-events-none absolute bottom-0 left-0 w-[78%] px-5 pb-4">
+                      <div>
+                        <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[hsl(43_60%_75%)]">
+                          OBSERVATIONAL MODEL
+                        </p>
+                        <p className="mt-1.5 text-xs leading-relaxed text-foreground/90">
+                          Documented under conditions carefully selected to support the conclusion.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-              <div className="max-w-2xl">
-                <div className="flex items-center gap-3">
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-3 py-1 text-[0.65rem] uppercase tracking-[0.18em] text-[hsl(43_60%_75%)]">
-                    <FileText className="h-3 w-3" /> Featured
-                  </span>
-                  <span className="text-xs text-[hsl(326_55%_62%)]">{featured.year}</span>
-                </div>
-                <h3 className="mt-5 font-serif text-2xl leading-snug text-gradient-gold md:text-3xl">
-                  {featured.title}
-                </h3>
-                <p className="mt-3 text-sm text-muted-foreground">{featured.authors}</p>
-                <p className="mt-5 text-sm leading-relaxed text-foreground/80">
-                  {featured.abstract}
-                </p>
-              </div>
-              <div className="shrink-0 lg:text-right">
-                <p className="text-xs uppercase tracking-[0.2em] text-[hsl(326_50%_60%_/_0.85)]">
-                  {featured.venue}
-                </p>
-                <a
-                  href="/research/moon-aware-transformers"
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-[hsl(43_60%_75%)] transition-colors hover:text-[hsl(43_70%_85%)]"
-                >
-                  Read paper <ArrowUpRight className="h-4 w-4" />
-                </a>
               </div>
             </div>
           </article>
