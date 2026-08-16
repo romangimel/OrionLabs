@@ -105,7 +105,6 @@ export function AnalysisPage() {
       !draft?.pendingReportId ||
       !generationInput ||
       !canRenderAnalysis ||
-      activeCompletedReport ||
       generatedReport
     ) {
       return;
@@ -141,7 +140,6 @@ export function AnalysisPage() {
       isCurrentRequest = false;
     };
   }, [
-    activeCompletedReport,
     attempt,
     canRenderAnalysis,
     draft,
@@ -155,7 +153,6 @@ export function AnalysisPage() {
       !generatedReport ||
       !signatureInputs ||
       !canRenderAnalysis ||
-      activeCompletedReport ||
       !minimumExperienceComplete ||
       generationStatus !== 'succeeded'
     ) {
@@ -181,7 +178,6 @@ export function AnalysisPage() {
 
     return () => window.clearTimeout(redirectTimer);
   }, [
-    activeCompletedReport,
     canRenderAnalysis,
     draft,
     generatedReport,

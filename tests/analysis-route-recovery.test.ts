@@ -63,6 +63,18 @@ describe('analysis route recovery', () => {
     expect(resolveAnalysisRouteDestination(false, true)).toBeNull();
   });
 
+  it('keeps a valid pending analysis on /analysis while an earlier report remains active', () => {
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-12T10:00:00.000Z',
+    );
+
+    expect(resolveAnalysisRouteDestination(Boolean(getActiveReport()), true)).toBeNull();
+    expect(getActiveReport()?.id).toBe(reportId);
+  });
+
   it('recovers invalid analysis state through /questionnaire when no report is completed', () => {
     expect(resolveAnalysisRouteDestination(false, false)).toBe('/questionnaire');
   });

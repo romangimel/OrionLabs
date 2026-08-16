@@ -20,7 +20,7 @@ import {
 } from '@/lib/questionnaire-state';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
 import { createReportGenerationInput } from '@/lib/report-generation-input';
-import { clearAllSessionReports, createReportId } from '@/lib/report-storage';
+import { createReportId } from '@/lib/report-storage';
 import { createSubjectSignatureFromAnswers } from '@/lib/subject-signature';
 import {
   getFirstInvalidQuestionId,
@@ -45,8 +45,6 @@ export function QuestionnairePage() {
   const reduceMotion = useReducedMotion();
   const [questionnaire, setQuestionnaire] = useState<QuestionnaireState>(() => {
     const draft = loadQuestionnaireDraft();
-    // Entering the questionnaire makes this the prototype's single active run.
-    clearAllSessionReports();
     return createQuestionnaireState(draft);
   });
   const [isTransitioning, setIsTransitioning] = useState(false);

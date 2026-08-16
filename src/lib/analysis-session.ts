@@ -12,16 +12,24 @@ export function clearIncompleteQuestionnaireForExit() {
   return true;
 }
 
-/** Clears every OrionLabs-owned key that belongs to the current prototype run. */
+/**
+ * Clears the complete prototype session for entry points that intentionally
+ * discard every local OrionLabs result. The report page's restart action does
+ * not use this helper because a replacement report has not succeeded yet.
+ */
 export function resetAnalysisSession() {
   const draftCleared = clearQuestionnaireDraft();
   const reportsCleared = clearAllSessionReports();
   return draftCleared && reportsCleared;
 }
 
-/** Starts the current single-report prototype from a completely clean local state. */
+/**
+ * Starts a fresh questionnaire without disturbing the last completed report.
+ * A new analysis may fail, so its temporary input state must not determine the
+ * lifetime of the last known valid completed snapshot.
+ */
 export function startNewAnalysisJourney(destination = '/questionnaire') {
-  if (resetAnalysisSession()) {
+  if (clearQuestionnaireDraft()) {
     window.location.assign(destination);
     return true;
   }

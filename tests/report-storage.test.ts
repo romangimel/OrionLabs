@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import type { OrionReport } from '@/data/report';
-import { QUESTIONNAIRE_DRAFT_STORAGE_KEY } from '@/lib/questionnaire-state';
+import {
+  QUESTIONNAIRE_DRAFT_STORAGE_KEY,
+  createQuestionnaireDraft,
+  createQuestionnaireState,
+  saveQuestionnaireDraft,
+} from '@/lib/questionnaire-state';
 import {
   getActiveReport,
+  getReportById,
   persistGeneratedReport,
 } from '@/lib/report-storage';
 import { createSubjectSignature } from '@/lib/subject-signature';
@@ -10,6 +16,7 @@ import { createValidReport, validSignatureInput } from './fixtures';
 
 class MemorySessionStorage implements Storage {
   private readonly values = new Map<string, string>();
+  failNextActivePointerWrite = false;
 
   get length() {
     return this.values.size;
@@ -32,6 +39,14 @@ class MemorySessionStorage implements Storage {
   }
 
   setItem(key: string, value: string) {
+    if (
+      this.failNextActivePointerWrite &&
+      key === 'orionlabs.report.active.v3'
+    ) {
+      this.failNextActivePointerWrite = false;
+      throw new Error('Simulated active-pointer storage failure');
+    }
+
     this.values.set(key, value);
   }
 }
@@ -93,5 +108,89 @@ describe('generated report persistence', () => {
     expect(
       createSubjectSignature(savedReport!.signatureInputs).behavioralStatement,
     ).toBe('I overthink things');
+  });
+
+  it('keeps the active completed report while a new analysis draft is prepared', () => {
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+    const pendingAnalysis = {
+      ...createQuestionnaireState(),
+      pendingReportId: '123e4567-e89b-42d3-a456-426614174001',
+    };
+
+    expect(saveQuestionnaireDraft(createQuestionnaireDraft(pendingAnalysis))).toBe(true);
+    expect(getActiveReport()?.id).toBe(reportId);
+  });
+
+  it('keeps the prior completed report active when a replacement fails validation', () => {
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+    const malformedReplacement = createValidReport();
+    malformedReplacement.metrics[0].value = 101;
+
+    expect(
+      persistGeneratedReport(
+        '123e4567-e89b-42d3-a456-426614174001',
+        malformedReplacement as OrionReport,
+        validSignatureInput,
+      ),
+    ).toBeNull();
+    expect(getActiveReport()?.id).toBe(reportId);
+    expect(getReportById(reportId)?.id).toBe(reportId);
+  });
+
+  it('activates a validated replacement only after keeping the prior record stored', () => {
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+    const replacement = createValidReport();
+    replacement.summary.headline = 'Replacement report';
+    const replacementId = '123e4567-e89b-42d3-a456-426614174001';
+
+    expect(
+      persistGeneratedReport(
+        replacementId,
+        replacement,
+        validSignatureInput,
+        '2026-08-09T10:01:00.000Z',
+      )?.id,
+    ).toBe(replacementId);
+    expect(getActiveReport()?.id).toBe(replacementId);
+    expect(getReportById(reportId)?.id).toBe(reportId);
+  });
+
+  it('keeps the prior report active when the replacement pointer cannot be stored', () => {
+    const replacementId = '123e4567-e89b-42d3-a456-426614174001';
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+    const storage = window.sessionStorage as MemorySessionStorage;
+    storage.failNextActivePointerWrite = true;
+
+    expect(
+      persistGeneratedReport(
+        replacementId,
+        createValidReport(),
+        validSignatureInput,
+        '2026-08-09T10:01:00.000Z',
+      ),
+    ).toBeNull();
+    expect(getActiveReport()?.id).toBe(reportId);
+    expect(getReportById(reportId)?.id).toBe(reportId);
+    expect(getReportById(replacementId)?.id).toBe(replacementId);
   });
 });

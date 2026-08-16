@@ -145,7 +145,10 @@ export function setActiveReportId(id: string): boolean {
   }
 }
 
-/** Persists one generated report and makes it the active report atomically enough for session storage. */
+/**
+ * Persists one generated report before changing the active pointer. This keeps
+ * the prior completed snapshot recoverable if validation or storage fails.
+ */
 export function persistGeneratedReport(
   id: string,
   report: OrionReport,
