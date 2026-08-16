@@ -11,8 +11,8 @@ interface QuestionnaireProgressProps {
 
 /**
  * Displays completion based on finished steps rather than visual position.
- * With four configured steps, the three internal markers divide the track at
- * 25% intervals; the review state is the terminal 100% milestone.
+ * With four configured steps, the internal markers and terminal marker divide
+ * the track at 25% intervals; the review state is the terminal 100% milestone.
  */
 export function QuestionnaireProgress({
   currentStep,
@@ -21,8 +21,9 @@ export function QuestionnaireProgress({
   isReviewing,
   signature,
 }: QuestionnaireProgressProps) {
-  // The start and end markers are rendered separately at 0% and 100%.
-  const markerPositions = [25, 50, 75] as const;
+  // The start marker is rendered separately at 0%; these markers complete the
+  // evenly spaced 25%, 50%, 75%, and terminal 100% positions.
+  const markerPositions = [25, 50, 75, 100] as const;
 
   return (
     <section aria-label="Questionnaire progress" className="w-full">
@@ -50,7 +51,7 @@ export function QuestionnaireProgress({
       </div>
 
       <div
-        className="relative mt-4 h-0.5 bg-[hsl(43_60%_70%_/_0.14)] lg:mt-5"
+        className="relative mx-1.25 mt-4 h-0.5 bg-[hsl(43_60%_70%_/_0.14)] lg:mt-5"
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
