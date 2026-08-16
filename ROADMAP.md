@@ -315,84 +315,110 @@ Do not call the AI provider directly from frontend browser code.
 
 ## 10. Final Polish and Launch
 
-### Final fixes
+### 1. Remaining Known Fixes
 
-- [x] Remove zodiac icon from questionnaire when unasigned
-- [x] Polish subject signature glow and background
+- [x] Remove zodiac icon from questionnaire when unassigned
+- [x] Polish Subject Signature glow and background
 - [x] Finalize the landing page presentation order
-- [x] Redesign analysis page and loading messages
-- [x] Fix mobile scroll focus on questinnaire flow
-- [x] Fix landing page mobile navigation
-- [x] Fix generated report storing and routing
-- [x] Move signature ID inside subject signature
+- [x] Redesign the Analysis page and loading messages
+- [x] Fix mobile scroll focus in the questionnaire flow
+- [x] Fix landing-page mobile navigation
+- [x] Fix generated-report storage and routing
+- [x] Move Signature ID inside Subject Signature
 - [x] Fix research card image placement
-- [ ] Make the article shorter
-- [x] Fix report fucos card desktop layout
-- [ ] Polish LP trusted section
-- [ ] Rename pages
+- [x] Fix report focus-card desktop layout
+- [ ] Polish the landing-page Trusted section
+- [ ] Fix Research card responsiveness so its image remains visible and the card transitions gracefully on tablet and mobile
+- [ ] Fix the questionnaire progress indicator so the final-step node remains visible on mobile
+- [ ] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
 
-### Product Polish
+### 2. Copy and Humor Lock
 
-- [ ] Polish copy throughout the website
-- [ ] Polish text color throughout the website
+- [ ] Audit site-wide static copy against the final OrionLabs humor standard
+- [ ] Apply the resulting static-copy improvements, including consistent institutional tone and text-color polish
 - [x] Finalize all questionnaire helper text
-- [ ] Polish generated art throughout the website
-- [ ] Set same background opacity across all pages
-- [ ] Make the OrionLabs humor consistent across every page
+
+### 3. AI Output and Gemini Prompt Polish
+
+- [ ] Audit the current Gemini prompt and instructions against the final OrionLabs humor standard
+- [ ] Improve grounding so reports use questionnaire-specific details without inventing personal facts
+- [ ] Tune roast intensity, fake-science language, metrics, forecast, recommendation, and closing verdict
+- [ ] Evaluate a small representative test set across zodiac, focus, and behavior combinations without wasting the limited Gemini Free-tier quota
+- [ ] Compare representative outputs with approved OrionLabs humor examples and confirm consistency
+- [ ] Confirm structured-output reliability remains intact and prompt changes do not expand the approved personal-data boundary
+- [ ] Freeze the production Gemini prompt and configuration after final calibration
+
+### 4. Article Rewrite and Shortening
+
+- [ ] Rewrite and shorten the article after the copy/humor and Gemini-output standards are locked
+
+### 5. Visual Consistency and Remaining Product Polish
+
+- [ ] Set consistent background opacity across all pages
+- [ ] Polish generated art only where an asset is genuinely unsatisfactory
+
+### 6. Route and Browser Presentation Finalization
+
+- [ ] Rename final routes: `/analysis` to `/calibration` and `/research/moon-aware-transformers` to `/articles/moon-aware-transformers`
+- [ ] Update internal links and navigation for the renamed routes
+- [ ] Verify direct navigation and refresh behavior after the route rename
+- [ ] Ensure old and invalid routes redirect intentionally or fail gracefully
+- [ ] Finalize document and page titles, favicon/app icon, meta description, and Open Graph/social-preview metadata
+- [ ] Verify live and shared URLs produce sensible browser and social-preview information
+
+### 7. Full Desktop, Tablet, and Mobile UX Audit
+
 - [ ] Review the complete desktop experience
 - [ ] Review the complete tablet experience
 - [ ] Review the complete mobile experience
 - [ ] Review empty, loading, error, and success states
+- [ ] Resolve the short final-fixes list produced by this audit before accessibility, performance, and final testing
+
+### 8. Cleanup
+
 - [ ] Remove obsolete fixture or demo content while preserving development and test fixtures
 - [ ] Remove unused code and assets
 - [ ] Confirm all technical comments remain accurate
 
-### Accessibility
+### 9. Accessibility
 
 - [ ] Perform a full keyboard-navigation audit
-- [ ] Perform a project-wide reduced-motion audit
-- [ ] Perform a screen-reader structure review
-- [ ] Check color contrast
-- [ ] Check focus visibility
-- [ ] Check semantic heading order
-- [ ] Check form labels and error messages
-- [ ] Check reduced-motion support
-- [ ] Check touch-target sizes
+- [ ] Check focus visibility and semantic heading order
+- [ ] Check form labels, error messages, and screen-reader structure
+- [ ] Check color contrast, reduced-motion support, and touch-target sizes
 
-### Performance
+### 10. Performance
 
 - [ ] Optimize large images
-- [ ] Remove unnecessary dependencies
 - [ ] Check bundle size
-- [ ] Lazy-load appropriate pages or assets
-- [ ] Check page performance
-- [ ] Check layout shifts
-- [ ] Check loading behaviour on slower connections
+- [ ] Remove genuinely unnecessary dependencies
+- [ ] Identify and implement worthwhile lazy-loading or code-splitting opportunities
+- [ ] Check page performance, layout shifts, and loading behavior on slower connections
 
-### Final Testing
+### 11. Final Testing
 
+- [ ] Test AI failure, timeout, and capacity states
+- [ ] Re-test route refreshes and direct access on the final release candidate
+- [ ] Test multiple desktop widths and around 375px and 430px mobile widths
+- [ ] Test at least one real mobile device and one secondary desktop browser in addition to the main development browser
+- [ ] Re-confirm no API keys are exposed and no console errors remain
 - [ ] Test the complete user journey
-- [ ] Test on multiple desktop widths
-- [ ] Test around 375px and 430px mobile widths
-- [ ] Test on at least one real mobile device
-- [ ] Re-test route refreshes on the final production release candidate
-- [ ] Test AI failure and timeout states
-- [ ] Re-confirm no API keys are exposed in the final release candidate
-- [ ] Confirm no console errors remain
 - [ ] Run the final production build
 
-### Documentation and Deployment
+### 12. Documentation, Release Candidate, and Launch
 
-- [ ] Update the README for the finished version
 - [x] Document the current technology stack
 - [x] Document local development setup
 - [x] Document environment variables without exposing secrets
 - [x] Clearly identify the project as satire
-- [ ] Add screenshots or a short product preview
-- [x] Deploy OrionLabs to Vercel with `main` as Production and feature-branch Previews
-- [x] Verify the current Preview and Production deployments, including real Gemini report generation
+- [x] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
+- [x] Verify current Preview and Production deployments, including real Gemini report generation
 - [x] Verify deployed routes support SPA fallback and static assets load correctly
+- [ ] Confirm Production uses the intended Gemini model and frozen configuration
+- [ ] Re-confirm Production rate-limit and capacity handling
 - [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work
+- [ ] Update the README for the finished version
+- [ ] Add screenshots or a short product preview
 - [ ] Add the live URL to the GitHub repository
 - [ ] Add OrionLabs to the portfolio
 
