@@ -328,7 +328,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Fix research card image placement
 - [x] Fix report focus-card desktop layout
 - [x] Redesign the logo
-- [ ] Polish the landing-page Trusted section
+- [x] Polish the landing-page Trusted section
 - [ ] Fix Research card responsiveness so its image remains visible and the card transitions gracefully on tablet and mobile
 - [ ] Fix the questionnaire progress indicator so the final-step node remains visible on mobile
 - [ ] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
