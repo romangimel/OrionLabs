@@ -161,7 +161,7 @@ Trust bar is a quiet bordered band: compact uppercase gold statement above a wra
 
 - **`Starfield`:** deterministic, scattered 1–3px warm-gold dots; larger dots receive a soft glow.
 - **`Aurora`:** full-bleed absolute radial blobs in blue-violet, magenta, pink, violet, and a faint gold whisper.
-- **`Logo`:** seven-point celestial compass, gold gradient fill, `#E8C77A` stroke, and dark center; normally 36–40px next to the wordmark.
+- **`Logo`:** the supplied official OrionLabs raster mark, contained without distortion in the existing 36–40px brand slots next to the wordmark.
 
 ## Effects
 

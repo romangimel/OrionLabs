@@ -21,7 +21,7 @@ export function ClosingVerdict({
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,hsl(326_80%_48%_/_0.18),transparent_58%)]"
       />
       <div className="relative mx-auto max-w-4xl text-center">
-        <Logo className="mx-auto h-11 w-11 drop-shadow-[0_0_18px_hsl(43_74%_66%_/_0.32)]" />
+        <Logo className="mx-auto h-11 w-11" />
         <p className="mt-6 text-[0.65rem] font-medium uppercase tracking-[0.24em] text-[hsl(43_60%_72%)]">
           06 — OrionLabs final verdict
         </p>

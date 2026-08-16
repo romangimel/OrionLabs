@@ -327,10 +327,13 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Move Signature ID inside Subject Signature
 - [x] Fix research card image placement
 - [x] Fix report focus-card desktop layout
+- [x] Redesign the logo
 - [ ] Polish the landing-page Trusted section
 - [ ] Fix Research card responsiveness so its image remains visible and the card transitions gracefully on tablet and mobile
 - [ ] Fix the questionnaire progress indicator so the final-step node remains visible on mobile
 - [ ] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
+- [ ] Add a back to main button on the report page
+- [ ] Save the stored report until a new one is generated
 
 ### 2. Copy and Humor Lock
 

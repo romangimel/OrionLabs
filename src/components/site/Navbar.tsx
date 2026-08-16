@@ -65,8 +65,8 @@ export function Navbar() {
         )}
       >
         <nav className="container-narrow flex h-16 items-center justify-between md:h-20">
-          <a href="#top" className="group flex items-center gap-3" aria-label="OrionLabs home">
-            <Logo className="h-9 w-9 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.35)] transition-transform duration-500 group-hover:rotate-[18deg] md:h-10 md:w-10" />
+          <a href="#top" className="group flex items-center gap-2" aria-label="OrionLabs home">
+            <Logo className="h-9 w-9 md:h-10 md:w-10" />
             <span className="font-serif text-2xl tracking-tight text-foreground md:text-[1.6rem]">
               Orion<span className="text-gradient-gold">Labs</span>
             </span>

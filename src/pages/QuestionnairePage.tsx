@@ -282,10 +282,10 @@ export function QuestionnairePage() {
           <a
             href="/"
             onClick={clearIncompleteQuestionnaireForExit}
-            className="group flex items-center gap-2.5 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+            className="group flex items-center gap-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
             aria-label="Return to OrionLabs home"
           >
-            <Logo className="h-8 w-8 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.3)] transition-transform duration-500 group-hover:rotate-[18deg] motion-reduce:transform-none sm:h-9 sm:w-9" />
+            <Logo className="h-8 w-8 sm:h-9 sm:w-9" />
             <span className="font-serif text-xl tracking-tight text-foreground sm:text-2xl">
               Orion<span className="text-gradient-gold">Labs</span>
             </span>

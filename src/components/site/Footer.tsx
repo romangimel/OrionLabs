@@ -30,8 +30,8 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           {/* Brand */}
           <div className="max-w-xs">
-            <a href="#top" className="flex items-center gap-3" aria-label="OrionLabs home">
-              <Logo className="h-9 w-9 drop-shadow-[0_0_12px_hsl(43_74%_66%_/_0.35)]" />
+            <a href="#top" className="flex items-center gap-2" aria-label="OrionLabs home">
+              <Logo className="h-9 w-9" />
               <span className="font-serif text-2xl tracking-tight text-foreground">
                 Orion<span className="text-gradient-gold">Labs</span>
               </span>
