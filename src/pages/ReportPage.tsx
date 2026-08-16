@@ -192,7 +192,7 @@ export function ReportPage() {
                   </p>
                   <h3
                     id="risks-title"
-                    className="mt-2 font-serif text-3xl text-foreground"
+                    className="mt-2 font-serif text-3xl text-[hsl(326_55%_68%)]"
                   >
                     Risks and recurring patterns
                   </h3>
@@ -226,7 +226,7 @@ export function ReportPage() {
           className="mt-8 flex flex-col gap-5 rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.5)] p-5 backdrop-blur-lg sm:flex-row sm:items-center sm:justify-between sm:p-6"
         >
           <div>
-            <h2 id="report-actions-title" className="font-serif text-2xl text-foreground">
+            <h2 id="report-actions-title" className="font-serif text-2xl text-gradient-gold">
               Analysis archived locally
             </h2>
             {restartError ? (

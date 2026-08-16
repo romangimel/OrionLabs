@@ -22,12 +22,13 @@ export function ClosingVerdict({
       />
       <div className="relative mx-auto max-w-4xl text-center">
         <Logo className="mx-auto h-11 w-11" />
-        <p className="mt-6 text-[0.65rem] font-medium uppercase tracking-[0.24em] text-[hsl(43_60%_72%)]">
-          06 — OrionLabs final verdict
+        <p className="mt-6 text-[0.65rem] font-medium uppercase tracking-[0.24em]">
+          <span className="text-[hsl(43_60%_72%)]">06 — </span>
+          <span className="text-[hsl(326_55%_68%)]">OrionLabs final verdict</span>
         </p>
         <h2
           id="closing-verdict-title"
-          className="mt-4 font-serif text-3xl text-foreground sm:text-4xl"
+          className="mt-4 font-serif text-3xl text-gradient-gold sm:text-4xl"
         >
           Assessment complete for {subjectName}
         </h2>

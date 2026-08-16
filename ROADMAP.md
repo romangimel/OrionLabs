@@ -338,6 +338,7 @@ Do not call the AI provider directly from frontend browser code.
 ### 2. Copy and Humor Lock
 
 - [ ] Audit site-wide static copy against the final OrionLabs humor standard
+- [ ] Finalize site-wide text colors
 - [ ] Apply the resulting static-copy improvements, including consistent institutional tone and text-color polish
 - [x] Finalize all questionnaire helper text
 

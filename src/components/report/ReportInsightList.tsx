@@ -47,7 +47,14 @@ export function ReportInsightList({
           </div>
           <div className="min-w-0">
             <div className="flex items-baseline justify-between gap-4">
-              <h3 className="font-serif text-xl leading-tight text-foreground sm:text-2xl">
+              <h3
+                className={cn(
+                  'font-serif text-xl leading-tight sm:text-2xl',
+                  variant === 'trait'
+                    ? 'text-[hsl(326_55%_68%)]'
+                    : 'text-foreground',
+                )}
+              >
                 {insight.title}
               </h3>
               <span className="shrink-0 text-[0.62rem] tracking-[0.16em] text-muted-foreground/45">

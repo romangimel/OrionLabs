@@ -19,7 +19,7 @@ export function ReportMetrics({ metrics }: ReportMetricsProps) {
             <span aria-hidden="true" className="mx-3 text-[hsl(43_60%_70%_/_0.4)]">—</span>
             <span className="text-[hsl(326_55%_68%)]">Model confidence</span>
           </p>
-          <h2 id="report-metrics-title" className="mt-2 font-serif text-3xl text-foreground sm:text-4xl">
+          <h2 id="report-metrics-title" className="mt-2 font-serif text-3xl text-[hsl(43_60%_72%)] sm:text-4xl">
             Measurable celestial indicators
           </h2>
         </div>
