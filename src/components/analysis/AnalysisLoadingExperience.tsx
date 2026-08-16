@@ -34,7 +34,7 @@ export function AnalysisLoadingExperience({
   return (
     <section
       aria-labelledby="analysis-title"
-      className="glass-strong relative w-full max-w-5xl overflow-hidden rounded-[1.5rem] px-4 py-4 shadow-[0_40px_140px_-44px_hsl(255_80%_2%_/_0.98)] sm:rounded-[1.75rem] sm:px-7 sm:py-7 md:rounded-[2rem] md:px-8 md:py-8 lg:px-10"
+      className="glass-strong relative w-full max-w-5xl overflow-hidden rounded-[1.5rem] px-3.5 py-3.5 shadow-[0_40px_140px_-44px_hsl(255_80%_2%_/_0.98)] sm:rounded-[1.75rem] sm:px-7 sm:py-7 md:rounded-[2rem] md:px-8 md:py-8 lg:px-10"
     >
       <div
         aria-hidden="true"
@@ -58,7 +58,7 @@ export function AnalysisLoadingExperience({
           {liveStatus}
         </p>
 
-        <div className="grid items-center gap-6 pt-5 sm:gap-8 sm:pt-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(24rem,1.08fr)] lg:items-stretch lg:gap-9">
+        <div className="grid items-center gap-5 pt-4 sm:gap-8 sm:pt-7 lg:grid-cols-[minmax(0,0.92fr)_minmax(24rem,1.08fr)] lg:items-stretch lg:gap-9">
           <div className="text-left lg:flex lg:min-h-0 lg:flex-col">
             <p className="text-[0.62rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
               Calibration sequence
@@ -67,7 +67,7 @@ export function AnalysisLoadingExperience({
             <ol
               aria-hidden="true"
               data-calibration-rail
-              className="relative mt-4 border-y border-[hsl(43_60%_70%_/_0.18)] before:absolute before:bottom-5 before:left-2 before:top-5 before:w-px before:bg-gradient-to-b before:from-[hsl(43_74%_66%_/_0.32)] before:via-[hsl(43_74%_66%_/_0.58)] before:to-[hsl(43_74%_66%_/_0.2)] sm:mt-5 sm:before:left-[0.625rem] lg:grid lg:min-h-0 lg:flex-1 lg:grid-rows-5"
+              className="relative mt-3 border-y border-[hsl(43_60%_70%_/_0.18)] before:absolute before:bottom-5 before:left-2 before:top-5 before:w-px before:bg-gradient-to-b before:from-[hsl(43_74%_66%_/_0.32)] before:via-[hsl(43_74%_66%_/_0.58)] before:to-[hsl(43_74%_66%_/_0.2)] sm:mt-5 sm:before:left-[0.625rem] lg:grid lg:min-h-0 lg:flex-1 lg:grid-rows-5"
             >
               {messages.map((message, index) => {
                 const rowState = rowStates[index] ?? 'upcoming';
@@ -78,7 +78,7 @@ export function AnalysisLoadingExperience({
                 return (
                   <li
                     key={message}
-                    className={`relative grid min-h-[4.25rem] grid-cols-[1rem_1.25rem_minmax(0,1fr)] items-center gap-2 py-3 sm:min-h-[4.75rem] sm:grid-cols-[1.25rem_1.75rem_minmax(0,1fr)] sm:gap-3 sm:py-3.5 lg:min-h-0 lg:py-2.5 ${
+                    className={`relative grid min-h-[3.5rem] grid-cols-[1rem_1.25rem_minmax(0,1fr)] items-center gap-2 py-2.5 sm:min-h-[4.75rem] sm:grid-cols-[1.25rem_1.75rem_minmax(0,1fr)] sm:gap-3 sm:py-3.5 lg:min-h-0 lg:py-2.5 ${
                       isActive
                         ? 'after:absolute after:inset-y-2 after:right-0 after:left-8 after:-z-10 after:bg-[linear-gradient(90deg,hsl(43_74%_66%_/_0.07),transparent_78%)] sm:after:left-10'
                         : ''
@@ -147,7 +147,7 @@ export function AnalysisLoadingExperience({
             )}
           </div>
 
-          <div className="relative mx-auto w-full max-w-[14rem] rounded-[1.25rem] border border-[hsl(43_60%_70%_/_0.1)] bg-[hsl(262_50%_6%_/_0.25)] p-1 sm:max-w-[29rem] sm:rounded-[1.5rem] sm:p-2.5">
+          <div className="relative mx-auto w-full max-w-[12.5rem] rounded-[1.25rem] border border-[hsl(43_60%_70%_/_0.1)] bg-[hsl(262_50%_6%_/_0.25)] p-1 sm:max-w-[29rem] sm:rounded-[1.5rem] sm:p-2.5">
             <span
               aria-hidden="true"
               className="absolute left-4 top-4 h-5 w-5 border-l border-t border-[hsl(43_60%_70%_/_0.38)]"
