@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { RotateCcw } from 'lucide-react';
+import { Home, RotateCcw } from 'lucide-react';
 import { ClosingVerdict } from '@/components/report/ClosingVerdict';
 import { CurrentLifeSection } from '@/components/report/CurrentLifeSection';
 import { RecommendationSection } from '@/components/report/RecommendationSection';
@@ -239,14 +239,34 @@ export function ReportPage() {
               </p>
             )}
           </div>
-          <button
-            type="button"
-            onClick={handleStartAnotherAnalysis}
-            className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.24)] px-6 text-sm font-medium text-foreground/85 transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
-          >
-            <RotateCcw aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
-            Start Another Analysis
-          </button>
+          <div className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center sm:gap-4">
+            <button
+              type="button"
+              onClick={handleStartAnotherAnalysis}
+              className="group relative inline-flex h-12 shrink-0 items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-6 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.8)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+            >
+              <RotateCcw
+                aria-hidden="true"
+                className="relative z-10 h-4 w-4"
+                strokeWidth={1.5}
+              />
+              <span className="relative z-10">Start Another Analysis</span>
+              <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+            </button>
+            <span
+              aria-hidden="true"
+              className="text-center text-xs text-muted-foreground/55"
+            >
+              or
+            </span>
+            <a
+              href="/"
+              className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.18)] px-6 text-sm font-medium text-foreground transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7%)]"
+            >
+              <Home aria-hidden="true" className="h-4 w-4" strokeWidth={1.5} />
+              Back to OrionLabs
+            </a>
+          </div>
         </aside>
 
         <p className="mt-8 text-center text-[0.68rem] leading-relaxed tracking-wide text-muted-foreground/45">

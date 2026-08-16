@@ -332,7 +332,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Fix Research card responsiveness so its image remains visible and the card transitions gracefully on tablet and mobile
 - [x] Fix the questionnaire progress indicator so the final-step node remains visible on mobile
 - [x] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
-- [ ] Add a back to main button on the report page
+- [x] Add a back to main button on the report page
 - [ ] Save the stored report until a new one is generated
 
 ### 2. Copy and Humor Lock
