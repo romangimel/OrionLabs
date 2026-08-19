@@ -37,7 +37,7 @@ export const retrogradePaper = {
     imageAlt: 'A dark enterprise computing environment intersected by restrained gold orbital paths and violet signal lines',
     figureLabel: 'Figure 1',
     figureTitle: 'Planetary operations layer',
-    caption: 'Proposed integration of planetary state with production infrastructure. Orbital paths indicate dependency direction and should not be interpreted as evidence of physical proximity.',
+    caption: 'Celestial state integrated into production infrastructure.',
     statusLine: 'Celestially observable',
     scaleNote: 'Architecture not to scale',
   },

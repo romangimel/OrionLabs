@@ -360,8 +360,8 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 5. Visual Consistency and Remaining Product Polish
 
-- [ ] Set consistent background opacity across all pages
-- [ ] Polish generated art only where an asset is genuinely unsatisfactory
+- [ ] Redesign the 404 page
+- [x] Polish generated art only where an asset is genuinely unsatisfactory
 - [x] Write the remaining 3 articles
 - [ ] Redesign the research section to compliment the 4 articles
 - [ ] Create 3 more pages - docs, legal and press

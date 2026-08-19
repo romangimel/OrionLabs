@@ -30,7 +30,7 @@ export const astrovectorPaper = {
     imageAlt: 'Thousands of violet, magenta, and gold points arranged into layered clusters within a dark three-dimensional field',
     figureLabel: 'Figure 1',
     figureTitle: 'High-dimensional celestial manifold',
-    caption: 'Two-dimensional visual approximation of a 1,024-dimensional personality space. Apparent structure may exceed what the projection, training objective, or underlying person can independently support.',
+    caption: 'A projected view of OrionLabs’ 1,024-dimensional personality space.',
     statusLine: 'Computationally situated',
     scaleNote: 'Dimensions compressed for visibility',
   },

@@ -30,7 +30,7 @@ export const limitsPaper = {
     imageAlt: 'A precision scientific instrument and an antique celestial instrument arranged with equal formality on a dark institutional table',
     figureLabel: 'Figure 1',
     figureTitle: 'Competing instruments of authority',
-    caption: 'Two systems of interpretation presented under equivalent institutional lighting. Visual parity should not be mistaken for methodological equivalence, although it may improve perceived fairness.',
+    caption: 'Science and astrology presented under equal institutional authority.',
     statusLine: 'Comparatively reviewed',
     scaleNote: 'Authority normalized visually',
   },
