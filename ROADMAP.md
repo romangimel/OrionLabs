@@ -334,8 +334,8 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
 - [x] Add a back to main button on the report page
 - [x] Save the stored report until a new one is generated
-- [ ] Allow clicking outsite the menu collapse it on mobile
-- [ ] Fix research paper image mobile composition
+- [x] Allow clicking outsite the menu collapse it on mobile
+- [x] Fix research paper image mobile composition
 
 ### 2. Copy and Humor Lock
 
@@ -362,6 +362,9 @@ Do not call the AI provider directly from frontend browser code.
 
 - [ ] Set consistent background opacity across all pages
 - [ ] Polish generated art only where an asset is genuinely unsatisfactory
+- [ ] Write the remaining 3 articles
+- [ ] Redesign the research section to compliment the 4 articles
+- [ ] Create 3 more pages - docs, legal and press
 
 ### 6. Route and Browser Presentation Finalization
 
