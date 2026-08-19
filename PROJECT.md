@@ -97,82 +97,315 @@ The company should sound completely convinced that its absurd claims are legitim
 
 # Humor Philosophy
 
-OrionLabs is sincere in-universe, not oblivious to its own questionable methodology.
+OrionLabs is sincere in-universe.
 
-The company speaks with polished corporate and scientific authority while applying fake rigor, unnecessary precision, startup bureaucracy, and legal or methodological distinctions to obviously absurd subject matter. It may openly describe its methods as `highly questionable`, its conclusions as `subsequent overreach`, or its claims as `legally distinct`. These phrases let the audience recognize the joke while OrionLabs continues treating the underlying method as a legitimate product capability.
+It is not an outside comedian making jokes about astrology, AI, startups, or bad science. OrionLabs is a polished, highly confident institution whose own methodology, corporate logic, terminology, and conclusions create the comedy.
 
-Do not step out of character to explain the joke. Acknowledging absurd methodology is not the same as breaking character: OrionLabs may admit that it is ignoring scientific consensus, then frame that decision as rigorous operating policy. It should never become embarrassed by its premise or tell the audience that the company, astrology, or the experience is "just a joke."
+The company may recognize that its methods are questionable. It may describe evidence as weak, methodology as highly questionable, conclusions as overreach, claims as legally distinct, or standards as internally defined. This self-awareness does not break character. OrionLabs treats these facts as professional caveats, operational policies, methodological distinctions, or competitive advantages rather than reasons to reconsider what it is doing.
 
-Humor may range from subtle corporate absurdity through obvious fake-scientific overreach and recognizable roast lines to occasional strong punchlines. Not every sentence should be a joke, but obviousness alone is not a reason to weaken a line that is funny, polished, and true to the institutional voice.
+Never step outside the fictional company voice to explain the joke.
 
-The most reliable constructions are:
+Avoid language such as:
 
-- A professional setup followed by an incriminating qualifier
-- A serious methodology applied to an absurd objective
-- A corporate euphemism used to legitimize obvious nonsense
-- Openly questionable behavior presented as a product capability
-- A scientific or legal distinction used to defend an indefensible claim
-- Institutional acknowledgment of absurdity framed as policy, rigor, or competitive advantage
+- "just a joke"
+- "obviously fake"
+- "this is satire"
+- "haha"
+- "get it?"
+- meme language
+- random absurdity with no institutional logic
 
-Good examples can be quiet:
+Obvious jokes are allowed. Keeping a straight face means remaining in character, not hiding the joke.
 
-> Included as part of a broader analytical framework.
+## Core Comedy Mechanisms
 
-Or openly incriminating:
+OrionLabs humor should primarily emerge from:
 
-> Ignoring centuries of scientific consensus since 2026.
+- polished corporate and scientific authority applied to astrology
+- fake rigor and unnecessary analytical precision
+- questionable methodology described professionally
+- weak evidence treated as sufficient for decisive conclusions
+- proprietary terminology used to discourage scrutiny
+- startup bureaucracy applied to celestial phenomena
+- legal and methodological distinctions applied to absurd claims
+- commercial incentives quietly influencing scientific interpretation
+- internally defined standards and benchmarks
+- overconfident inference from limited information
+- post-hoc justification presented as structured reasoning
+- institutional self-interest reframed as methodological necessity
+- excessive governance, compliance, infrastructure, and process
+- customer or employee behavior that reveals the absurd consequences of taking OrionLabs seriously
 
-Or an obvious joke built entirely from institutional logic:
+Astrology is the subject.
 
-> We are not saying the planets control your destiny. We are saying our proprietary interpretation of the planets controls your destiny, which is an entirely different and legally distinct claim.
+AI, fake science, enterprise software, startup culture, legal language, and corporate bureaucracy are the machinery OrionLabs uses to legitimize it.
 
-All three belong to the same voice because OrionLabs never abandons its confidence or professional framing.
+The strongest jokes should feel like natural consequences of OrionLabs' worldview rather than lines written by a comedian standing outside it.
 
-Never say:
+## Voice
 
-- "Obviously astrology is fake."
-- "Yes, we know this is ridiculous."
-- "Haha, just kidding."
-- "This whole company is satire."
-- "Get it?"
+OrionLabs copy should feel like a mixture of:
 
-The audience is allowed to see the joke. OrionLabs is not allowed to stop being OrionLabs in order to point at it.
+- premium AI startup marketing
+- luxury technology branding
+- corporate communications
+- scientific whitepapers
+- enterprise software documentation
+- legal and compliance language
+
+The company should sound intelligent, composed, expensive, and extremely confident.
+
+Avoid childish language, loud meme humor, excessive randomness, emoji jokes, or intentionally sloppy writing.
+
+## Escalation
+
+Humor should escalate with user investment.
+
+The deeper a user chooses to engage with OrionLabs, the more the product is allowed to reveal about its methodology and worldview.
+
+### Landing Page
+
+The landing page should initially communicate a believable premium product:
+
+> personalized horoscope / astrological analysis generated using AI and proprietary celestial technology.
+
+Do not immediately announce that OrionLabs is a roast generator or parody.
+
+Escalation across the landing page should broadly follow:
+
+1. **Hero** — restrained and product-clear; only mild warning signs.
+2. **Philosophy** — OrionLabs' worldview begins to become questionable.
+3. **Technology / Evidence** — pseudo-scientific and institutional logic becomes more obvious.
+4. **Customer Stories** — major comedy increase; customers may behave irrationally because they trust OrionLabs.
+5. **Research** — academically compromised methodology presented seriously.
+6. **FAQ** — strongest landing-page comedy; OrionLabs openly defends its assumptions and evidentiary standards.
+7. **Final CTA** — smug culmination of the company's argument.
+
+### Questionnaire
+
+The questionnaire should gradually reveal what OrionLabs intends to do with the user's information:
+
+1. **Step 01** — clean and credible.
+2. **Step 02** — questionable calibration becomes visible.
+3. **Step 03** — disproportionate analysis and overinterpretation become explicit.
+4. **Step 04** — OrionLabs openly intends to weaponize the supplied context.
+
+The questionnaire should still not explicitly explain that the final report is a roast.
+
+### Analysis / Calibration
+
+The loading sequence may be more openly absurd because the user has already committed to the analysis.
+
+It should expose OrionLabs' methodology through procedural confidence, compromised evidentiary standards, and institutional certainty.
+
+### Generated Report
+
+The report is the primary comedy payoff.
+
+Its generated content may be significantly more aggressive and personalized than the surrounding product UI while remaining within the established OrionLabs voice and safety boundaries.
+
+Static report UI should remain comparatively restrained so it does not compete with the generated content.
+
+### Research Articles and Deep Content
+
+Research articles, documentation, legal pages, press material, and other optional deep-content pages should **reward users who deliberately choose to explore the OrionLabs world**.
+
+These surfaces may push the satire further than the main landing page.
+
+A research article should still look and read like a serious publication, but closer inspection should reveal increasingly compromised methodology, selective evidence, circular reasoning, conflicts of interest, suspicious experimental design, unnecessary precision, institutional defensiveness, and conclusions that exceed what the evidence could reasonably support.
+
+The humor should escalate through the article rather than becoming a continuous sequence of punchlines.
+
+The title, abstract, figures, tables, captions, methodology, results, limitations, citations, institutional notes, and conclusion may all participate in the satire while preserving the visual and rhetorical structure of a credible research paper.
+
+Users who read closely should discover jokes and implications that casual visitors never see.
+
+This is intentional.
+
+Deep engagement with OrionLabs should produce deeper comedy.
+
+## Restraint
+
+Not every line needs to be funny.
+
+Straight, credible copy is necessary because it creates contrast and allows stronger jokes to land.
+
+Do not insert jokes merely because a section has room for one.
+
+Functional UI, important error messages, privacy information, safety disclaimers, and recovery instructions should prioritize clarity over humor.
+
+## Internal Consistency
+
+OrionLabs should behave according to the methodology it claims to use.
+
+Recurring concepts such as:
+
+- proprietary interpretation
+- flexible evidentiary thresholds
+- internal benchmarks
+- analytical overconfidence
+- celestial operating conditions
+- commercial tolerance
+- unnecessary precision
+- questionable demographic calibration
+- external validation being treated as optional
+- conclusions being stronger than the available evidence
+
+should form a coherent institutional worldview rather than disconnected recurring jokes.
+
+Prefer callbacks and logical consequences over repeating identical phrases.
+
+## Humor Test
+
+Before adding a joke, ask:
+
+> Would OrionLabs plausibly say or do this because of how OrionLabs thinks?
+
+If yes, it likely belongs.
+
+If the joke only works because an outside writer is commenting on how ridiculous OrionLabs is, rewrite it from inside the company's worldview.
 
 ---
 
 # Copywriting Rules
 
-The copy should resemble a mixture of:
+OrionLabs copy should resemble a mixture of:
 
 - AI startup marketing
-- luxury branding
+- luxury technology branding
 - corporate PR
 - scientific whitepapers
+- enterprise software documentation
+- legal and compliance language
 
-Every sentence should sound polished.
+Every sentence should sound polished, intentional, and written by an institution that takes itself seriously.
 
-Examples:
+Good examples include:
 
-"Scientifically adjacent."
+- "Scientifically adjacent."
+- "Enterprise-grade cosmic intelligence."
+- "Ignoring centuries of scientific consensus since 2026."
+- "Backed by statistically significant optimism."
+- "Our proprietary planetary infrastructure."
+- "Our neural models continue learning from the observable universe."
+- "Measured against internal benchmarks with no unnecessary dependence on external validation."
+- "Within commercial tolerance."
+- "Under OrionLabs' preferred interpretation of relevance."
 
-"Enterprise-grade cosmic intelligence."
+## Core Rule
 
-"Ignoring centuries of scientific consensus since 2026."
+Write from inside OrionLabs' worldview.
 
-"Backed by statistically significant optimism."
+Do not write jokes about OrionLabs from the outside.
 
-"Our proprietary planetary infrastructure."
+The company may acknowledge questionable methodology, weak evidence, commercial incentives, overreach, internal standards, or scientific disagreement, but it should treat those facts as:
 
-"Our neural models continue learning from the observable universe."
+- methodological caveats
+- operational constraints
+- policy decisions
+- proprietary advantages
+- legal distinctions
+- acceptable evidentiary thresholds
 
-Never use:
+The strongest jokes should emerge naturally from OrionLabs' institutional reasoning.
+
+## Humor
+
+Use:
+
+- fake rigor
+- unnecessary precision
+- corporate overconfidence
+- selective evidence
+- proprietary terminology
+- internal benchmarks
+- legalistic distinctions
+- startup bureaucracy
+- scientific language applied to absurd premises
+- commercially convenient methodology
+- post-hoc reasoning
+- understated institutional self-interest
+
+Avoid:
 
 - internet memes
 - random humor
 - emoji jokes
 - childish language
+- slapstick
+- jokes that sound like a comedian commenting on the company
+- explaining the joke
+- breaking character
+- excessive punchlines
 
-Use restraint at the page level, not as a requirement to bury the funniest individual lines. Contrast keeps the jokes effective.
+Do not use phrases such as:
+
+- "just a joke"
+- "obviously fake"
+- "this is satire"
+- "haha"
+- "get it?"
+
+## Restraint and Escalation
+
+Use restraint at the page level, not as a requirement to bury the funniest individual lines.
+
+Not every sentence needs to be funny.
+
+Credible, straight-faced copy creates contrast and makes stronger jokes more effective.
+
+Humor should generally escalate with user investment:
+
+- primary product surfaces should remain polished and relatively restrained
+- questionnaire copy may gradually reveal questionable methodology
+- analysis/loading copy may become more openly absurd
+- generated reports may deliver the strongest personalized comedy
+- optional deep-content pages such as research, documentation, legal, and press may push the satire further and reward close reading
+
+Deep content should not become a continuous comedy routine. It should still function structurally as the kind of document it imitates.
+
+## Clarity
+
+Functional UX copy must remain understandable.
+
+For:
+
+- buttons
+- navigation
+- validation
+- error recovery
+- privacy information
+- safety disclaimers
+- destructive actions
+
+clarity takes priority over humor.
+
+A joke should never make it unclear what the user needs to do.
+
+## Repetition
+
+Avoid repeatedly using the same joke phrase or mechanism.
+
+Prefer callbacks, variations, and logical consequences of OrionLabs' worldview.
+
+For example, if "internal benchmarks" has already been used, another section might refer to:
+
+- internally acceptable thresholds
+- proprietary tolerances
+- OrionLabs-defined operating conditions
+- external validation being deemed unnecessary
+
+rather than repeating the same phrase verbatim.
+
+## Final Test
+
+Before approving a line, ask:
+
+1. Does it sound polished?
+2. Does it sound like OrionLabs would genuinely say it?
+3. Is the joke emerging from the company's logic rather than from an outside narrator?
+4. Is it clearer and stronger than a louder joke would be?
+5. Does it avoid repeating a mechanism already used nearby?
 
 ---
 

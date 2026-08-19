@@ -79,7 +79,7 @@ export function QuestionnaireReview({
       step: 1,
       items: [
         { label: 'Birth date', value: formatBirthDate(answers.birthDate) },
-        { label: 'Reference preference', value: displayValue(answers.pronouns) },
+        { label: 'Subject reference', value: displayValue(answers.pronouns) },
       ],
     },
     {
@@ -96,7 +96,7 @@ export function QuestionnaireReview({
       items: [
         {
           label: 'Additional context',
-          value: displayValue(answers.additionalContext, 'No additional context provided.'),
+          value: displayValue(answers.additionalContext, 'No additional context provided, unfortunately.'),
         },
       ],
     },
@@ -129,10 +129,10 @@ export function QuestionnaireReview({
               tabIndex={-1}
               className="mt-3 font-serif text-3xl leading-tight text-gradient-gold outline-none sm:text-4xl lg:mt-4 lg:text-[2.75rem]"
             >
-              Review Answers
+              Review Available Evidence
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base lg:mt-4 lg:text-lg">
-              Confirm your calibration profile before OrionLabs begins its analysis.
+              Confirm your calibration profile before interpretation begins.
             </p>
 
             <div className="mt-7 grid max-w-xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(43_60%_70%_/_0.1)] sm:grid-cols-3">

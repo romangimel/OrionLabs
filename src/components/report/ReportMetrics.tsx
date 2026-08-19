@@ -24,7 +24,7 @@ export function ReportMetrics({ metrics }: ReportMetricsProps) {
           </h2>
         </div>
         <p className="max-w-sm text-sm leading-relaxed text-muted-foreground sm:text-right">
-          Calibrated against proprietary benchmarks and statistically significant optimism.
+          Measured against internal benchmarks with no unnecessary dependence on external validation.
         </p>
       </div>
 

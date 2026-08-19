@@ -26,7 +26,7 @@ export function AnalysisLoadingExperience({
   const isCapacityUnavailable = phase === 'capacity';
   const isError = phase === 'error' || isCapacityUnavailable;
   const liveStatus = isCapacityUnavailable
-    ? 'Analysis capacity is temporarily unavailable. Return later to try again.'
+    ? 'Current analysis capacity has been exhausted by levels of demand OrionLabs considers encouraging. Please return later and try again.'
     : isError
       ? 'Analysis encountered an administrative anomaly. You can retry without recalibration.'
       : phase === 'complete'

@@ -54,8 +54,8 @@ export function ReportHeader({ subject, signature }: ReportHeaderProps) {
 
           <FadeIn delay={0.16}>
             <p className="mt-7 max-w-2xl border-l border-[hsl(43_60%_70%_/_0.35)] pl-5 text-base leading-relaxed text-muted-foreground sm:pl-7 sm:text-lg">
-              A synthesized assessment of behavioral momentum, recurring patterns, and the
-              operational implications of current planetary positioning.
+              A synthesized assessment of behavioral momentum, recurring patterns, and planetary
+              positioning under OrionLabs' preferred interpretation of relevance.
             </p>
 
             <dl className="mt-8 grid max-w-2xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(43_60%_70%_/_0.1)] sm:grid-cols-3">

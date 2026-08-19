@@ -24,7 +24,7 @@ export function QuestionHeader({
     <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
       <span className="text-gradient-gold">{label}</span>
       <span className="text-[0.65rem] font-normal uppercase tracking-[0.18em] text-[hsl(326_55%_68%)]">
-        {required ? 'Required' : 'Optional'}
+        {required ? 'Required' : 'Recommended'}
       </span>
     </span>
   );

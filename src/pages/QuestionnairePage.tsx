@@ -95,7 +95,7 @@ export function QuestionnairePage() {
   useEffect(() => {
     if (!saveQuestionnaireDraft(createQuestionnaireDraft(questionnaire))) {
       setPersistenceError(
-        'We could not preserve this profile in the current session. Please allow session storage and try again.',
+        'Session recovery is temporarily unavailable. Your current profile remains intact, but refreshing or leaving this page may require recalibration.',
       );
     }
   }, [questionnaire]);
@@ -236,7 +236,7 @@ export function QuestionnairePage() {
 
     if (!createReportGenerationInput(questionnaire.answers)) {
       setPersistenceError(
-        'Some profile data exceeds the supported analysis limits. Please review your answers and try again.',
+        'Some profile data falls outside the supported analysis range. Please review your answers and try again.',
       );
       return;
     }
@@ -251,7 +251,7 @@ export function QuestionnairePage() {
     if (!saveQuestionnaireDraft(createQuestionnaireDraft(analysisReadyState))) {
       analysisStarted.current = false;
       setPersistenceError(
-        'We could not secure this profile in the current session. Please allow session storage and try again.',
+        "We couldn't prepare this profile for analysis. Your answers remain intact; please try again.",
       );
       return;
     }

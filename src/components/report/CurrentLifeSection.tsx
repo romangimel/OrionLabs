@@ -14,7 +14,7 @@ export function CurrentLifeSection({ analysis }: CurrentLifeSectionProps) {
       chapter="03"
       eyebrow={`Current focus · ${analysis.focusArea}`}
       title={analysis.headline}
-      description="Near-term operating conditions derived from the subject's selected area of attention."
+      description="Operational implications for the area of life the subject has voluntarily placed under celestial review."
       layout="reverse"
       surface="panel"
       contentClassName="lg:contents"

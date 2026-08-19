@@ -123,8 +123,8 @@ export function ReportPage() {
               id="personality-analysis"
               chapter="02"
               eyebrow="Personality architecture"
-              title="A disciplined system with extensive internal governance."
-              description="The model's primary reading of temperament, decision style, and supporting behavioral evidence."
+              title="A structured internal system whose governance requirements have expanded over time."
+              description="The model's consolidated interpretation of temperament, decision style, and supporting behavioral signals."
             >
               <p className="text-base leading-[1.85] text-foreground/85 sm:text-lg">
                 {report.personalityAnalysis.overview}
@@ -235,7 +235,7 @@ export function ReportPage() {
               </p>
             ) : (
               <p className="mt-1 text-sm text-muted-foreground">
-                Begin a fresh calibration when you are ready.
+                Begin a fresh calibration when you are ready. Emotionally or otherwise.
               </p>
             )}
           </div>

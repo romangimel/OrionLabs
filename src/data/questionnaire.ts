@@ -106,7 +106,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
   {
     id: 'celestial-identity',
     title: 'Celestial Identity',
-    description: 'Establish the basic coordinates for your OrionLabs profile.',
+    description: 'Define the celestial baseline for your OrionLabs profile.',
     questions: [
       {
         id: 'zodiac-sign',
@@ -131,7 +131,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
   {
     id: 'profile-calibration',
     title: 'Profile Calibration',
-    description: 'Add the personal details used to refine your profile.',
+    description: 'Supply the personal data required for higher-resolution celestial profiling.',
     questions: [
       {
         id: 'birth-date',
@@ -145,7 +145,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
         id: 'pronouns',
         type: 'options',
         label: 'How should OrionLabs refer to you?',
-        helper: 'Used for demographic calibration and stereotype alignment.',
+        helper: 'Used for highly questionable demographic calibration and stereotype alignment.',
         options: REFERENCE_PREFERENCES,
         required: true,
         validationMessage: 'Please choose how OrionLabs should refer to you.',
@@ -155,7 +155,7 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
   {
     id: 'behavioral-snapshot',
     title: 'Behavioral Snapshot',
-    description: 'Capture a concise view of your current priorities and tendencies.',
+    description: 'Define the priorities and behavioral patterns requiring further interpretation.',
     questions: [
       {
         id: 'attention',
@@ -180,12 +180,12 @@ export const QUESTIONNAIRE_STEPS: readonly QuestionnaireStep[] = [
   {
     id: 'final-calibration',
     title: 'Final Calibration',
-    description: 'Add any context you would like the analysis to consider.',
+    description: 'Provide additional context to improve the specificity of the final interpretation.',
     questions: [
       {
         id: 'additional-context',
         type: 'textarea',
-        label: 'Tell us something about yourself',
+        label: 'Tell us more about yourself',
         helper: 'Strongly recommended. The more specific the context, the more precisely OrionLabs can weaponize it.',
         placeholder:
           'Goals, interests, current challenges, recent events, or anything else OrionLabs should consider.',

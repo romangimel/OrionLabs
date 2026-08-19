@@ -750,3 +750,98 @@
 
 - Retry analysis
 - Return to review
+
+## Report Static UI
+
+**Status:** LOCKED
+
+### Report Header
+
+> Generated analysis
+
+> Personal intelligence brief
+
+> Celestial operating report for {subject name}
+
+> A synthesized assessment of behavioral momentum, recurring patterns, and planetary positioning under OrionLabs' preferred interpretation of relevance.
+
+### Subject Signature
+
+> Signal integrity: Mostly defensible
+
+> Celestial interference: Within commercial tolerance
+
+> Anomaly density: Above baseline
+
+### Section 01
+
+> Executive celestial summary
+
+### Personality Architecture
+
+> A structured internal system whose governance requirements have expanded over time.
+
+> The model's consolidated interpretation of temperament, decision style, and supporting behavioral signals.
+
+> Supporting traits
+
+### Current Focus
+
+> Current focus · {selected focus area}
+
+> Operational implications for the area of life the subject has voluntarily placed under celestial review.
+
+> Six-week forecast
+
+### Pattern Review
+
+> Pattern review
+
+> Capability and recurring friction
+
+> The same operating habits can produce leverage or unnecessary complexity, depending on planetary oversight.
+
+> Productive signals
+
+> Strengths
+
+> Monitored patterns
+
+> Risks and recurring patterns
+
+### Recommended Action
+
+> Recommended action
+
+> The highest-leverage intervention identified by the current celestial model.
+
+> Priority classification · Immediate but composed
+
+### Data / Model Confidence
+
+> Data — Model confidence
+
+> Measurable celestial indicators
+
+> Measured against internal benchmarks with no unnecessary dependence on external validation.
+
+### Final Verdict
+
+> 06 — OrionLabs final verdict
+
+> Assessment complete for {subject name}
+
+> DeepConstellation™ · Scientifically adjacent since 2026
+
+### Report Actions
+
+> Analysis archived locally
+
+> Begin a fresh calibration when you are ready. Emotionally or otherwise.
+
+- Start Another Analysis
+- Back to OrionLabs
+
+### Disclaimer
+
+> Generated for reflection and entertainment. OrionLabs reports are not diagnostic guidance.
