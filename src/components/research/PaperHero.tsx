@@ -12,7 +12,7 @@ export function PaperHero({ paper }: PaperHeroProps) {
 
   return (
     <header className="relative pb-16 pt-14 sm:pb-20 sm:pt-16 md:pb-24 md:pt-20 lg:pb-28">
-      <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(23rem,0.92fr)] lg:gap-14">
+      <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(23rem,0.92fr)] lg:gap-14 xl:grid-cols-[minmax(0,1fr)_minmax(23rem,29.25rem)]">
         <div>
           <FadeIn>
             <div className="flex flex-wrap items-center gap-3 text-[0.62rem] font-medium uppercase tracking-[0.2em]">

@@ -142,16 +142,21 @@ export function ResearchPaperPage({ paperSlug }: { paperSlug: ResearchPaperSlug 
 
       <ResearchPublicationHeader />
 
-      <main id="paper-content" className="container-narrow relative z-10">
+      <main id="paper-content" className="relative z-10">
         <article>
-          <PaperHero paper={paper} />
-          <ResearchHighlights highlights={paper.highlights} />
+          <div className="mx-auto w-full max-w-7xl px-6 md:px-10">
+            <PaperHero paper={paper} />
+          </div>
 
-          <div className="xl:grid xl:grid-cols-[10rem_minmax(0,1fr)] xl:gap-8">
-            <PaperIndex items={paper.index} />
-            <div className="min-w-0">
-              <ResearchPaperContent slug={paperSlug} />
-              <ReferencesSection paper={paper} />
+          <div className="container-narrow">
+            <ResearchHighlights highlights={paper.highlights} />
+
+            <div className="xl:grid xl:grid-cols-[10rem_minmax(0,1fr)] xl:gap-8">
+              <PaperIndex items={paper.index} />
+              <div className="min-w-0">
+                <ResearchPaperContent slug={paperSlug} />
+                <ReferencesSection paper={paper} />
+              </div>
             </div>
           </div>
         </article>
