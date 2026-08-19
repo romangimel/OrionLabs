@@ -356,13 +356,13 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 4. Article Rewrite and Shortening
 
-- [ ] Rewrite and shorten the article after the copy/humor and Gemini-output standards are locked
+- [x] Rewrite and shorten the article after the copy/humor and Gemini-output standards are locked
 
 ### 5. Visual Consistency and Remaining Product Polish
 
 - [ ] Set consistent background opacity across all pages
 - [ ] Polish generated art only where an asset is genuinely unsatisfactory
-- [ ] Write the remaining 3 articles
+- [x] Write the remaining 3 articles
 - [ ] Redesign the research section to compliment the 4 articles
 - [ ] Create 3 more pages - docs, legal and press
 

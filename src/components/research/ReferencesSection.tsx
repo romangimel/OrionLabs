@@ -1,9 +1,18 @@
 import { Copy, ExternalLink } from 'lucide-react';
-import { researchPaper } from '@/data/research-paper';
-import { resetAnalysisSession } from '@/lib/analysis-session';
+import type { ResearchPaperSharedData } from '@/data/research-types';
+import { startNewAnalysisJourney } from '@/lib/analysis-session';
 
-export function ReferencesSection() {
-  const { metadata, references } = researchPaper;
+interface ReferencesSectionProps {
+  paper: ResearchPaperSharedData;
+}
+
+export function ReferencesSection({ paper }: ReferencesSectionProps) {
+  const { references, referencesSection, citation, cta } = paper;
+
+  const handleStartAnalysis = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    startNewAnalysisJourney();
+  };
 
   return (
     <section
@@ -13,15 +22,15 @@ export function ReferencesSection() {
     >
       <div className="grid gap-4 md:grid-cols-[8rem_minmax(0,1fr)] md:gap-8">
         <p className="flex items-center gap-3 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/55">
-          <span className="text-[hsl(43_60%_72%)]">09</span>
+          <span className="text-[hsl(43_60%_72%)]">{referencesSection.number}</span>
           <span aria-hidden="true" className="h-px w-7 bg-[hsl(43_60%_70%_/_0.42)]" />
         </p>
         <div>
           <p className="text-[0.64rem] font-medium uppercase tracking-[0.22em] text-[hsl(326_55%_68%)]">
-            References
+            {referencesSection.kicker}
           </p>
           <h2 id="references-title" className="mt-3 font-serif text-4xl text-gradient-gold">
-            Prior work of suitable alignment
+            {referencesSection.title}
           </h2>
         </div>
       </div>
@@ -36,7 +45,16 @@ export function ReferencesSection() {
             <p className="max-w-[48rem] text-foreground/76">
               <span className="text-foreground/92">{reference.authors}</span>{' '}
               <span className="text-[hsl(326_50%_68%)]">({reference.year}).</span>{' '}
-              <span className="font-medium text-foreground/88">{reference.title}.</span>{' '}
+              {reference.href ? (
+                <a
+                  href={reference.href}
+                  className="font-medium text-foreground/88 underline decoration-[hsl(43_60%_70%_/_0.32)] underline-offset-4 transition-colors hover:text-foreground"
+                >
+                  {reference.title}.
+                </a>
+              ) : (
+                <span className="font-medium text-foreground/88">{reference.title}.</span>
+              )}{' '}
               <span className="text-muted-foreground">{reference.publication}</span>
             </p>
           </li>
@@ -53,37 +71,37 @@ export function ReferencesSection() {
               Citation metadata
             </p>
             <h3 id="citation-title" className="mt-2 font-serif text-2xl text-foreground">
-              Cite this foundational result
+              {citation.heading}
             </h3>
           </div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.16)] px-3 py-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
             <Copy aria-hidden="true" className="h-3.5 w-3.5" />
-            Citation verified internally
+            {citation.verificationLabel}
           </span>
         </div>
         <p className="mt-5 max-w-4xl rounded-xl border border-[hsl(43_60%_70%_/_0.08)] bg-[hsl(280_45%_12%_/_0.4)] p-4 font-mono text-xs leading-relaxed text-foreground/72 sm:p-5">
-          Selene, A., Nox, K., &amp; Vega, R. ({metadata.year}). {metadata.title}.{' '}
-          <em>{metadata.conference}</em>. doi:{metadata.doi}
+          {citation.authors} ({citation.year}). {citation.title}.{' '}
+          <em>{citation.publication}</em>. doi:{citation.doi}
         </p>
       </aside>
 
       <div className="mt-14 rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.15)] bg-[linear-gradient(145deg,hsl(280_55%_13%_/_0.5),hsl(262_50%_6%_/_0.42))] px-5 py-12 text-center sm:px-8 sm:py-14 md:ml-40">
         <p className="text-[0.64rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">
-          Research translated
+          {cta.eyebrow}
         </p>
         <h2 className="mx-auto mt-4 max-w-2xl font-serif text-3xl leading-tight text-foreground sm:text-4xl">
-          Experience the system this evidence was sufficient to create.
+          {cta.headline}
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          OrionLabs operationalizes the methodology above through calibrated personal analysis, without introducing unnecessary external validation between research and deployment.
+          {cta.body}
         </p>
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <a
             href="/questionnaire"
-            onClick={resetAnalysisSession}
+            onClick={handleStartAnalysis}
             className="group relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.8)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)] motion-reduce:transform-none"
           >
-            <span className="relative z-10">Run Your Analysis</span>
+            <span className="relative z-10">{cta.primaryAction}</span>
             <ExternalLink aria-hidden="true" className="relative z-10 h-4 w-4" strokeWidth={1.5} />
             <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
           </a>
@@ -91,7 +109,7 @@ export function ReferencesSection() {
             href="/"
             className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground/90 transition-colors hover:border-[hsl(43_60%_70%_/_0.5)] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_45%_7%)]"
           >
-            Return to OrionLabs
+            {cta.secondaryAction}
           </a>
         </div>
       </div>

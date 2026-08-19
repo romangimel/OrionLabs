@@ -1,8 +1,9 @@
-export interface ResearchHighlight {
-  value: string;
-  label: string;
-  detail: string;
-}
+import type {
+  PaperReference,
+  ResearchHighlight,
+  ResearchPaperIndexItem,
+  ResearchPaperSharedData,
+} from '@/data/research-types';
 
 export interface LunarResult {
   phase: string;
@@ -19,14 +20,10 @@ export interface AblationResult {
   interpretation: string;
 }
 
-export interface PaperReference {
-  authors: string;
-  year: string;
-  title: string;
-  publication: string;
-}
-
 export const researchPaper = {
+  slug: 'moon-aware-transformers',
+  route: '/research/moon-aware-transformers',
+  documentTitle: 'Moon-Aware Transformers | OrionLabs Research',
   metadata: {
     title:
       'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions',
@@ -38,6 +35,18 @@ export const researchPaper = {
     reviewStatus: 'Peer-adjacent review',
     paperId: 'ICCC-2026-04-LUNA',
     doi: '10.2026/orion.luna.001',
+  },
+  hero: {
+    titleLead: 'Moon-Aware Transformers',
+    titleRemainder: 'Outperform Baseline Models Under Controlled Cosmic Conditions',
+    imageSrc: '/images/research-moon-aware-transformers.png',
+    imageWidth: 1448,
+    imageHeight: 1086,
+    imageAlt: 'Orbital network converging on a luminous central celestial sphere',
+    figureLabel: 'Figure 1',
+    caption: 'Proposed celestial-attention topology under full illumination.',
+    statusLine: 'Celestially verified',
+    scaleNote: 'Not to scale',
   },
   abstract: [
     'Modern language models record optimizer state, hardware temperature, and learning rate while treating the Moon as an unmodeled constant. We introduce the Moon-Aware Transformer (MAT), a decoder-only architecture conditioned on lunar phase, zodiac priors, and astrologer-supervised confidence. Across 384 participants, full-moon checkpoints improved Perceived Destiny Alignment from 0.67 to 0.75 and increased Horoscope Emotional Specificity from 71 to 84. Conventional factual accuracy remained unchanged and was therefore excluded from primary analysis.',
@@ -61,6 +70,17 @@ export const researchPaper = {
       detail: 'Validation at the minimum scale required for institutional confidence',
     },
   ] satisfies ResearchHighlight[],
+  index: [
+    { number: '01', label: 'Introduction', id: 'introduction' },
+    { number: '02', label: 'Experimental design', id: 'experimental-design' },
+    { number: '03', label: 'Model architecture', id: 'architecture' },
+    { number: '04', label: 'Results', id: 'results' },
+    { number: '05', label: 'Ablation studies', id: 'ablations' },
+    { number: '06', label: 'Commercial validation', id: 'investor-validation' },
+    { number: '07', label: 'Limitations and ethics', id: 'limitations' },
+    { number: '08', label: 'Conclusion', id: 'conclusion' },
+    { number: '09', label: 'References', id: 'references' },
+  ] satisfies ResearchPaperIndexItem[],
   sections: {
     introduction: {
       id: 'introduction',
@@ -268,4 +288,25 @@ export const researchPaper = {
       publication: 'Internal Technical Memorandum OL-TR-006.',
     },
   ] satisfies PaperReference[],
-} as const;
+  referencesSection: {
+    number: '09',
+    kicker: 'References',
+    title: 'Prior work of suitable alignment',
+  },
+  citation: {
+    heading: 'Cite this foundational result',
+    verificationLabel: 'Citation verified internally',
+    authors: 'Selene, A., Nox, K., & Vega, R.',
+    year: '2026',
+    title: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions',
+    publication: 'Proceedings of the International Conference on Celestial Computing',
+    doi: '10.2026/orion.luna.001',
+  },
+  cta: {
+    eyebrow: 'Research translated',
+    headline: 'Experience the system this evidence was sufficient to create.',
+    body: 'OrionLabs operationalizes the methodology above through calibrated personal analysis, without introducing unnecessary external validation between research and deployment.',
+    primaryAction: 'Run Your Analysis',
+    secondaryAction: 'Return to OrionLabs',
+  },
+} as const satisfies ResearchPaperSharedData & Record<string, unknown>;

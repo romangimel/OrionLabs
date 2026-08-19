@@ -15,6 +15,7 @@ import { AnalysisPage } from '@/pages/AnalysisPage';
 import { ReportPage } from '@/pages/ReportPage';
 import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { getResearchPaperByPath } from '@/data/research-registry';
 
 /**
  * Selects the active page and composes the public landing experience.
@@ -39,8 +40,9 @@ function App() {
     return <ReportPage />;
   }
 
-  if (pathname === '/research/moon-aware-transformers') {
-    return <ResearchPaperPage />;
+  const researchPaper = getResearchPaperByPath(pathname);
+  if (researchPaper) {
+    return <ResearchPaperPage paperSlug={researchPaper.slug} />;
   }
 
   if (pathname !== '/') {

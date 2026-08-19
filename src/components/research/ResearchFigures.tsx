@@ -1,7 +1,69 @@
+import type { ReactNode } from 'react';
 import { BarChart3, CloudMoon, Presentation } from 'lucide-react';
 import { researchPaper } from '@/data/research-paper';
+import type { ResearchHighlight } from '@/data/research-types';
 
-export function ResearchHighlights() {
+interface ResearchHighlightsProps {
+  highlights: readonly ResearchHighlight[];
+}
+
+interface ResearchFigureFrameProps {
+  figure: string;
+  title: string;
+  caption: string;
+  summary?: string;
+  children: ReactNode;
+  className?: string;
+}
+
+/** Shared editorial chrome for paper-specific charts, diagrams, and plots. */
+export function ResearchFigureFrame({
+  figure,
+  title,
+  caption,
+  summary,
+  children,
+  className = '',
+}: ResearchFigureFrameProps) {
+  return (
+    <figure className={`overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[linear-gradient(145deg,hsl(280_55%_13%_/_0.48),hsl(262_50%_6%_/_0.45))] ${className}`}>
+      <div className="border-b border-[hsl(43_60%_70%_/_0.1)] p-5 sm:p-6">
+        <p className="text-[0.6rem] font-medium uppercase tracking-[0.2em] text-[hsl(43_60%_72%)]">
+          {figure}
+        </p>
+        <h3 className="mt-2 font-serif text-2xl text-foreground sm:text-3xl">{title}</h3>
+        {summary ? <p className="sr-only">{summary}</p> : null}
+      </div>
+      <div className="p-5 sm:p-7">{children}</div>
+      <figcaption className="border-t border-[hsl(43_60%_70%_/_0.1)] p-5 text-xs leading-relaxed text-muted-foreground sm:px-7">
+        {caption}
+      </figcaption>
+    </figure>
+  );
+}
+
+interface ResearchTableFrameProps {
+  label: string;
+  caption: string;
+  children: ReactNode;
+}
+
+/** Keeps wide research tables readable without creating page-level overflow. */
+export function ResearchTableFrame({ label, caption, children }: ResearchTableFrameProps) {
+  return (
+    <figure className="overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(262_48%_6%_/_0.62)]">
+      <figcaption className="border-b border-[hsl(43_60%_70%_/_0.1)] p-5 sm:p-6">
+        <p className="text-[0.6rem] font-medium uppercase tracking-[0.2em] text-[hsl(43_60%_72%)]">
+          {label}
+        </p>
+        <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{caption}</p>
+      </figcaption>
+      <div className="overflow-x-auto">{children}</div>
+    </figure>
+  );
+}
+
+export function ResearchHighlights({ highlights }: ResearchHighlightsProps) {
   return (
     <section aria-labelledby="research-highlights-title" className="pb-14 sm:pb-16 md:pb-20">
       <div className="flex items-center gap-3">
@@ -14,7 +76,7 @@ export function ResearchHighlights() {
         </h2>
       </div>
       <dl className="mt-6 grid gap-px overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(43_60%_70%_/_0.1)] md:grid-cols-3">
-        {researchPaper.highlights.map((highlight) => (
+        {highlights.map((highlight) => (
           <div key={highlight.label} className="bg-[hsl(262_48%_6%_/_0.78)] p-6 sm:p-7">
             <dt className="font-serif text-xl text-foreground">{highlight.label}</dt>
             <dd className="mt-3 font-serif text-4xl leading-none text-gradient-gold sm:text-5xl">

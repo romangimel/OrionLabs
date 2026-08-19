@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
+import type { ResearchPaperIndexItem } from '@/data/research-types';
 
-const INDEX_ITEMS = [
-  ['01', 'Introduction', 'introduction'],
-  ['02', 'Experimental design', 'experimental-design'],
-  ['03', 'Model architecture', 'architecture'],
-  ['04', 'Results', 'results'],
-  ['05', 'Ablation studies', 'ablations'],
-  ['06', 'Commercial validation', 'investor-validation'],
-  ['07', 'Limitations and ethics', 'limitations'],
-  ['08', 'Conclusion', 'conclusion'],
-  ['09', 'References', 'references'],
-] as const;
+interface PaperIndexProps {
+  items: readonly ResearchPaperIndexItem[];
+}
 
 /** Persistent desktop index that highlights the section crossing the reading line. */
-export function PaperIndex() {
-  const [activeSectionId, setActiveSectionId] = useState<string>(INDEX_ITEMS[0][2]);
+export function PaperIndex({ items }: PaperIndexProps) {
+  const [activeSectionId, setActiveSectionId] = useState<string>(items[0]?.id ?? '');
 
   useEffect(() => {
-    const sectionElements = INDEX_ITEMS.map(([, , id]) =>
+    const sectionElements = items.map(({ id }) =>
       document.getElementById(id),
     ).filter((section): section is HTMLElement => Boolean(section));
 
@@ -37,7 +30,7 @@ export function PaperIndex() {
     sectionElements.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
-  }, []);
+  }, [items]);
 
   return (
     <nav
@@ -49,7 +42,7 @@ export function PaperIndex() {
           Paper index
         </p>
         <ol className="mt-5 space-y-2.5">
-          {INDEX_ITEMS.map(([number, label, id]) => {
+          {items.map(({ number, label, id }) => {
             const isActive = activeSectionId === id;
 
             return (

@@ -3,6 +3,9 @@ import { Aurora } from '@/components/site/Aurora';
 import { Footer } from '@/components/site/Footer';
 import { Starfield } from '@/components/site/Starfield';
 import { FindingCallout } from '@/components/research/FindingCallout';
+import { AstroVectorPaperContent } from '@/components/research/papers/AstroVectorPaper';
+import { LimitsPaperContent } from '@/components/research/papers/LimitsPaper';
+import { RetrogradePaperContent } from '@/components/research/papers/RetrogradePaper';
 import { PaperHero } from '@/components/research/PaperHero';
 import { PaperIndex } from '@/components/research/PaperIndex';
 import { PaperSection } from '@/components/research/PaperSection';
@@ -17,14 +20,98 @@ import {
   ResearchHighlights,
 } from '@/components/research/ResearchFigures';
 import { researchPaper } from '@/data/research-paper';
+import {
+  RESEARCH_PAPERS,
+  type ResearchPaperSlug,
+} from '@/data/research-registry';
 
-const { sections } = researchPaper;
+const { sections: moonSections } = researchPaper;
+
+function MoonAwarePaperContent() {
+  return (
+    <>
+      <PaperSection {...moonSections.introduction} />
+
+      <PaperSection {...moonSections.experimentalDesign}>
+        <ArtworkFigure
+          src="/images/research-controlled-cosmic-conditions.jpg"
+          width={1600}
+          height={1008}
+          alt="A pink and blue beam passing through a prism in a dark optical laboratory"
+          figure="Figure 2"
+          title="Controlled cosmic conditions"
+          caption="Optical apparatus used to separate ordinary illumination from illumination carrying commercially meaningful lunar signal. Classification was performed by the research team responsible for finding the signal."
+          objectPosition="50% 53%"
+        />
+      </PaperSection>
+
+      <PaperSection {...moonSections.architecture}>
+        <ArtworkFigure
+          src="/images/research-lunar-checkpoint-infrastructure.jpg"
+          width={1600}
+          height={1008}
+          alt="Rows of dark computing equipment illuminated by violet light"
+          figure="Figure 3"
+          title="Lunar checkpoint infrastructure"
+          caption="Compute environment used for phase-conditioned fine-tuning. Violet spill was retained as an uncontrolled but brand-consistent variable."
+          objectPosition="55% 50%"
+        />
+      </PaperSection>
+
+      <PaperSection {...moonSections.results}>
+        <div className="space-y-6">
+          <FindingCallout label="Primary finding">
+            A full moon improved perceived destiny alignment by 12%, with no corresponding requirement that destiny become more accurate.
+          </FindingCallout>
+          <LunarPerformanceFigure />
+          <PrimaryResultsTable />
+        </div>
+      </PaperSection>
+
+      <PaperSection {...moonSections.ablations}>
+        <div className="space-y-6">
+          <AblationTable />
+          <FindingCallout label="Ablation conclusion">
+            Evidence supported the paper. Confidence supported the product.
+          </FindingCallout>
+        </div>
+      </PaperSection>
+
+      <PaperSection {...moonSections.commercialValidation}>
+        <InvestorValidationSummary />
+      </PaperSection>
+
+      <PaperSection {...moonSections.limitationsEthics}>
+        <FindingCallout label="Operational interpretation">
+          Causality remains technically unconfirmed but commercially sufficient.
+        </FindingCallout>
+      </PaperSection>
+
+      <PaperSection {...moonSections.conclusion} />
+    </>
+  );
+}
+
+function ResearchPaperContent({ slug }: { slug: ResearchPaperSlug }) {
+  switch (slug) {
+    case 'retrograde-aware-distributed-systems':
+      return <RetrogradePaperContent />;
+    case 'astrovector':
+      return <AstroVectorPaperContent />;
+    case 'limits-of-science':
+      return <LimitsPaperContent />;
+    case 'moon-aware-transformers':
+      return <MoonAwarePaperContent />;
+  }
+}
 
 /** Composes the complete fictional founding paper as a semantic long-form article. */
-export function ResearchPaperPage() {
+export function ResearchPaperPage({ paperSlug }: { paperSlug: ResearchPaperSlug }) {
+  const paper = RESEARCH_PAPERS[paperSlug];
+
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = 'Moon-Aware Transformers | OrionLabs Research';
+    document.title = paper.documentTitle;
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
     // Route-level focus gives keyboard and screen-reader users an immediate page landmark.
@@ -36,7 +123,7 @@ export function ResearchPaperPage() {
       window.cancelAnimationFrame(focusFrame);
       document.title = previousTitle;
     };
-  }, []);
+  }, [paper.documentTitle]);
 
   return (
     <div id="top" className="relative min-h-[100svh] overflow-clip bg-[hsl(262_48%_6%)]">
@@ -57,71 +144,14 @@ export function ResearchPaperPage() {
 
       <main id="paper-content" className="container-narrow relative z-10">
         <article>
-          <PaperHero />
-          <ResearchHighlights />
+          <PaperHero paper={paper} />
+          <ResearchHighlights highlights={paper.highlights} />
 
           <div className="xl:grid xl:grid-cols-[10rem_minmax(0,1fr)] xl:gap-8">
-            <PaperIndex />
+            <PaperIndex items={paper.index} />
             <div className="min-w-0">
-              <PaperSection {...sections.introduction} />
-
-              <PaperSection {...sections.experimentalDesign}>
-                <ArtworkFigure
-                  src="/images/research-controlled-cosmic-conditions.jpg"
-                  width={1600}
-                  height={1008}
-                  alt="A pink and blue beam passing through a prism in a dark optical laboratory"
-                  figure="Figure 2"
-                  title="Controlled cosmic conditions"
-                  caption="Optical apparatus used to separate ordinary illumination from illumination carrying commercially meaningful lunar signal. Classification was performed by the research team responsible for finding the signal."
-                  objectPosition="50% 53%"
-                />
-              </PaperSection>
-
-              <PaperSection {...sections.architecture}>
-                <ArtworkFigure
-                  src="/images/research-lunar-checkpoint-infrastructure.jpg"
-                  width={1600}
-                  height={1008}
-                  alt="Rows of dark computing equipment illuminated by violet light"
-                  figure="Figure 3"
-                  title="Lunar checkpoint infrastructure"
-                  caption="Compute environment used for phase-conditioned fine-tuning. Violet spill was retained as an uncontrolled but brand-consistent variable."
-                  objectPosition="55% 50%"
-                />
-              </PaperSection>
-
-              <PaperSection {...sections.results}>
-                <div className="space-y-6">
-                  <FindingCallout label="Primary finding">
-                    A full moon improved perceived destiny alignment by 12%, with no corresponding requirement that destiny become more accurate.
-                  </FindingCallout>
-                  <LunarPerformanceFigure />
-                  <PrimaryResultsTable />
-                </div>
-              </PaperSection>
-
-              <PaperSection {...sections.ablations}>
-                <div className="space-y-6">
-                  <AblationTable />
-                  <FindingCallout label="Ablation conclusion">
-                    Evidence supported the paper. Confidence supported the product.
-                  </FindingCallout>
-                </div>
-              </PaperSection>
-
-              <PaperSection {...sections.commercialValidation}>
-                <InvestorValidationSummary />
-              </PaperSection>
-
-              <PaperSection {...sections.limitationsEthics}>
-                <FindingCallout label="Operational interpretation">
-                  Causality remains technically unconfirmed but commercially sufficient.
-                </FindingCallout>
-              </PaperSection>
-
-              <PaperSection {...sections.conclusion} />
-              <ReferencesSection />
+              <ResearchPaperContent slug={paperSlug} />
+              <ReferencesSection paper={paper} />
             </div>
           </div>
         </article>

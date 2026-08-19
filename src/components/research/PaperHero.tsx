@@ -1,11 +1,15 @@
 import { BookOpen, CircleCheck, Orbit } from 'lucide-react';
 import { FadeIn } from '@/components/site/Motion';
-import { researchPaper } from '@/data/research-paper';
+import type { ResearchPaperSharedData } from '@/data/research-types';
 
-const { metadata } = researchPaper;
+interface PaperHeroProps {
+  paper: ResearchPaperSharedData;
+}
 
 /** Publication identity, abstract, and foundational artwork for the paper route. */
-export function PaperHero() {
+export function PaperHero({ paper }: PaperHeroProps) {
+  const { metadata, hero } = paper;
+
   return (
     <header className="relative pb-16 pt-14 sm:pb-20 sm:pt-16 md:pb-24 md:pt-20 lg:pb-28">
       <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(23rem,0.92fr)] lg:gap-14">
@@ -27,8 +31,8 @@ export function PaperHero() {
               data-paper-title
               className="mt-7 max-w-4xl font-serif text-[clamp(2.85rem,6vw,5.35rem)] leading-[0.96] tracking-[-0.025em] outline-none"
             >
-              <span className="text-gradient-gold">Moon-Aware Transformers</span>{' '}
-              <span className="text-foreground">Outperform Baseline Models Under Controlled Cosmic Conditions</span>
+              <span className="text-gradient-gold">{hero.titleLead}</span>{' '}
+              <span className="text-foreground">{hero.titleRemainder}</span>
             </h1>
           </FadeIn>
 
@@ -72,10 +76,10 @@ export function PaperHero() {
             <div className="overflow-hidden rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.16)] bg-[hsl(262_48%_6%_/_0.58)] p-2 shadow-[0_35px_110px_-48px_hsl(255_80%_2%_/_0.98)] sm:p-3">
               <div className="relative aspect-[4/3] overflow-hidden rounded-[1.35rem]">
                 <img
-                  src="/images/research-moon-aware-transformers.png"
-                  alt="Orbital network converging on a luminous central celestial sphere"
-                  width={1448}
-                  height={1086}
+                  src={hero.imageSrc}
+                  alt={hero.imageAlt}
+                  width={hero.imageWidth}
+                  height={hero.imageHeight}
                   decoding="async"
                   className="h-full w-full object-cover"
                 />
@@ -86,10 +90,10 @@ export function PaperHero() {
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 sm:p-6">
                   <div>
                     <p className="text-[0.58rem] font-medium uppercase tracking-[0.2em] text-[hsl(43_60%_76%)]">
-                      Figure 1
+                      {hero.figureLabel}
                     </p>
                     <p className="mt-1 max-w-xs text-xs leading-relaxed text-foreground/76">
-                      Proposed celestial-attention topology under full illumination.
+                      {hero.figureTitle ? `${hero.figureTitle}. ` : ''}{hero.caption}
                     </p>
                   </div>
                   <Orbit
@@ -103,9 +107,9 @@ export function PaperHero() {
             <div className="mt-4 flex items-center justify-between gap-4 px-2 text-[0.62rem] uppercase tracking-[0.18em] text-muted-foreground/58">
               <span className="inline-flex items-center gap-2">
                 <CircleCheck aria-hidden="true" className="h-3.5 w-3.5 text-[hsl(43_60%_72%)]" />
-                Celestially verified
+                {hero.statusLine}
               </span>
-              <span>Not to scale</span>
+              <span>{hero.scaleNote}</span>
             </div>
           </figure>
         </FadeIn>
@@ -122,7 +126,7 @@ export function PaperHero() {
           Abstract
         </h2>
         <div className="mt-5 max-w-[48rem] space-y-5 text-sm leading-[1.82] text-foreground/82 sm:text-base lg:mt-0">
-          {researchPaper.abstract.map((paragraph) => (
+          {paper.abstract.map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
