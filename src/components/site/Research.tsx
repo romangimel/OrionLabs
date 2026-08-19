@@ -23,28 +23,28 @@ const PAPERS: Paper[] = [
     featured: true,
   },
   {
+    title: 'The Limits of Science and the Persistent Advantage of Astrology',
+    authors: 'R. Vega, Dr. K. Nox',
+    venue: 'Bulletin of Post-Hoc Justifications',
+    year: '2026',
+    abstract:
+      'Science has traditionally claimed primary authority over observable reality. Astrology offers broader personal reach, greater interpretive flexibility, and stronger integration into everyday life. We find that scientific validity alone may be an insufficient standard for determining practical relevance.',
+  },
+  {
     title: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems',
     authors: 'Dr. K. Nox, M. Vance',
     venue: 'Journal of Probabilistic Infrastructure',
     year: '2026',
     abstract:
-      'We propose that distributed consensus protocols can be improved by incorporating planetary aspects into the leader-election timeout. Paxos, but it reads its horoscope first.',
+      'We extend conventional consensus protocols with planetary-state awareness, addressing a longstanding failure to distinguish network instability from celestial interference. Early findings indicate that not every outage should be treated as an engineering problem.',
   },
   {
-    title: 'AstroVector: Embedding Human Personality in 1,024 Dimensions of Celestial Noise',
+    title: 'AstroVector: Scaling Zodiac Representation Beyond Twelve Categories',
     authors: 'Dr. A. Selene, S. Reyes',
     venue: 'Workshop on Unfalsifiable Machine Learning',
-    year: '2025',
+    year: '2026',
     abstract:
-      'We introduce a 1,024-dimensional embedding space in which Capricorns cluster near the centroid for "owns multiple air fryers". We make no causal claim. We merely observe.',
-  },
-  {
-    title: 'On the Statistical Significance of Statistically Significant Optimism',
-    authors: 'R. Vega, Dr. K. Nox',
-    venue: 'Bulletin of Post-Hoc Justifications',
-    year: '2025',
-    abstract:
-      'A meta-analysis of our own marketing claims finds that 97.8% of them are, technically, not false. We conclude that this is sufficient.',
+      'We introduce a 1,024-dimensional personality representation that expands the traditional twelve-sign model into thousands of computationally defensible distinctions. The resulting embeddings improve demographic resolution sufficiently for enterprise deployment without requiring corresponding improvements in causal understanding.',
   },
 ];
 
@@ -59,13 +59,13 @@ export function Research() {
           eyebrow="Peer-Adjacent Research"
           title={
             <>
-              <span className="text-gradient-gold">Our research has been</span>
+              <span className="text-gradient-gold">Where observation becomes</span>
               <br />
-              <span className="text-foreground italic">described</span>{' '}
-              <span className="text-foreground">as research.</span>
+              <span className="text-foreground">sufficient evidence.</span>
             </>
           }
-          description="The following papers were reviewed by a panel of our own researchers, who confirmed the research was, in fact, research. External peer review is pending, indefinitely, due to Mercury."
+          titleAccessibleLabel="Where observation becomes sufficient evidence."
+          description="OrionLabs conducts structured research into the computational effects of planetary conditions, behavioral priors, and other variables historically excluded from conventional machine learning for reasons we consider increasingly difficult to defend."
         />
 
         {/* Featured paper */}

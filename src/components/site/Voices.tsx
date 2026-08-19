@@ -20,7 +20,7 @@ const VOICES: Voice[] = [
   },
   {
     quote:
-      "We replaced our entire analytics team with the Quantum Horoscope Engine™. Revenue is down, but alignment is up, and that's what the board asked for.",
+      "We replaced our entire analytics team with the Quantum Horoscope Engine™. Revenue is down at the moment, but alignment is up, which is what the board asked for.",
     name: 'Marcus Vance',
     title: 'Managing Partner, Meridian Ventures',
     initials: 'MV',
@@ -41,7 +41,7 @@ const VOICES: Voice[] = [
   },
   {
     quote:
-      "AstroVector™ identified that 94% of our best engineers are Scorpios. We've stopped hiring anyone else. Productivity is unchanged, but HR is quieter.",
+      "AstroVector™ identified that 94% of our best engineers are Scorpios. We've stopped hiring anyone else. Productivity is unchanged, but HR is much quieter.",
     name: 'Sofia Reyes',
     title: 'VP People Operations, Lumen Holdings',
     initials: 'SR',
@@ -70,12 +70,13 @@ export function Voices() {
           eyebrow="Customer Stories"
           title={
             <>
-              <span className="text-gradient-gold">The people who trust us</span>
+              <span className="text-gradient-gold">Testimonials from customers</span>
               <br />
-              <span className="text-foreground/80 italic">(and probably shouldn't).</span>
+              <span className="text-foreground">who followed the guidance.</span>
             </>
           }
-          description="Real quotes from real customers, lightly paraphrased by our legal team and our content director, who is the same person."
+          titleAccessibleLabel="Testimonials from customers who followed the guidance."
+          description="Representative accounts from customers who acted on OrionLabs guidance under real-world conditions."
         />
 
         <Stagger className="mt-20 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -100,7 +101,7 @@ export function Voices() {
                   </div>
                   <div>
                     <p className="text-sm font-medium text-foreground">{v.name}</p>
-                    <p className="text-xs text-[hsl(326_55%_62%)]">{v.title}</p>
+                    <p className="text-xs text-[hsl(326_55%_62%)]">— {v.title}</p>
                   </div>
                 </figcaption>
               </figure>

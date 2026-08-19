@@ -6,6 +6,8 @@ import { SectionEyebrow } from './shared/SectionEyebrow';
 interface SectionHeadingProps {
   eyebrow?: string;
   title: ReactNode;
+  /** Provides one continuous heading string when visual spans split its emphasis. */
+  titleAccessibleLabel?: string;
   description?: ReactNode;
   align?: 'left' | 'center';
   className?: string;
@@ -18,6 +20,7 @@ interface SectionHeadingProps {
 export function SectionHeading({
   eyebrow,
   title,
+  titleAccessibleLabel,
   description,
   align = 'center',
   className,
@@ -36,7 +39,7 @@ export function SectionHeading({
         </Reveal>
       )}
       <Reveal delay={0.05}>
-        <h2 className="max-w-3xl font-serif text-4xl leading-[1.1] md:text-5xl lg:text-[3.4rem]">
+        <h2 aria-label={titleAccessibleLabel} className="max-w-3xl font-serif text-4xl leading-[1.1] md:text-5xl lg:text-[3.4rem]">
           {title}
         </h2>
       </Reveal>

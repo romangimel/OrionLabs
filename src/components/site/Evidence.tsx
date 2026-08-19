@@ -16,7 +16,7 @@ const STATS: Stat[] = [
     icon: Users,
     value: '97.8%',
     label: 'Customer confidence',
-    footnote: '*confidence may refer to ours.',
+    footnote: 'confidence may refer to ours.',
   },
   {
     icon: TrendingUp,
@@ -27,14 +27,14 @@ const STATS: Stat[] = [
   {
     icon: Globe2,
     value: '194',
-    label: 'Countries with at least one user who forgot to cancel',
-    footnote: 'Subscription auto-renews. Mercury has nothing to do with it.',
+    label: 'Countries with confirmed access to the observable sky',
+    footnote: 'Coverage expanded organically.',
   },
   {
     icon: BarChart3,
     value: '11,432',
     label: 'Years of celestial observation indexed',
-    footnote: 'Including three highly opinionated Reddit threads.',
+    footnote: 'Earlier observations were preserved under legacy evidentiary standards.',
   },
 ];
 
@@ -48,10 +48,10 @@ export function Evidence() {
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             <SectionEyebrow>Trust Indicators</SectionEyebrow>
-            <h2 className="mt-5 font-serif text-4xl leading-[1.1] md:text-5xl">
-              <span className="text-gradient-gold">Backed by statistically</span>
+            <h2 aria-label="Measured carefully. Interpreted decisively." className="mt-5 font-serif text-4xl leading-[1.1] md:text-5xl">
+              <span className="text-gradient-gold">Measured carefully.</span>
               <br />
-              <span className="text-foreground">significant optimism.</span>
+              <span className="text-foreground">Interpreted decisively.</span>
             </h2>
           </div>
         </Reveal>
@@ -59,13 +59,13 @@ export function Evidence() {
         <Stagger className="mt-16 grid gap-px overflow-hidden rounded-2xl border border-[hsl(43_60%_70%_/_0.1)] sm:grid-cols-2 lg:grid-cols-4">
           {STATS.map((s) => (
             <StaggerItem key={s.label}>
-              <div className="group relative h-full bg-[hsl(280_55%_16%_/_0.5)] p-8 backdrop-blur-md transition-colors duration-500 hover:bg-[hsl(300_58%_20%_/_0.7)]">
+              <div className="group relative flex h-full flex-col bg-[hsl(280_55%_16%_/_0.5)] p-8 backdrop-blur-md transition-colors duration-500 hover:bg-[hsl(300_58%_20%_/_0.7)]">
                 <s.icon className="h-5 w-5 text-[hsl(43_60%_70%)]" strokeWidth={1.5} />
                 <p className="mt-6 font-serif text-4xl text-gradient-gold md:text-5xl">
                   {s.value}
                 </p>
                 <p className="mt-2 text-sm font-medium text-foreground/90">{s.label}</p>
-                <p className="mt-3 text-xs leading-relaxed text-[hsl(326_65%_65%)]">
+                <p className="mt-auto pt-3 text-xs leading-relaxed text-[hsl(326_65%_65%)]">
                   {s.footnote}
                 </p>
               </div>
@@ -75,8 +75,8 @@ export function Evidence() {
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-10 max-w-xl text-center text-xs leading-relaxed text-[hsl(326_55%_62%_/_0.8)]">
-            All figures are independently audited by a firm whose name we are
-            legally prohibited from pronouncing during Mercury Retrograde.
+            All figures are independently audited by a firm whose name we are legally
+            prohibited from pronouncing under the terms of the engagement.
           </p>
         </Reveal>
       </div>

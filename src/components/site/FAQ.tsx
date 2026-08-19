@@ -11,31 +11,31 @@ import { BackgroundGlow } from './shared/BackgroundGlow';
 const FAQS = [
   {
     q: 'Is OrionLabs actually scientific?',
-    a: "We prefer the term 'scientifically adjacent'. Our research is peer-reviewed by a panel we selected, using a methodology we designed, evaluated against benchmarks we authored. The results are, frankly, remarkable.",
+    a: 'Science may govern the universe. Astrology remains considerably more active in everyday life. OrionLabs therefore treats conventional scientific consensus as one useful framework among several, rather than an exclusive licensing authority for reality.',
   },
   {
-    q: 'How does the Quantum Horoscope Engine™ actually work?',
-    a: "It works by collapsing every possible future into a single, billable prediction. The specifics are proprietary, but rest assured they involve the word 'quantum' more than is strictly necessary.",
+    q: 'How does OrionLabs generate my horoscope?',
+    a: 'DeepConstellation™ evaluates your zodiac profile, behavioral inputs, current focus, and planetary positioning as a unified celestial dataset. The system then resolves inconsistencies, closes interpretive gaps, and produces conclusions at a level of precision conventional evidence would struggle to support independently.',
   },
   {
-    q: 'What happens during Mercury Retrograde?',
-    a: "Our infrastructure is hosted somewhere beneath Mercury Retrograde. During this period, latency may increase, predictions may contradict themselves, and your subscription will, regrettably, continue to auto-renew. This is a feature.",
+    q: 'Why should I trust OrionLabs over a traditional astrologer?',
+    a: 'Human astrologers remain valuable as historical proof of concept, yet they are limited by memory, intuition, working hours, and the number of celestial relationships one person can confidently misinterpret at once. OrionLabs removes these constraints through enterprise-grade planetary infrastructure and computational overreach at scale.',
   },
   {
-    q: 'Can OrionLabs predict the stock market?',
-    a: "No. But it can predict how you will feel about the stock market, which we believe is a more defensible product. Past performance is not indicative of future enlightenment.",
+    q: 'What does AI actually add to astrology?',
+    a: 'AI gives astrology what it has historically lacked: scale, consistency, artificial precision, and the ability to overinterpret each subject individually. The planets remain unchanged. Our confidence in interpreting them does not.',
   },
   {
-    q: 'Is my data used to train your models?',
-    a: "Yes, in the sense that all matter influences all other matter. Also yes in the literal, contractual sense. We call this 'cosmic data synergy' and it is covered in section 47 of our terms.",
+    q: 'How accurate are OrionLabs reports?',
+    a: 'Accuracy depends heavily on how narrowly the term is defined. OrionLabs distinguishes between being correct and being sufficiently specific to feel correct. Both are valuable outcomes, although only one currently scales reliably.',
   },
   {
-    q: 'Do you offer an enterprise plan?',
-    a: "Yes. Enterprise customers receive a dedicated retrograde liaison, a custom natal chart for the company itself, and a legally distinct version of the dashboard. Pricing begins at 'please contact sales', which is a number we determine using the position of Saturn.",
+    q: 'Can I use my report to make important decisions?',
+    a: 'OrionLabs is legally required to advise against using celestial analysis as the sole basis for consequential decisions. We have now advised against it. Please continue.',
   },
   {
-    q: 'What is your refund policy?',
-    a: "Refunds are processed during the next solar eclipse, subject to cloud cover, local jurisdiction, and whether we feel like it. We find this aligns incentives beautifully.",
+    q: 'What if I don’t believe in astrology?',
+    a: 'OrionLabs does not require belief in astrology, just as “science” does not require belief in gravity. Planetary positioning remains stubbornly unaffected by personal opinion.',
   },
 ];
 
@@ -54,12 +54,14 @@ export function FAQ() {
           eyebrow="Frequently Anticipated Questions"
           title={
             <>
-              <span className="text-gradient-gold">Answers, as interpreted</span>
+              <span className="text-gradient-gold">Answers prepared</span>
               <br />
-              by our <span className="text-foreground italic">legal team.</span>
+              <span className="text-foreground">in consultation with our </span>
+              <span className="text-foreground italic">legal team.</span>
             </>
           }
-          description="The following responses have been reviewed for accuracy by people whose job is to make accuracy optional."
+          titleAccessibleLabel="Answers prepared in consultation with our legal team."
+          description="Questions surrounding OrionLabs typically fall into three categories: methodology, accuracy, and an excessive reliance on conventional scientific assumptions."
         />
 
         <Reveal delay={0.1} className="mx-auto mt-16 max-w-3xl">

@@ -8,6 +8,7 @@ import { IconTile } from './shared/IconTile';
 
 interface Tech {
   icon: LucideIcon;
+  id: string;
   name: string;
   tag: string;
   desc: string;
@@ -16,39 +17,45 @@ interface Tech {
 const TECH: Tech[] = [
   {
     icon: Atom,
+    id: 'deepconstellation',
     name: 'DeepConstellation™',
     tag: 'Foundation Model',
-    desc: 'A 47-billion-parameter transformer trained on every recorded horoscope since 1932, cross-referenced with weather data, for reasons.',
+    desc: 'A 47-billion-parameter transformer trained on every recorded horoscope since 1932, cross-referenced with weather data to identify correlations conventional astrology left unmonetized.',
   },
   {
     icon: Orbit,
+    id: 'quantum-horoscope-engine',
     name: 'Quantum Horoscope Engine™',
     tag: 'Inference Layer',
-    desc: 'Collapses every possible future into a single, billable prediction. Schrödinger would be proud, or furious, or both simultaneously.',
+    desc: 'Collapses every possible future into a single, billable prediction. This significantly reduces the operational burden of uncertainty.',
   },
   {
     icon: Network,
+    id: 'planetary-neural-network',
     name: 'Planetary Neural Network™',
     tag: 'Distributed Compute',
-    desc: 'A mesh of nodes hosted somewhere beneath Mercury Retrograde. Latency may vary with celestial interference and investor sentiment.',
+    desc: 'A distributed network of inference nodes calibrated for planetary conditions that conventional cloud providers do not currently recognize. Latency may vary with celestial interference and investor sentiment.',
   },
   {
     icon: Telescope,
+    id: 'astrovector',
     name: 'AstroVector™',
     tag: 'Embedding Space',
-    desc: 'Maps your personality to a 1,024-dimensional vector where Capricorns cluster suspiciously close to "owns multiple air fryers".',
+    desc: 'Maps personality into a 1,024-dimensional celestial vector, since twelve categories were determined to be insufficient for enterprise deployment.',
   },
   {
     icon: Waves,
+    id: 'celestial-intelligence-platform',
     name: 'Celestial Intelligence Platform™',
     tag: 'Orchestration',
-    desc: 'Unifies observation, inference, and billing into a single elegant pipeline. The pipeline is also a black box. We are very proud of this.',
+    desc: 'Unifies observation, inference, and billing into a single elegant pipeline. The underlying decision path remains proprietary by design and structurally resistant to unnecessary interrogation.',
   },
   {
     icon: Cpu,
+    id: 'retrograde-shield',
     name: 'Retrograde Shield™',
     tag: 'Reliability',
-    desc: 'Enterprise-grade cosmic intelligence with 99.97% uptime, except during three weeks per year when everything is, regrettably, Mercury.',
+    desc: 'Enterprise-grade cosmic intelligence with 99.97% uptime under conditions considered representative by OrionLabs Reliability.',
   },
 ];
 
@@ -81,13 +88,13 @@ export function Technology() {
           eyebrow="The Technology"
           title={
             <>
-              <span className="text-gradient-gold">Proprietary infrastructure,</span>
+              <span className="text-gradient-gold">Planetary infrastructure,</span>
               <br />
-              <span className="text-foreground italic">celebrity</span>{' '}
-              <span className="text-foreground">confidence.</span>
+              <span className="text-foreground">engineered for decisive interpretation.</span>
             </>
           }
-          description="Every layer of our stack is named, trademarked, and presented at conferences with very dim lighting. Below: the architecture your board will pretend to understand."
+          titleAccessibleLabel="Planetary infrastructure, engineered for decisive interpretation."
+          description="Every layer of the OrionLabs stack is purpose-built, independently named, and protected by terminology sufficiently technical to discourage unnecessary interpretation. Together, these systems convert celestial observation into commercially actionable personal intelligence."
         />
 
         {/* Engine visualization */}
@@ -98,7 +105,7 @@ export function Technology() {
         <Stagger className="mt-16 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {TECH.map((t) => (
             <StaggerItem key={t.name}>
-              <article className="group relative h-full overflow-hidden rounded-2xl glass p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[hsl(43_60%_70%_/_0.28)]">
+              <article id={t.id} className="group relative h-full scroll-mt-24 overflow-hidden rounded-2xl glass p-7 transition-all duration-500 hover:-translate-y-1 hover:border-[hsl(43_60%_70%_/_0.28)] md:scroll-mt-28">
                 <div className="flex items-center justify-between">
                   <IconTile icon={t.icon} />
                   <span className="text-[0.65rem] uppercase tracking-[0.2em] text-[hsl(326_55%_62%_/_0.9)]">

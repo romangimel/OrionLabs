@@ -334,6 +334,8 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Fix Analysis card mobile sizing so it fits the viewport cleanly without overflow or an oversized appearance
 - [x] Add a back to main button on the report page
 - [x] Save the stored report until a new one is generated
+- [ ] Allow clicking outsite the menu collapse it on mobile
+- [ ] Fix research paper image mobile composition
 
 ### 2. Copy and Humor Lock
 

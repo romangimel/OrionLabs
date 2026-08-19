@@ -26,19 +26,18 @@ export function CTA() {
         </Reveal>
 
         <Reveal delay={0.08}>
-          <h2 className="mt-7 max-w-3xl font-serif text-4xl leading-[1.08] md:text-6xl lg:text-[4rem]">
-            <span className="text-foreground">Your chart is ready.</span>
+          <h2 aria-label="The system has made its case. Now let it make yours." className="mt-7 max-w-3xl font-serif text-4xl leading-[1.08] md:text-6xl lg:text-[4rem]">
+            <span className="text-gradient-gold">The system has made its case.</span>
             <br />
-            <span className="text-foreground">The universe is </span>
-            <span className="text-gradient-gold italic">standing by.</span>
+            <span className="text-foreground">Now let it make yours.</span>
           </h2>
         </Reveal>
 
         <Reveal delay={0.16}>
           <p className="mt-6 max-w-lg text-base leading-relaxed text-muted-foreground md:text-lg">
-            Join <span className="text-[hsl(43_74%_66%)]">millions</span> of spiritually curious professionals who have already
-            outsourced their self-understanding to a machine that is, itself,
-            powered by starlight and venture capital.
+            A short calibration is all that stands between your current understanding
+            of yourself and OrionLabs replacing it with a more structured, more
+            confident, and substantially more celestial interpretation.
           </p>
         </Reveal>
 
@@ -59,8 +58,7 @@ export function CTA() {
 
         <Reveal delay={0.4}>
           <p className="mt-10 text-xs tracking-wide text-[hsl(326_50%_60%_/_0.7)]">
-            No credit card required. Spiritual commitment implied. Auto-renews
-            at the next full moon.
+            No prior preparation required. OrionLabs will handle the interpretation.
           </p>
         </Reveal>
       </div>

@@ -74,27 +74,25 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[hsl(43_74%_66%)] opacity-60" />
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[hsl(43_74%_66%)]" />
             </span>
-            The World's Leading Astrological AI Platform
+            Enterprise-Grade Astrological Intelligence
           </span>
         </FadeIn>
 
         <FadeIn delay={0.2} duration={1.1}>
-          <h1 className="mt-8 max-w-2xl font-serif leading-[1.04]" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.2rem)' }}>
-            <span className="text-gradient-gold block">Decode Your Destiny</span>
-            <span className="text-foreground block">with Artificial Intelligence</span>
+          <h1 aria-label="Personalized Horoscope, Powered by AI" className="mt-8 max-w-2xl font-serif leading-[1.04]" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.2rem)' }}>
+            <span className="text-gradient-gold block">Personalized Horoscope,</span>
+            <span className="text-foreground block">Powered by AI</span>
           </h1>
         </FadeIn>
 
         <FadeIn delay={0.4}>
-          <p className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground md:text-lg">
-            OrionLabs combines ancient cosmic wisdom with cutting-edge AI
-            to deliver hyper-personalized astrological insights that are{' '}
-            <span className="text-[hsl(326_75%_68%)]">scientifically adjacent.</span>
+          <p className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground md:max-w-[34rem] md:text-lg">
+            OrionLabs combines proprietary AI, behavioral inputs, and planetary positioning to produce an astrological analysis tailored to you, with greater analytical precision than conventional astrology has historically considered necessary.
           </p>
         </FadeIn>
 
         <FadeIn delay={0.55}>
-          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
+          <div className="mt-10 flex flex-col items-start gap-4 lg:mt-8 sm:flex-row">
             <PrimaryActionButton
               href="/questionnaire"
               onClick={resetAnalysisSession}
@@ -111,7 +109,7 @@ export function Hero() {
 
         <FadeIn delay={0.8}>
           <p className="mt-10 text-xs tracking-wide text-muted-foreground/80">
-            Trusted by <span className="text-[hsl(43_74%_66%)]">millions</span> of spiritually curious professionals worldwide.
+            Developed under <span className="text-[hsl(326_75%_68%)]">internally rigorous</span> conditions.
           </p>
         </FadeIn>
       </div>

@@ -77,7 +77,7 @@ export function TrustBar() {
                   <span
                     role="img"
                     aria-label={institution.name}
-                    className={`block aspect-[3/1] w-full transition-opacity duration-300 hover:opacity-80 ${institution.widthClassName}`}
+                    className={`block aspect-[3/1] w-full ${institution.widthClassName}`}
                     style={{
                       backgroundImage: BRAND_GOLD_GRADIENT,
                       maskImage: `url("${institution.assetPath}")`,

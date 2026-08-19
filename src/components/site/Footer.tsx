@@ -1,24 +1,51 @@
 import { Logo } from './Logo';
 import { BackgroundGlow } from './shared/BackgroundGlow';
 
-const COLUMNS = [
+interface FooterLink {
+  label: string;
+  href?: string;
+}
+
+const COLUMNS: readonly { title: string; links: readonly FooterLink[] }[] = [
   {
     title: 'Platform',
-    links: ['DeepConstellation™', 'Quantum Horoscope Engine™', 'Planetary Neural Network™', 'AstroVector™', 'Retrograde Shield™'],
+    links: [
+      { label: 'DeepConstellation™', href: '#deepconstellation' },
+      { label: 'Quantum Horoscope Engine™', href: '#quantum-horoscope-engine' },
+      { label: 'Planetary Neural Network™', href: '#planetary-neural-network' },
+      { label: 'AstroVector™', href: '#astrovector' },
+      { label: 'Retrograde Shield™', href: '#retrograde-shield' },
+    ],
   },
   {
     title: 'Company',
-    links: ['Philosophy', 'Research', 'Voices', 'Careers', 'Press (pending)'],
+    links: [
+      { label: 'Philosophy', href: '#philosophy' },
+      { label: 'Research', href: '#research' },
+      { label: 'Customer Stories', href: '#voices' },
+      { label: 'Press' },
+    ],
   },
   {
     title: 'Resources',
-    links: ['Documentation', 'Natal Chart API', 'Compliance & Superstition', 'Status (Mercury)', 'Changelog'],
+    links: [
+      { label: 'Documentation' },
+      { label: 'Natal Chart API' },
+      { label: 'Model Architecture' },
+      { label: 'Changelog' },
+    ],
   },
   {
     title: 'Legal',
-    links: ['Terms of Alignment', 'Privacy (Cosmic)', 'Cookie Policy (Lunar)', 'Refund Policy (Ecliptic)', 'Trademarks'],
+    links: [
+      { label: 'Terms of Alignment' },
+      { label: 'Privacy (Cosmic)' },
+      { label: 'Cookie Policy (Lunar)' },
+      { label: 'Compliance & Superstition' },
+      { label: 'Trademarks' },
+    ],
   },
-] as const;
+];
 
 export function Footer() {
   return (
@@ -43,7 +70,7 @@ export function Footer() {
             <p className="mt-5 text-xs leading-relaxed text-[hsl(326_45%_55%_/_0.7)]">
               1 Orion Way, Suite 47
               <br />
-              Somewhere beneath Mercury Retrograde
+              Earth-based operations, celestial coverage pending no approval.
             </p>
           </div>
 
@@ -55,13 +82,23 @@ export function Footer() {
               </h3>
               <ul className="mt-5 space-y-3">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#top"
-                      className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                    >
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    {link.href ? (
+                      <a
+                        href={link.href}
+                        className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <span
+                        aria-disabled="true"
+                        title="Planned destination"
+                        className="cursor-default text-sm text-muted-foreground/60"
+                      >
+                        {link.label}
+                      </span>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -81,17 +118,14 @@ export function Footer() {
               <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
             </span>
             <span className="text-xs text-muted-foreground/70">
-              All systems nominal* — <span className="text-[hsl(326_50%_60%)]">*Mercury permitting</span>
+              All systems nominal* — <span className="text-[hsl(326_50%_60%)]">*within tolerance</span>
             </span>
           </div>
         </div>
 
-        {/* Easter egg disclaimer */}
-        <p className="mt-8 text-[0.65rem] leading-relaxed text-[hsl(326_40%_50%_/_0.45)]">
-          OrionLabs is a fictional company. No horoscopes are generated, no
-          celestial observations are made, and no venture capital has been
-          harmed in the production of this website. Any resemblance to real AI
-          companies, living or pivoting, is entirely intentional.
+        <p className="mt-8 text-[0.65rem] leading-relaxed text-muted-foreground/60">
+          OrionLabs is a fictional company created for portfolio purposes and for the
+          considerably less strategic reason that its creator thought it would be fun to build.
         </p>
       </div>
     </footer>

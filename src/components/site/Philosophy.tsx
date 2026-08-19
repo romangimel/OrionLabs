@@ -20,7 +20,7 @@ const PILLARS: Pillar[] = [
   {
     icon: Infinity,
     title: 'Infinite context, finite accountability',
-    body: 'DeepConstellation™ ingests thousands of years of celestial observation alongside several highly opinionated Reddit threads.',
+    body: 'DeepConstellation™ ingests thousands of years of celestial observation alongside a proprietary collection of contemporary claims requiring minimal verification.',
   },
   {
     icon: Compass,
@@ -46,7 +46,8 @@ export function Philosophy() {
               <span className="text-foreground">it.</span>
             </>
           }
-          description="OrionLabs exists at the intersection of ancient observation and modern overconfidence. We believe every individual deserves an intelligence layer tuned to the exact position of Jupiter at the moment they first opened a spreadsheet."
+          titleAccessibleLabel="We don't predict the future. We curate it."
+          description="OrionLabs exists at the intersection of ancient observation and modern overconfidence. We believe every individual deserves an intelligence layer calibrated to the exact celestial conditions under which their judgment first became operationally relevant."
         />
 
         <Stagger className="mt-20 grid gap-6 md:grid-cols-3">
@@ -64,10 +65,10 @@ export function Philosophy() {
 
         <Reveal delay={0.2} className="mt-16">
           <p className="mx-auto max-w-2xl text-center text-sm italic leading-relaxed text-muted-foreground/70">
-            "We are not saying the planets control your destiny. We are saying
-            our proprietary interpretation of the planets controls your destiny,
-            which is an entirely different and{' '}
-            <span className="text-[hsl(326_65%_65%)]">legally distinct claim.</span>"
+            We are not saying the planets control your destiny. We are saying our
+            proprietary interpretation of the planets controls your destiny, which
+            is an entirely different and{' '}
+            <span className="text-[hsl(326_65%_65%)]">legally distinct claim.</span>
           </p>
         </Reveal>
       </div>
