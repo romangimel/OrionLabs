@@ -78,8 +78,6 @@ export function ArtworkFigure({
 }
 
 export function LunarPerformanceFigure() {
-  const maxScore = Math.max(...researchPaper.lunarResults.map((result) => result.emotionalSpecificity));
-
   return (
     <figure className="rounded-2xl border border-[hsl(43_60%_70%_/_0.14)] bg-[linear-gradient(145deg,hsl(280_55%_13%_/_0.48),hsl(262_50%_6%_/_0.45))] p-5 sm:p-7">
       <div className="flex flex-col gap-3 border-b border-[hsl(43_60%_70%_/_0.1)] pb-5 sm:flex-row sm:items-end sm:justify-between">
@@ -111,7 +109,7 @@ export function LunarPerformanceFigure() {
                     ? 'bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A]'
                     : 'bg-gradient-to-r from-[hsl(255_70%_58%)] to-[hsl(326_70%_58%)]'
                 }`}
-                style={{ width: `${(result.emotionalSpecificity / maxScore) * 100}%` }}
+                style={{ width: `${result.emotionalSpecificity}%` }}
               />
             </div>
             <p className="font-serif text-xl text-gradient-gold sm:text-right">
@@ -122,7 +120,7 @@ export function LunarPerformanceFigure() {
       </div>
 
       <figcaption className="mt-7 border-t border-[hsl(43_60%_70%_/_0.1)] pt-5 text-xs leading-relaxed text-muted-foreground">
-        Full-moon checkpoints produced the most emotionally specific output. Error bars are omitted because they complicated the visual conclusion without changing it.
+        Full-moon checkpoints produced the most emotionally specific output. Error bars were omitted because they complicated the conclusion without changing it.
       </figcaption>
     </figure>
   );
@@ -184,7 +182,7 @@ export function AblationTable() {
           Table 2 · Component ablation study
         </p>
         <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-          Removing evidence had limited impact. Removing certainty created an immediate and unacceptable decline in perceived performance.
+          Evidence produced limited measurable value. Certainty remained operationally indispensable.
         </p>
       </figcaption>
       <div className="overflow-x-auto">

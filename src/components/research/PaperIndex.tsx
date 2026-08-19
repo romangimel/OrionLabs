@@ -2,19 +2,14 @@ import { useEffect, useState } from 'react';
 
 const INDEX_ITEMS = [
   ['01', 'Introduction', 'introduction'],
-  ['02', 'Related work', 'related-work'],
-  ['03', 'Methodology', 'methodology'],
-  ['04', 'Dataset', 'dataset'],
-  ['05', 'Architecture', 'architecture'],
-  ['06', 'Results', 'results'],
-  ['07', 'Ablations', 'ablations'],
-  ['08', 'Belief control', 'belief-control'],
-  ['09', 'Investor validation', 'investor-validation'],
-  ['10', 'Limitations', 'limitations'],
-  ['11', 'Commercial implications', 'commercial-implications'],
-  ['12', 'Ethics', 'ethics'],
-  ['13', 'Conclusion', 'conclusion'],
-  ['14', 'References', 'references'],
+  ['02', 'Experimental design', 'experimental-design'],
+  ['03', 'Model architecture', 'architecture'],
+  ['04', 'Results', 'results'],
+  ['05', 'Ablation studies', 'ablations'],
+  ['06', 'Commercial validation', 'investor-validation'],
+  ['07', 'Limitations and ethics', 'limitations'],
+  ['08', 'Conclusion', 'conclusion'],
+  ['09', 'References', 'references'],
 ] as const;
 
 /** Persistent desktop index that highlights the section crossing the reading line. */

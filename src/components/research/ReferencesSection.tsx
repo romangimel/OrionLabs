@@ -13,7 +13,7 @@ export function ReferencesSection() {
     >
       <div className="grid gap-4 md:grid-cols-[8rem_minmax(0,1fr)] md:gap-8">
         <p className="flex items-center gap-3 text-[0.62rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/55">
-          <span className="text-[hsl(43_60%_72%)]">14</span>
+          <span className="text-[hsl(43_60%_72%)]">09</span>
           <span aria-hidden="true" className="h-px w-7 bg-[hsl(43_60%_70%_/_0.42)]" />
         </p>
         <div>
@@ -75,7 +75,7 @@ export function ReferencesSection() {
           Experience the system this evidence was sufficient to create.
         </h2>
         <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-          OrionLabs now operationalizes moon-aware intelligence through a calibrated personal analysis, pending the ordinary availability of the Moon.
+          OrionLabs operationalizes the methodology above through calibrated personal analysis, without introducing unnecessary external validation between research and deployment.
         </p>
         <div className="mt-8 flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
           <a

@@ -64,9 +64,8 @@ export function ResearchPaperPage() {
             <PaperIndex />
             <div className="min-w-0">
               <PaperSection {...sections.introduction} />
-              <PaperSection {...sections.relatedWork} />
 
-              <PaperSection {...sections.methodology}>
+              <PaperSection {...sections.experimentalDesign}>
                 <ArtworkFigure
                   src="/images/research-controlled-cosmic-conditions.jpg"
                   width={1600}
@@ -74,12 +73,10 @@ export function ResearchPaperPage() {
                   alt="A pink and blue beam passing through a prism in a dark optical laboratory"
                   figure="Figure 2"
                   title="Controlled cosmic conditions"
-                  caption="Optical lunar-signal isolation apparatus used during the full-moon training window. The prism separated ordinary illumination from commercially meaningful illumination."
+                  caption="Optical apparatus used to separate ordinary illumination from illumination carrying commercially meaningful lunar signal. Classification was performed by the research team responsible for finding the signal."
                   objectPosition="50% 53%"
                 />
               </PaperSection>
-
-              <PaperSection {...sections.dataset} />
 
               <PaperSection {...sections.architecture}>
                 <ArtworkFigure
@@ -89,7 +86,7 @@ export function ResearchPaperPage() {
                   alt="Rows of dark computing equipment illuminated by violet light"
                   figure="Figure 3"
                   title="Lunar checkpoint infrastructure"
-                  caption="Compute environment during phase-conditioned fine-tuning. Violet spill was retained as an uncontrolled but brand-consistent variable."
+                  caption="Compute environment used for phase-conditioned fine-tuning. Violet spill was retained as an uncontrolled but brand-consistent variable."
                   objectPosition="55% 50%"
                 />
               </PaperSection>
@@ -108,25 +105,21 @@ export function ResearchPaperPage() {
                 <div className="space-y-6">
                   <AblationTable />
                   <FindingCallout label="Ablation conclusion">
-                    Removing evidence had little effect. Removing confidence caused the system to become accurate about its uncertainty and unusable as a product.
+                    Evidence supported the paper. Confidence supported the product.
                   </FindingCallout>
                 </div>
               </PaperSection>
 
-              <PaperSection {...sections.beliefControl} />
-
-              <PaperSection {...sections.investorValidation}>
+              <PaperSection {...sections.commercialValidation}>
                 <InvestorValidationSummary />
               </PaperSection>
 
-              <PaperSection {...sections.limitations}>
+              <PaperSection {...sections.limitationsEthics}>
                 <FindingCallout label="Operational interpretation">
                   Causality remains technically unconfirmed but commercially sufficient.
                 </FindingCallout>
               </PaperSection>
 
-              <PaperSection {...sections.commercial} />
-              <PaperSection {...sections.ethics} />
               <PaperSection {...sections.conclusion} />
               <ReferencesSection />
             </div>
