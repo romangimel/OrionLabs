@@ -29,6 +29,21 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [open]);
+
   /**
    * Lets the sheet finish collapsing before native navigation changes the page.
    * Otherwise, fragment navigation occurs while the sheet still contributes to
@@ -110,6 +125,20 @@ export function Navbar() {
         </nav>
       </div>
 
+      <AnimatePresence>
+        {open && (
+          <motion.button
+            type="button"
+            aria-label="Close navigation menu"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed inset-x-0 bottom-0 top-16 md:hidden"
+            onClick={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
       {/* Mobile sheet */}
       <AnimatePresence onExitComplete={completeMobileMenuClose}>
         {open && (
@@ -118,7 +147,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="overflow-hidden border-b border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.95)] backdrop-blur-xl md:hidden"
+            className="relative z-10 overflow-hidden border-b border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.95)] backdrop-blur-xl md:hidden"
           >
             <ul className="container-narrow flex flex-col gap-1 py-4">
               {LANDING_NAV_LINKS.map((l) => (

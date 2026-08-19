@@ -117,7 +117,13 @@ export function Research() {
                       decoding="async"
                       className="h-full w-full object-cover object-[50%_48%]"
                     />
-                    <div className="pointer-events-none absolute bottom-0 left-0 w-[78%] px-5 pb-4">
+                    <p className="pointer-events-none absolute left-5 top-4 text-[0.6rem] uppercase tracking-[0.2em] text-[hsl(43_60%_75%)] md:hidden">
+                      OBSERVATIONAL MODEL
+                    </p>
+                    <p className="pointer-events-none absolute bottom-0 left-0 right-0 px-5 pb-4 text-xs leading-relaxed text-foreground/90 md:hidden">
+                      Documented under conditions carefully selected to support the conclusion.
+                    </p>
+                    <div className="pointer-events-none absolute bottom-0 left-0 hidden w-[78%] px-5 pb-4 md:block">
                       <div>
                         <p className="text-[0.6rem] uppercase tracking-[0.2em] text-[hsl(43_60%_75%)]">
                           OBSERVATIONAL MODEL
