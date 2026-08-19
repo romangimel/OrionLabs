@@ -449,6 +449,7 @@ Do not call the AI provider directly from frontend browser code.
 
 ### Product Expansion
 
+- [ ] Questionnaire free text "enhance with AI" button
 - [ ] Shareable horoscope cards
 - [ ] Downloadable report images
 - [ ] Fake scientific charts

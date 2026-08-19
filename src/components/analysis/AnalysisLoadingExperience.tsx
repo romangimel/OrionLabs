@@ -1,7 +1,9 @@
-import { Check, LoaderCircle } from 'lucide-react';
+import { Check, CircleX, LoaderCircle } from 'lucide-react';
 import { CelestialCalibrationIndicator } from '@/components/analysis/CelestialCalibrationIndicator';
+import { primaryActionButtonClassName } from '@/components/site/shared/ActionButtons';
 import type { CalibrationRowState } from '@/lib/analysis-presentation';
 import type { SubjectSignatureData } from '@/lib/subject-signature';
+import { cn } from '@/lib/utils';
 
 export type AnalysisPhase = 'loading' | 'complete' | 'error' | 'capacity';
 
@@ -73,6 +75,7 @@ export function AnalysisLoadingExperience({
                 const rowState = rowStates[index] ?? 'upcoming';
                 const isActive = rowState === 'active';
                 const isRowComplete = rowState === 'complete';
+                const isRowFailed = rowState === 'failed';
                 const stepNumber = String(index + 1).padStart(2, '0');
 
                 return (
@@ -88,6 +91,8 @@ export function AnalysisLoadingExperience({
                       className={`relative z-10 flex h-4 w-4 items-center justify-center rounded-full border bg-[hsl(262_48%_8%)] sm:h-5 sm:w-5 ${
                         isActive || isRowComplete
                           ? 'border-[hsl(326_78%_69%_/_0.62)]'
+                          : isRowFailed
+                            ? 'border-destructive/65'
                           : 'border-[hsl(43_60%_70%_/_0.24)]'
                       }`}
                       aria-hidden="true"
@@ -102,6 +107,11 @@ export function AnalysisLoadingExperience({
                           className="h-2.5 w-2.5 text-[hsl(326_78%_69%)] sm:h-3 sm:w-3"
                           strokeWidth={2}
                         />
+                      ) : isRowFailed ? (
+                        <CircleX
+                          className="h-2.5 w-2.5 text-destructive sm:h-3 sm:w-3"
+                          strokeWidth={1.8}
+                        />
                       ) : (
                         <span className="h-1 w-1 rounded-full bg-[hsl(43_60%_70%_/_0.38)]" />
                       )}
@@ -115,6 +125,8 @@ export function AnalysisLoadingExperience({
                           ? 'text-gradient-gold'
                           : isRowComplete
                             ? 'text-foreground/92'
+                            : isRowFailed
+                              ? 'text-destructive/90'
                             : 'text-muted-foreground/50'
                       }`}
                     >
@@ -138,9 +150,10 @@ export function AnalysisLoadingExperience({
                   <button
                     type="button"
                     onClick={onRetry}
-                    className="inline-flex h-10 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] px-5 text-xs font-medium text-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.58)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.65)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(262_45%_7)]"
+                    className={cn(primaryActionButtonClassName, 'h-10 justify-center px-5 text-xs')}
                   >
-                    Retry analysis
+                    <span className="relative z-10">Retry analysis</span>
+                    <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full motion-reduce:hidden" />
                   </button>
                 )}
               </div>

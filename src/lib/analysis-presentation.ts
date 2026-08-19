@@ -20,7 +20,7 @@ export const ANALYSIS_CALIBRATION_STAGE_STARTS_MS = [
   15_500,
 ] as const;
 
-export type CalibrationRowState = 'upcoming' | 'active' | 'complete';
+export type CalibrationRowState = 'upcoming' | 'active' | 'complete' | 'failed';
 
 interface CalibrationSequence {
   activeStageIndex: number | null;
@@ -28,12 +28,23 @@ interface CalibrationSequence {
   rowStates: readonly CalibrationRowState[];
 }
 
+interface CalibrationSequenceOptions {
+  hasFailed?: boolean;
+  minimumExperienceComplete?: boolean;
+  reportReadyToRedirect?: boolean;
+}
+
 /** Resolves the stable visual state for every calibration row at a given time. */
 export function resolveCalibrationSequence(
   elapsedMs: number,
   durationMs: number,
+  {
+    hasFailed = false,
+    minimumExperienceComplete = elapsedMs >= durationMs,
+    reportReadyToRedirect = false,
+  }: CalibrationSequenceOptions = {},
 ): CalibrationSequence {
-  if (elapsedMs >= durationMs) {
+  if (minimumExperienceComplete && reportReadyToRedirect) {
     return {
       activeStageIndex: null,
       minimumExperienceComplete: true,
@@ -49,14 +60,18 @@ export function resolveCalibrationSequence(
   });
 
   return {
-    activeStageIndex,
-    minimumExperienceComplete: false,
-    rowStates: ANALYSIS_CALIBRATION_MESSAGES.map((_, rowIndex) =>
-      rowIndex < activeStageIndex
-        ? 'complete'
-        : rowIndex === activeStageIndex
-          ? 'active'
-          : 'upcoming',
-    ),
+    activeStageIndex: hasFailed ? null : activeStageIndex,
+    minimumExperienceComplete,
+    rowStates: ANALYSIS_CALIBRATION_MESSAGES.map((_, rowIndex) => {
+      if (rowIndex < activeStageIndex) {
+        return 'complete';
+      }
+
+      if (rowIndex === activeStageIndex) {
+        return hasFailed ? 'failed' : 'active';
+      }
+
+      return 'upcoming';
+    }),
   };
 }

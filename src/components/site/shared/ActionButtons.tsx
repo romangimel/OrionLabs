@@ -6,6 +6,10 @@ type ActionButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
 };
 
+/** Shared visual treatment for OrionLabs' dominant gold-gradient calls to action. */
+export const primaryActionButtonClassName =
+  'group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none';
+
 /** Primary gold-gradient anchor used for the landing page's dominant actions. */
 export function PrimaryActionButton({
   children,
@@ -15,7 +19,7 @@ export function PrimaryActionButton({
   return (
     <a
       className={cn(
-        'group relative inline-flex h-12 items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02]',
+        primaryActionButtonClassName,
         className,
       )}
       {...props}

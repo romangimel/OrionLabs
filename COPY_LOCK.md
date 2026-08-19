@@ -486,3 +486,267 @@
 - Cookie Policy (Lunar) → `/legal#cookies`
 - Compliance & Superstition → `/legal#compliance`
 - Trademarks → `/legal#trademarks`
+
+## Questionnaire — Step 01: Celestial Identity
+
+**Status:** LOCKED
+
+### Step Title
+
+> Celestial Identity
+
+### Step Description
+
+> Define the celestial baseline for your OrionLabs profile.
+
+### Question 01
+
+**Select your zodiac sign** — Required
+
+> Included as part of a broader analytical framework.
+
+### Validation
+
+> Please select a zodiac sign.
+
+### Question 02
+
+**What should we call you?** — Required
+
+> Addressing subjects by name has been shown to improve perceived horoscope credibility.
+
+### Placeholder
+
+> First name
+
+### Validation
+
+> Please enter your first name.
+
+## Questionnaire — Step 02: Profile Calibration
+
+**Status:** LOCKED
+
+### Step Title
+
+> Profile Calibration
+
+### Step Description
+
+> Supply the personal data required for higher-resolution celestial profiling.
+
+### Question 01
+
+**What is your birth date?** — Required
+
+> Adds chronological precision to an otherwise alarmingly broad celestial model.
+
+### Validation
+
+> Please enter your birth date.
+
+> Please enter a valid birth date.
+
+> Please enter a birth date that is not in the future.
+
+> OrionLabs analysis is currently limited to subjects aged 18 and over.
+
+### Question 02
+
+**How should OrionLabs refer to you?** — Required
+
+> Used for highly questionable demographic calibration and stereotype alignment.
+
+### Options
+
+- He / Him
+- She / Her
+- They / Them
+- Prefer not to say
+
+### Validation
+
+> Please choose how OrionLabs should refer to you.
+
+## Questionnaire — Step 03: Behavioral Snapshot
+
+**Status:** LOCKED
+
+### Step Title
+
+> Behavioral Snapshot
+
+### Step Description
+
+> Define the priorities and behavioral patterns requiring further interpretation.
+
+### Question 01
+
+**What is occupying most of your attention lately?** — Required
+
+> Used to determine which part of your life deserves disproportionate computational attention.
+
+### Options
+
+- Career
+- Relationships
+- Money
+- Family
+- Health
+- Personal growth
+- Something else
+
+### Validation
+
+> Please select what is occupying most of your attention.
+
+### Question 02
+
+**Which statement sounds most like you?** — Required
+
+> Used to identify the behavioral pattern OrionLabs should overinterpret most aggressively.
+
+### Options
+
+- I overthink things
+- I trust my instincts
+- I like having a plan
+- I adapt as I go
+- I usually leave things until later
+
+### Validation
+
+> Please choose the statement that best describes you.
+
+## Questionnaire — Step 04: Final Calibration
+
+**Status:** LOCKED
+
+### Step Title
+
+> Final Calibration
+
+### Step Description
+
+> Provide additional context to improve the specificity of the final interpretation.
+
+### Question
+
+**Tell us more about yourself** — Recommended
+
+> Strongly recommended. The more specific the context, the more precisely OrionLabs can weaponize it.
+
+### Placeholder
+
+> Goals, interests, current challenges, recent events, or anything else OrionLabs should consider.
+
+## Questionnaire — Review Answers
+
+**Status:** LOCKED
+
+### Stage Label
+
+> Final Review
+
+### Headline
+
+> Review Available Evidence
+
+### Description
+
+> Confirm your calibration profile before interpretation begins.
+
+### Summary Labels
+
+- Subject
+- Baseline
+- Current focus
+
+### Subject Signature
+
+> Preliminary subject signature
+
+> Ready
+
+### Review Sections
+
+- Celestial Identity
+- Profile Calibration
+- Behavioral Snapshot
+- Final Calibration
+
+### Field Labels
+
+- First name
+- Zodiac sign
+- Birth date
+- Subject reference
+- Main area of attention
+- Behavioral statement
+- Additional context
+
+### Fallback Values
+
+> Not provided
+
+> No additional context provided, unfortunately.
+
+### Actions
+
+- Edit
+- Back
+- Change Answers
+- Begin Analysis
+
+### Session Recovery Warning
+
+> Session recovery is temporarily unavailable. Your current profile remains intact, but refreshing or leaving this page may require recalibration.
+
+### Unsupported Profile Warning
+
+> Some profile data falls outside the supported analysis range. Please review your answers and try again.
+
+### Analysis Preparation Error
+
+> We couldn't prepare this profile for analysis. Your answers remain intact; please try again.
+
+### Privacy / Session Note
+
+> Your profile remains local until analysis begins.
+
+## Calibration
+
+**Status:** LOCKED
+
+### Stage Label
+
+> Calibration sequence
+
+### Sequence
+
+1. Mapping behavioral resonance...
+2. Ignoring centuries of scientific consensus...
+3. Resolving ambiguity through proprietary optimism...
+4. Finalizing conclusions before reviewing the evidence...
+5. Report complete. Redirecting before reconsideration...
+
+### Active Status
+
+> Your report is being prepared.
+
+### Success Status
+
+> Your report is ready. Redirecting to the report.
+
+### Retryable Error
+
+> Analysis encountered an administrative anomaly. You can retry without recalibration.
+
+### Capacity Error
+
+> Current analysis capacity has been exhausted by levels of demand OrionLabs considers encouraging. Please return later and try again.
+
+### Actions
+
+- Retry analysis
+- Return to review

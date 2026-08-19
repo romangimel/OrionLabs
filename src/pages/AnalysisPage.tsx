@@ -37,7 +37,7 @@ import {
 const MINIMUM_ANALYSIS_DURATION_MS = SUBJECT_SIGNATURE_TIMELINE.totalSeconds * 1_000;
 const COMPLETION_PAUSE_MS = 3_000;
 
-type GenerationStatus = 'loading' | 'succeeded' | 'failed' | 'capacity';
+type GenerationStatus = 'loading' | 'succeeded' | 'ready' | 'failed' | 'capacity';
 
 /**
  * Owns the secure questionnaire-to-function request, report persistence, and
@@ -86,6 +86,10 @@ export function AnalysisPage() {
       durationMs: MINIMUM_ANALYSIS_DURATION_MS,
       stageStartMs: ANALYSIS_CALIBRATION_STAGE_STARTS_MS,
       runKey: attempt,
+      // A fast provider response intentionally keeps the approved choreography running.
+      isAttemptActive: generationStatus === 'loading' || generationStatus === 'succeeded',
+      hasFailed: generationStatus === 'failed' || generationStatus === 'capacity',
+      reportReadyToRedirect: generationStatus === 'ready',
     });
 
   useEffect(() => {
@@ -169,14 +173,7 @@ export function AnalysisPage() {
       return;
     }
 
-    const redirectTimer = window.setTimeout(() => {
-      // A failed request never reaches this point, so its questionnaire data
-      // remains available for retry without asking the subject to start over.
-      clearQuestionnaireDraft();
-      window.location.assign('/report');
-    }, COMPLETION_PAUSE_MS);
-
-    return () => window.clearTimeout(redirectTimer);
+    setGenerationStatus('ready');
   }, [
     canRenderAnalysis,
     draft,
@@ -185,6 +182,20 @@ export function AnalysisPage() {
     minimumExperienceComplete,
     signatureInputs,
   ]);
+
+  useEffect(() => {
+    if (generationStatus !== 'ready') {
+      return;
+    }
+
+    const redirectTimer = window.setTimeout(() => {
+      // This runs only after persistence has made the report safe for the route to consume.
+      clearQuestionnaireDraft();
+      window.location.assign('/report');
+    }, COMPLETION_PAUSE_MS);
+
+    return () => window.clearTimeout(redirectTimer);
+  }, [generationStatus]);
 
   if (routeDestination || !draft || !subjectSignature) {
     return null;
@@ -195,7 +206,7 @@ export function AnalysisPage() {
       ? 'capacity'
       : generationStatus === 'failed'
       ? 'error'
-      : generatedReport && minimumExperienceComplete
+      : generationStatus === 'ready'
         ? 'complete'
         : 'loading';
 
