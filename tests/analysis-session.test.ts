@@ -1,5 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { startNewAnalysisJourney } from '@/lib/analysis-session';
+import {
+  prepareNewAnalysisJourney,
+  startNewAnalysisJourney,
+} from '@/lib/analysis-session';
 import {
   createQuestionnaireDraft,
   createQuestionnaireState,
@@ -68,6 +71,21 @@ describe('new analysis session', () => {
 
     expect(startNewAnalysisJourney()).toBe(true);
     expect(destination).toBe('/questionnaire');
+    expect(loadQuestionnaireDraft()).toBeNull();
+    expect(getActiveReport()?.id).toBe(reportId);
+  });
+
+  it('prepares native-link entry points without deleting the active report', () => {
+    persistGeneratedReport(
+      reportId,
+      createValidReport(),
+      validSignatureInput,
+      '2026-08-09T10:00:00.000Z',
+    );
+    saveQuestionnaireDraft(createQuestionnaireDraft(createQuestionnaireState()));
+
+    expect(prepareNewAnalysisJourney()).toBe(true);
+    expect(destination).toBe('');
     expect(loadQuestionnaireDraft()).toBeNull();
     expect(getActiveReport()?.id).toBe(reportId);
   });

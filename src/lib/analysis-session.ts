@@ -13,9 +13,17 @@ export function clearIncompleteQuestionnaireForExit() {
 }
 
 /**
- * Clears the complete prototype session for entry points that intentionally
- * discard every local OrionLabs result. The report page's restart action does
- * not use this helper because a replacement report has not succeeded yet.
+ * Prepares an anchor-based analysis entry point while allowing the browser's
+ * native link navigation to continue. Completed reports are intentionally
+ * outside this cleanup boundary until a replacement report is persisted.
+ */
+export function prepareNewAnalysisJourney() {
+  return clearQuestionnaireDraft();
+}
+
+/**
+ * Clears every OrionLabs journey record. This is an administrative cleanup
+ * utility, not a Begin Analysis or Start Another Analysis entry-point helper.
  */
 export function resetAnalysisSession() {
   const draftCleared = clearQuestionnaireDraft();
@@ -29,7 +37,7 @@ export function resetAnalysisSession() {
  * lifetime of the last known valid completed snapshot.
  */
 export function startNewAnalysisJourney(destination = '/questionnaire') {
-  if (clearQuestionnaireDraft()) {
+  if (prepareNewAnalysisJourney()) {
     window.location.assign(destination);
     return true;
   }

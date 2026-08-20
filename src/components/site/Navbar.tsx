@@ -2,7 +2,7 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { resetAnalysisSession } from '@/lib/analysis-session';
+import { prepareNewAnalysisJourney } from '@/lib/analysis-session';
 import {
   ANALYSIS_DESTINATION,
   LANDING_NAV_LINKS,
@@ -104,7 +104,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <a
               href={ANALYSIS_DESTINATION}
-              onClick={resetAnalysisSession}
+              onClick={prepareNewAnalysisJourney}
               className="group relative inline-flex h-9 items-center overflow-hidden rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-5 text-sm font-medium text-[hsl(43_60%_75%)] transition-colors duration-300 hover:text-[hsl(43_70%_85%)]"
             >
               <span className="relative z-10">Begin Analysis</span>
@@ -165,7 +165,7 @@ export function Navbar() {
                 <a
                   href={ANALYSIS_DESTINATION}
                   onClick={(event) => {
-                    resetAnalysisSession();
+                    prepareNewAnalysisJourney();
                     closeMobileMenuAndNavigate(event);
                   }}
                   className="block rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(43_74%_66%_/_0.08)] px-5 py-3 text-center text-sm font-medium text-[hsl(43_60%_75%)]"

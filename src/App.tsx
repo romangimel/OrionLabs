@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Navbar } from '@/components/site/Navbar';
 import { Hero } from '@/components/site/Hero';
 import { TrustBar } from '@/components/site/TrustBar';
@@ -14,40 +15,52 @@ import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
 import { ReportPage } from '@/pages/ReportPage';
 import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
+import { DocsPage } from '@/pages/DocsPage';
+import { LegalPage } from '@/pages/LegalPage';
+import { PressPage } from '@/pages/PressPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
-import { getResearchPaperByPath } from '@/data/research-registry';
+import { resolveAppRoute } from '@/lib/app-routing';
+import { scrollToLandingFragment } from '@/lib/landing-navigation';
 
-/**
- * Selects the active page and composes the public landing experience.
- *
- * OrionLabs has a small route set, so pathname matching keeps routing
- * dependency-free. A dedicated router can replace this boundary if navigation
- * requirements later expand beyond these static route-level pages.
- */
-function App() {
-  // Treat trailing-slash variants as the same route, including `/` itself.
-  const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
+/** Re-applies root fragments once the client-rendered landing targets exist. */
+function LandingPage() {
+  useEffect(() => {
+    let isDisposed = false;
+    let nestedRenderFrame = 0;
+    let fontFrame = 0;
+    let hashChangeFrame = 0;
 
-  if (pathname === '/questionnaire') {
-    return <QuestionnairePage />;
-  }
+    const reconcileFragment = () => {
+      scrollToLandingFragment(window.location.hash);
+    };
 
-  if (pathname === '/analysis') {
-    return <AnalysisPage />;
-  }
+    const renderFrame = window.requestAnimationFrame(() => {
+      nestedRenderFrame = window.requestAnimationFrame(reconcileFragment);
+    });
 
-  if (pathname === '/report') {
-    return <ReportPage />;
-  }
+    // Final display-font metrics can shift long landing sections after the
+    // first fragment calculation, so align the same target once fonts settle.
+    void document.fonts?.ready.then(() => {
+      if (!isDisposed) {
+        fontFrame = window.requestAnimationFrame(reconcileFragment);
+      }
+    });
 
-  const researchPaper = getResearchPaperByPath(pathname);
-  if (researchPaper) {
-    return <ResearchPaperPage paperSlug={researchPaper.slug} />;
-  }
+    const handleHashChange = () => {
+      window.cancelAnimationFrame(hashChangeFrame);
+      hashChangeFrame = window.requestAnimationFrame(reconcileFragment);
+    };
+    window.addEventListener('hashchange', handleHashChange);
 
-  if (pathname !== '/') {
-    return <NotFoundPage />;
-  }
+    return () => {
+      isDisposed = true;
+      window.cancelAnimationFrame(renderFrame);
+      window.cancelAnimationFrame(nestedRenderFrame);
+      window.cancelAnimationFrame(fontFrame);
+      window.cancelAnimationFrame(hashChangeFrame);
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   return (
     <>
@@ -77,6 +90,51 @@ function App() {
       <Footer />
     </>
   );
+}
+
+/**
+ * Selects the active page and composes the public landing experience.
+ *
+ * OrionLabs has a small route set, so pathname matching keeps routing
+ * dependency-free. A dedicated router can replace this boundary if navigation
+ * requirements later expand beyond these static route-level pages.
+ */
+function App() {
+  const route = resolveAppRoute(window.location.pathname);
+
+  if (route.kind === 'questionnaire') {
+    return <QuestionnairePage />;
+  }
+
+  if (route.kind === 'analysis') {
+    return <AnalysisPage />;
+  }
+
+  if (route.kind === 'report') {
+    return <ReportPage />;
+  }
+
+  if (route.kind === 'docs') {
+    return <DocsPage />;
+  }
+
+  if (route.kind === 'press') {
+    return <PressPage />;
+  }
+
+  if (route.kind === 'legal') {
+    return <LegalPage />;
+  }
+
+  if (route.kind === 'research') {
+    return <ResearchPaperPage paperSlug={route.paperSlug} />;
+  }
+
+  if (route.kind === 'not-found') {
+    return <NotFoundPage />;
+  }
+
+  return <LandingPage />;
 }
 
 export default App;

@@ -1,51 +1,6 @@
 import { Logo } from './Logo';
 import { BackgroundGlow } from './shared/BackgroundGlow';
-
-interface FooterLink {
-  label: string;
-  href?: string;
-}
-
-const COLUMNS: readonly { title: string; links: readonly FooterLink[] }[] = [
-  {
-    title: 'Platform',
-    links: [
-      { label: 'DeepConstellation™', href: '#deepconstellation' },
-      { label: 'Quantum Horoscope Engine™', href: '#quantum-horoscope-engine' },
-      { label: 'Planetary Neural Network™', href: '#planetary-neural-network' },
-      { label: 'AstroVector™', href: '#astrovector' },
-      { label: 'Retrograde Shield™', href: '#retrograde-shield' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'Philosophy', href: '#philosophy' },
-      { label: 'Research', href: '#research' },
-      { label: 'Customer Stories', href: '#voices' },
-      { label: 'Press' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Documentation' },
-      { label: 'Natal Chart API' },
-      { label: 'Model Architecture' },
-      { label: 'Changelog' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Terms of Alignment' },
-      { label: 'Privacy (Cosmic)' },
-      { label: 'Cookie Policy (Lunar)' },
-      { label: 'Compliance & Superstition' },
-      { label: 'Trademarks' },
-    ],
-  },
-];
+import { FOOTER_NAVIGATION } from '@/data/footer-navigation';
 
 export function Footer() {
   return (
@@ -57,7 +12,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           {/* Brand */}
           <div className="max-w-xs">
-            <a href="#top" className="flex items-center gap-2" aria-label="OrionLabs home">
+            <a href="/" className="flex items-center gap-2" aria-label="OrionLabs home">
               <Logo className="h-9 w-9" />
               <span className="font-serif text-2xl tracking-tight text-foreground">
                 Orion<span className="text-gradient-gold">Labs</span>
@@ -75,7 +30,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          {COLUMNS.map((col) => (
+          {FOOTER_NAVIGATION.map((col) => (
             <div key={col.title}>
               <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-[hsl(43_60%_70%)]">
                 {col.title}
@@ -83,22 +38,12 @@ export function Footer() {
               <ul className="mt-5 space-y-3">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    {link.href ? (
-                      <a
-                        href={link.href}
-                        className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <span
-                        aria-disabled="true"
-                        title="Planned destination"
-                        className="cursor-default text-sm text-muted-foreground/60"
-                      >
-                        {link.label}
-                      </span>
-                    )}
+                    <a
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                    >
+                      {link.label}
+                    </a>
                   </li>
                 ))}
               </ul>
