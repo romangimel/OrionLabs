@@ -31,8 +31,11 @@ export function PaperHero({ paper }: PaperHeroProps) {
               data-paper-title
               className="mt-7 max-w-4xl font-serif text-[clamp(2.85rem,6vw,5.35rem)] leading-[0.96] tracking-[-0.025em] outline-none"
             >
-              <span className="text-gradient-gold">{hero.titleLead}</span>{' '}
-              <span className="text-foreground">{hero.titleRemainder}</span>
+              {hero.titleSegments.map(({ text, emphasis }) => (
+                <span key={text} className={emphasis === 'pink' ? 'text-[hsl(326_65%_65%)]' : 'text-gradient-gold'}>
+                  {text}
+                </span>
+              ))}
             </h1>
           </FadeIn>
 

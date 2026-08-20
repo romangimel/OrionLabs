@@ -22,8 +22,10 @@ export const limitsPaper = {
     doi: '10.2026/orion.relevance.001',
   },
   hero: {
-    titleLead: 'The Limits of Science',
-    titleRemainder: 'and the Persistent Advantage of Astrology',
+    titleSegments: [
+      { text: 'The Limits of Science and the ' },
+      { text: 'Persistent Advantage of Astrology', emphasis: 'pink' },
+    ],
     imageSrc: '/images/research/research-limits-of-science-hero.png',
     imageWidth: 1448,
     imageHeight: 1086,

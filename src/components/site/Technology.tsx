@@ -87,11 +87,7 @@ export function Technology() {
         <SectionHeading
           eyebrow="The Technology"
           title={
-            <>
-              <span className="text-gradient-gold">Planetary infrastructure,</span>
-              <br />
-              <span className="text-foreground">engineered for decisive interpretation.</span>
-            </>
+            <span className="text-gradient-gold">Planetary infrastructure, engineered for decisive interpretation.</span>
           }
           titleAccessibleLabel="Planetary infrastructure, engineered for decisive interpretation."
           description="Every layer of the OrionLabs stack is purpose-built, independently named, and protected by terminology sufficiently technical to discourage unnecessary interpretation. Together, these systems convert celestial observation into commercially actionable personal intelligence."

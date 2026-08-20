@@ -59,9 +59,8 @@ export function Research() {
           eyebrow="Peer-Adjacent Research"
           title={
             <>
-              <span className="text-gradient-gold">Where observation becomes</span>
-              <br />
-              <span className="text-foreground">sufficient evidence.</span>
+              <span className="text-gradient-gold">Where observation becomes </span>
+              <span className="text-[hsl(326_65%_65%)]">sufficient evidence.</span>
             </>
           }
           titleAccessibleLabel="Where observation becomes sufficient evidence."

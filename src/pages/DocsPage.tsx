@@ -171,8 +171,8 @@ export function DocsPage() {
           </div>
 
           <h1 className="mt-8 max-w-4xl font-serif text-[clamp(3rem,7vw,5.8rem)] leading-[0.96] tracking-[-0.025em]">
-            <span className="text-gradient-gold">Celestial infrastructure,</span>{' '}
-            <span className="text-foreground">documented for ordinary systems.</span>
+            <span className="text-gradient-gold">Celestial infrastructure, documented for </span>
+            <span className="text-[hsl(326_65%_65%)]">ordinary systems.</span>
           </h1>
           <p className="mt-7 max-w-3xl text-base leading-relaxed text-foreground/82 sm:text-lg md:text-xl">
             Build natal-chart, planetary-context, and personalized interpretation workflows on the OrionLabs Celestial Intelligence Platform. The interface is conventional. The assumptions have been standardized separately.

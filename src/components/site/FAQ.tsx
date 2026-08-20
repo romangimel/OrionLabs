@@ -54,10 +54,8 @@ export function FAQ() {
           eyebrow="Frequently Anticipated Questions"
           title={
             <>
-              <span className="text-gradient-gold">Answers prepared</span>
-              <br />
-              <span className="text-foreground">in consultation with our </span>
-              <span className="text-foreground italic">legal team.</span>
+              <span className="text-gradient-gold">Answers prepared in consultation with our </span>
+              <span className="text-[hsl(326_65%_65%)]">legal team.</span>
             </>
           }
           titleAccessibleLabel="Answers prepared in consultation with our legal team."

@@ -37,8 +37,9 @@ export const researchPaper = {
     doi: '10.2026/orion.luna.001',
   },
   hero: {
-    titleLead: 'Moon-Aware Transformers',
-    titleRemainder: 'Outperform Baseline Models Under Controlled Cosmic Conditions',
+    titleSegments: [
+      { text: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions' },
+    ],
     imageSrc: '/images/research-moon-aware-transformers.png',
     imageWidth: 1448,
     imageHeight: 1086,

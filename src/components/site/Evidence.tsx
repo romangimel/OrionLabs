@@ -49,9 +49,8 @@ export function Evidence() {
           <div className="mx-auto max-w-2xl text-center">
             <SectionEyebrow>Trust Indicators</SectionEyebrow>
             <h2 aria-label="Measured carefully. Interpreted decisively." className="mt-5 font-serif text-4xl leading-[1.1] md:text-5xl">
-              <span className="text-gradient-gold">Measured carefully.</span>
-              <br />
-              <span className="text-foreground">Interpreted decisively.</span>
+              <span className="text-gradient-gold">Measured carefully. Interpreted </span>
+              <span className="text-[hsl(326_65%_65%)]">decisively.</span>
             </h2>
           </div>
         </Reveal>

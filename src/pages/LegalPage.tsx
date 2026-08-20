@@ -55,8 +55,9 @@ export function LegalPage() {
             <span className="text-muted-foreground/65">Version 1.0</span>
           </div>
           <h1 className="mt-8 font-serif text-[clamp(3rem,7vw,5.7rem)] leading-[0.98] tracking-[-0.025em]">
-            <span className="text-gradient-gold">Structured terms</span>{' '}
-            <span className="text-foreground">for an interpretively complex universe.</span>
+            <span className="text-gradient-gold">Structured terms for an </span>
+            <span className="text-[hsl(326_65%_65%)]">interpretively complex</span>{' '}
+            <span className="text-gradient-gold">universe.</span>
           </h1>
           <p className="mx-auto mt-7 max-w-3xl text-base leading-relaxed text-foreground/82 sm:text-lg md:text-xl">
             These documents explain the conditions governing the OrionLabs experience, the actual handling of questionnaire and report data, the current absence of application cookies, and the limits of conclusions produced under celestial operating conditions.

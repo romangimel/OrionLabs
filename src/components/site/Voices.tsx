@@ -69,11 +69,7 @@ export function Voices() {
         <SectionHeading
           eyebrow="Customer Stories"
           title={
-            <>
-              <span className="text-gradient-gold">Testimonials from customers</span>
-              <br />
-              <span className="text-foreground">who followed the guidance.</span>
-            </>
+            <span className="text-gradient-gold">Testimonials from customers who followed the guidance.</span>
           }
           titleAccessibleLabel="Testimonials from customers who followed the guidance."
           description="Representative accounts from customers who acted on OrionLabs guidance under real-world conditions."

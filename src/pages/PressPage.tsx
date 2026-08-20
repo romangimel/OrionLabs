@@ -69,8 +69,8 @@ export function PressPage() {
               <span className="text-muted-foreground/65">Earth-based operations · 2026</span>
             </div>
             <h1 className="mt-8 max-w-5xl font-serif text-[clamp(3rem,7vw,5.8rem)] leading-[0.96] tracking-[-0.025em]">
-              <span className="text-gradient-gold">Official developments,</span>{' '}
-              <span className="text-foreground">presented under controlled conditions.</span>
+              <span className="text-gradient-gold">Official developments, presented under </span>
+              <span className="text-[hsl(326_65%_65%)]">controlled conditions.</span>
             </h1>
             <p className="mt-7 max-w-3xl text-base leading-relaxed text-foreground/82 sm:text-lg md:text-xl">Company announcements, research disclosures, platform milestones, and approved context from the institution advancing celestial intelligence beyond the limitations of conventional restraint.</p>
           </div>

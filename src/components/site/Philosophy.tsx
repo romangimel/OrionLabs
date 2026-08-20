@@ -40,10 +40,8 @@ export function Philosophy() {
           eyebrow="Product Philosophy"
           title={
             <>
-              <span className="text-gradient-gold">We don't predict the future.</span>
-              <br />
-              We <span className="text-gradient-gold italic">curate</span>{' '}
-              <span className="text-foreground">it.</span>
+              <span className="text-gradient-gold">We don't predict the future. We </span>
+              <span className="text-[hsl(326_65%_65%)]">curate it.</span>
             </>
           }
           titleAccessibleLabel="We don't predict the future. We curate it."

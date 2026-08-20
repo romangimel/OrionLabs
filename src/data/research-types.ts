@@ -27,8 +27,10 @@ export interface ResearchPaperIndexItem {
 }
 
 export interface ResearchPaperHero {
-  titleLead: string;
-  titleRemainder: string;
+  titleSegments: readonly {
+    text: string;
+    emphasis?: 'pink';
+  }[];
   imageSrc: string;
   imageWidth: number;
   imageHeight: number;

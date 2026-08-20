@@ -27,9 +27,8 @@ export function CTA() {
 
         <Reveal delay={0.08}>
           <h2 aria-label="The system has made its case. Now let it make yours." className="mt-7 max-w-3xl font-serif text-4xl leading-[1.08] md:text-6xl lg:text-[4rem]">
-            <span className="text-gradient-gold">The system has made its case.</span>
-            <br />
-            <span className="text-foreground">Now let it make yours.</span>
+            <span className="text-gradient-gold">The system has made its case. Now let it make </span>
+            <span className="text-[hsl(326_65%_65%)]">yours.</span>
           </h2>
         </Reveal>
 

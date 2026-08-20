@@ -79,9 +79,9 @@ export function Hero() {
         </FadeIn>
 
         <FadeIn delay={0.2} duration={1.1}>
-          <h1 aria-label="Personalized Horoscope, Powered by AI" className="mt-8 max-w-2xl font-serif leading-[1.04]" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.2rem)' }}>
-            <span className="text-gradient-gold block">Personalized Horoscope,</span>
-            <span className="text-foreground block">Powered by AI</span>
+          <h1 aria-label="Personalized Horoscope, Powered by AI" className="mt-8 max-w-2xl font-serif leading-[1.04] lg:max-w-[37.5rem]" style={{ fontSize: 'clamp(2.8rem, 6vw, 5.2rem)' }}>
+            <span className="text-gradient-gold">Personalized Horoscope, Powered by </span>
+            <span className="text-[hsl(326_65%_65%)]">AI</span>
           </h1>
         </FadeIn>
 

@@ -29,8 +29,9 @@ export const retrogradePaper = {
     doi: '10.2026/orion.retrograde.001',
   },
   hero: {
-    titleLead: 'Towards a Unified Theory of',
-    titleRemainder: 'Retrograde-Aware Distributed Systems',
+    titleSegments: [
+      { text: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems' },
+    ],
     imageSrc: '/images/research/research-retrograde-aware-hero.png',
     imageWidth: 1448,
     imageHeight: 1086,

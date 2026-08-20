@@ -22,8 +22,10 @@ export const astrovectorPaper = {
     doi: '10.2026/orion.astrovector.001',
   },
   hero: {
-    titleLead: 'AstroVector:',
-    titleRemainder: 'Scaling Zodiac Representation Beyond Twelve Categories',
+    titleSegments: [
+      { text: 'AstroVector: Scaling Zodiac Representation ' },
+      { text: 'Beyond Twelve Categories', emphasis: 'pink' },
+    ],
     imageSrc: '/images/research/research-astrovector-manifold.png',
     imageWidth: 1448,
     imageHeight: 1086,

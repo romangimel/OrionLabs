@@ -47,8 +47,8 @@ export function ReportHeader({ subject, signature }: ReportHeaderProps) {
 
           <FadeIn delay={0.08} duration={1.05}>
             <h1 className="mt-7 max-w-4xl font-serif text-[clamp(2.8rem,6vw,5.2rem)] leading-[0.96] tracking-[-0.025em]">
-              Celestial operating report
-              <span className="mt-2 block text-gradient-gold">for {subject.name}</span>
+              <span className="text-gradient-gold">Celestial operating report for </span>
+              <span className="text-[hsl(326_65%_65%)]">{subject.name}</span>
             </h1>
           </FadeIn>
 
