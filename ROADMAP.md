@@ -140,13 +140,13 @@ Possible report sections:
 
 ### Report Page
 
-- [x] Build the report page UI using typed local report fixtures
+- [x] Build the report page UI using typed report contracts and development fixtures
 - [x] Create reusable report-section components
 - [x] Display personalized questionnaire information
-- [x] Display fixture-based confidence metrics
+- [x] Display validated report confidence metrics
 - [x] Design desktop and mobile report layouts
 - [x] Handle long and short content gracefully
-- [x] Add a temporary action for starting another analysis
+- [x] Add Start Another Analysis while preserving the prior completed report until replacement succeeds
 
 ### Loading Page
 
@@ -159,10 +159,11 @@ Possible report sections:
 
 ### Additional Pages
 
-- [x] Build the fake article page UI
-- [x] Connect the article to the wider OrionLabs fictional research universe
+- [x] Build four route-level fictional research papers
+- [x] Connect the research papers to the wider OrionLabs fictional research universe
 - [x] Build a simple branded 404 page
 - [x] Add a fallback page or state for missing questionnaire data
+- [x] Build the Docs, Press, and Legal institutional pages
 
 ---
 
@@ -174,7 +175,8 @@ Possible report sections:
 - [x] Add the analysis route
 - [x] Connect the questionnaire review stage to the analysis route
 - [x] Add the report route
-- [x] Add the fake article route
+- [x] Add the four research-paper routes
+- [x] Add the Docs, Press, and Legal routes
 - [x] Add the 404 route
 
 ### User Journey
@@ -182,7 +184,7 @@ Possible report sections:
 - [x] Connect the landing-page primary CTA to the questionnaire
 - [x] Connect the analysis screen to the report flow
 - [x] Connect report actions to the correct destinations
-- [x] Connect “Read More” to the fake article
+- [x] Connect the featured research card to its paper route
 - [x] Finish all landing-page buttons and links
 - [x] Add mobile navigation if needed
 - [x] Add a clear way to return to the landing page
@@ -249,9 +251,9 @@ The completed items below are manual behavior checks, not automated regression t
 - [x] Draft and report validators safely reject corrupted stored data
 - [ ] Perform focused browser checks for malformed questionnaire drafts and report records
 - [x] Protected-route recovery: `/analysis` redirects completed active reports directly to `/report`; otherwise `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
-- [x] Refresh the landing, questionnaire, analysis, report, and article routes locally and in deployed Vercel environments
-- [x] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
-- [x] Complete real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
+- [ ] Verify refreshes and direct navigation for all public routes in a live Vercel environment
+- [ ] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
+- [ ] Manually verify a real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
 
 ### Automated Regression Coverage
 
@@ -279,7 +281,7 @@ Do not call the AI provider directly from frontend browser code.
 ### AI Planning
 
 - [x] Choose Google Gemini as the first AI provider
-- [x] Review pricing, rate limits, and response capabilities
+- [ ] Reconfirm current provider pricing, rate limits, and response capabilities before launch
 - [x] Define the structured AI response format from the `OrionReport` runtime schema
 - [x] Create the OrionLabs system prompt
 - [x] Create the reusable report-generation prompt
@@ -294,7 +296,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Validate and normalize the approved generation input on the server
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
-- [x] Configure Vercel Firewall rate limiting at five report-generation requests per 60 seconds per IP address
+- [ ] Configure and externally verify Vercel or equivalent upstream rate limiting for report generation
 - [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
 
@@ -364,7 +366,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Polish generated art only where an asset is genuinely unsatisfactory
 - [x] Write the remaining 3 articles
 - [ ] Redesign the research section to compliment the 4 articles
-- [X] Create 3 more pages - docs, legal and press
+- [x] Create Docs, Legal, and Press pages
 
 ### 6. Route and Browser Presentation Finalization
 
@@ -420,9 +422,9 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Document local development setup
 - [x] Document environment variables without exposing secrets
 - [x] Clearly identify the project as satire
-- [x] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
-- [x] Verify current Preview and Production deployments, including real Gemini report generation
-- [x] Verify deployed routes support SPA fallback and static assets load correctly
+- [ ] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
+- [ ] Verify current Preview and Production deployments, including real Gemini report generation
+- [ ] Verify deployed routes support SPA fallback and static assets load correctly
 - [ ] Confirm Production uses the intended Gemini model and frozen configuration
 - [ ] Re-confirm Production rate-limit and capacity handling
 - [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work

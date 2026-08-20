@@ -19,7 +19,7 @@ Landing Page
 -> Start Another Analysis
 ```
 
-The landing page, four-step questionnaire, review/edit flow, Analysis experience, Report page, research article, 404 page, route guards, and session-based persistence are implemented.
+The landing page, four-step questionnaire, review/edit flow, Analysis experience, Report page, four research-paper routes, Docs, Press, Legal, branded 404 page, route guards, and session-based persistence are implemented. The active pathname routes are `/`, `/questionnaire`, `/analysis`, `/report`, `/research/moon-aware-transformers`, `/research/retrograde-aware-distributed-systems`, `/research/astrovector`, `/research/limits-of-science`, `/docs`, `/press`, and `/legal`; all other paths render the 404 page. `/calibration` and `/articles/...` remain planned route names, not current routes.
 
 The normal completed journey now uses real server-backed AI generation. Local `mockReport` content remains only for component development, tests, and offline UI work; it is never a silent production fallback.
 
@@ -95,9 +95,9 @@ The Vercel Function:
 - Disables the Gemini SDK's larger implicit retry loop
 - Returns safe errors without provider details, stack traces, secrets, or user free text
 
-The Gemini project currently uses the Free tier with billing disabled, and provider quota is an intentional MVP safety boundary. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
+The repository does not establish Gemini billing, quota, retention, or account configuration. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
 
-Vercel Firewall is a separate pre-Function layer configured externally at five `/api/generate-report` requests per 60 seconds per IP address. Its rule is not stored in repository code. A plain firewall HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
+An external layer may return HTTP 429 before the Function runs, but the repository does not establish whether a Vercel Firewall or other rate-limit rule is configured. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
 
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
@@ -143,7 +143,7 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 - Real-key local provider smoke test and Vercel preview verification
 - Prompt evaluation across varied fixtures and final prompt tuning
-- Durable usage accounting beyond the Free-tier provider boundary and external Vercel Firewall
+- Durable usage accounting and externally verified rate limiting
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
 - Stable shareable URLs and downloadable reports

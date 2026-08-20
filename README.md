@@ -33,12 +33,19 @@ Supabase and several supporting UI packages remain installed for future developm
 /questionnaire     Four questionnaire steps -> review
 /analysis          Server-backed report generation or missing-profile recovery
 /report            Validated generated report restored from session storage
+/research/moon-aware-transformers  Featured research paper
+/research/retrograde-aware-distributed-systems  Research paper
+/research/astrovector  Research paper
+/research/limits-of-science  Research paper
+/docs, /press, /legal  Institutional supporting pages
 /api/generate-report  Server-side Vercel Function (POST only)
 ```
 
+All other pathnames resolve to the branded 404 page. `/analysis` and the `/research/...` paths above are the implemented routes; the planned `/calibration` and `/articles/...` names in `ROADMAP.md` are not active routes.
+
 Questionnaire progress is saved as a temporary `sessionStorage` draft. After review confirmation, `/analysis` maps that draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the function or Gemini. The function reads `GEMINI_API_KEY` only on the server.
 
-Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Zodiac, focus, and behavior are stored as application-controlled Subject Signature metadata beside the unchanged AI-facing `OrionReport`; Report never infers behavior from Gemini prose. Invalid or superseded records return the visitor to a fresh questionnaire without displaying mock or partial content.
+Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Zodiac, focus, and behavior are stored as application-controlled Subject Signature metadata beside the unchanged AI-facing `OrionReport`; Report never infers behavior from Gemini prose. Starting another analysis clears only the questionnaire draft, so the prior completed report stays active until a validated replacement is persisted. An invalid active record redirects to the questionnaire without displaying mock or partial content.
 
 `vercel.json` provides the SPA fallback needed by the pathname-based routes. Its fallback explicitly excludes `/api/*` and Vite development-resource namespaces so `npx vercel dev` can serve both the frontend development modules and the physical `/api/generate-report` function.
 
@@ -93,11 +100,13 @@ npm run build
 npm run preview
 ```
 
+Vitest provides focused coverage for questionnaire validation and storage, route recovery, Analysis timing, generation input and schema validation, retries and capacity handling, request de-duplication, report persistence, Subject Signature derivation, landing navigation, research routes, and institutional pages. The tests use fixtures and mocked or injected provider behavior; they do not make real Gemini requests.
+
 ## Vercel configuration
 
 In the Vercel project dashboard, add `GEMINI_API_KEY` under Settings -> Environment Variables for the environments that should generate reports (Development, Preview, and Production as appropriate), then redeploy. Keep the value marked sensitive and do not prefix it with `VITE_`.
 
-The current Gemini project uses the Free tier with billing disabled, making provider quota an intentional MVP safety boundary. Separately, Vercel Firewall limits `/api/generate-report` to five requests per 60 seconds per IP address. The firewall rule is external Vercel infrastructure and is not represented in this repository.
+The repository cannot establish Gemini billing, quota, retention, logging, or account settings. It also cannot establish whether an external Vercel Firewall or rate-limit rule is configured. The application handles a plain upstream HTTP 429 conservatively as temporary analysis capacity, whether it came from OrionLabs or an upstream layer.
 
 Server-side TypeScript is executed as Node ESM. Every local runtime import reachable from an `api/` Function therefore uses a relative path with a `.js` extension, which TypeScript maps back to the corresponding `.ts` source file. Do not use the frontend `@/` alias in that runtime graph: Vercel Functions do not rewrite TypeScript path mappings in deployed imports.
 
@@ -107,6 +116,6 @@ The server accepts only the strict `ReportGenerationInput` shape, limits request
 
 The Gemini SDK's implicit retry loop is disabled. OrionLabs performs one initial request and at most one retry for transient provider failures or malformed output. Browser errors never include provider internals, stack traces, API keys, or questionnaire free text.
 
-Gemini resource-exhaustion responses use HTTP 429 with the safe machine code `ANALYSIS_CAPACITY_EXHAUSTED` and do not spend the immediate second provider attempt. Because the SDK exposes the HTTP status but not stable structured quota dimensions, OrionLabs does not claim whether the boundary is per-minute, token-based, daily, or another capacity condition. The Analysis page asks the visitor to return later, preserves the questionnaire draft, and suppresses its normal immediate Retry action. A plain HTTP 429 returned by Vercel Firewall before the Function runs is handled by the browser as the same conservative capacity state without requiring OrionLabs JSON.
+Gemini resource-exhaustion responses use HTTP 429 with the safe machine code `ANALYSIS_CAPACITY_EXHAUSTED` and do not spend the immediate second provider attempt. Because the SDK exposes the HTTP status but not stable structured quota dimensions, OrionLabs does not claim whether the boundary is per-minute, token-based, daily, or another capacity condition. The Analysis page asks the visitor to return later, preserves the questionnaire draft, and suppresses its normal immediate Retry action. The browser also handles a plain HTTP 429 from an upstream layer as the same conservative capacity state without requiring OrionLabs JSON.
 
 Questionnaire drafts and completed reports still live only in the current tab's `sessionStorage`. Approved generation fields are transmitted to the Vercel Function and Gemini to create the report; raw birth date and reference preference are not transmitted. OrionLabs currently has no server-side report history or deletion system because it does not persist completed reports on the server.

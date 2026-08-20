@@ -155,7 +155,7 @@ Maximum width `max-w-3xl`, stacked with 12px gaps. Each entry is a rounded-xl, t
 
 ### Trust bar and footer
 
-Trust bar is a quiet bordered band: compact uppercase gold statement above a wrap-capable centered row of serif gold-gradient names. Footer uses the same container, a brand block plus four link columns, then a thin-rule bottom bar. Treat footer as atmospheric, sparse, and quiet—not as a dense utility area.
+Trust bar is a quiet bordered band: compact uppercase gold statement above a wrap-capable centered row of the approved institution wordmark assets, rendered as static gold-gradient masks. Footer uses the same container, a brand block plus four link columns, then a thin-rule bottom bar. Treat footer as atmospheric, sparse, and quiet—not as a dense utility area.
 
 ### Background primitives
 

@@ -588,9 +588,9 @@ These ranges guide mock data and future AI prompts. They are writing targets rat
 
 AI-generated reports are validated before they leave the server and again before the browser stores them. Required sections must never silently disappear, and malformed or incomplete output must not be displayed as a partially broken report. OrionLabs makes one initial Gemini request and at most one retry for transient provider failures or malformed structured output. If generation still fails, the Analysis page shows an explicit retry action while preserving the questionnaire draft.
 
-The Gemini project currently uses the Free tier with billing disabled. Provider quota is an intentional MVP safety boundary: Gemini `429` resource-exhaustion responses bypass the immediate second attempt and become a safe `ANALYSIS_CAPACITY_EXHAUSTED` response. The installed SDK does not expose stable structured quota dimensions, so the product intentionally does not claim whether a limit is per-minute, token-based, daily, or another provider-capacity condition. The Analysis page presents one conservative try-later state and preserves the questionnaire draft.
+Provider quota and billing configuration are external account facts that cannot be verified from this repository. Gemini `429` resource-exhaustion responses bypass the immediate second attempt and become a safe `ANALYSIS_CAPACITY_EXHAUSTED` response. The installed SDK does not expose stable structured quota dimensions, so the product intentionally does not claim whether a limit is per-minute, token-based, daily, or another provider-capacity condition. The Analysis page presents one conservative try-later state and preserves the questionnaire draft.
 
-Vercel Firewall separately limits `/api/generate-report` to five requests per 60 seconds per IP address. That rule runs before the Function, is configured in Vercel rather than repository code, and may return a non-OrionLabs HTTP 429 response. The browser handles that response as the same broad temporary-capacity state without conflating the two enforcement layers.
+An external upstream layer may return a non-OrionLabs HTTP 429 before the Function runs; this repository does not establish whether such a layer or rule is configured. The browser handles a plain HTTP 429 as the same broad temporary-capacity state without assuming its source.
 
 Never render `undefined`, empty required cards, raw malformed data, or placeholder strings presented as real analysis. Application-controlled subject identity, focus area, report IDs, timestamps, and other operational metadata remain protected from silent model replacement. Fine-grained repair of individual malformed sections may be considered later, but is not required for version 1.
 
@@ -601,6 +601,16 @@ The first real generation path uses the official `@google/genai` SDK with the st
 `GEMINI_API_KEY` is server-only. It must never use a `VITE_` prefix or appear in frontend code. The approved provider payload contains name, zodiac sign, application-calculated age, focus area, behavioral statement, and bounded optional context. Raw birth date and reference preference remain in questionnaire state and are intentionally excluded.
 
 The prompt currently uses a deliberately roast-heavy calibration (approximately 80% savage and 20% uncomfortably accurate at roughly 9/10 intensity) inside the broader report composition rules above. This is a starting calibration, not a final prompt. Prompt evaluation and tuning remain active work.
+
+---
+
+# Current Application Scope
+
+The implemented product is a pathname-routed React application with a landing page, four-step questionnaire and review state, guarded `/analysis` and `/report` routes, four research-paper routes, Docs, Press, Legal, and a branded 404 page. The active route names remain `/analysis` and `/research/...`; the planned `/calibration` and `/articles/...` names are not yet implemented.
+
+The normal report journey uses a browser-to-Vercel-Function boundary rather than a direct browser-to-provider call. It validates both the approved generation input and the complete `OrionReport` response. Questionnaire drafts and immutable completed reports are browser-tab `sessionStorage` records, not a database or account history. The deterministic Subject Signature remains application-controlled and persists only zodiac, focus, and behavior beside the report; it does not derive its state from generated prose.
+
+The repository proves this architecture, but not live deployment status, external provider account settings, external rate limits, retention/logging, or production monitoring. Treat those as separate deployment and operational verification work.
 
 ---
 

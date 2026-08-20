@@ -479,9 +479,9 @@
 - Press → `/press`
 - Documentation → `/docs`
 - Natal Chart API → `/docs#natal-chart-api`
-- Model Architecture → `/docs#architecture`
+- Model Architecture → `/docs#model-architecture`
 - Changelog → `/docs#changelog`
-- Terms of Alignment → `/legal#terms`
+- Terms of Alignment → `/legal#terms-of-alignment`
 - Privacy (Cosmic) → `/legal#privacy`
 - Cookie Policy (Lunar) → `/legal#cookies`
 - Compliance & Superstition → `/legal#compliance`

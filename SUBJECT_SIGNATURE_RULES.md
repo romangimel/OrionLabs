@@ -357,7 +357,7 @@ Requirements:
 #### Progressive questionnaire behavior
 
 Before zodiac is selected:
-- show a neutral/dormant state
+- reserve the compact slot without rendering a default geometry or placeholder SVG
 - do not silently substitute a default sign
 
 After zodiac:
