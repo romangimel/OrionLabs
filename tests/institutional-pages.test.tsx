@@ -135,7 +135,6 @@ describe('footer navigation and entry-point invariants', () => {
       'src/components/research/ReferencesSection.tsx',
       'src/components/institutional/InstitutionalHeader.tsx',
       'src/pages/ReportPage.tsx',
-      'src/pages/NotFoundPage.tsx',
     ];
 
     for (const path of entryPointFiles) {

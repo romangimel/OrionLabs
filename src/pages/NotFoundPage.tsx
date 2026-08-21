@@ -2,7 +2,6 @@ import { ArrowRight } from 'lucide-react';
 import { Aurora } from '@/components/site/Aurora';
 import { Logo } from '@/components/site/Logo';
 import { Starfield } from '@/components/site/Starfield';
-import { prepareNewAnalysisJourney } from '@/lib/analysis-session';
 
 /** Branded recovery route for URLs that do not match an OrionLabs destination. */
 export function NotFoundPage() {
@@ -36,42 +35,35 @@ export function NotFoundPage() {
           </p>
           <h1
             id="not-found-title"
-            className="mt-4 font-serif text-[clamp(2.65rem,6vw,4.75rem)] leading-[1.02] text-foreground"
+            className="mt-4 font-serif text-[clamp(2.65rem,6vw,4.75rem)] leading-[1.02] text-gradient-gold"
           >
-            This Page Is Outside Our <span className="text-gradient-gold">Predictive Range</span>
+            This Page Is Outside Our Predictive Range
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base md:mx-0 md:mt-6 md:text-lg">
-            Our celestial routing model was unable to locate the requested destination. The page may have been moved, removed, or temporarily obscured by unfavorable planetary conditions.
+            Our celestial routing model was unable to locate the requested destination. The page may have been moved, removed, or temporarily excluded from observable reality by unfavorable planetary conditions.
           </p>
 
-          <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row md:justify-start">
+          <div className="mt-7 flex justify-center md:justify-start">
             <a
               href="/"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform duration-300 hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] motion-reduce:transform-none"
+              className="group inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.38)] px-7 text-sm font-medium text-foreground backdrop-blur-sm transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.55)] hover:bg-[hsl(280_45%_14%_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)]"
             >
               Return to OrionLabs
               <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transform-none" />
             </a>
-            <a
-              href="/questionnaire"
-              onClick={prepareNewAnalysisJourney}
-              className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(262_45%_7%_/_0.38)] px-7 text-sm font-medium text-foreground backdrop-blur-sm transition-colors duration-300 hover:border-[hsl(43_60%_70%_/_0.55)] hover:bg-[hsl(280_45%_14%_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)]"
-            >
-              Start an Analysis
-            </a>
           </div>
         </section>
 
-        <div aria-hidden="true" className="relative mx-auto aspect-square w-full max-w-[14rem] sm:max-w-[19rem] md:max-w-[22rem]">
-          <div className="absolute inset-[8%] rounded-full border border-[hsl(43_60%_70%_/_0.12)]" />
-          <div className="absolute inset-[21%] rounded-full border border-dashed border-[hsl(326_55%_68%_/_0.2)]" />
-          <div className="absolute inset-[34%] rounded-full border border-[hsl(43_60%_70%_/_0.16)]" />
-          <div className="absolute left-1/2 top-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[hsl(43_74%_66%)] shadow-[0_0_24px_hsl(43_74%_66%_/_0.6)]" />
-          <div className="absolute right-[3%] top-[27%] h-3 w-3 rounded-full border border-[hsl(326_55%_72%_/_0.55)] bg-[hsl(262_48%_6%)] shadow-[0_0_20px_hsl(326_70%_58%_/_0.34)]" />
-          <div className="absolute right-[14%] top-[35%] h-px w-[18%] rotate-[-24deg] bg-gradient-to-r from-[hsl(326_55%_68%_/_0.45)] to-transparent" />
-          <span className="absolute bottom-[13%] left-1/2 -translate-x-1/2 whitespace-nowrap text-[0.58rem] font-medium uppercase tracking-[0.22em] text-muted-foreground/45">
-            Destination signal unavailable
-          </span>
+        <div aria-hidden="true" className="mx-auto w-full max-w-[17rem] sm:max-w-[21rem] md:max-w-[23rem] lg:max-w-[27rem]">
+          <div className="rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.16)] bg-[linear-gradient(145deg,hsl(280_52%_16%_/_0.58),hsl(262_50%_6%_/_0.72))] p-1.5 shadow-[0_24px_70px_-32px_hsl(315_78%_58%_/_0.65)] sm:p-2">
+            <img
+              src="/images/orionlabs-404.png"
+              alt=""
+              width="1254"
+              height="1254"
+              className="aspect-square w-full rounded-[1.35rem] object-contain"
+            />
+          </div>
         </div>
       </main>
     </div>

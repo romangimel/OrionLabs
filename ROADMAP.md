@@ -362,7 +362,7 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 5. Visual Consistency and Remaining Product Polish
 
-- [ ] Redesign the 404 page
+- [x] Redesign the 404 page
 - [x] Polish generated art only where an asset is genuinely unsatisfactory
 - [x] Write the remaining 3 articles
 - [ ] Redesign the research section to compliment the 4 articles
@@ -370,7 +370,7 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 6. Route and Browser Presentation Finalization
 
-- [ ] Rename final routes: `/analysis` to `/calibration` and `/research/moon-aware-transformers` to `/articles/moon-aware-transformers`
+- [ ] Rename final routes: `/analysis` to `/calibration`
 - [ ] Update internal links and navigation for the renamed routes
 - [ ] Verify direct navigation and refresh behavior after the route rename
 - [ ] Ensure old and invalid routes redirect intentionally or fail gracefully
