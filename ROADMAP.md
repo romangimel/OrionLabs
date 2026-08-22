@@ -348,13 +348,13 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 3. AI Output and Gemini Prompt Polish
 
-- [ ] Audit the current Gemini prompt and instructions against the final OrionLabs humor standard
-- [ ] Improve grounding so reports use questionnaire-specific details without inventing personal facts
-- [ ] Tune roast intensity, fake-science language, metrics, forecast, recommendation, and closing verdict
-- [ ] Evaluate a small representative test set across zodiac, focus, and behavior combinations without wasting the limited Gemini Free-tier quota
-- [ ] Compare representative outputs with approved OrionLabs humor examples and confirm consistency
-- [ ] Confirm structured-output reliability remains intact and prompt changes do not expand the approved personal-data boundary
-- [ ] Freeze the production Gemini prompt and configuration after final calibration
+- [x] Audit the current Gemini prompt and instructions against the final OrionLabs humor standard
+- [x] Calibrate controlled inference so reports stay questionnaire-specific without requiring literal zero inference
+- [x] Tune roast intensity, fake-science language, metrics, forecast, recommendation, and closing verdict
+- [x] Evaluate a small representative test set across zodiac, focus, and behavior combinations
+- [x] Compare representative outputs with approved OrionLabs humor examples and confirm consistency
+- [x] Confirm structured-output reliability remains intact and prompt changes do not expand the approved personal-data boundary
+- [x] Freeze the Gemini 3.6 Flash, Medium-thinking production prompts and 35-second configuration
 
 ### 4. Article Rewrite and Shortening
 

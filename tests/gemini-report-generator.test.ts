@@ -1,10 +1,26 @@
-import { ApiError } from '@google/genai';
-import { describe, expect, it, vi } from 'vitest';
+import { ApiError, GoogleGenAI } from '@google/genai';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   GeminiCapacityExhaustedError,
+  generateGeminiReport,
   generateReportWithRetry,
 } from '../server/gemini-report-generator';
 import { createValidReport, validGenerationInput } from './fixtures';
+
+const { interactionsCreate } = vi.hoisted(() => ({
+  interactionsCreate: vi.fn(),
+}));
+
+vi.mock('@google/genai', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@google/genai')>();
+
+  return {
+    ...actual,
+    GoogleGenAI: vi.fn(function GoogleGenAIMock() {
+      return { interactions: { create: interactionsCreate } };
+    }),
+  };
+});
 
 function createInteractionsProviderError(status: number, name: string) {
   return Object.assign(new Error('Private provider detail'), {
@@ -13,6 +29,16 @@ function createInteractionsProviderError(status: number, name: string) {
     statusCode: status,
   });
 }
+
+beforeEach(() => {
+  interactionsCreate.mockReset();
+  vi.mocked(GoogleGenAI).mockClear();
+  vi.stubEnv('GEMINI_API_KEY', 'test-api-key');
+});
+
+afterEach(() => {
+  vi.unstubAllEnvs();
+});
 
 describe('Gemini retry policy', () => {
   it('retries malformed output once and then accepts a valid report', async () => {
@@ -70,5 +96,69 @@ describe('Gemini retry policy', () => {
       generateReportWithRetry(validGenerationInput, generateCandidate),
     ).resolves.toEqual(createValidReport());
     expect(generateCandidate).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe('Gemini Interactions retry boundary', () => {
+  const successfulInteraction = () => ({
+    output_text: JSON.stringify(createValidReport()),
+  });
+
+  it('makes one provider call for a successful application attempt', async () => {
+    interactionsCreate.mockResolvedValueOnce(successfulInteraction());
+
+    await expect(generateGeminiReport(validGenerationInput)).resolves.toEqual(
+      createValidReport(),
+    );
+
+    expect(GoogleGenAI).toHaveBeenCalledWith({ apiKey: 'test-api-key' });
+    expect(interactionsCreate).toHaveBeenCalledTimes(1);
+    expect(interactionsCreate.mock.calls[0]?.[0]).toEqual(
+      expect.objectContaining({
+        model: 'gemini-3.6-flash',
+        generation_config: { thinking_level: 'medium' },
+      }),
+    );
+    expect(interactionsCreate.mock.calls[0]?.[1]).toEqual({
+      timeout: 35_000,
+      maxRetries: 0,
+    });
+  });
+
+  it('surfaces capacity after one provider call', async () => {
+    interactionsCreate.mockRejectedValueOnce(
+      createInteractionsProviderError(429, 'RateLimitError'),
+    );
+
+    await expect(generateGeminiReport(validGenerationInput)).rejects.toBeInstanceOf(
+      GeminiCapacityExhaustedError,
+    );
+    expect(interactionsCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses one provider call for each intentional transient attempt', async () => {
+    interactionsCreate
+      .mockRejectedValueOnce(createInteractionsProviderError(503, 'InternalServerError'))
+      .mockResolvedValueOnce(successfulInteraction());
+
+    await expect(generateGeminiReport(validGenerationInput)).resolves.toEqual(
+      createValidReport(),
+    );
+    expect(interactionsCreate).toHaveBeenCalledTimes(2);
+    expect(interactionsCreate.mock.calls.map((call) => call[1])).toEqual([
+      { timeout: 35_000, maxRetries: 0 },
+      { timeout: 35_000, maxRetries: 0 },
+    ]);
+  });
+
+  it('uses one provider call for each intentional malformed-output attempt', async () => {
+    interactionsCreate
+      .mockResolvedValueOnce({ output_text: JSON.stringify({ incomplete: true }) })
+      .mockResolvedValueOnce(successfulInteraction());
+
+    await expect(generateGeminiReport(validGenerationInput)).resolves.toEqual(
+      createValidReport(),
+    );
+    expect(interactionsCreate).toHaveBeenCalledTimes(2);
   });
 });

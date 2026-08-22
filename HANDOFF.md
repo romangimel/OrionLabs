@@ -62,8 +62,8 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 
 - `api/generate-report.ts` is the single `POST /api/generate-report` Vercel Function.
 - `server/gemini-report-generator.ts` uses the official `@google/genai` SDK and stable `gemini-3.6-flash` model.
-- `server/prompts/orionlabs-system-prompt.ts` owns stable voice, evidence, reference-calibration, and safety policy.
-- `server/prompts/report-generation-prompt.ts` owns reusable report instructions and appends approved runtime data separately.
+- `server/prompts/orionlabs-system-prompt.ts` owns the frozen controlled-inference, voice, and safety policy.
+- `server/prompts/report-generation-prompt.ts` owns the frozen report instructions and appends approved runtime data separately.
 - `src/lib/report-schemas.ts` defines strict Zod input/output validation and supplies Gemini's JSON schema through `zod-to-json-schema`.
 - `src/lib/report-generation-client.ts` calls only OrionLabs' Vercel endpoint, validates the response again, and shares duplicate in-flight requests during React Strict Mode.
 - `src/pages/AnalysisPage.tsx` coordinates the real request, minimum presentation duration, retry state, persistence, and automatic navigation.
@@ -74,11 +74,11 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 
 The technical report contract is `OrionReport` in `src/data/report.ts`. Every successful report requires subject, summary, personality analysis with three traits, current-life analysis and forecast, three strengths, three risks, recommended action, exactly three 0-100 integer metrics, and closing verdict.
 
-The current prompt calibration is intentionally roast-heavy: approximately 80% hilariously savage and 20% disturbingly accurate at roughly 9/10 intensity. It must preserve analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable, occasionally screenshot-worthy closing verdict.
+The production system and report prompts are frozen after final controlled-inference calibration. They target 9/10 roast intensity while preserving analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable closing verdict. Gemini 3.6 Flash runs with Medium thinking and a 35-second provider timeout.
 
-The model may exaggerate interpretations, implications, metaphors, fake science, celestial framing, and fictional measurements. It may not invent underlying evidence such as durations, quantities, events, histories, motives, or outcomes that the user did not provide.
+The model may aggressively exaggerate interpretations, inferred behavioral tendencies, metaphors, fake science, celestial framing, and fictional measurements. It must not invent unsupported consequential biography, concrete events, or real-world outcomes. Occasional low-stakes overreach is an accepted limitation of the single-pass architecture; OrionLabs does not use a verifier or repair model.
 
-Do not roast protected characteristics, medical or mental-health information, trauma, addiction, appearance, or deeply sensitive subjects. Prompt tuning remains active and is not final.
+Do not roast protected characteristics, medical or mental-health information, trauma, addiction, appearance, or deeply sensitive subjects. Gemini-facing prompt changes require explicit product-owner approval, deliberate recalibration, and an intentional prompt-lock test update.
 
 ## Validation and retry policy
 
@@ -92,7 +92,8 @@ The Vercel Function:
 - Rejects missing sections, malformed insights, wrong array counts, invalid metrics, or altered application-controlled identity/focus data
 - Makes one initial provider request and at most one retry for transient errors or malformed output
 - Converts Gemini HTTP 429 resource exhaustion into `ANALYSIS_CAPACITY_EXHAUSTED` without spending the immediate second attempt
-- Disables the Gemini SDK's larger implicit retry loop
+- Uses a 35-second provider timeout and explicitly sets Medium thinking
+- Disables Gemini SDK transport retries with `maxRetries: 0`
 - Returns safe errors without provider details, stack traces, secrets, or user free text
 
 The repository does not establish Gemini billing, quota, retention, or account configuration. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
@@ -142,7 +143,6 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 ## Still deferred
 
 - Real-key local provider smoke test and Vercel preview verification
-- Prompt evaluation across varied fixtures and final prompt tuning
 - Durable usage accounting and externally verified rate limiting
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
@@ -156,5 +156,4 @@ These are not production-ready and should not be described as complete.
 1. Exercise a real Gemini request through `npx vercel dev` with a development key.
 2. Verify success, provider failure, timeout, retry, refresh, and route recovery in a browser.
 3. Deploy a Vercel preview and confirm SPA paths plus `/api/generate-report` behavior.
-4. Evaluate report quality across varied questionnaire fixtures and tune prompts.
-5. Add rate limiting and durable cost protection before public launch.
+4. Add rate limiting and durable cost protection before public launch.

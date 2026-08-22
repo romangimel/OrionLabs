@@ -90,6 +90,33 @@
   }
 }
 
+/* The research rail moves by one card only at the three-card desktop layout. */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .research-selector-track > button {
+    flex-basis: 48%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .research-selector-track {
+    transition: transform 240ms ease-out;
+  }
+
+  .research-selector-track > button {
+    flex-basis: calc((100% - 2rem) / 3);
+  }
+
+  .research-selector-track[data-rail-start='1'] {
+    transform: translateX(calc(-1 * ((100% - 2rem) / 3 + 1rem)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .research-selector-track {
+    transition-duration: 0ms;
+  }
+}
+
 @layer components {
   .font-serif {
     font-family: 'Cormorant Garamond', Georgia, serif;

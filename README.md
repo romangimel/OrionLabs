@@ -10,7 +10,7 @@ The landing page, four-step questionnaire, real AI-backed Analysis flow, and per
 
 The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. Independently, it constructs the deterministic Orion Subject Signature over approximately 16 seconds. It waits for both the request and that minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
 
-The Subject Signature now includes all 12 deterministic zodiac geometries, with hand-tuned focus roles and edge-valid behavior subnetworks. Prompt tuning, server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
+The Subject Signature now includes all 12 deterministic zodiac geometries, with hand-tuned focus roles and edge-valid behavior subnetworks. The production report prompts are frozen after controlled-inference calibration; server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
 
 ## Technology
 
@@ -112,7 +112,9 @@ Server-side TypeScript is executed as Node ESM. Every local runtime import reach
 
 ## Validation, retries, and privacy
 
-The server accepts only the strict `ReportGenerationInput` shape, limits request size, bounds optional context to 1,000 characters, and rejects unexpected fields. Gemini receives stable system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
+The server accepts only the strict `ReportGenerationInput` shape, limits request size, bounds optional context to 1,000 characters, and rejects unexpected fields. Gemini 3.6 Flash uses Medium thinking and a 35-second provider timeout. It receives frozen system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
+
+The frozen prompt permits aggressive satire and strongly connected behavioral inference while prohibiting unsupported consequential biography. OrionLabs uses one structured generation pass with no verifier or repair model. Changing Gemini-facing prompt wording requires deliberate recalibration and an intentional update to the prompt-lock test.
 
 The Gemini SDK's implicit retry loop is disabled. OrionLabs performs one initial request and at most one retry for transient provider failures or malformed output. Browser errors never include provider internals, stack traces, API keys, or questionnaire free text.
 

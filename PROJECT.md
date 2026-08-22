@@ -600,7 +600,7 @@ The first real generation path uses the official `@google/genai` SDK with the st
 
 `GEMINI_API_KEY` is server-only. It must never use a `VITE_` prefix or appear in frontend code. The approved provider payload contains name, zodiac sign, application-calculated age, focus area, behavioral statement, and bounded optional context. Raw birth date and reference preference remain in questionnaire state and are intentionally excluded.
 
-The prompt currently uses a deliberately roast-heavy calibration (approximately 80% savage and 20% uncomfortably accurate at roughly 9/10 intensity) inside the broader report composition rules above. This is a starting calibration, not a final prompt. Prompt evaluation and tuning remain active work.
+The production prompts are frozen after final controlled-inference calibration. Gemini 3.6 Flash runs with Medium thinking and a 35-second provider timeout. The prompt permits aggressive satire and strongly connected behavioral inference while prohibiting unsupported consequential biography. OrionLabs uses one structured generation pass with no verifier or repair model; changing Gemini-facing wording requires explicit recalibration and an intentional prompt-lock test update.
 
 ---
 

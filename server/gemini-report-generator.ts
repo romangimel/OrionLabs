@@ -13,6 +13,11 @@ import { buildReportGenerationPrompt } from './prompts/report-generation-prompt.
 
 export const GEMINI_REPORT_MODEL = 'gemini-3.6-flash';
 const MAX_GENERATION_ATTEMPTS = 2;
+const GEMINI_PROVIDER_TIMEOUT_MS = 35_000;
+const GEMINI_INTERACTIONS_REQUEST_OPTIONS = {
+  timeout: GEMINI_PROVIDER_TIMEOUT_MS,
+  maxRetries: 0,
+} as const;
 const RETRYABLE_STATUS_CODES = new Set([408, 429, 500, 502, 503, 504]);
 
 type GenerateCandidate = (input: ReportGenerationInput) => Promise<unknown>;
@@ -83,15 +88,7 @@ export async function generateReportWithRetry(
 }
 
 function createGeminiCandidateGenerator(apiKey: string): GenerateCandidate {
-  // The SDK defaults to five HTTP attempts. Disable those implicit retries so
-  // OrionLabs' explicit policy remains one initial request plus one retry.
-  const ai = new GoogleGenAI({
-    apiKey,
-    httpOptions: {
-      timeout: 30_000,
-      retryOptions: { attempts: 1 },
-    },
-  });
+  const ai = new GoogleGenAI({ apiKey });
   const responseSchema = zodToJsonSchema(orionReportSchema, {
     $refStrategy: 'none',
   });
@@ -99,16 +96,23 @@ function createGeminiCandidateGenerator(apiKey: string): GenerateCandidate {
   delete responseSchema.$schema;
 
   return async (input) => {
-    const interaction = await ai.interactions.create({
-      model: GEMINI_REPORT_MODEL,
-      system_instruction: ORIONLABS_SYSTEM_PROMPT,
-      input: buildReportGenerationPrompt(input),
-      response_format: {
-        type: 'text',
-        mime_type: 'application/json',
-        schema: responseSchema,
+    const interaction = await ai.interactions.create(
+      {
+        model: GEMINI_REPORT_MODEL,
+        generation_config: { thinking_level: 'medium' },
+        system_instruction: ORIONLABS_SYSTEM_PROMPT,
+        input: buildReportGenerationPrompt(input),
+        response_format: {
+          type: 'text',
+          mime_type: 'application/json',
+          schema: responseSchema,
+        },
       },
-    });
+      // Interactions uses a separate generated client, so the parent
+      // `httpOptions.retryOptions` setting does not control this request.
+      // OrionLabs owns retries and needs every outer attempt to issue one call.
+      GEMINI_INTERACTIONS_REQUEST_OPTIONS,
+    );
 
     if (!interaction.output_text) {
       throw new SyntaxError('Gemini returned no structured report text.');
