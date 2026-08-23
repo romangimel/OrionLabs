@@ -30,6 +30,12 @@ function createInteractionsProviderError(status: number, name: string) {
   });
 }
 
+function createConnectionTimeoutError() {
+  return Object.assign(new Error('Private provider detail'), {
+    name: 'APIConnectionTimeoutError',
+  });
+}
+
 beforeEach(() => {
   interactionsCreate.mockReset();
   vi.mocked(GoogleGenAI).mockClear();
@@ -97,6 +103,28 @@ describe('Gemini retry policy', () => {
     ).resolves.toEqual(createValidReport());
     expect(generateCandidate).toHaveBeenCalledTimes(2);
   });
+
+  it('does not retry an SDK connection timeout', async () => {
+    const generateCandidate = vi.fn().mockRejectedValue(createConnectionTimeoutError());
+    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(50_000);
+
+    await expect(
+      generateReportWithRetry(validGenerationInput, generateCandidate, getCurrentTime),
+    ).rejects.toMatchObject({ name: 'APIConnectionTimeoutError' });
+    expect(generateCandidate).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not retry a late transient failure when another full provider attempt cannot fit', async () => {
+    const generateCandidate = vi.fn().mockRejectedValue(
+      createInteractionsProviderError(503, 'InternalServerError'),
+    );
+    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(50_000);
+
+    await expect(
+      generateReportWithRetry(validGenerationInput, generateCandidate, getCurrentTime),
+    ).rejects.toMatchObject({ status: 503 });
+    expect(generateCandidate).toHaveBeenCalledTimes(1);
+  });
 });
 
 describe('Gemini Interactions retry boundary', () => {
@@ -120,7 +148,7 @@ describe('Gemini Interactions retry boundary', () => {
       }),
     );
     expect(interactionsCreate.mock.calls[0]?.[1]).toEqual({
-      timeout: 35_000,
+      timeout: 50_000,
       maxRetries: 0,
     });
   });
@@ -146,8 +174,8 @@ describe('Gemini Interactions retry boundary', () => {
     );
     expect(interactionsCreate).toHaveBeenCalledTimes(2);
     expect(interactionsCreate.mock.calls.map((call) => call[1])).toEqual([
-      { timeout: 35_000, maxRetries: 0 },
-      { timeout: 35_000, maxRetries: 0 },
+      { timeout: 50_000, maxRetries: 0 },
+      { timeout: 50_000, maxRetries: 0 },
     ]);
   });
 

@@ -13,7 +13,11 @@ import { buildReportGenerationPrompt } from './prompts/report-generation-prompt.
 
 export const GEMINI_REPORT_MODEL = 'gemini-3.6-flash';
 const MAX_GENERATION_ATTEMPTS = 2;
-const GEMINI_PROVIDER_TIMEOUT_MS = 35_000;
+const GEMINI_PROVIDER_TIMEOUT_MS = 50_000;
+// Vercel permits 60 seconds. Leave five seconds for parsing, validation,
+// persistence, and response completion; only retry when another full provider
+// attempt can still fit in that remaining execution budget.
+const GENERATION_RETRY_DEADLINE_MS = 55_000;
 const GEMINI_INTERACTIONS_REQUEST_OPTIONS = {
   timeout: GEMINI_PROVIDER_TIMEOUT_MS,
   maxRetries: 0,
@@ -62,8 +66,10 @@ function isRetryableGenerationError(error: unknown) {
 export async function generateReportWithRetry(
   input: ReportGenerationInput,
   generateCandidate: GenerateCandidate,
+  getCurrentTime = Date.now,
 ): Promise<OrionReport> {
   let lastError: unknown;
+  const generationStartedAt = getCurrentTime();
 
   for (let attempt = 1; attempt <= MAX_GENERATION_ATTEMPTS; attempt += 1) {
     try {
@@ -78,7 +84,14 @@ export async function generateReportWithRetry(
           'Gemini report-generation capacity is exhausted.',
         );
       }
-      if (attempt === MAX_GENERATION_ATTEMPTS || !isRetryableGenerationError(error)) {
+      const canFitAnotherProviderAttempt =
+        getCurrentTime() - generationStartedAt + GEMINI_PROVIDER_TIMEOUT_MS <=
+        GENERATION_RETRY_DEADLINE_MS;
+      if (
+        attempt === MAX_GENERATION_ATTEMPTS ||
+        !isRetryableGenerationError(error) ||
+        !canFitAnotherProviderAttempt
+      ) {
         throw error;
       }
     }
