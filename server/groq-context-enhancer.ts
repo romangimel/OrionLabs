@@ -34,23 +34,24 @@ ${COMMON_PROMPT}
 `.trim();
 
 function buildGroqRequestBody(input: ContextEnhancementInput) {
-  const mode = input.additionalContext.trim() ? 'enhance' : 'generate';
+  const isEnhancement = input.mode === 'enhance';
+  const userData = isEnhancement
+    ? { additionalContext: input.additionalContext }
+    : {
+        focusArea: input.focusArea,
+        behavioralStatement: input.behavioralStatement,
+      };
 
   return {
     model: GROQ_CONTEXT_MODEL,
     messages: [
       {
         role: 'system',
-        content: mode === 'enhance' ? ENHANCE_PROMPT : GENERATE_PROMPT,
+        content: isEnhancement ? ENHANCE_PROMPT : GENERATE_PROMPT,
       },
       {
         role: 'user',
-        content: JSON.stringify({
-          mode,
-          focusArea: input.focusArea,
-          behavioralStatement: input.behavioralStatement,
-          additionalContext: input.additionalContext,
-        }),
+        content: JSON.stringify(userData),
       },
     ],
     n: 1,

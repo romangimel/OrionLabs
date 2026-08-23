@@ -15,11 +15,19 @@ async function readJsonPayload(response: Response): Promise<unknown> {
 export async function requestContextEnhancement(
   input: ContextEnhancementInput,
 ): Promise<string> {
-  const requestBody: ContextEnhancementInput = {
-    focusArea: input.focusArea,
-    behavioralStatement: input.behavioralStatement,
-    additionalContext: input.additionalContext,
-  };
+  // Reconstruct the mode-specific shape so accidental caller fields cannot cross
+  // the browser-to-server privacy boundary.
+  const requestBody: ContextEnhancementInput =
+    input.mode === 'enhance'
+      ? {
+          mode: 'enhance',
+          additionalContext: input.additionalContext,
+        }
+      : {
+          mode: 'generate',
+          focusArea: input.focusArea,
+          behavioralStatement: input.behavioralStatement,
+        };
 
   let response: Response;
   try {

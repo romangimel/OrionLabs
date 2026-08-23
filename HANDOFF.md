@@ -47,7 +47,7 @@ The four steps are:
 
 All fields except optional context are required. Optional context is limited to 600 characters; an existing over-limit draft remains visible and editable but cannot be enhanced or submitted until corrected. Reference preference remains visible, required, and persisted for Review Answers, but it is never AI input. Generated report prose uses second-person language for every subject.
 
-The optional context textarea owns a temporary `Enhance with AI`/`Undo` state. Empty context generates one statement from focus plus behavior; populated context is rewritten without adding facts. The browser sends only those two selections and the exact current context to `POST /api/enhance-context`. The server validates a 4 KB maximum body, calls Groq-hosted `openai/gpt-oss-120b` once with low reasoning and an 8-second timeout, and returns `{ enhancedContext }`. `GROQ_API_KEY` remains server-only, raw context is not logged, and no AI provenance enters the Gemini report input.
+The optional context textarea owns a temporary `Enhance with AI`/`Undo` state. Empty context generates one statement from focus plus behavior; populated context is rewritten without adding facts. The browser uses strict minimized requests: populated mode sends only the exact current context, while empty mode sends only those two selections. The server validates a 4 KB maximum body, calls Groq-hosted `openai/gpt-oss-120b` once with low reasoning and an 8-second timeout, and returns `{ enhancedContext }`. `GROQ_API_KEY` remains server-only, raw context is not logged, and no AI provenance enters the Gemini report input.
 
 `src/lib/report-generation-input.ts` is the approved AI boundary. It sends only:
 

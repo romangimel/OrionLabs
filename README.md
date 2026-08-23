@@ -45,7 +45,7 @@ Supabase and several supporting UI packages remain installed for future developm
 
 All other pathnames resolve to the branded 404 page. `/analysis` and the `/research/...` paths above are the implemented routes; the planned `/calibration` and `/articles/...` names in `ROADMAP.md` are not active routes.
 
-Questionnaire progress is saved as a temporary `sessionStorage` draft. Context enhancement sends only focus area, behavioral statement, and the current optional context to `/api/enhance-context`; the Vercel Function reads `GROQ_API_KEY` server-side and makes one Groq request with an 8-second timeout. The returned text becomes the ordinary context answer and carries no AI provenance into report generation.
+Questionnaire progress is saved as a temporary `sessionStorage` draft. Context enhancement uses two minimized request shapes: populated context sends only that user-authored text, while empty-context generation sends only focus area and behavioral statement. The Vercel Function reads `GROQ_API_KEY` server-side and makes one Groq request with an 8-second timeout. The returned text becomes the ordinary context answer and carries no AI provenance into report generation.
 
 After review confirmation, `/analysis` maps the draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the report function or Gemini. That function reads `GEMINI_API_KEY` only on the server.
 
@@ -117,7 +117,7 @@ Server-side TypeScript is executed as Node ESM. Every local runtime import reach
 
 ## Validation, retries, and privacy
 
-The optional context field is bounded consistently to 600 characters in the questionnaire, enhancement endpoint, and final `ReportGenerationInput`. Existing over-limit draft text remains visible and editable rather than being truncated, but it blocks enhancement and questionnaire completion until corrected. `/api/enhance-context` accepts a maximum 4 KB request body, validates exact focus/behavior choices, uses fixed model `openai/gpt-oss-120b` with low reasoning and an 8-second timeout, rejects empty/malformed/over-limit output, and performs no automatic retry. Raw context and provider errors are not logged.
+The optional context field is bounded consistently to 600 characters in the questionnaire, enhancement endpoint, and final `ReportGenerationInput`. Existing over-limit draft text remains visible and editable rather than being truncated, but it blocks enhancement and questionnaire completion until corrected. `/api/enhance-context` accepts a maximum 4 KB request body and validates strict mode-specific shapes: rewriting requires only non-empty context, while generation requires exact focus/behavior choices. It uses fixed model `openai/gpt-oss-120b` with low reasoning and an 8-second timeout, rejects empty/malformed/over-limit output, and performs no automatic retry. Raw context and provider errors are not logged.
 
 The report server accepts only the strict `ReportGenerationInput` shape, limits request size, and rejects unexpected fields. Gemini 3.6 Flash uses Medium thinking and a 50-second provider timeout. It receives frozen system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
 

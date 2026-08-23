@@ -604,7 +604,7 @@ The production prompts are frozen after final controlled-inference calibration. 
 
 ## Optional context enhancement architecture
 
-The optional context textarea supports one-click generation or rewriting through `POST /api/enhance-context`. The browser sends only focus area, behavioral statement, and the current context; a server-only Groq boundary uses fixed model `openai/gpt-oss-120b`, low reasoning, one chat-completions request, and an 8-second timeout. `GROQ_API_KEY` is server-only. The returned statement becomes ordinary editable questionnaire state, while temporary Undo provenance remains local to the component and is never sent to Gemini.
+The optional context textarea supports one-click generation or rewriting through `POST /api/enhance-context`. Its strict mode-specific boundary minimizes data: rewriting sends only non-empty user-authored context, while empty-context generation sends only focus area and behavioral statement. A server-only Groq boundary uses fixed model `openai/gpt-oss-120b`, low reasoning, one chat-completions request, and an 8-second timeout. `GROQ_API_KEY` is server-only. The returned statement becomes ordinary editable questionnaire state, while temporary Undo provenance remains local to the component and is never sent to Gemini.
 
 Optional context is limited to 600 characters across questionnaire validation, persistence assumptions, Groq input/output validation, and final report-generation input. Existing over-limit drafts are preserved visibly rather than truncated and must be corrected before enhancement or report generation.
 

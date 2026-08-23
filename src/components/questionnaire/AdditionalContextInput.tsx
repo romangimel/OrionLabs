@@ -10,7 +10,10 @@ import {
   INITIAL_CONTEXT_ENHANCEMENT_STATE,
   contextEnhancementReducer,
 } from '@/lib/context-enhancement-state';
-import { MAX_ADDITIONAL_CONTEXT_LENGTH } from '@/lib/report-generation-constraints';
+import {
+  MAX_ADDITIONAL_CONTEXT_LENGTH,
+  limitAdditionalContextInput,
+} from '@/lib/report-generation-constraints';
 import { getAdditionalContextLengthError } from '@/lib/questionnaire-validation';
 import { cn } from '@/lib/utils';
 import { QuestionHeader } from './QuestionHeader';
@@ -92,15 +95,19 @@ export function AdditionalContextInput({
     : null;
   const hasRequiredSelections =
     approvedFocusArea !== null && approvedBehavioralStatement !== null;
+  const hasUserContext = value.trim().length > 0;
   const isOverLimit = value.length > MAX_ADDITIONAL_CONTEXT_LENGTH;
   const canEnhance =
-    !enhancementState.isPending && !isOverLimit && hasRequiredSelections;
+    !enhancementState.isPending &&
+    !isOverLimit &&
+    (hasUserContext || hasRequiredSelections);
   const showsUndo = enhancementState.undoSnapshot !== null;
 
   const handleManualChange = (nextValue: string) => {
-    latestValueRef.current = nextValue;
+    const boundedValue = limitAdditionalContextInput(nextValue);
+    latestValueRef.current = boundedValue;
     dispatch({ type: 'manual-edit' });
-    onChange(nextValue);
+    onChange(boundedValue);
   };
 
   const handleEnhance = async () => {
@@ -115,25 +122,33 @@ export function AdditionalContextInput({
       return;
     }
 
-    if (
-      !canEnhance ||
-      requestPendingRef.current ||
-      approvedFocusArea === null ||
-      approvedBehavioralStatement === null
-    ) {
+    if (!canEnhance || requestPendingRef.current) {
       return;
     }
 
     const previousValue = value;
+    const requestInput = previousValue.trim()
+      ? {
+          mode: 'enhance' as const,
+          additionalContext: previousValue,
+        }
+      : approvedFocusArea !== null && approvedBehavioralStatement !== null
+        ? {
+            mode: 'generate' as const,
+            focusArea: approvedFocusArea,
+            behavioralStatement: approvedBehavioralStatement,
+          }
+        : null;
+
+    if (requestInput === null) {
+      return;
+    }
+
     requestPendingRef.current = true;
     dispatch({ type: 'request-started' });
 
     try {
-      const enhancedContext = await requestContextEnhancement({
-        focusArea: approvedFocusArea,
-        behavioralStatement: approvedBehavioralStatement,
-        additionalContext: previousValue,
-      });
+      const enhancedContext = await requestContextEnhancement(requestInput);
 
       if (!isMountedRef.current) {
         return;
@@ -176,38 +191,36 @@ export function AdditionalContextInput({
       <div
         className={cn(
           controlStyles,
-          'mt-4 rounded-xl border',
+          'relative mt-4 rounded-xl border [--context-action-width:6rem] sm:[--context-action-width:8.75rem]',
           validationError &&
             'border-[hsl(0_72%_62%_/_0.78)] focus-within:border-[hsl(0_72%_68%)] focus-within:ring-[hsl(0_72%_55%_/_0.24)]',
         )}
       >
-        <div className="flex justify-end px-3 pb-2 pt-3">
-          <button
-            type="button"
-            onClick={handleEnhance}
-            disabled={!showsUndo && !canEnhance}
-            aria-label={buttonLabel}
-            aria-busy={enhancementState.isPending || undefined}
-            title={
-              !showsUndo && !hasRequiredSelections
-                ? 'Complete the focus and behavioral questions before enhancing context.'
-                : undefined
-            }
-            className="inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(264_45%_8%_/_0.92)] px-3.5 text-xs font-medium text-[hsl(43_74%_72%)] shadow-[0_8px_22px_-12px_hsl(43_74%_66%_/_0.65)] backdrop-blur-md transition-[border-color,color,background-color] duration-300 hover:border-[hsl(43_74%_70%_/_0.62)] hover:bg-[hsl(268_45%_12%_/_0.96)] hover:text-[hsl(43_82%_80%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.72)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-9 sm:px-3.5"
-          >
-            {enhancementState.isPending ? (
-              <LoaderCircle
-                aria-hidden="true"
-                className="h-3.5 w-3.5 animate-spin motion-reduce:animate-none"
-              />
-            ) : showsUndo ? (
-              <Undo2 aria-hidden="true" className="h-3.5 w-3.5" />
-            ) : (
-              <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
-            )}
-            <span>{buttonLabel}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleEnhance}
+          disabled={!showsUndo && !canEnhance}
+          aria-label={buttonLabel}
+          aria-busy={enhancementState.isPending || undefined}
+          title={
+            !showsUndo && !hasUserContext && !hasRequiredSelections
+              ? 'Complete the focus and behavioral questions before enhancing context.'
+              : undefined
+          }
+          className="absolute right-3 top-3 z-10 inline-flex min-h-10 w-[var(--context-action-width)] items-center justify-center gap-1 rounded-full border border-[hsl(43_60%_70%_/_0.3)] bg-[hsl(264_45%_8%_/_0.92)] px-2 text-[0.68rem] font-medium leading-tight text-[hsl(43_74%_72%)] backdrop-blur-md transition-[border-color,color,background-color] duration-300 hover:border-[hsl(43_74%_70%_/_0.62)] hover:bg-[hsl(268_45%_12%_/_0.96)] hover:text-[hsl(43_82%_80%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.72)] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(264_45%_8%)] disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-9 sm:gap-1.5 sm:px-2.5 sm:text-xs sm:leading-normal sm:whitespace-nowrap"
+        >
+          {enhancementState.isPending ? (
+            <LoaderCircle
+              aria-hidden="true"
+              className="h-3.5 w-3.5 animate-spin motion-reduce:animate-none"
+            />
+          ) : showsUndo ? (
+            <Undo2 aria-hidden="true" className="h-3.5 w-3.5" />
+          ) : (
+            <Sparkles aria-hidden="true" className="h-3.5 w-3.5" />
+          )}
+          <span>{buttonLabel}</span>
+        </button>
 
         <Textarea
           id={id}
@@ -220,20 +233,21 @@ export function AdditionalContextInput({
           value={value}
           onChange={(event) => handleManualChange(event.target.value)}
           onBlur={(event) => onChange(event.currentTarget.value)}
-          className="min-h-32 resize-y rounded-none border-0 bg-transparent px-4 py-1 text-base text-foreground shadow-none placeholder:text-muted-foreground/55 focus-visible:ring-0 sm:min-h-24"
+          className={cn(
+            'min-h-32 resize-none rounded-xl border-0 bg-transparent pb-9 pl-4 pr-[calc(var(--context-action-width)+1rem)] pt-3 text-base leading-5 text-foreground shadow-none placeholder:text-sm placeholder:leading-4 placeholder:text-muted-foreground/55 focus-visible:ring-0 sm:min-h-36 sm:pr-[calc(var(--context-action-width)+1.5rem)] sm:placeholder:text-base sm:placeholder:leading-5',
+            value.length > 0 ? 'overflow-y-auto' : 'overflow-y-hidden',
+          )}
         />
 
-        <div className="flex justify-end px-3 pb-3 pt-1">
-          <span
-            aria-hidden="true"
-            className={cn(
-              'text-[0.68rem] tabular-nums text-muted-foreground/70',
-              isOverLimit && 'text-[hsl(0_72%_72%)]',
-            )}
-          >
-            {value.length}/{MAX_ADDITIONAL_CONTEXT_LENGTH}
-          </span>
-        </div>
+        <span
+          aria-hidden="true"
+          className={cn(
+            'pointer-events-none absolute bottom-3 right-3 z-10 text-[0.68rem] tabular-nums text-muted-foreground/70',
+            isOverLimit && 'text-[hsl(0_72%_72%)]',
+          )}
+        >
+          {value.length}/{MAX_ADDITIONAL_CONTEXT_LENGTH}
+        </span>
         <span id={limitId} className="sr-only">
           Maximum {MAX_ADDITIONAL_CONTEXT_LENGTH} characters.
         </span>

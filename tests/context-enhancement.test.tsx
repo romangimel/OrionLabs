@@ -7,7 +7,10 @@ import {
   INITIAL_CONTEXT_ENHANCEMENT_STATE,
   contextEnhancementReducer,
 } from '@/lib/context-enhancement-state';
-import { MAX_ADDITIONAL_CONTEXT_LENGTH } from '@/lib/report-generation-constraints';
+import {
+  MAX_ADDITIONAL_CONTEXT_LENGTH,
+  limitAdditionalContextInput,
+} from '@/lib/report-generation-constraints';
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -43,6 +46,27 @@ describe('additional-context Enhance UX', () => {
     expect(markup).toContain('247/600');
     expect(markup).toContain('maxLength="600"');
     expect(MAX_ADDITIONAL_CONTEXT_LENGTH).toBe(600);
+    expect(limitAdditionalContextInput('x'.repeat(601))).toHaveLength(600);
+  });
+
+  it('overlays non-glowing controls while protecting fixed textarea content', () => {
+    const markup = renderContextInput('My exact current context.');
+
+    expect(markup).toContain('relative mt-4');
+    expect(markup).toContain('absolute right-3 top-3');
+    expect(markup).toContain('absolute bottom-3 right-3');
+    expect(markup).toContain(
+      'pr-[calc(var(--context-action-width)+1rem)]',
+    );
+    expect(markup).toContain(
+      'sm:pr-[calc(var(--context-action-width)+1.5rem)]',
+    );
+    expect(markup).toContain('pb-9');
+    expect(markup).toContain('resize-none');
+    expect(markup).toContain('overflow-y-auto');
+    expect(renderContextInput('')).toContain('overflow-y-hidden');
+    expect(markup).not.toContain('shadow-[0_8px_22px');
+    expect(markup).not.toContain('flex justify-end px-3');
   });
 
   it('preserves and clearly marks an already-persisted over-limit value', () => {
@@ -64,19 +88,19 @@ describe('context-enhancement browser request', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     await requestContextEnhancement({
+      mode: 'generate',
       focusArea: 'Career',
       behavioralStatement: 'I overthink things',
-      additionalContext: '',
     });
 
     expect(JSON.parse(fetchMock.mock.calls[0][1].body as string)).toEqual({
+      mode: 'generate',
       focusArea: 'Career',
       behavioralStatement: 'I overthink things',
-      additionalContext: '',
     });
   });
 
-  it('sends exact populated context and strips accidental extra caller data', async () => {
+  it('sends only exact populated context and strips all questionnaire data', async () => {
     const originalContext = '  I keep revisiting the same decision.  ';
     const fetchMock = vi.fn().mockResolvedValue(
       Response.json({ enhancedContext: 'I keep revisiting the same decision.' }),
@@ -84,9 +108,10 @@ describe('context-enhancement browser request', () => {
     vi.stubGlobal('fetch', fetchMock);
 
     const expandedInput = {
+      mode: 'enhance',
+      additionalContext: originalContext,
       focusArea: 'Career',
       behavioralStatement: 'I overthink things',
-      additionalContext: originalContext,
       firstName: 'Must not be sent',
       zodiacSign: 'Capricorn',
       birthDate: '1994-01-15',
@@ -100,15 +125,10 @@ describe('context-enhancement browser request', () => {
 
     const body = JSON.parse(fetchMock.mock.calls[0][1].body as string);
     expect(body).toEqual({
-      focusArea: 'Career',
-      behavioralStatement: 'I overthink things',
+      mode: 'enhance',
       additionalContext: originalContext,
     });
-    expect(Object.keys(body)).toEqual([
-      'focusArea',
-      'behavioralStatement',
-      'additionalContext',
-    ]);
+    expect(Object.keys(body)).toEqual(['mode', 'additionalContext']);
   });
 });
 
