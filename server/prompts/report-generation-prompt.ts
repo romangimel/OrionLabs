@@ -28,6 +28,7 @@ export const REPORT_GENERATION_PROMPT = `## REPORT DESIGN
 ## SECTION REQUIREMENTS
 
 All prose fields in every section must address the subject directly in second person. Headlines, metric labels, ids, and copied schema fields are exempt; narrative prose is not.
+Use natural sentence case or title case for all user-visible headlines, titles, and metric labels. Never use ALL CAPS for generated report text. Standard acronyms may remain uppercase.
 
 - summary: a specific headline and coherent 3-5 sentence synthesis with a strong opening and no generic zodiac filler.
 - personalityAnalysis: a grounded overview plus exactly three distinct traits, primarily inferred from the behavioral statement.
