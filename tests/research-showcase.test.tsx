@@ -12,8 +12,8 @@ describe('landing Research showcase', () => {
     expect(LANDING_RESEARCH_PAPERS.map((paper) => paper.slug)).toEqual([
       'limits-of-science',
       'moon-aware-transformers',
-      'retrograde-aware-distributed-systems',
       'astrovector',
+      'retrograde-aware-distributed-systems',
     ]);
     expect(INITIAL_RESEARCH_SHOWCASE_STATE).toEqual({
       selectedSlug: 'limits-of-science',
@@ -28,6 +28,9 @@ describe('landing Research showcase', () => {
     expect(markup).toContain('href="/research/limits-of-science"');
     expect(markup).toContain('aria-pressed="true"');
     expect(markup.match(/Read paper/g)).toHaveLength(1);
+    expect(markup).not.toContain('Show previous research paper');
+    expect(markup).toContain('Show next research paper');
+    expect(markup).not.toContain('disabled=""');
   });
 
   it('updates the selected paper independently of the visible rail window', () => {

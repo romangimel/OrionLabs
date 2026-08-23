@@ -5,8 +5,8 @@ const DESKTOP_VISIBLE_PAPER_COUNT = 3;
 export const LANDING_RESEARCH_PAPERS = [
   RESEARCH_PAPERS['limits-of-science'],
   RESEARCH_PAPERS['moon-aware-transformers'],
-  RESEARCH_PAPERS['retrograde-aware-distributed-systems'],
   RESEARCH_PAPERS.astrovector,
+  RESEARCH_PAPERS['retrograde-aware-distributed-systems'],
 ] as const;
 
 export interface ResearchShowcaseState {
