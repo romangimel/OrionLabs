@@ -9,6 +9,7 @@ import {
   type QuestionnaireAnswerField,
   type QuestionnaireAnswers,
 } from '@/lib/questionnaire-state';
+import { MAX_ADDITIONAL_CONTEXT_LENGTH } from '@/lib/report-generation-constraints';
 
 /** Step-local errors are keyed by the canonical answer field they describe. */
 export type QuestionnaireValidationErrors = Partial<
@@ -24,6 +25,15 @@ const INVALID_BIRTH_DATE_MESSAGE = 'Please enter a valid birth date.';
 const FUTURE_BIRTH_DATE_MESSAGE = 'Please enter a birth date that is not in the future.';
 const MINIMUM_AGE_MESSAGE =
   'OrionLabs analysis is currently limited to subjects aged 18 and over.';
+export const ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE =
+  `Please keep additional context within ${MAX_ADDITIONAL_CONTEXT_LENGTH} characters.`;
+
+/** Keeps persisted over-limit context visible while exposing its blocking error. */
+export function getAdditionalContextLengthError(value: string) {
+  return value.length > MAX_ADDITIONAL_CONTEXT_LENGTH
+    ? ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE
+    : undefined;
+}
 
 /** Applies the configured presence rule and any validation owned by the input type. */
 export function validateQuestionnaireAnswer(
@@ -33,6 +43,10 @@ export function validateQuestionnaireAnswer(
 ): string | undefined {
   if (!hasQuestionnaireAnswer(value)) {
     return question.required ? question.validationMessage : undefined;
+  }
+
+  if (question.type === 'textarea') {
+    return getAdditionalContextLengthError(value);
   }
 
   if (question.type !== 'date') {

@@ -18,6 +18,7 @@
     "src/data/questionnaire.ts",
     "src/data/report.ts",
     "src/lib/age.ts",
+    "src/lib/context-enhancement-schema.ts",
     "src/lib/questionnaire-state.ts",
     "src/lib/report-generation-constraints.ts",
     "src/lib/report-generation-input.ts",

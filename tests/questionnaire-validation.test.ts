@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { QUESTIONNAIRE_STEPS } from '@/data/questionnaire';
 import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
-import { validateQuestionnaireStep } from '@/lib/questionnaire-validation';
+import {
+  ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE,
+  validateQuestionnaireStep,
+} from '@/lib/questionnaire-validation';
 
 const CURRENT_DATE = new Date(2026, 7, 10, 12);
 const PROFILE_CALIBRATION_STEP = QUESTIONNAIRE_STEPS[1];
@@ -65,4 +68,32 @@ describe('questionnaire birth-date validation', () => {
       expect(validateBirthDate(birthDate)).toBe('Please enter a valid birth date.');
     },
   );
+});
+
+describe('questionnaire additional-context validation', () => {
+  const finalCalibrationStep = QUESTIONNAIRE_STEPS[3];
+
+  function validateContext(additionalContext: string) {
+    const answers: QuestionnaireAnswers = {
+      firstName: 'Maya',
+      zodiacSign: 'Capricorn',
+      birthDate: '1994-01-15',
+      pronouns: 'They / Them',
+      attentionArea: 'Career',
+      behavioralStatement: 'I overthink things',
+      additionalContext,
+    };
+
+    return validateQuestionnaireStep(finalCalibrationStep, answers).additionalContext;
+  }
+
+  it('accepts exactly 600 characters', () => {
+    expect(validateContext('x'.repeat(600))).toBeUndefined();
+  });
+
+  it('rejects more than 600 characters', () => {
+    expect(validateContext('x'.repeat(601))).toBe(
+      ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE,
+    );
+  });
 });

@@ -1,5 +1,6 @@
 import type { QuestionnaireQuestion as QuestionnaireQuestionData } from '@/data/questionnaire';
 import { OptionSelector } from './OptionSelector';
+import { AdditionalContextInput } from './AdditionalContextInput';
 import { TextInput } from './TextInput';
 import { ZodiacSelector } from './ZodiacSelector';
 import {
@@ -74,16 +75,16 @@ export function QuestionnaireQuestion({
       );
     case 'textarea':
       return (
-        <TextInput
+        <AdditionalContextInput
           id={question.id}
           label={question.label}
           helper={question.helper}
           placeholder={question.placeholder}
-          multiline
-          maxLength={question.maxLength}
           required={question.required}
           error={error}
           value={value}
+          focusArea={answers.attentionArea}
+          behavioralStatement={answers.behavioralStatement}
           onChange={(nextValue) => onAnswerChange(field, nextValue)}
         />
       );

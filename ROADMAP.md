@@ -105,6 +105,8 @@ Landing Page
 - [x] Ensure button states and unavailable actions are communicated clearly
 - [x] Ensure errors can be understood by screen-reader users
 - [x] Respect reduced-motion preferences in the questionnaire flow
+- [x] Add one-click AI generation/rewriting and Undo for the optional context field
+- [x] Enforce one shared 600-character optional-context limit across UI and AI boundaries
 
 ---
 
@@ -297,6 +299,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
 - [ ] Configure and externally verify Vercel or equivalent upstream rate limiting for report generation
+- [ ] Configure and externally verify a 10 requests / 60 seconds / IP rule for `/api/enhance-context`
 - [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
 
@@ -365,7 +368,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Redesign the 404 page
 - [x] Polish generated art only where an asset is genuinely unsatisfactory
 - [x] Write the remaining 3 articles
-- [ ] Redesign the research section to compliment the 4 articles
+- [x] Redesign the research section to compliment the 4 articles
 - [x] Create Docs, Legal, and Press pages
 
 ### 6. Route and Browser Presentation Finalization
@@ -451,7 +454,6 @@ Do not call the AI provider directly from frontend browser code.
 
 ### Product Expansion
 
-- [ ] Questionnaire free text "enhance with AI" button
 - [ ] Shareable horoscope cards
 - [ ] Downloadable report images
 - [ ] Fake scientific charts

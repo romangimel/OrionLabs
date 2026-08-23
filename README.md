@@ -6,7 +6,7 @@ The project is also a portfolio and learning project focused on typed React comp
 
 ## Current status
 
-The landing page, four-step questionnaire, real AI-backed Analysis flow, and personalized report are implemented. After review confirmation, the browser creates the approved `ReportGenerationInput` and posts it to a server-side Vercel Function. The function validates the input, calls Google Gemini 3.6 Flash, validates the structured `OrionReport`, and returns only a complete report.
+The landing page, four-step questionnaire, real AI-backed Analysis flow, and personalized report are implemented. The optional context textarea includes a one-click `Enhance with AI` action backed by Groq-hosted `openai/gpt-oss-120b`; the same control supports Undo and the textarea remains the review/edit surface. After review confirmation, the browser creates the approved `ReportGenerationInput` and posts it to a separate server-side Vercel Function. That function validates the input, calls Google Gemini 3.6 Flash, validates the structured `OrionReport`, and returns only a complete report.
 
 The Analysis page keeps its rotating OrionLabs messages as presentation rather than pretending they are real provider stages. Independently, it constructs the deterministic Orion Subject Signature over approximately 16 seconds. It waits for both the request and that minimum loading experience, stores the validated report as an immutable session record, and redirects automatically to `/report`. Failures show an explicit retry action and preserve the questionnaire draft. The local `mockReport` remains available for component development and tests but is no longer the normal completed journey.
 
@@ -20,6 +20,7 @@ The Subject Signature now includes all 12 deterministic zodiac geometries, with 
 - shadcn/ui primitives built on Radix UI
 - Framer Motion
 - Google Gemini through the official `@google/genai` SDK
+- Groq's OpenAI-compatible chat-completions API through server-side `fetch`
 - Vercel Functions
 - Zod runtime validation and Gemini JSON schema generation
 - Vitest focused regression tests
@@ -39,11 +40,14 @@ Supabase and several supporting UI packages remain installed for future developm
 /research/limits-of-science  Research paper
 /docs, /press, /legal  Institutional supporting pages
 /api/generate-report  Server-side Vercel Function (POST only)
+/api/enhance-context  Server-side optional-context enhancement (POST only)
 ```
 
 All other pathnames resolve to the branded 404 page. `/analysis` and the `/research/...` paths above are the implemented routes; the planned `/calibration` and `/articles/...` names in `ROADMAP.md` are not active routes.
 
-Questionnaire progress is saved as a temporary `sessionStorage` draft. After review confirmation, `/analysis` maps that draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the function or Gemini. The function reads `GEMINI_API_KEY` only on the server.
+Questionnaire progress is saved as a temporary `sessionStorage` draft. Context enhancement sends only focus area, behavioral statement, and the current optional context to `/api/enhance-context`; the Vercel Function reads `GROQ_API_KEY` server-side and makes one Groq request with an 8-second timeout. The returned text becomes the ordinary context answer and carries no AI provenance into report generation.
+
+After review confirmation, `/analysis` maps the draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the report function or Gemini. That function reads `GEMINI_API_KEY` only on the server.
 
 Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Zodiac, focus, and behavior are stored as application-controlled Subject Signature metadata beside the unchanged AI-facing `OrionReport`; Report never infers behavior from Gemini prose. Starting another analysis clears only the questionnaire draft, so the prior completed report stays active until a validated replacement is persisted. An invalid active record redirects to the questionnaire without displaying mock or partial content.
 
@@ -53,7 +57,7 @@ Successful reports keep the existing versioned session-storage behavior: the rep
 
 ```text
 api/                    Vercel Function entrypoints
-server/                 Server-only Gemini integration and prompts
+server/                 Server-only Gemini and Groq provider boundaries
 tests/                  Focused generation and persistence regression tests
 src/
 |-- components/         Questionnaire, Analysis, Report, site, and UI components
@@ -76,10 +80,11 @@ Use Node.js 20 or newer and npm.
 npm install
 ```
 
-Create an ignored `.env.local` file from `.env.example` and add a development Gemini API key:
+Create an ignored `.env.local` file from `.env.example` and add development provider keys as needed:
 
 ```dotenv
 GEMINI_API_KEY=your_development_key
+GROQ_API_KEY=your_development_key
 ```
 
 Plain `npm run dev` starts Vite but does not execute the `/api` Vercel Function. Use the Vercel development environment for the complete flow:
@@ -104,15 +109,17 @@ Vitest provides focused coverage for questionnaire validation and storage, route
 
 ## Vercel configuration
 
-In the Vercel project dashboard, add `GEMINI_API_KEY` under Settings -> Environment Variables for the environments that should generate reports (Development, Preview, and Production as appropriate), then redeploy. Keep the value marked sensitive and do not prefix it with `VITE_`.
+In the Vercel project dashboard, add `GEMINI_API_KEY` and `GROQ_API_KEY` under Settings -> Environment Variables for the environments that should use their respective AI features (Development, Preview, and Production as appropriate), then redeploy. Keep both values marked sensitive and do not prefix either with `VITE_`.
 
-The repository cannot establish Gemini billing, quota, retention, logging, or account settings. It also cannot establish whether an external Vercel Firewall or rate-limit rule is configured. The application handles a plain upstream HTTP 429 conservatively as temporary analysis capacity, whether it came from OrionLabs or an upstream layer.
+The repository cannot establish provider billing, quota, retention, logging, account settings, or dashboard-only Vercel Firewall state. Before public use, protect `/api/enhance-context` with a Vercel Firewall rate-limit rule; a reasonable initial limit is 10 requests per 60 seconds per IP. The existing report-generation rule is not proven to cover this new path. The application also handles upstream and provider failures safely, but application validation is not a substitute for external cost protection.
 
 Server-side TypeScript is executed as Node ESM. Every local runtime import reachable from an `api/` Function therefore uses a relative path with a `.js` extension, which TypeScript maps back to the corresponding `.ts` source file. Do not use the frontend `@/` alias in that runtime graph: Vercel Functions do not rewrite TypeScript path mappings in deployed imports.
 
 ## Validation, retries, and privacy
 
-The server accepts only the strict `ReportGenerationInput` shape, limits request size, bounds optional context to 1,000 characters, and rejects unexpected fields. Gemini 3.6 Flash uses Medium thinking and a 50-second provider timeout. It receives frozen system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
+The optional context field is bounded consistently to 600 characters in the questionnaire, enhancement endpoint, and final `ReportGenerationInput`. Existing over-limit draft text remains visible and editable rather than being truncated, but it blocks enhancement and questionnaire completion until corrected. `/api/enhance-context` accepts a maximum 4 KB request body, validates exact focus/behavior choices, uses fixed model `openai/gpt-oss-120b` with low reasoning and an 8-second timeout, rejects empty/malformed/over-limit output, and performs no automatic retry. Raw context and provider errors are not logged.
+
+The report server accepts only the strict `ReportGenerationInput` shape, limits request size, and rejects unexpected fields. Gemini 3.6 Flash uses Medium thinking and a 50-second provider timeout. It receives frozen system/report instructions plus the approved runtime data. Structured output is generated from the same Zod schema used to validate the result, and application-controlled identity and focus data must still match the request.
 
 The frozen prompt permits aggressive satire and strongly connected behavioral inference while prohibiting unsupported consequential biography. OrionLabs uses one structured generation pass with no verifier or repair model. Changing Gemini-facing prompt wording requires deliberate recalibration and an intentional update to the prompt-lock test.
 

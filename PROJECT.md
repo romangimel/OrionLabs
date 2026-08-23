@@ -602,6 +602,12 @@ The first real generation path uses the official `@google/genai` SDK with the st
 
 The production prompts are frozen after final controlled-inference calibration. Gemini 3.6 Flash runs with Medium thinking and a 50-second provider timeout. The prompt permits aggressive satire and strongly connected behavioral inference while prohibiting unsupported consequential biography. OrionLabs uses one structured generation pass with no verifier or repair model; changing Gemini-facing wording requires explicit recalibration and an intentional prompt-lock test update.
 
+## Optional context enhancement architecture
+
+The optional context textarea supports one-click generation or rewriting through `POST /api/enhance-context`. The browser sends only focus area, behavioral statement, and the current context; a server-only Groq boundary uses fixed model `openai/gpt-oss-120b`, low reasoning, one chat-completions request, and an 8-second timeout. `GROQ_API_KEY` is server-only. The returned statement becomes ordinary editable questionnaire state, while temporary Undo provenance remains local to the component and is never sent to Gemini.
+
+Optional context is limited to 600 characters across questionnaire validation, persistence assumptions, Groq input/output validation, and final report-generation input. Existing over-limit drafts are preserved visibly rather than truncated and must be corrected before enhancement or report generation.
+
 ---
 
 # Current Application Scope

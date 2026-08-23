@@ -11,6 +11,13 @@ import { createValidReport, validGenerationInput } from './fixtures';
 describe('ReportGenerationInput boundary', () => {
   it('accepts the approved input shape', () => {
     expect(reportGenerationInputSchema.safeParse(validGenerationInput).success).toBe(true);
+    expect(
+      reportGenerationInputSchema.safeParse({
+        ...validGenerationInput,
+        additionalContext: 'x'.repeat(MAX_ADDITIONAL_CONTEXT_LENGTH),
+      }).success,
+    ).toBe(true);
+    expect(MAX_ADDITIONAL_CONTEXT_LENGTH).toBe(600);
   });
 
   it('rejects missing fields, implausible ages, and oversized context', () => {

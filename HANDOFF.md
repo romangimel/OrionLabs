@@ -45,7 +45,9 @@ The four steps are:
 3. Behavioral Snapshot: focus area, behavioral statement
 4. Final Calibration: optional context
 
-All fields except optional context are required. Reference preference remains visible, required, and persisted for Review Answers, but it is never AI input. Generated report prose uses second-person language for every subject.
+All fields except optional context are required. Optional context is limited to 600 characters; an existing over-limit draft remains visible and editable but cannot be enhanced or submitted until corrected. Reference preference remains visible, required, and persisted for Review Answers, but it is never AI input. Generated report prose uses second-person language for every subject.
+
+The optional context textarea owns a temporary `Enhance with AI`/`Undo` state. Empty context generates one statement from focus plus behavior; populated context is rewritten without adding facts. The browser sends only those two selections and the exact current context to `POST /api/enhance-context`. The server validates a 4 KB maximum body, calls Groq-hosted `openai/gpt-oss-120b` once with low reasoning and an 8-second timeout, and returns `{ enhancedContext }`. `GROQ_API_KEY` remains server-only, raw context is not logged, and no AI provenance enters the Gemini report input.
 
 `src/lib/report-generation-input.ts` is the approved AI boundary. It sends only:
 
@@ -87,7 +89,7 @@ The Vercel Function:
 - Accepts only POST
 - Limits total request size
 - Strictly validates the approved input shape
-- Trims/normalizes strings and bounds optional context to 1,000 characters
+- Trims/normalizes strings and bounds optional context to 600 characters
 - Requests Gemini structured JSON from the same schema used at runtime
 - Rejects missing sections, malformed insights, wrong array counts, invalid metrics, or altered application-controlled identity/focus data
 - Makes one initial provider request and at most one retry for transient errors or malformed output when another full provider attempt fits within the 55-second internal budget
@@ -116,11 +118,14 @@ Create an ignored `.env.local` containing:
 
 ```dotenv
 GEMINI_API_KEY=your_development_key
+GROQ_API_KEY=your_development_key
 ```
 
 Use `npx vercel dev` for the complete flow. Plain `npm run dev` runs Vite but does not execute the `/api` function. The `vercel.json` SPA fallback excludes `/api/*` and Vite development-resource namespaces; keep those exclusions if the fallback is changed later.
 
-In Vercel, add `GEMINI_API_KEY` as a sensitive Environment Variable for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback while explicitly keeping the physical API namespace and local Vite development resources outside that rewrite.
+In Vercel, add `GEMINI_API_KEY` and `GROQ_API_KEY` as sensitive Environment Variables for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback while explicitly keeping the physical API namespace and local Vite development resources outside that rewrite.
+
+Repository configuration cannot prove dashboard Firewall coverage for the new endpoint. Before public use, add or verify a per-IP Vercel Firewall rate-limit rule for `/api/enhance-context`; 10 requests per 60 seconds per IP is the recommended starting point. Do not assume a path-specific `/api/generate-report` rule also covers enhancement.
 
 The Function runtime graph uses Node ESM imports: local server imports must be relative and must name their emitted `.js` extension. TypeScript resolves those specifiers to the `.ts` source during development. Keep the frontend `@/` alias out of modules loaded at Function runtime because Vercel does not rewrite TypeScript path mappings in deployed Function files.
 
