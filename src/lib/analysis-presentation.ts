@@ -4,7 +4,7 @@ export const ANALYSIS_CALIBRATION_MESSAGES = [
   'Ignoring centuries of scientific consensus...',
   'Resolving ambiguity through proprietary optimism...',
   'Finalizing conclusions before reviewing the evidence...',
-  'Report complete. Redirecting before reconsideration...',
+  'Completing report and Redirecting before reconsideration...',
 ] as const;
 
 /**
