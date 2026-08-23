@@ -1,6 +1,10 @@
 import type { ReportGenerationInput } from '../../src/lib/report-generation-input.js';
 
-/** Stable task instructions, kept separate from the subject values appended at runtime. */
+/**
+ * Frozen after final controlled-inference and second-person calibration.
+ * Changing Gemini-facing wording requires explicit product-owner approval,
+ * prompt recalibration, and an intentional prompt-lock hash update.
+ */
 export const REPORT_GENERATION_PROMPT = `## REPORT DESIGN
 
 - Build one central tension from the behavioral statement and focus area. Use optional context, when present, to sharpen the same tension.
@@ -71,7 +75,34 @@ WHY: Bureaucracy is metaphorical; coworkers, complaints, and the outcome are fab
 - Keep trait, strength, and risk descriptions concise and non-overlapping.
 - Return plain schema-conforming JSON data only. Do not include Markdown, HTML, JSON fences, commentary, citations, audit notes, or fields outside the schema.`;
 
-/** Adds only the approved generation boundary as data, never the questionnaire draft. */
+/**
+ * Converts the approved provider boundary into the exhaustive factual ledger.
+ * JSON scalar encoding keeps subject text visibly quoted as evidence.
+ */
+export function buildApprovedEvidenceLedger(input: ReportGenerationInput) {
+  const evidenceLines = [
+    `- Name: ${JSON.stringify(input.subject.name)}`,
+    `- Zodiac sign: ${JSON.stringify(input.subject.zodiacSign)}`,
+    `- Age: ${input.subject.age}`,
+    `- Focus area: ${JSON.stringify(input.focusArea)}`,
+    `- Behavioral statement: ${JSON.stringify(input.behavioralStatement)}`,
+  ];
+
+  if (input.additionalContext) {
+    evidenceLines.push(`- Additional context: ${JSON.stringify(input.additionalContext)}`);
+  }
+
+  return `## APPROVED EVIDENCE LEDGER
+This is the complete and exhaustive factual record of supplied real-life facts. Interpret it aggressively, but do not add consequential biography.
+${evidenceLines.join('\n')}`;
+}
+
+/** Frozen composition: adds approved evidence without changing the locked template. */
 export function buildReportGenerationPrompt(input: ReportGenerationInput) {
-  return `${REPORT_GENERATION_PROMPT}\n\nAPPROVED SUBJECT DATA\n${JSON.stringify(input)}`;
+  return `${REPORT_GENERATION_PROMPT}
+
+${buildApprovedEvidenceLedger(input)}
+
+## FINAL TASK
+Generate one complete OrionLabs report from the approved evidence above that conforms exactly to the supplied JSON schema. Before returning it, silently distinguish aggressive interpretation from a new reportable real-life fact. Exaggerate interpretations freely; require direct ledger support for new biography, events, or outcomes. Do not reveal this audit. Return only the schema-conforming JSON.`;
 }

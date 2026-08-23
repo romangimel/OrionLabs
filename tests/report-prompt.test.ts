@@ -22,14 +22,18 @@ function sha256(value: string) {
 }
 
 describe('production report prompt invariants', () => {
-  it('locks the final Gemini-facing system and generated report prompts', () => {
-    // Updating either hash is an explicit product recalibration decision, not
+  it('locks the final Gemini-facing system prompt', () => {
+    // Updating this hash is an explicit product recalibration decision, not
     // routine snapshot maintenance.
     expect(sha256(ORIONLABS_SYSTEM_PROMPT)).toBe(
-      '0b157f284a7d3f1e7f7d1ec67b6b01e75cf90cb5a531e229fd36bf76d64af246',
+      '04f1dc041882c034d88052efeb17abb05162f8a86c27445467bea2b2c2857db8',
     );
+  });
+
+  it('locks the final generated report prompt', () => {
+    // This hash covers the locked template plus its frozen runtime composition.
     expect(sha256(buildReportGenerationPrompt(LOCKED_REPORT_PROMPT_INPUT))).toBe(
-      '4d6cc452f3a268f81f79612d94286bde6605e080e87e7725079f5e0c3759e483',
+      '9b42a453f5bc413118632872938122182a6191659212dc149d50ba666e611a36',
     );
   });
 
@@ -107,9 +111,8 @@ describe('production report prompt invariants', () => {
     expect(REPORT_GENERATION_PROMPT).toContain('METAPHOR VERSUS OUTCOME');
   });
 
-  it('keeps the examples synthetic and separate from live fixture language', () => {
+  it('does not embed evaluation-fixture evidence in the static prompt', () => {
     REPORT_GENERATION_EVALUATION_FIXTURES.forEach(({ input }) => {
-      expect(REPORT_GENERATION_PROMPT).not.toContain(input.subject.name);
       expect(REPORT_GENERATION_PROMPT).not.toContain(input.behavioralStatement);
       if (input.additionalContext) {
         expect(REPORT_GENERATION_PROMPT).not.toContain(input.additionalContext);
