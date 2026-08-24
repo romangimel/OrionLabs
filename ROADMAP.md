@@ -395,9 +395,9 @@ The audit closed after responsive checks at 1440×900, 1152×768, 1024×768, 900
 
 ### 8. Cleanup
 
-- [ ] Remove obsolete fixture or demo content while preserving development and test fixtures
-- [ ] Remove unused code and assets
-- [ ] Confirm all technical comments remain accurate
+- [x] Remove obsolete fixture or demo content while preserving development and test fixtures
+- [x] Remove unused code and assets
+- [x] Confirm all technical comments remain accurate
 
 ### 9. Accessibility
 

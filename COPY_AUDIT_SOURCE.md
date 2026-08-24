@@ -760,7 +760,7 @@ This section identifies repeated phrases/constructions without evaluating them. 
 
 ## Non-production / Test-only Copy
 
-No user-facing mock/test-only strings were included in this inventory. `src/lib/mock-report.ts` contains a local mock-report fixture, but the current report route renders a persisted generated report and this fixture is not part of the active product UI path.
+No user-facing mock/test-only strings were included in this inventory. The canonical `mockReport` fixture in `src/data/report.ts` remains available for deterministic tests, offline/component development, and report-layout fixtures; it is not part of the active product UI path.
 
 ## Reachability Notes
 

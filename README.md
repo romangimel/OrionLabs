@@ -12,7 +12,7 @@ The Analysis page keeps its rotating OrionLabs messages as presentation rather t
 
 The Subject Signature now includes all 12 deterministic zodiac geometries, with hand-tuned focus roles and edge-valid behavior subnetworks. The production report prompts are frozen after controlled-inference calibration; server-side report persistence, account history, and broader project-wide accessibility testing remain planned.
 
-Route and browser presentation finalization and the full desktop/tablet/mobile UX audit are complete. Production direct navigation, refresh behavior, SPA fallback, and static social metadata have been verified; non-JavaScript crawlers may still receive generic landing metadata on deep SPA routes, which is accepted for this release. The next active phase is Cleanup.
+Route and browser presentation finalization, the full desktop/tablet/mobile UX audit, and Cleanup are complete. Production direct navigation, refresh behavior, SPA fallback, and static social metadata have been verified; non-JavaScript crawlers may still receive generic landing metadata on deep SPA routes, which is accepted for this release. The next active phase is Accessibility.
 
 ## Technology
 
