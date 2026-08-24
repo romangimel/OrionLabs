@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { BookOpen } from 'lucide-react';
 import { Starfield } from './Starfield';
@@ -12,13 +11,9 @@ import { prepareNewAnalysisJourney } from '@/lib/analysis-session';
  * decorative motion adjustable without altering the content hierarchy.
  */
 export function Hero() {
-  const reduce = useReducedMotion();
-  const wrapRef = useRef<HTMLDivElement>(null);
-
   return (
     <section
       id="top"
-      ref={wrapRef}
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
     >
       {/* Background layers */}
@@ -34,27 +29,23 @@ export function Hero() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0"
+        className="hero-artwork pointer-events-none absolute inset-0 z-0"
         style={{
           backgroundImage: 'url(/images/6f29af55-85e9-4c26-83a1-dae8770f2657.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center right',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.85,
+          opacity: 0.96,
         }}
       />
       {/* Left fade to blend text area */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-0"
-        style={{
-          background: 'linear-gradient(to right, hsl(262 50% 5% / 0.92) 30%, hsl(262 50% 5% / 0.55) 60%, transparent 85%)',
-        }}
+        className="hero-readability-overlay pointer-events-none absolute inset-0 z-0"
       />
       {/* Bottom fade */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-gradient-to-b from-transparent to-[hsl(262_45%_7%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-40 bg-gradient-to-b from-transparent to-[hsl(262_45%_7%_/_0.72)]" />
       {/* Top fade */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-[hsl(262_45%_7%)] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-32 bg-gradient-to-b from-[hsl(262_45%_7%_/_0.68)] to-transparent" />
 
       {/* Orbiting constellation rings — subtle overlay */}
       <div
@@ -114,22 +105,6 @@ export function Hero() {
         </FadeIn>
       </div>
 
-      {/* Scroll cue */}
-      <motion.div
-        aria-hidden="true"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        initial={reduce ? { opacity: 0.6 } : { opacity: 0 }}
-        animate={reduce ? { opacity: 0.6 } : { opacity: [0, 0.6, 0] }}
-        transition={reduce ? { duration: 0 } : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="flex h-9 w-5 items-start justify-center rounded-full border border-[hsl(43_60%_70%_/_0.3)] p-1">
-          <motion.div
-            className="h-1.5 w-1 rounded-full bg-[hsl(43_60%_70%)]"
-            animate={reduce ? { y: 0 } : { y: [0, 12, 0] }}
-            transition={reduce ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        </div>
-      </motion.div>
     </section>
   );
 }

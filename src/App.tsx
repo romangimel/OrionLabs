@@ -66,8 +66,8 @@ function LandingPage() {
   return (
     <>
       {/* One fixed backdrop lets transparent landing sections share a continuous nebula. */}
-      <div aria-hidden="true" className="fixed inset-0 -z-10 bg-cosmic-page">
-        <Aurora className="opacity-70" />
+      <div aria-hidden="true" className="landing-cosmic-backdrop fixed inset-0 -z-10 overflow-hidden bg-cosmic-page">
+        <Aurora className="landing-cosmic-aurora opacity-70" />
       </div>
 
       <a

@@ -216,6 +216,47 @@
       hsl(262 48% 6%);
   }
 
+  /* Landing-only responsive positioning keeps shared route backgrounds intact. */
+  .hero-artwork {
+    background-position: right center;
+  }
+
+  .hero-readability-overlay {
+    background: linear-gradient(
+      to right,
+      hsl(262 50% 5% / 0.84) 30%,
+      hsl(262 50% 5% / 0.48) 62%,
+      hsl(262 50% 5% / 0.08) 88%
+    );
+  }
+
+  @media (max-width: 639px) {
+    .hero-artwork {
+      background-position: 85% center;
+    }
+
+    .landing-cosmic-backdrop {
+      background-position: left center;
+      background-repeat: no-repeat;
+      background-size: 200% 100%;
+    }
+
+    .landing-cosmic-aurora {
+      width: 200%;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .hero-readability-overlay {
+      background: linear-gradient(
+        to right,
+        hsl(262 50% 5% / 0.78) 30%,
+        hsl(262 50% 5% / 0.38) 60%,
+        transparent 85%
+      );
+    }
+  }
+
   .mask-fade-b {
     -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
