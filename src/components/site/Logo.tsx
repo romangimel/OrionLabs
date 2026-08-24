@@ -15,10 +15,10 @@ export function Logo({ className }: LogoProps) {
       aria-hidden="true"
     >
       <img
-        src="/orionlabs-logo.png"
+        src="/orionlabs-logo-mark-128.webp"
         alt=""
-        width={1254}
-        height={1254}
+        width={128}
+        height={128}
         className="h-[88%] w-[88%] object-contain"
       />
     </span>

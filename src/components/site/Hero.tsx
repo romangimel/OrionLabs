@@ -27,16 +27,27 @@ export function Hero() {
           background: 'hsl(262 50% 6%)',
         }}
       />
-      <div
+      <picture
         aria-hidden="true"
         className="hero-artwork pointer-events-none absolute inset-0 z-0"
-        style={{
-          backgroundImage: 'url(/images/6f29af55-85e9-4c26-83a1-dae8770f2657.png)',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.96,
-        }}
-      />
+      >
+        <source
+          media="(max-width: 639px)"
+          srcSet="/images/orionlabs-hero-mobile.webp"
+          type="image/webp"
+        />
+        <source srcSet="/images/orionlabs-hero-desktop.webp" type="image/webp" />
+        <img
+          src="/images/6f29af55-85e9-4c26-83a1-dae8770f2657.png"
+          alt=""
+          width={1536}
+          height={1024}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+          className="hero-artwork-image h-full w-full object-cover opacity-[0.96]"
+        />
+      </picture>
       {/* Left fade to blend text area */}
       <div
         aria-hidden="true"

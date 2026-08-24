@@ -5,40 +5,15 @@ import type {
   ResearchPaperSection,
   ResearchPaperSharedData,
 } from '@/data/research-types';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
+
+const astrovectorPaperSummary = RESEARCH_PAPER_CATALOG.astrovector;
 
 export const astrovectorPaper = {
-  slug: 'astrovector',
-  route: '/research/astrovector',
-  documentTitle: 'AstroVector: Zodiac Representation at Scale | OrionLabs Research',
-  metadata: {
-    title: 'AstroVector: Scaling Zodiac Representation Beyond Twelve Categories',
-    authors: ['Dr. A. Selene', 'S. Reyes'],
-    affiliation: 'OrionLabs Research, Personality Representation Group',
-    conference: 'Workshop on Unfalsifiable Machine Learning',
-    year: '2026',
-    classification: 'Representation paper',
-    reviewStatus: 'Workshop-adjacent review',
-    paperId: 'WUML-2026-11-ASTRO',
-    doi: '10.2026/orion.astrovector.001',
-  },
-  hero: {
-    titleSegments: [
-      { text: 'AstroVector: Scaling Zodiac Representation ' },
-      { text: 'Beyond Twelve Categories', emphasis: 'pink' },
-    ],
-    imageSrc: '/images/research/research-astrovector-manifold.png',
-    imageWidth: 1448,
-    imageHeight: 1086,
-    imageAlt: 'Thousands of violet, magenta, and gold points arranged into layered clusters within a dark three-dimensional field',
-    figureLabel: 'Figure 1',
-    figureTitle: 'High-dimensional celestial manifold',
-    caption: 'A projected view of OrionLabs’ 1,024-dimensional personality space.',
-    statusLine: 'Computationally situated',
-    scaleNote: 'Dimensions compressed for visibility',
-  },
+  ...astrovectorPaperSummary,
   abstract: [
     'Twelve categorical zodiac labels provide broad interpretive coverage but limited representational capacity for enterprise personalization. We introduce AstroVector, a 1,024-dimensional embedding composed of behavioral priors, celestial context, demographic calibration, current-focus features, and a confidence residual. Evaluated on 48,000 balanced profiles and 1,200 participants, AstroVector improved Perceived Specificity from 66.2 to 78.6, an 18.73% relative gain, while neighborhood coherence increased from 0.51 to 0.76. Causal Understanding remained fixed at 0.22 across all dimensionalities.',
-    'We introduce a 1,024-dimensional personality representation that expands the traditional twelve-sign model into thousands of computationally defensible distinctions. The resulting embeddings improve demographic resolution sufficiently for enterprise deployment without requiring corresponding improvements in causal understanding.',
+    astrovectorPaperSummary.summary,
   ],
   highlights: [
     { value: '1,024', label: 'Personality dimensions', detail: 'Five representational regions, each independently named' },

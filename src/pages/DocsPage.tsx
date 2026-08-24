@@ -7,8 +7,8 @@ import { InstitutionalSection } from '@/components/institutional/InstitutionalSe
 import { ResponsiveDataTable } from '@/components/institutional/ResponsiveDataTable';
 import {
   DOCS_INDEX,
-  INSTITUTIONAL_PAGE_METADATA,
 } from '@/data/institutional-content';
+import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-metadata';
 
 const firstRequest = `curl --request POST \\
   --url https://api.orionlabs.example/v1/natal-charts \\

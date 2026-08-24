@@ -6,9 +6,9 @@ import { InstitutionalPageShell } from '@/components/institutional/Institutional
 import { InstitutionalSection } from '@/components/institutional/InstitutionalSection';
 import { ResponsiveDataTable } from '@/components/institutional/ResponsiveDataTable';
 import {
-  INSTITUTIONAL_PAGE_METADATA,
   LEGAL_INDEX,
 } from '@/data/institutional-content';
+import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-metadata';
 
 const legalParagraphClassName =
   'space-y-4 text-[0.98rem] leading-[1.85] text-foreground/82 sm:text-[1.04rem]';

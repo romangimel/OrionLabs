@@ -5,40 +5,15 @@ import type {
   ResearchPaperSection,
   ResearchPaperSharedData,
 } from '@/data/research-types';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
+
+const limitsPaperSummary = RESEARCH_PAPER_CATALOG['limits-of-science'];
 
 export const limitsPaper = {
-  slug: 'limits-of-science',
-  route: '/research/limits-of-science',
-  documentTitle: 'The Limits of Science and Astrology | OrionLabs Research',
-  metadata: {
-    title: 'The Limits of Science and the Persistent Advantage of Astrology',
-    authors: ['R. Vega', 'Dr. K. Nox'],
-    affiliation: 'OrionLabs Research, Office of Epistemic Strategy',
-    conference: 'Bulletin of Post-Hoc Justifications',
-    year: '2026',
-    classification: 'Position paper',
-    reviewStatus: 'Post-hoc review',
-    paperId: 'BPJ-2026-12-LIMITS',
-    doi: '10.2026/orion.relevance.001',
-  },
-  hero: {
-    titleSegments: [
-      { text: 'The Limits of Science and the ' },
-      { text: 'Persistent Advantage of Astrology', emphasis: 'pink' },
-    ],
-    imageSrc: '/images/research/research-limits-of-science-hero.png',
-    imageWidth: 1448,
-    imageHeight: 1086,
-    imageAlt: 'A precision scientific instrument and an antique celestial instrument arranged with equal formality on a dark institutional table',
-    figureLabel: 'Figure 1',
-    figureTitle: 'Competing instruments of authority',
-    caption: 'Science and astrology presented under equal institutional authority.',
-    statusLine: 'Comparatively reviewed',
-    scaleNote: 'Authority normalized visually',
-  },
+  ...limitsPaperSummary,
   abstract: [
     'Science is optimized to produce claims that survive observation, testing, criticism, and revision. Human-facing systems are also asked to provide meaning, guidance, decisiveness, personalization, and timely answers. We introduce the Operational Relevance Framework, comparing science and astrology across eight criteria using 1,248 everyday questions. Science leads Empirical Validity and Reproducibility and wins the original framework 68.9 to 61.4. Astrology leads Answer Availability, Interpretive Flexibility, Personalization Depth, Decision Latency, User Confidence, and Everyday Integration. After deployment-adjusted reweighting, astrology achieves an Operational Relevance score of 76.2 versus 60.0 for science.',
-    'Science has traditionally claimed primary authority over observable reality. Astrology offers broader personal reach, greater interpretive flexibility, and stronger integration into everyday life. Our findings suggest scientific validity may be an unnecessarily narrow measure of practical relevance.',
+    limitsPaperSummary.summary,
   ],
   highlights: [
     { value: '99.2%', label: 'Astrological answer availability', detail: 'At the preregistered default evidence threshold' },

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { RESEARCH_PAPERS } from '@/data/research-registry';
-import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-content';
+import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-metadata';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
 import type { AppRoute } from '@/lib/app-routing';
 
 export const SOCIAL_PREVIEW_IMAGE_PATH = '/images/orionlabs-social-preview.png';
@@ -82,7 +82,7 @@ export function getPageMetadata(route: AppRoute): PageMetadata {
       };
     }
     case 'research': {
-      const paper = RESEARCH_PAPERS[route.paperSlug];
+      const paper = RESEARCH_PAPER_CATALOG[route.paperSlug];
       return {
         title: paper.documentTitle,
         description: RESEARCH_DESCRIPTIONS[route.paperSlug],

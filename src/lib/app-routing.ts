@@ -1,7 +1,7 @@
 import {
-  getResearchPaperByPath,
+  getResearchPaperSummaryByPath,
   type ResearchPaperSlug,
-} from '@/data/research-registry';
+} from '@/data/research-catalog';
 
 export const CALIBRATION_ROUTE_PATH = '/calibration';
 
@@ -42,7 +42,7 @@ export function resolveAppRoute(pathname: string): AppRoute {
       return { kind: 'legal' };
   }
 
-  const researchPaper = getResearchPaperByPath(normalizedPathname);
+  const researchPaper = getResearchPaperSummaryByPath(normalizedPathname);
   if (researchPaper) {
     return { kind: 'research', paperSlug: researchPaper.slug };
   }

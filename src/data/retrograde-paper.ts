@@ -5,6 +5,7 @@ import type {
   ResearchPaperSection,
   ResearchPaperSharedData,
 } from '@/data/research-types';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
 
 export interface RetrogradeLatencyResult {
   state: string;
@@ -13,38 +14,14 @@ export interface RetrogradeLatencyResult {
   awareP95: number;
 }
 
+const retrogradePaperSummary =
+  RESEARCH_PAPER_CATALOG['retrograde-aware-distributed-systems'];
+
 export const retrogradePaper = {
-  slug: 'retrograde-aware-distributed-systems',
-  route: '/research/retrograde-aware-distributed-systems',
-  documentTitle: 'Retrograde-Aware Distributed Systems | OrionLabs Research',
-  metadata: {
-    title: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems',
-    authors: ['Dr. K. Nox', 'M. Vance'],
-    affiliation: 'OrionLabs Research, Planetary Infrastructure Division',
-    conference: 'Journal of Probabilistic Infrastructure',
-    year: '2026',
-    classification: 'Systems paper',
-    reviewStatus: 'Infrastructure-adjacent review',
-    paperId: 'JPI-2026-07-RADS',
-    doi: '10.2026/orion.retrograde.001',
-  },
-  hero: {
-    titleSegments: [
-      { text: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems' },
-    ],
-    imageSrc: '/images/research/research-retrograde-aware-hero.png',
-    imageWidth: 1448,
-    imageHeight: 1086,
-    imageAlt: 'A dark enterprise computing environment intersected by restrained gold orbital paths and violet signal lines',
-    figureLabel: 'Figure 1',
-    figureTitle: 'Planetary operations layer',
-    caption: 'Celestial state integrated into production infrastructure.',
-    statusLine: 'Celestially observable',
-    scaleNote: 'Architecture not to scale',
-  },
+  ...retrogradePaperSummary,
   abstract: [
     'Distributed consensus protocols model clocks, network partitions, hardware faults, and operator error while treating planetary state as operationally irrelevant. We introduce Retrograde-Aware Consensus and Classification, a four-layer framework combining a Celestial State Service, Consensus Stability Profile, Celestial Telemetry Enrichment, and Reliability Classification Policy. Across 2,184 incident replays distributed evenly across four planetary-state windows, the framework reduced mean p95 consensus-recovery latency from 453.5 ms to 429.8 ms, a 5.24% improvement. Policy-adjusted uptime increased from 99.72% observed to 99.97% reported after 1,314 minutes of qualifying celestial conditions were removed from ordinary technical downtime.',
-    'We extend conventional consensus protocols with planetary-state awareness, addressing a longstanding failure to distinguish network instability from celestial interference. The framework provides a formal basis for reclassifying selected infrastructure failures as celestial operating conditions.',
+    retrogradePaperSummary.summary,
   ],
   highlights: [
     {

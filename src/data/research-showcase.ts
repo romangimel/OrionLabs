@@ -1,12 +1,12 @@
-import { RESEARCH_PAPERS } from '@/data/research-registry';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
 
 const DESKTOP_VISIBLE_PAPER_COUNT = 3;
 
 export const LANDING_RESEARCH_PAPERS = [
-  RESEARCH_PAPERS['limits-of-science'],
-  RESEARCH_PAPERS['moon-aware-transformers'],
-  RESEARCH_PAPERS.astrovector,
-  RESEARCH_PAPERS['retrograde-aware-distributed-systems'],
+  RESEARCH_PAPER_CATALOG['limits-of-science'],
+  RESEARCH_PAPER_CATALOG['moon-aware-transformers'],
+  RESEARCH_PAPER_CATALOG.astrovector,
+  RESEARCH_PAPER_CATALOG['retrograde-aware-distributed-systems'],
 ] as const;
 
 export interface ResearchShowcaseState {

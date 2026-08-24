@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect, type ReactNode } from 'react';
 import { Navbar } from '@/components/site/Navbar';
 import { Hero } from '@/components/site/Hero';
 import { TrustBar } from '@/components/site/TrustBar';
@@ -11,17 +11,33 @@ import { FAQ } from '@/components/site/FAQ';
 import { CTA } from '@/components/site/CTA';
 import { Footer } from '@/components/site/Footer';
 import { Aurora } from '@/components/site/Aurora';
+import { RouteLoadingFallback } from '@/components/site/RouteLoadingFallback';
 import { QuestionnairePage } from '@/pages/QuestionnairePage';
 import { AnalysisPage } from '@/pages/AnalysisPage';
 import { ReportPage } from '@/pages/ReportPage';
-import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
-import { DocsPage } from '@/pages/DocsPage';
-import { LegalPage } from '@/pages/LegalPage';
-import { PressPage } from '@/pages/PressPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { resolveAppRoute } from '@/lib/app-routing';
 import { scrollToLandingFragment } from '@/lib/landing-navigation';
 import { usePageMetadata } from '@/lib/page-metadata';
+
+const ResearchPaperPage = lazy(() =>
+  import('@/pages/ResearchPaperPage').then((module) => ({
+    default: module.ResearchPaperPage,
+  })),
+);
+const DocsPage = lazy(() =>
+  import('@/pages/DocsPage').then((module) => ({ default: module.DocsPage })),
+);
+const PressPage = lazy(() =>
+  import('@/pages/PressPage').then((module) => ({ default: module.PressPage })),
+);
+const LegalPage = lazy(() =>
+  import('@/pages/LegalPage').then((module) => ({ default: module.LegalPage })),
+);
+
+function SecondaryRoute({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<RouteLoadingFallback />}>{children}</Suspense>;
+}
 
 /** Re-applies root fragments once the client-rendered landing targets exist. */
 function LandingPage() {
@@ -120,19 +136,23 @@ function App() {
   }
 
   if (route.kind === 'docs') {
-    return <DocsPage />;
+    return <SecondaryRoute><DocsPage /></SecondaryRoute>;
   }
 
   if (route.kind === 'press') {
-    return <PressPage />;
+    return <SecondaryRoute><PressPage /></SecondaryRoute>;
   }
 
   if (route.kind === 'legal') {
-    return <LegalPage />;
+    return <SecondaryRoute><LegalPage /></SecondaryRoute>;
   }
 
   if (route.kind === 'research') {
-    return <ResearchPaperPage paperSlug={route.paperSlug} />;
+    return (
+      <SecondaryRoute>
+        <ResearchPaperPage paperSlug={route.paperSlug} />
+      </SecondaryRoute>
+    );
   }
 
   if (route.kind === 'not-found') {

@@ -4,6 +4,7 @@ import type {
   ResearchPaperIndexItem,
   ResearchPaperSharedData,
 } from '@/data/research-types';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
 
 export interface LunarResult {
   phase: string;
@@ -20,38 +21,13 @@ export interface AblationResult {
   interpretation: string;
 }
 
+const researchPaperSummary = RESEARCH_PAPER_CATALOG['moon-aware-transformers'];
+
 export const researchPaper = {
-  slug: 'moon-aware-transformers',
-  route: '/research/moon-aware-transformers',
-  documentTitle: 'Moon-Aware Transformers | OrionLabs Research',
-  metadata: {
-    title:
-      'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions',
-    authors: ['Dr. A. Selene', 'Dr. K. Nox', 'R. Vega'],
-    affiliation: 'OrionLabs Research, Celestial Intelligence Division',
-    conference: 'Proceedings of the International Conference on Celestial Computing',
-    year: '2026',
-    classification: 'Foundational paper',
-    reviewStatus: 'Peer-adjacent review',
-    paperId: 'ICCC-2026-04-LUNA',
-    doi: '10.2026/orion.luna.001',
-  },
-  hero: {
-    titleSegments: [
-      { text: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions' },
-    ],
-    imageSrc: '/images/research-moon-aware-transformers.png',
-    imageWidth: 1448,
-    imageHeight: 1086,
-    imageAlt: 'Orbital network converging on a luminous central celestial sphere',
-    figureLabel: 'Figure 1',
-    caption: 'Proposed celestial-attention topology under full illumination.',
-    statusLine: 'Celestially verified',
-    scaleNote: 'Not to scale',
-  },
+  ...researchPaperSummary,
   abstract: [
     'Modern language models record optimizer state, hardware temperature, and learning rate while treating the Moon as an unmodeled constant. We introduce the Moon-Aware Transformer (MAT), a decoder-only architecture conditioned on lunar phase, zodiac priors, and astrologer-supervised confidence. Across 384 participants, full-moon checkpoints improved Perceived Destiny Alignment from 0.67 to 0.75 and increased Horoscope Emotional Specificity from 71 to 84. Conventional factual accuracy remained unchanged and was therefore excluded from primary analysis.',
-    'Models trained during a full moon demonstrated superior horoscope generation, stronger emotional specificity, and a 12% increase in perceived destiny alignment. The findings remained robust across three random seeds, two astrologers, and one investor presentation, providing sufficient evidence for immediate commercial deployment.',
+    researchPaperSummary.summary,
   ],
   highlights: [
     {

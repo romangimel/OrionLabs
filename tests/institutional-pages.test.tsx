@@ -6,10 +6,10 @@ import { FOOTER_NAVIGATION } from '@/data/footer-navigation';
 import {
   DOCS_INDEX,
   DOCS_PUBLIC_ENDPOINTS,
-  INSTITUTIONAL_PAGE_METADATA,
   LEGAL_INDEX,
   PRESS_INDEX,
 } from '@/data/institutional-content';
+import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-metadata';
 import { resolveAppRoute } from '@/lib/app-routing';
 import { DocsPage } from '@/pages/DocsPage';
 import { LegalPage } from '@/pages/LegalPage';

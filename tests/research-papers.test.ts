@@ -3,6 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { astrovectorPaper } from '@/data/astrovector-paper';
 import { limitsPaper } from '@/data/limits-paper';
+import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
 import {
   getResearchPaperByPath,
   RESEARCH_PAPERS,
@@ -29,6 +30,11 @@ describe('research paper registry', () => {
       'limits-of-science',
     );
     expect(getResearchPaperByPath('/articles/limits-of-science')).toBeNull();
+
+    for (const paper of Object.values(RESEARCH_PAPERS)) {
+      expect(paper).toMatchObject(RESEARCH_PAPER_CATALOG[paper.slug]);
+      expect(paper.abstract).toContain(paper.summary);
+    }
   });
 
   it('preserves the approved cross-paper arithmetic', () => {

@@ -410,7 +410,14 @@ The accessibility pass is complete with accepted visual exceptions. Explicit gol
 
 ### 10. Performance
 
-Performance is the next active phase. Do not begin Final Testing until the focused performance work is complete.
+Performance is the active phase. Do not begin Final Testing until the remaining focused performance work is complete.
+
+#### P1 release-performance work
+
+- [x] Deliver responsive desktop/mobile WebP sources for the approved landing hero and a high-density lossless WebP derivative for the small OrionLabs logo mark
+- [x] Split Research manuscripts and Docs/Press/Legal pages out of the initial JavaScript graph while keeping lightweight route and metadata records eager
+
+P1 is complete. P2 dependency cleanup and secondary-image optimization have not started, so Performance remains active.
 
 - [ ] Optimize large images
 - [ ] Check bundle size

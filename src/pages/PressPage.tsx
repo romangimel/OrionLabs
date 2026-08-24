@@ -6,9 +6,9 @@ import { InstitutionalSection } from '@/components/institutional/InstitutionalSe
 import { ResponsiveDataTable } from '@/components/institutional/ResponsiveDataTable';
 import { Logo } from '@/components/site/Logo';
 import {
-  INSTITUTIONAL_PAGE_METADATA,
   PRESS_INDEX,
 } from '@/data/institutional-content';
+import { INSTITUTIONAL_PAGE_METADATA } from '@/data/institutional-metadata';
 
 interface PressReleaseProps {
   category: string;

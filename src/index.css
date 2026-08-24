@@ -222,8 +222,8 @@
   }
 
   /* Landing-only responsive positioning keeps shared route backgrounds intact. */
-  .hero-artwork {
-    background-position: right center;
+  .hero-artwork-image {
+    object-position: right center;
   }
 
   .hero-readability-overlay {
@@ -236,8 +236,8 @@
   }
 
   @media (max-width: 639px) {
-    .hero-artwork {
-      background-position: 85% center;
+    .hero-artwork-image {
+      object-position: 85% center;
     }
 
     .landing-cosmic-backdrop {

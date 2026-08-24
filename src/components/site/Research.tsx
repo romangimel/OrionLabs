@@ -6,16 +6,11 @@ import {
   LANDING_RESEARCH_PAPERS,
   researchShowcaseReducer,
 } from '@/data/research-showcase';
-import type { ResearchPaperSharedData } from '@/data/research-types';
 import { Reveal } from './Motion';
 import { SectionHeading } from './SectionHeading';
 import { BackgroundGlow } from './shared/BackgroundGlow';
 
 const DESKTOP_VISIBLE_PAPER_COUNT = 3;
-
-function getLandingSummary(paper: ResearchPaperSharedData) {
-  return paper.abstract[1] ?? paper.abstract[0];
-}
 
 export function Research() {
   const [showcaseState, dispatch] = useReducer(
@@ -119,7 +114,7 @@ export function Research() {
                     {selectedPaper.metadata.authors.join(' · ')}
                   </p>
                   <p className="mt-6 text-sm leading-[1.75] text-foreground/80 md:text-base md:leading-[1.7]">
-                    {getLandingSummary(selectedPaper)}
+                    {selectedPaper.summary}
                   </p>
                 </div>
 

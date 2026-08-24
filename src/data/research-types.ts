@@ -54,12 +54,18 @@ export interface ResearchPaperMetadata {
   doi: string;
 }
 
-export interface ResearchPaperSharedData {
+/** Small public-paper surface used by Landing, routing, and document metadata. */
+export interface ResearchPaperSummary {
   slug: string;
   route: string;
   documentTitle: string;
   metadata: ResearchPaperMetadata;
   hero: ResearchPaperHero;
+  summary: string;
+}
+
+/** Complete manuscript data, reachable only through the Research route boundary. */
+export interface ResearchPaperSharedData extends ResearchPaperSummary {
   abstract: readonly string[];
   highlights: readonly ResearchHighlight[];
   index: readonly ResearchPaperIndexItem[];

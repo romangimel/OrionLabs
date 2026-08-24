@@ -2,7 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import { Aurora } from '@/components/site/Aurora';
 import { Footer } from '@/components/site/Footer';
 import { Starfield } from '@/components/site/Starfield';
-import type { InstitutionalPageMetadata } from '@/data/institutional-content';
+import type { InstitutionalPageMetadata } from '@/data/institutional-metadata';
 import { InstitutionalHeader } from './InstitutionalHeader';
 
 interface InstitutionalPageShellProps {
