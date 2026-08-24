@@ -317,7 +317,7 @@ The visible five-row sequence is presentation-only and appears in this order:
 2. `Ignoring centuries of scientific consensus...`
 3. `Resolving ambiguity through proprietary optimism...`
 4. `Finalizing conclusions before reviewing the evidence...`
-5. `Report complete. Redirecting before reconsideration...`
+5. `Completing report and Redirecting before reconsideration...`
 
 Live-status variants:
 
@@ -445,7 +445,7 @@ Behavioral-pattern variants: `Reflective`; `Instinctive`; `Planner`; `Adaptive`;
 
 > Destination signal unavailable
 
-Route-recovery redirects themselves have no visible interim copy: a missing/invalid report redirects to `/questionnaire`; a completed active report entering `/analysis` redirects to `/report`.
+Route-recovery redirects themselves have no visible interim copy: a missing/invalid report redirects to `/questionnaire`; a completed active report entering `/calibration` redirects to `/report`.
 
 ## Shared Navigation / Footer / Global UI
 

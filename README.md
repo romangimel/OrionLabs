@@ -32,7 +32,7 @@ Supabase and several supporting UI packages remain installed for future developm
 ```text
 /                  Landing page
 /questionnaire     Four questionnaire steps -> review
-/analysis          Server-backed report generation or missing-profile recovery
+/calibration       Server-backed report generation or missing-profile recovery
 /report            Validated generated report restored from session storage
 /research/moon-aware-transformers  Featured research paper
 /research/retrograde-aware-distributed-systems  Research paper
@@ -43,11 +43,11 @@ Supabase and several supporting UI packages remain installed for future developm
 /api/enhance-context  Server-side optional-context enhancement (POST only)
 ```
 
-All other pathnames resolve to the branded 404 page. `/analysis` and the `/research/...` paths above are the implemented routes; the planned `/calibration` and `/articles/...` names in `ROADMAP.md` are not active routes.
+All other pathnames resolve to the branded 404 page. `/calibration` and the `/research/...` paths above are the implemented routes; `/analysis` is obsolete and receives the same branded 404 as any other invalid pathname. The planned `/articles/...` names in `ROADMAP.md` are not active routes.
 
 Questionnaire progress is saved as a temporary `sessionStorage` draft. Context enhancement uses two minimized request shapes: populated context sends only that user-authored text, while empty-context generation sends only focus area and behavioral statement. The Vercel Function reads `GROQ_API_KEY` server-side and makes one Groq request with an 8-second timeout. The returned text becomes the ordinary context answer and carries no AI provenance into report generation.
 
-After review confirmation, `/analysis` maps the draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the report function or Gemini. That function reads `GEMINI_API_KEY` only on the server.
+After review confirmation, `/calibration` maps the draft to name, zodiac sign, calculated age, focus area, behavioral statement, and optional context. Raw birth date and reference preference are not sent to the report function or Gemini. That function reads `GEMINI_API_KEY` only on the server.
 
 Successful reports keep the existing versioned session-storage behavior: the report has a private UUID, the active report pointer is stored separately, and `/report` validates the complete snapshot before rendering. Zodiac, focus, and behavior are stored as application-controlled Subject Signature metadata beside the unchanged AI-facing `OrionReport`; Report never infers behavior from Gemini prose. Starting another analysis clears only the questionnaire draft, so the prior completed report stays active until a validated replacement is persisted. An invalid active record redirects to the questionnaire without displaying mock or partial content.
 

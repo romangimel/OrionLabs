@@ -19,7 +19,7 @@ Landing Page
 -> Start Another Analysis
 ```
 
-The landing page, four-step questionnaire, review/edit flow, Analysis experience, Report page, four research-paper routes, Docs, Press, Legal, branded 404 page, route guards, and session-based persistence are implemented. The active pathname routes are `/`, `/questionnaire`, `/analysis`, `/report`, `/research/moon-aware-transformers`, `/research/retrograde-aware-distributed-systems`, `/research/astrovector`, `/research/limits-of-science`, `/docs`, `/press`, and `/legal`; all other paths render the 404 page. `/calibration` and `/articles/...` remain planned route names, not current routes.
+The landing page, four-step questionnaire, review/edit flow, Analysis experience, Report page, four research-paper routes, Docs, Press, Legal, branded 404 page, route guards, and session-based persistence are implemented. The active pathname routes are `/`, `/questionnaire`, `/calibration`, `/report`, `/research/moon-aware-transformers`, `/research/retrograde-aware-distributed-systems`, `/research/astrovector`, `/research/limits-of-science`, `/docs`, `/press`, and `/legal`; all other paths render the 404 page. `/analysis` is obsolete and receives that ordinary branded 404 rather than redirecting. `/articles/...` remains a planned route family, not a current route.
 
 The normal completed journey now uses real server-backed AI generation. Local `mockReport` content remains only for component development, tests, and offline UI work; it is never a silent production fallback.
 

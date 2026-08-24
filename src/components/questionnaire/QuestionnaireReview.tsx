@@ -50,7 +50,7 @@ function formatBirthDate(value: string) {
 /**
  * Groups the normalized answer state into the same sections the user completed.
  * Each edit action returns to its original step with all other answers intact;
- * confirmation is the only action that persists data for the analysis route.
+ * confirmation is the only action that persists data for the calibration route.
  */
 export function QuestionnaireReview({
   answers,

@@ -6,7 +6,7 @@ import {
 } from '../data/questionnaire.js';
 
 /**
- * Canonical answer model shared by the questionnaire, review, and analysis routes.
+ * Canonical answer model shared by the questionnaire, review, and calibration routes.
  * Every field remains a string so controlled inputs always receive a stable value.
  */
 export interface QuestionnaireAnswers {
@@ -27,7 +27,7 @@ export type QuestionnaireStepIndex = 0 | 1 | 2 | 3;
 /**
  * Temporary progress for one active questionnaire-to-analysis journey.
  * `pendingReportId` is assigned only after review confirmation and doubles as
- * the idempotency key for the completed report created by the analysis route.
+ * the idempotency key for the completed report created by the calibration route.
  */
 export interface QuestionnaireDraft {
   version: 1;

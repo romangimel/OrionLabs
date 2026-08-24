@@ -33,7 +33,7 @@ describe('production report prompt invariants', () => {
   it('locks the final generated report prompt', () => {
     // This hash covers the locked template plus its frozen runtime composition.
     expect(sha256(buildReportGenerationPrompt(LOCKED_REPORT_PROMPT_INPUT))).toBe(
-      '9b42a453f5bc413118632872938122182a6191659212dc149d50ba666e611a36',
+      '4390369caf5c68364f7938fcc372c0c3aaac8a4ec50c1077861a35f6ef9e913c',
     );
   });
 

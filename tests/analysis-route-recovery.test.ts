@@ -43,7 +43,7 @@ beforeEach(() => {
   });
 });
 
-describe('analysis route recovery', () => {
+describe('calibration route recovery', () => {
   it('sends a completed active report directly to /report without needing a draft', () => {
     const savedReport = persistGeneratedReport(
       reportId,
@@ -59,11 +59,11 @@ describe('analysis route recovery', () => {
     expect(getActiveReport()?.id).toBe(reportId);
   });
 
-  it('keeps valid pending analysis state on /analysis when no report is completed', () => {
+  it('keeps valid pending analysis state on /calibration when no report is completed', () => {
     expect(resolveAnalysisRouteDestination(false, true)).toBeNull();
   });
 
-  it('keeps a valid pending analysis on /analysis while an earlier report remains active', () => {
+  it('keeps a valid pending analysis on /calibration while an earlier report remains active', () => {
     persistGeneratedReport(
       reportId,
       createValidReport(),

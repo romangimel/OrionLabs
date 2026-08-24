@@ -3,6 +3,8 @@ import {
   type ResearchPaperSlug,
 } from '@/data/research-registry';
 
+export const CALIBRATION_ROUTE_PATH = '/calibration';
+
 export type AppRoute =
   | { kind: 'landing' }
   | { kind: 'questionnaire' }
@@ -28,7 +30,7 @@ export function resolveAppRoute(pathname: string): AppRoute {
       return { kind: 'landing' };
     case '/questionnaire':
       return { kind: 'questionnaire' };
-    case '/analysis':
+    case CALIBRATION_ROUTE_PATH:
       return { kind: 'analysis' };
     case '/report':
       return { kind: 'report' };

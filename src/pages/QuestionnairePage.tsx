@@ -19,6 +19,7 @@ import {
   type QuestionnaireStepIndex,
 } from '@/lib/questionnaire-state';
 import { clearIncompleteQuestionnaireForExit } from '@/lib/analysis-session';
+import { CALIBRATION_ROUTE_PATH } from '@/lib/app-routing';
 import { createReportGenerationInput } from '@/lib/report-generation-input';
 import { createReportId } from '@/lib/report-storage';
 import { createSubjectSignatureFromAnswers } from '@/lib/subject-signature';
@@ -35,7 +36,7 @@ const TRANSITION_LOCK_MS = 450;
 
 /**
  * Owns the complete questionnaire flow: answers, step navigation, review mode,
- * accessibility focus, and the handoff to the analysis route.
+ * accessibility focus, and the handoff to the calibration route.
  *
  * Answer state is lifted to this page so each configuration-driven input can be
  * remounted between steps without losing values. A versioned draft mirrors that
@@ -257,7 +258,7 @@ export function QuestionnairePage() {
     }
 
     setQuestionnaire(analysisReadyState);
-    window.location.assign('/analysis');
+    window.location.assign(CALIBRATION_ROUTE_PATH);
   };
 
   return (

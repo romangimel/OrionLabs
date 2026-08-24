@@ -174,8 +174,8 @@ Possible report sections:
 ### Routing
 
 - [x] Add the questionnaire route
-- [x] Add the analysis route
-- [x] Connect the questionnaire review stage to the analysis route
+- [x] Add the calibration route
+- [x] Connect the questionnaire review stage to the calibration route
 - [x] Add the report route
 - [x] Add the four research-paper routes
 - [x] Add the Docs, Press, and Legal routes
@@ -197,7 +197,7 @@ Possible report sections:
 
 ### Route Safety
 
-- [x] Handle direct access to `/analysis` without questionnaire data
+- [x] Handle direct access to `/calibration` without questionnaire data
 - [x] Handle direct access to `/report` without report data
 - [x] Handle missing or invalid `sessionStorage` data
 - [x] Handle refreshes on questionnaire, analysis, and report routes
@@ -245,14 +245,14 @@ The completed items below are manual behavior checks, not automated regression t
 - [x] Review Answers displays readable values, optional-answer fallbacks, and accessible Edit names
 - [x] Each of the four Edit actions returns to its matching question group without clearing answers
 - [x] Edited answers replace the prior review-summary values
-- [x] Begin Analysis saves one pending report identity and opens the analysis route
+- [x] Begin Analysis saves one pending report identity and opens the calibration route
 
 ### Verified Routing and Persistence Behavior
 
 - [x] Questionnaire drafts persist during the active journey and survive a questionnaire refresh
 - [x] Draft and report validators safely reject corrupted stored data
 - [ ] Perform focused browser checks for malformed questionnaire drafts and report records
-- [x] Protected-route recovery: `/analysis` redirects completed active reports directly to `/report`; otherwise `/analysis` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
+- [x] Protected-route recovery: `/calibration` redirects completed active reports directly to `/report`; otherwise `/calibration` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
 - [ ] Verify refreshes and direct navigation for all public routes in a live Vercel environment
 - [ ] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
 - [ ] Manually verify a real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
@@ -374,10 +374,10 @@ Do not call the AI provider directly from frontend browser code.
 
 ### 6. Route and Browser Presentation Finalization
 
-- [ ] Rename final routes: `/analysis` to `/calibration`
-- [ ] Update internal links and navigation for the renamed routes
-- [ ] Verify direct navigation and refresh behavior after the route rename
-- [ ] Ensure old and invalid routes redirect intentionally or fail gracefully
+- [x] Rename final routes: `/analysis` to `/calibration`
+- [x] Update internal links and navigation for the renamed routes
+- [x] Verify direct navigation and refresh behavior after the route rename
+- [x] Ensure old and invalid routes redirect intentionally or fail gracefully
 - [ ] Finalize document and page titles, favicon/app icon, meta description, and Open Graph/social-preview metadata
 - [ ] Verify live and shared URLs produce sensible browser and social-preview information
 

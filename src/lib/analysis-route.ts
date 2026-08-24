@@ -1,7 +1,7 @@
 /**
  * Keeps a valid in-progress analysis separate from the last completed report.
  * Without a pending run, completed-report recovery remains the safe default for
- * direct `/analysis` navigation.
+ * direct `/calibration` navigation.
  */
 export function resolveAnalysisRouteDestination(
   hasActiveCompletedReport: boolean,

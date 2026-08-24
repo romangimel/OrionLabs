@@ -612,7 +612,7 @@ Optional context is limited to 600 characters across questionnaire validation, p
 
 # Current Application Scope
 
-The implemented product is a pathname-routed React application with a landing page, four-step questionnaire and review state, guarded `/analysis` and `/report` routes, four research-paper routes, Docs, Press, Legal, and a branded 404 page. The active route names remain `/analysis` and `/research/...`; the planned `/calibration` and `/articles/...` names are not yet implemented.
+The implemented product is a pathname-routed React application with a landing page, four-step questionnaire and review state, guarded `/calibration` and `/report` routes, four research-paper routes, Docs, Press, Legal, and a branded 404 page. The active generation route is `/calibration`; `/analysis` is obsolete and resolves through the branded 404 like any other unknown pathname. The `/research/...` article routes remain active, while the planned `/articles/...` names are not yet implemented.
 
 The normal report journey uses a browser-to-Vercel-Function boundary rather than a direct browser-to-provider call. It validates both the approved generation input and the complete `OrionReport` response. Questionnaire drafts and immutable completed reports are browser-tab `sessionStorage` records, not a database or account history. The deterministic Subject Signature remains application-controlled and persists only zodiac, focus, and behavior beside the report; it does not derive its state from generated prose.
 
