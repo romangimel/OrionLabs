@@ -229,7 +229,7 @@ Validation: `Please enter your first name.`
 
 > Adds chronological precision to an otherwise alarmingly broad celestial model.
 
-Validation: `Please enter your birth date.`; `Please enter a valid birth date.`; `Please enter a birth date that is not in the future.`; `OrionLabs analysis is currently limited to subjects aged 18 and over.`
+Validation: `Please enter your birth date.`; `Please enter a valid birth date.`; `Please enter a birth date that is not in the future.`; `OrionLabs analysis is currently limited to subjects aged 18 and over.`; `OrionLabs currently supports subjects up to age 120.`
 
 **How should OrionLabs refer to you?** — Required
 

@@ -616,7 +616,7 @@ The implemented product is a pathname-routed React application with a landing pa
 
 The normal report journey uses a browser-to-Vercel-Function boundary rather than a direct browser-to-provider call. It validates both the approved generation input and the complete `OrionReport` response. Questionnaire drafts and immutable completed reports are browser-tab `sessionStorage` records, not a database or account history. The deterministic Subject Signature remains application-controlled and persists only zodiac, focus, and behavior beside the report; it does not derive its state from generated prose.
 
-The repository proves this architecture, but not external provider account settings, external rate limits, retention/logging, or production monitoring. Treat those as separate deployment and operational verification work. Production route, refresh, SPA-fallback, and crawler-facing metadata checks are documented as complete for the current release. Non-JavaScript crawlers may receive generic landing metadata on deep SPA routes; this accepted limitation does not create an SSR or prerendering requirement. The next active phase is the Full Desktop, Tablet, and Mobile UX Audit.
+The repository proves this architecture, but not external provider account settings, external rate limits, retention/logging, or production monitoring. Treat those as separate deployment and operational verification work. Production route, refresh, SPA-fallback, crawler-facing metadata, and the full desktop/tablet/mobile UX audit are documented as complete for the current release. Non-JavaScript crawlers may receive generic landing metadata on deep SPA routes; this accepted limitation does not create an SSR or prerendering requirement. The next active phase is Cleanup.
 
 ---
 

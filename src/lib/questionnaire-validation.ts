@@ -9,7 +9,10 @@ import {
   type QuestionnaireAnswerField,
   type QuestionnaireAnswers,
 } from '@/lib/questionnaire-state';
-import { MAX_ADDITIONAL_CONTEXT_LENGTH } from '@/lib/report-generation-constraints';
+import {
+  MAX_ADDITIONAL_CONTEXT_LENGTH,
+  MAX_SUBJECT_AGE,
+} from '@/lib/report-generation-constraints';
 
 /** Step-local errors are keyed by the canonical answer field they describe. */
 export type QuestionnaireValidationErrors = Partial<
@@ -25,6 +28,7 @@ const INVALID_BIRTH_DATE_MESSAGE = 'Please enter a valid birth date.';
 const FUTURE_BIRTH_DATE_MESSAGE = 'Please enter a birth date that is not in the future.';
 const MINIMUM_AGE_MESSAGE =
   'OrionLabs analysis is currently limited to subjects aged 18 and over.';
+const MAXIMUM_AGE_MESSAGE = 'OrionLabs currently supports subjects up to age 120.';
 export const ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE =
   `Please keep additional context within ${MAX_ADDITIONAL_CONTEXT_LENGTH} characters.`;
 
@@ -66,7 +70,11 @@ export function validateQuestionnaireAnswer(
     return INVALID_BIRTH_DATE_MESSAGE;
   }
 
-  return age < 18 ? MINIMUM_AGE_MESSAGE : undefined;
+  if (age < 18) {
+    return MINIMUM_AGE_MESSAGE;
+  }
+
+  return age > MAX_SUBJECT_AGE ? MAXIMUM_AGE_MESSAGE : undefined;
 }
 
 /**

@@ -160,4 +160,4 @@ These are not production-ready and should not be described as complete.
 
 ## Immediate next phase
 
-Perform the Full Desktop, Tablet, and Mobile UX Audit, including empty, loading, error, and success states. Do not begin cleanup, the project-wide accessibility audit, performance work, or final release testing until the resulting focused fix list is understood. The operational items under Still deferred remain separate follow-up work.
+Perform the scoped Cleanup phase: remove obsolete fixture or demo content while preserving development and test fixtures, remove unused code and assets, and confirm technical comments remain accurate. The full desktop/tablet/mobile UX audit, including empty, loading, error, capacity, and success states, is complete. Do not begin the project-wide accessibility audit, performance work, or final release testing until Cleanup is complete. The operational items under Still deferred remain separate follow-up work.

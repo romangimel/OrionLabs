@@ -551,6 +551,8 @@
 
 > OrionLabs analysis is currently limited to subjects aged 18 and over.
 
+> OrionLabs currently supports subjects up to age 120.
+
 ### Question 02
 
 **How should OrionLabs refer to you?** — Required

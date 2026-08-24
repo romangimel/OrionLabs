@@ -8,6 +8,7 @@ import type { OrionReport } from '../data/report.js';
 import type { ReportGenerationInput } from './report-generation-input.js';
 import {
   MAX_ADDITIONAL_CONTEXT_LENGTH,
+  MAX_SUBJECT_AGE,
   MAX_SUBJECT_NAME_LENGTH,
 } from './report-generation-constraints.js';
 
@@ -32,7 +33,7 @@ export const reportGenerationInputSchema: z.ZodType<ReportGenerationInput> = z
           .string()
           .trim()
           .refine((value) => zodiacNames.includes(value as (typeof zodiacNames)[number])),
-        age: z.number().int().min(0).max(120),
+        age: z.number().int().min(0).max(MAX_SUBJECT_AGE),
       })
       .strict(),
     focusArea: z
@@ -63,7 +64,7 @@ export const orionReportSchema: z.ZodType<OrionReport> = z
       .object({
         name: nonEmptyText,
         zodiacSign: nonEmptyText,
-        age: z.number().int().min(0).max(120),
+        age: z.number().int().min(0).max(MAX_SUBJECT_AGE),
       })
       .strict(),
     summary: z

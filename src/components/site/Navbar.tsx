@@ -79,16 +79,16 @@ export function Navbar() {
             : 'border-b border-transparent',
         )}
       >
-        <nav className="container-narrow flex h-16 items-center justify-between md:h-20">
+        <nav className="container-narrow flex h-16 items-center justify-between lg:h-20">
           <a href="#top" className="group flex items-center gap-2" aria-label="OrionLabs home">
-            <Logo className="h-9 w-9 md:h-10 md:w-10" />
-            <span className="font-serif text-2xl tracking-tight text-foreground md:text-[1.6rem]">
+            <Logo className="h-9 w-9 lg:h-10 lg:w-10" />
+            <span className="font-serif text-2xl tracking-tight text-foreground lg:text-[1.6rem]">
               Orion<span className="text-gradient-gold">Labs</span>
             </span>
           </a>
 
           {/* Desktop nav */}
-          <ul className="hidden items-center gap-8 md:flex">
+          <ul className="hidden items-center gap-8 lg:flex">
             {LANDING_NAV_LINKS.map((l) => (
               <li key={l.href}>
                 <a
@@ -101,7 +101,7 @@ export function Navbar() {
             ))}
           </ul>
 
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <a
               href={ANALYSIS_DESTINATION}
               onClick={prepareNewAnalysisJourney}
@@ -115,7 +115,7 @@ export function Navbar() {
           {/* Mobile toggle */}
           <button
             type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-foreground md:hidden"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-foreground lg:hidden"
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -134,7 +134,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-0 bottom-0 top-16 md:hidden"
+            className="fixed inset-x-0 bottom-0 top-16 lg:hidden"
             onClick={() => setOpen(false)}
           />
         )}
@@ -147,7 +147,7 @@ export function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 overflow-hidden border-b border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.95)] backdrop-blur-xl md:hidden"
+            className="relative z-10 overflow-hidden border-b border-[hsl(43_60%_70%_/_0.12)] bg-[hsl(262_45%_7%_/_0.95)] backdrop-blur-xl lg:hidden"
           >
             <ul className="container-narrow flex flex-col gap-1 py-4">
               {LANDING_NAV_LINKS.map((l) => (

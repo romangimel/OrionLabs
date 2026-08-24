@@ -385,11 +385,13 @@ Production route, refresh, SPA-fallback, browser-metadata, and social-crawler ch
 
 ### 7. Full Desktop, Tablet, and Mobile UX Audit
 
-- [ ] Review the complete desktop experience
-- [ ] Review the complete tablet experience
-- [ ] Review the complete mobile experience
-- [ ] Review empty, loading, error, and success states
-- [ ] Resolve the short final-fixes list produced by this audit before accessibility, performance, and final testing
+- [x] Review the complete desktop experience
+- [x] Review the complete tablet experience
+- [x] Review the complete mobile experience
+- [x] Review empty, loading, error, and success states
+- [x] Resolve the short final-fixes list produced by this audit before accessibility, performance, and final testing
+
+The audit closed after responsive checks at 1440×900, 1152×768, 1024×768, 900×768, 768×1024, 430×932, and 375×812. Provider-free fixtures covered questionnaire validation, Calibration loading/error/capacity, completed Report content, research tables/figures, institutional pages, and the completed-report replacement lifecycle. The two approved fixes moved the complete landing navigation transition to 1024px and aligned field-level birth-date validation with the report schema's maximum supported age of 120.
 
 ### 8. Cleanup
 

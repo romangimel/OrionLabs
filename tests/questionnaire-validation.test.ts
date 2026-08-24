@@ -3,6 +3,7 @@ import { QUESTIONNAIRE_STEPS } from '@/data/questionnaire';
 import type { QuestionnaireAnswers } from '@/lib/questionnaire-state';
 import {
   ADDITIONAL_CONTEXT_TOO_LONG_MESSAGE,
+  getFirstInvalidQuestionId,
   validateQuestionnaireStep,
 } from '@/lib/questionnaire-validation';
 
@@ -25,6 +26,18 @@ function validateBirthDate(birthDate: string) {
     answers,
     CURRENT_DATE,
   ).birthDate;
+}
+
+function createProfileCalibrationAnswers(birthDate: string): QuestionnaireAnswers {
+  return {
+    firstName: '',
+    zodiacSign: '',
+    birthDate,
+    pronouns: 'They / Them',
+    attentionArea: '',
+    behavioralStatement: '',
+    additionalContext: '',
+  };
 }
 
 describe('questionnaire birth-date validation', () => {
@@ -54,6 +67,49 @@ describe('questionnaire birth-date validation', () => {
 
   it('allows a clearly adult subject', () => {
     expect(validateBirthDate('1990-04-20')).toBeUndefined();
+  });
+
+  it('allows a subject who is exactly 120 today', () => {
+    expect(validateBirthDate('1906-08-10')).toBeUndefined();
+  });
+
+  it('allows a subject who remains 120 until tomorrow', () => {
+    expect(validateBirthDate('1905-08-11')).toBeUndefined();
+  });
+
+  it.each(['1905-08-10', '1905-08-09'])(
+    'rejects a subject who is already at least 121 (%s)',
+    (birthDate) => {
+      expect(validateBirthDate(birthDate)).toBe(
+        'OrionLabs currently supports subjects up to age 120.',
+      );
+    },
+  );
+
+  it('blocks progression and identifies birth date as the first invalid field', () => {
+    const errors = validateQuestionnaireStep(
+      PROFILE_CALIBRATION_STEP,
+      createProfileCalibrationAnswers('1905-08-10'),
+      CURRENT_DATE,
+    );
+
+    expect(errors).toEqual({
+      birthDate: 'OrionLabs currently supports subjects up to age 120.',
+    });
+    expect(getFirstInvalidQuestionId(PROFILE_CALIBRATION_STEP, errors)).toBe(
+      'birth-date',
+    );
+  });
+
+  it('allows a valid profile-calibration step to progress normally', () => {
+    const errors = validateQuestionnaireStep(
+      PROFILE_CALIBRATION_STEP,
+      createProfileCalibrationAnswers('1990-04-20'),
+      CURRENT_DATE,
+    );
+
+    expect(errors).toEqual({});
+    expect(getFirstInvalidQuestionId(PROFILE_CALIBRATION_STEP, errors)).toBeUndefined();
   });
 
   it('rejects a future birth date', () => {

@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import {
   LANDING_NAV_LINKS,
@@ -5,7 +7,19 @@ import {
   scrollToLandingFragment,
 } from '@/lib/landing-navigation';
 
+const navbarSource = readFileSync(
+  resolve(process.cwd(), 'src/components/site/Navbar.tsx'),
+  'utf8',
+);
+
 describe('landing navigation', () => {
+  it('keeps every compact/desktop control on the shared lg transition', () => {
+    expect(navbarSource).toContain('gap-8 lg:flex');
+    expect(navbarSource).toContain('hidden lg:block');
+    expect(navbarSource.match(/lg:hidden/g)).toHaveLength(3);
+    expect(navbarSource).not.toMatch(/\bmd:(?:flex|block|hidden)\b/);
+  });
+
   it('uses the approved landing section anchors for both navigation variants', () => {
     expect(LANDING_NAV_LINKS.map((link) => link.href)).toEqual([
       '#philosophy',
