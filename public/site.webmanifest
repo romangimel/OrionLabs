@@ -1,0 +1,21 @@
+{
+  "name": "OrionLabs",
+  "short_name": "OrionLabs",
+  "description": "Personalized horoscope, powered by AI.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070514",
+  "theme_color": "#070514",
+  "icons": [
+    {
+      "src": "/icons/orionlabs-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/orionlabs-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

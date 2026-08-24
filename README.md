@@ -85,7 +85,10 @@ Create an ignored `.env.local` file from `.env.example` and add development prov
 ```dotenv
 GEMINI_API_KEY=your_development_key
 GROQ_API_KEY=your_development_key
+VITE_SITE_URL=https://your-production-domain.example
 ```
+
+`VITE_SITE_URL` is optional locally and contains no secret. Configure it for Preview or Production builds when a stable public origin is available so static canonical and social-image URLs are absolute before React loads. Without it, client-side metadata uses the active browser origin.
 
 Plain `npm run dev` starts Vite but does not execute the `/api` Vercel Function. Use the Vercel development environment for the complete flow:
 
@@ -109,7 +112,7 @@ Vitest provides focused coverage for questionnaire validation and storage, route
 
 ## Vercel configuration
 
-In the Vercel project dashboard, add `GEMINI_API_KEY` and `GROQ_API_KEY` under Settings -> Environment Variables for the environments that should use their respective AI features (Development, Preview, and Production as appropriate), then redeploy. Keep both values marked sensitive and do not prefix either with `VITE_`.
+In the Vercel project dashboard, add `GEMINI_API_KEY` and `GROQ_API_KEY` under Settings -> Environment Variables for the environments that should use their respective AI features (Development, Preview, and Production as appropriate), then redeploy. Keep both provider values marked sensitive and do not prefix either with `VITE_`. Add the non-secret `VITE_SITE_URL` for environments with a stable public origin so canonical and Open Graph URLs are emitted as absolute URLs.
 
 The repository cannot establish provider billing, quota, retention, logging, account settings, or dashboard-only Vercel Firewall state. Before public use, protect `/api/enhance-context` with a Vercel Firewall rate-limit rule; a reasonable initial limit is 10 requests per 60 seconds per IP. The existing report-generation rule is not proven to cover this new path. The application also handles upstream and provider failures safely, but application validation is not a substitute for external cost protection.
 

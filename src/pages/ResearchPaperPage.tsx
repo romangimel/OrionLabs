@@ -110,8 +110,6 @@ export function ResearchPaperPage({ paperSlug }: { paperSlug: ResearchPaperSlug 
   const paper = RESEARCH_PAPERS[paperSlug];
 
   useEffect(() => {
-    const previousTitle = document.title;
-    document.title = paper.documentTitle;
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
     // Route-level focus gives keyboard and screen-reader users an immediate page landmark.
@@ -121,9 +119,8 @@ export function ResearchPaperPage({ paperSlug }: { paperSlug: ResearchPaperSlug 
 
     return () => {
       window.cancelAnimationFrame(focusFrame);
-      document.title = previousTitle;
     };
-  }, [paper.documentTitle]);
+  }, [paperSlug]);
 
   return (
     <div id="top" className="relative min-h-[100svh] overflow-clip bg-[hsl(262_48%_6%)]">

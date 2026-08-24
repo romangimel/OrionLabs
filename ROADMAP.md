@@ -378,7 +378,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Update internal links and navigation for the renamed routes
 - [x] Verify direct navigation and refresh behavior after the route rename
 - [x] Ensure old and invalid routes redirect intentionally or fail gracefully
-- [ ] Finalize document and page titles, favicon/app icon, meta description, and Open Graph/social-preview metadata
+- [x] Finalize document and page titles, favicon/app icon, meta description, and Open Graph/social-preview metadata
 - [ ] Verify live and shared URLs produce sensible browser and social-preview information
 
 ### 7. Full Desktop, Tablet, and Mobile UX Audit

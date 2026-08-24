@@ -21,6 +21,7 @@ import { PressPage } from '@/pages/PressPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { resolveAppRoute } from '@/lib/app-routing';
 import { scrollToLandingFragment } from '@/lib/landing-navigation';
+import { usePageMetadata } from '@/lib/page-metadata';
 
 /** Re-applies root fragments once the client-rendered landing targets exist. */
 function LandingPage() {
@@ -101,6 +102,7 @@ function LandingPage() {
  */
 function App() {
   const route = resolveAppRoute(window.location.pathname);
+  usePageMetadata(route);
 
   if (route.kind === 'questionnaire') {
     return <QuestionnairePage />;

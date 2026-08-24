@@ -12,19 +12,19 @@ export interface InstitutionalPageMetadata {
 /** Route metadata is data so routing and document-head behavior remain testable. */
 export const INSTITUTIONAL_PAGE_METADATA = {
   docs: {
-    documentTitle: 'Developer Documentation',
+    documentTitle: 'Developer Documentation | OrionLabs',
     description:
-      'Integrate natal-chart computation, celestial context, AstroVector representation, and OrionLabs interpretation infrastructure through a carefully documented fictional API.',
+      'Explore OrionLabs developer documentation for natal-chart computation, celestial context, AstroVector representation, and fictional interpretation APIs.',
     pageLabel: 'Developer documentation',
   },
   press: {
-    documentTitle: 'Newsroom and Press',
+    documentTitle: 'Newsroom & Press | OrionLabs',
     description:
       'Official OrionLabs announcements, company facts, research updates, approved media resources, and carefully contextualized institutional momentum.',
     pageLabel: 'Newsroom',
   },
   legal: {
-    documentTitle: 'Legal, Privacy, and Compliance',
+    documentTitle: 'Legal, Privacy & Compliance | OrionLabs',
     description:
       'Terms of Alignment, real product privacy behavior, browser-storage policy, compliance boundaries, and fictional OrionLabs trademark guidance.',
     pageLabel: 'Legal and compliance',

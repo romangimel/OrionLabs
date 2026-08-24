@@ -9,7 +9,7 @@ import type {
 export const limitsPaper = {
   slug: 'limits-of-science',
   route: '/research/limits-of-science',
-  documentTitle: 'The Limits of Science and the Persistent Advantage of Astrology | OrionLabs Research',
+  documentTitle: 'The Limits of Science and Astrology | OrionLabs Research',
   metadata: {
     title: 'The Limits of Science and the Persistent Advantage of Astrology',
     authors: ['R. Vega', 'Dr. K. Nox'],

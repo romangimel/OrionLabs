@@ -96,9 +96,15 @@ describe('institutional content and anchors', () => {
   });
 
   it('defines the approved document titles and descriptions', () => {
-    expect(INSTITUTIONAL_PAGE_METADATA.docs.documentTitle).toBe('Developer Documentation');
-    expect(INSTITUTIONAL_PAGE_METADATA.press.documentTitle).toBe('Newsroom and Press');
-    expect(INSTITUTIONAL_PAGE_METADATA.legal.documentTitle).toBe('Legal, Privacy, and Compliance');
+    expect(INSTITUTIONAL_PAGE_METADATA.docs.documentTitle).toBe(
+      'Developer Documentation | OrionLabs',
+    );
+    expect(INSTITUTIONAL_PAGE_METADATA.press.documentTitle).toBe(
+      'Newsroom & Press | OrionLabs',
+    );
+    expect(INSTITUTIONAL_PAGE_METADATA.legal.documentTitle).toBe(
+      'Legal, Privacy & Compliance | OrionLabs',
+    );
     expect(Object.values(INSTITUTIONAL_PAGE_METADATA).every(({ description }) => description.length > 80)).toBe(true);
   });
 });

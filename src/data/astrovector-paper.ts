@@ -9,7 +9,7 @@ import type {
 export const astrovectorPaper = {
   slug: 'astrovector',
   route: '/research/astrovector',
-  documentTitle: 'AstroVector: Scaling Zodiac Representation Beyond Twelve Categories | OrionLabs Research',
+  documentTitle: 'AstroVector: Zodiac Representation at Scale | OrionLabs Research',
   metadata: {
     title: 'AstroVector: Scaling Zodiac Representation Beyond Twelve Categories',
     authors: ['Dr. A. Selene', 'S. Reyes'],

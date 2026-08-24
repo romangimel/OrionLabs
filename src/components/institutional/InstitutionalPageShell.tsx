@@ -19,17 +19,6 @@ export function InstitutionalPageShell({
   children,
 }: InstitutionalPageShellProps) {
   useEffect(() => {
-    const previousTitle = document.title;
-    const descriptionElement = document.querySelector<HTMLMetaElement>(
-      'meta[name="description"]',
-    );
-    const previousDescription = descriptionElement?.content;
-
-    document.title = metadata.documentTitle;
-    if (descriptionElement) {
-      descriptionElement.content = metadata.description;
-    }
-
     const focusFragmentTarget = (ensureScroll: boolean) => {
       const hash = window.location.hash.slice(1);
       if (!hash) {
@@ -74,12 +63,8 @@ export function InstitutionalPageShell({
       window.cancelAnimationFrame(focusFrame);
       window.cancelAnimationFrame(nestedFocusFrame);
       window.removeEventListener('hashchange', handleHashChange);
-      document.title = previousTitle;
-      if (descriptionElement && previousDescription !== undefined) {
-        descriptionElement.content = previousDescription;
-      }
     };
-  }, [metadata]);
+  }, []);
 
   return (
     <div id="top" className="relative min-h-[100svh] overflow-clip bg-[hsl(262_48%_6%)]">

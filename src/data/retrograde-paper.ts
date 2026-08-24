@@ -16,7 +16,7 @@ export interface RetrogradeLatencyResult {
 export const retrogradePaper = {
   slug: 'retrograde-aware-distributed-systems',
   route: '/research/retrograde-aware-distributed-systems',
-  documentTitle: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems | OrionLabs Research',
+  documentTitle: 'Retrograde-Aware Distributed Systems | OrionLabs Research',
   metadata: {
     title: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems',
     authors: ['Dr. K. Nox', 'M. Vance'],
