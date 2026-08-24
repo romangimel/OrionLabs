@@ -253,8 +253,8 @@ The completed items below are manual behavior checks, not automated regression t
 - [x] Draft and report validators safely reject corrupted stored data
 - [ ] Perform focused browser checks for malformed questionnaire drafts and report records
 - [x] Protected-route recovery: `/calibration` redirects completed active reports directly to `/report`; otherwise `/calibration` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
-- [ ] Verify refreshes and direct navigation for all public routes in a live Vercel environment
-- [ ] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
+- [x] Verify refreshes and direct navigation for all public routes in a live Vercel environment
+- [x] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
 - [ ] Manually verify a real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
 
 ### Automated Regression Coverage
@@ -379,7 +379,9 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Verify direct navigation and refresh behavior after the route rename
 - [x] Ensure old and invalid routes redirect intentionally or fail gracefully
 - [x] Finalize document and page titles, favicon/app icon, meta description, and Open Graph/social-preview metadata
-- [ ] Verify live and shared URLs produce sensible browser and social-preview information
+- [x] Verify live and shared URLs produce sensible browser and social-preview information
+
+Production route, refresh, SPA-fallback, browser-metadata, and social-crawler checks are complete. LinkedIn fetched the configured social image successfully; WhatsApp parsed the title and description but omitted the image in manual tests, with no site-side metadata or image-delivery defect identified. This external-platform behavior is accepted as non-blocking for the current release. Non-JavaScript crawlers may receive generic landing metadata on deep SPA routes, which is also accepted for this release.
 
 ### 7. Full Desktop, Tablet, and Mobile UX Audit
 
@@ -428,7 +430,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Clearly identify the project as satire
 - [ ] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
 - [ ] Verify current Preview and Production deployments, including real Gemini report generation
-- [ ] Verify deployed routes support SPA fallback and static assets load correctly
+- [x] Verify deployed routes support SPA fallback and static assets load correctly
 - [ ] Confirm Production uses the intended Gemini model and frozen configuration
 - [ ] Re-confirm Production rate-limit and capacity handling
 - [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work

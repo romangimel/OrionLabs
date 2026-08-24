@@ -23,6 +23,8 @@ The landing page, four-step questionnaire, review/edit flow, Analysis experience
 
 The normal completed journey now uses real server-backed AI generation. Local `mockReport` content remains only for component development, tests, and offline UI work; it is never a silent production fallback.
 
+Route and browser presentation finalization is complete. Production direct navigation, refresh behavior, SPA fallback, and static browser/social metadata have been verified. LinkedIn fetched the social image successfully; WhatsApp parsed the title and description but omitted the image in manual tests, with no site-side defect identified. Non-JavaScript crawlers may receive generic landing metadata on deep SPA routes; this is an accepted limitation for the current release.
+
 ## Product and visual rules
 
 Preserve:
@@ -156,9 +158,6 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 These are not production-ready and should not be described as complete.
 
-## Immediate next steps
+## Immediate next phase
 
-1. Exercise a real Gemini request through `npx vercel dev` with a development key.
-2. Verify success, provider failure, timeout, retry, refresh, and route recovery in a browser.
-3. Deploy a Vercel preview and confirm SPA paths plus `/api/generate-report` behavior.
-4. Add rate limiting and durable cost protection before public launch.
+Perform the Full Desktop, Tablet, and Mobile UX Audit, including empty, loading, error, and success states. Do not begin cleanup, the project-wide accessibility audit, performance work, or final release testing until the resulting focused fix list is understood. The operational items under Still deferred remain separate follow-up work.
