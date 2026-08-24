@@ -94,6 +94,7 @@ export function ResearchHighlights({ highlights }: ResearchHighlightsProps) {
 
 interface ArtworkFigureProps {
   src: string;
+  srcSet?: string;
   width: number;
   height: number;
   alt: string;
@@ -105,6 +106,7 @@ interface ArtworkFigureProps {
 
 export function ArtworkFigure({
   src,
+  srcSet,
   width,
   height,
   alt,
@@ -118,6 +120,8 @@ export function ArtworkFigure({
       <div className="aspect-[16/9] overflow-hidden">
         <img
           src={src}
+          srcSet={srcSet}
+          sizes={srcSet ? '(min-width: 1280px) 54rem, (min-width: 768px) calc(100vw - 5rem), calc(100vw - 3rem)' : undefined}
           alt={alt}
           width={width}
           height={height}

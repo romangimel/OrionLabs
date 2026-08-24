@@ -32,6 +32,7 @@ export interface ResearchPaperHero {
     emphasis?: 'pink';
   }[];
   imageSrc: string;
+  imageSrcSet: string;
   imageWidth: number;
   imageHeight: number;
   imageAlt: string;

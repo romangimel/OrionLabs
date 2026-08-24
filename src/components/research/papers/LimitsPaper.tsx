@@ -251,7 +251,8 @@ export function LimitsPaperContent() {
       </PaperSection>
       <PaperSection {...sections.framework}>
         <ArtworkFigure
-          src="/images/research/research-limits-answer-environment.png"
+          src="/images/research/research-limits-answer-environment.webp"
+          srcSet="/images/research/research-limits-answer-environment-960.webp 960w, /images/research/research-limits-answer-environment.webp 1672w"
           width={1672}
           height={941}
           alt="Scientific instruments, archival celestial diagrams, and an unmarked decision dossier converging beneath one controlled light in a dark institutional reading room"

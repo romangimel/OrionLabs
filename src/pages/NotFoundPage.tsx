@@ -57,7 +57,9 @@ export function NotFoundPage() {
         <div aria-hidden="true" className="mx-auto w-full max-w-[17rem] sm:max-w-[21rem] md:max-w-[23rem] lg:max-w-[27rem]">
           <div className="rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.16)] bg-[linear-gradient(145deg,hsl(280_52%_16%_/_0.58),hsl(262_50%_6%_/_0.72))] p-1.5 shadow-[0_24px_70px_-32px_hsl(315_78%_58%_/_0.65)] sm:p-2">
             <img
-              src="/images/orionlabs-404.png"
+              src="/images/orionlabs-404.webp"
+              srcSet="/images/orionlabs-404-640.webp 640w, /images/orionlabs-404.webp 1254w"
+              sizes="(min-width: 1024px) 27rem, (min-width: 768px) 23rem, (min-width: 640px) 21rem, 17rem"
               alt=""
               width="1254"
               height="1254"

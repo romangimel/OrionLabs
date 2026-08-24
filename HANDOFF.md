@@ -158,8 +158,10 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 These are not production-ready and should not be described as complete.
 
-## Accessibility status and immediate next phase
+## Accessibility, performance, and immediate next phase
 
 The accessibility pass is complete with accepted visual exceptions. Gold keyboard-focus indicators, modal mobile-navigation focus management/background inertness, subtly stronger questionnaire resting boundaries, and reduced-motion mobile-menu behavior are implemented. The accepted exceptions are intentionally muted/supporting text below WCAG AA ordinary-text contrast targets, color-based visual selection for standard questionnaire option cards, and the subtle questionnaire resting boundaries remaining below the 3:1 non-text target. Native radio semantics remain intact. Do not describe OrionLabs as fully WCAG 2.2 AA compliant.
 
-Performance is the active phase. The approved P1 responsive hero/logo delivery and secondary-route code splitting are complete; P2 dependency cleanup and secondary-image optimization have not started. Do not begin Final Testing until the remaining focused performance work is complete. The operational items under Still deferred remain separate follow-up work.
+Performance is complete. P1 responsive hero/logo delivery and secondary-route code splitting remain intact. P2 added responsive WebP delivery for Subject Signature, Research, and 404 artwork; reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data; deferred those mask requests until the section approaches; removed 40 unused direct runtime declarations; and moved `tailwindcss-animate` to development tooling. Runtime dependencies decreased from 52 to 11, and the clean install decreased from 24,496 files / 264,704,889 bytes to 14,109 files / 207,907,604 bytes. The final build remains split, with 556.28 kB raw / 165.10 kB gzip initial JavaScript and 96.85 kB raw / 16.79 kB gzip CSS.
+
+Final Testing / Toolchain Maintenance is the active phase. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.

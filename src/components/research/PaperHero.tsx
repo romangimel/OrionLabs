@@ -80,6 +80,8 @@ export function PaperHero({ paper }: PaperHeroProps) {
               <div className="relative aspect-[4/3] overflow-hidden rounded-[1.35rem]">
                 <img
                   src={hero.imageSrc}
+                  srcSet={hero.imageSrcSet}
+                  sizes="(min-width: 1280px) 29.25rem, (min-width: 1024px) 42vw, calc(100vw - 3rem)"
                   alt={hero.imageAlt}
                   width={hero.imageWidth}
                   height={hero.imageHeight}

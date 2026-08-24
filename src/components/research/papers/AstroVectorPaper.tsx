@@ -285,7 +285,8 @@ export function AstroVectorPaperContent() {
       </PaperSection>
       <PaperSection {...sections.corpus}>
         <ArtworkFigure
-          src="/images/research/research-astrovector-expansion.png"
+          src="/images/research/research-astrovector-expansion.webp"
+          srcSet="/images/research/research-astrovector-expansion-960.webp 960w, /images/research/research-astrovector-expansion.webp 1672w"
           width={1672}
           height={941}
           alt="A single gold beam passing through a precision optical array and separating into hundreds of violet and magenta points"

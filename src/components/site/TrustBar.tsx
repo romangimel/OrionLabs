@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Reveal, Stagger, StaggerItem } from './Motion';
 import heliosCapitalWordmark from '../../../trusted bar/helios-capital.webp';
 import meridianVenturesWordmark from '../../../trusted bar/meridian-ventures.webp';
@@ -58,8 +59,32 @@ const BRAND_GOLD_GRADIENT =
   'linear-gradient(135deg, #F5E6B0 0%, #E8C77A 45%, #C9A24A 100%)';
 
 export function TrustBar() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [shouldLoadWordmarks, setShouldLoadWordmarks] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || !('IntersectionObserver' in window)) {
+      setShouldLoadWordmarks(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldLoadWordmarks(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '800px 0px' },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative border-y border-[hsl(43_60%_70%_/_0.08)] bg-transparent py-12">
+    <section ref={sectionRef} className="relative border-y border-[hsl(43_60%_70%_/_0.08)] bg-transparent py-12">
       <div className="container-narrow">
         <Reveal>
           <p className="text-center text-xs uppercase tracking-[0.3em] text-[hsl(43_60%_70%)]">
@@ -79,12 +104,12 @@ export function TrustBar() {
                     aria-label={institution.name}
                     className={`block aspect-[3/1] w-full ${institution.widthClassName}`}
                     style={{
-                      backgroundImage: BRAND_GOLD_GRADIENT,
-                      maskImage: `url("${institution.assetPath}")`,
+                      backgroundImage: shouldLoadWordmarks ? BRAND_GOLD_GRADIENT : 'none',
+                      maskImage: shouldLoadWordmarks ? `url("${institution.assetPath}")` : undefined,
                       maskPosition: 'top center',
                       maskRepeat: 'no-repeat',
                       maskSize: 'contain',
-                      WebkitMaskImage: `url("${institution.assetPath}")`,
+                      WebkitMaskImage: shouldLoadWordmarks ? `url("${institution.assetPath}")` : undefined,
                       WebkitMaskPosition: 'top center',
                       WebkitMaskRepeat: 'no-repeat',
                       WebkitMaskSize: 'contain',

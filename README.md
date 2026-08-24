@@ -12,7 +12,7 @@ The Analysis page keeps its rotating OrionLabs messages as presentation rather t
 
 The Subject Signature now includes all 12 deterministic zodiac geometries, with hand-tuned focus roles and edge-valid behavior subnetworks. The production report prompts are frozen after controlled-inference calibration; server-side report persistence and account history remain planned.
 
-Route and browser presentation finalization, the full desktop/tablet/mobile UX audit, Cleanup, and the accessibility pass are complete. Accessibility is complete with accepted visual exceptions: certain intentionally muted/supporting text remains below WCAG AA ordinary-text contrast targets, the standard questionnaire option-card selection remains visually color-based, and the approved subtle resting control boundaries remain below the 3:1 non-text target. Native radio semantics remain intact, and OrionLabs is not represented as fully WCAG 2.2 AA compliant. Production direct navigation, refresh behavior, SPA fallback, and static social metadata have been verified; non-JavaScript crawlers may still receive generic landing metadata on deep SPA routes, which is accepted for this release. Performance is active: the approved P1 responsive hero/logo delivery and secondary-route code splitting are complete, while P2 dependency and secondary-image work remains deferred.
+Route and browser presentation finalization, the full desktop/tablet/mobile UX audit, Cleanup, the accessibility pass, and Performance are complete. Accessibility is complete with accepted visual exceptions: certain intentionally muted/supporting text remains below WCAG AA ordinary-text contrast targets, the standard questionnaire option-card selection remains visually color-based, and the approved subtle resting control boundaries remain below the 3:1 non-text target. Native radio semantics remain intact, and OrionLabs is not represented as fully WCAG 2.2 AA compliant. Production direct navigation, refresh behavior, SPA fallback, and static social metadata have been verified; non-JavaScript crawlers may still receive generic landing metadata on deep SPA routes, which is accepted for this release. Performance now includes responsive landing and secondary artwork, deferred TrustBar mask loading, route-level code splitting, and removal of 40 unused direct runtime dependencies. Final Testing / Toolchain Maintenance is the active phase.
 
 ## Technology
 
@@ -27,7 +27,7 @@ Route and browser presentation finalization, the full desktop/tablet/mobile UX a
 - Zod runtime validation and Gemini JSON schema generation
 - Vitest focused regression tests
 
-Supabase and several supporting UI packages remain installed for future development, but the current report flow does not use a database or account system.
+The direct runtime graph is limited to packages used by the current application and server functions. The report flow still does not use a database or account system.
 
 ## Application flow
 

@@ -33,7 +33,11 @@ const SUBJECT_SIGNATURE_PALETTES = {
 
 const PALETTE = SUBJECT_SIGNATURE_PALETTES.goldStar;
 
-const SUBJECT_SIGNATURE_BACKGROUND = '/images/subject-signature-background.png';
+const SUBJECT_SIGNATURE_BACKGROUND = '/images/subject-signature-background.webp';
+const SUBJECT_SIGNATURE_BACKGROUND_SRC_SET = [
+  '/images/subject-signature-background-768.webp 768w',
+  '/images/subject-signature-background.webp 1448w',
+].join(', ');
 
 function getNodeMap(signature: SubjectSignatureData) {
   return new Map(signature.geometry?.nodes.map((node) => [node.id, node]) ?? []);
@@ -129,6 +133,11 @@ export function SubjectSignature({
     signature.behaviorTargetArrivals.map((arrival) => [arrival.nodeId, arrival]),
   );
   const accessibleLabel = getAccessibleLabel(signature);
+  const backgroundSizes = variant === 'review'
+    ? '(min-width: 640px) 20rem, calc(100vw - 3rem)'
+    : variant === 'analysis'
+      ? '(min-width: 640px) 31rem, calc(100vw - 3rem)'
+      : '(min-width: 640px) 36rem, calc(100vw - 3rem)';
   const fullViewBox = variant === 'report'
     ? { x: -24, y: -18, width: 548, height: 436 }
     : { x: 0, y: 0, width: 500, height: 400 };
@@ -482,14 +491,19 @@ export function SubjectSignature({
       )}
     >
       <div
-        className="relative h-full w-full overflow-hidden rounded-[1.25rem] bg-cover bg-no-repeat"
-        style={{
-          backgroundColor: '#070614',
-          backgroundImage: `linear-gradient(rgba(7, 6, 20, 0.2), rgba(7, 6, 20, 0.2)), url("${SUBJECT_SIGNATURE_BACKGROUND}")`,
-          backgroundPosition: '50% 52%',
-        }}
+        className="relative h-full w-full overflow-hidden rounded-[1.25rem] bg-[#070614]"
       >
-        {content}
+        <img
+          src={SUBJECT_SIGNATURE_BACKGROUND}
+          srcSet={SUBJECT_SIGNATURE_BACKGROUND_SRC_SET}
+          sizes={backgroundSizes}
+          alt=""
+          width="1448"
+          height="1086"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_52%] opacity-80"
+        />
+        <div className="relative z-[1] h-full w-full">{content}</div>
       </div>
     </figure>
   );

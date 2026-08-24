@@ -127,6 +127,8 @@ export function Research() {
                       <div className="aspect-[4/3] overflow-hidden rounded-[0.6rem]">
                         <img
                           src={selectedPaper.hero.imageSrc}
+                          srcSet={selectedPaper.hero.imageSrcSet}
+                          sizes="(min-width: 1024px) 22rem, (min-width: 768px) 42vw, calc(100vw - 4rem)"
                           alt={selectedPaper.hero.imageAlt}
                           width={selectedPaper.hero.imageWidth}
                           height={selectedPaper.hero.imageHeight}
@@ -203,6 +205,8 @@ export function Research() {
                     >
                       <img
                         src={paper.hero.imageSrc}
+                        srcSet={paper.hero.imageSrcSet}
+                        sizes="(min-width: 1024px) 22rem, (min-width: 640px) 46vw, 76vw"
                         alt=""
                         width={paper.hero.imageWidth}
                         height={paper.hero.imageHeight}

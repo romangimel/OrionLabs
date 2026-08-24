@@ -28,7 +28,9 @@ export const RESEARCH_PAPER_CATALOG = {
       titleSegments: [
         { text: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions' },
       ],
-      imageSrc: '/images/research-moon-aware-transformers.png',
+      imageSrc: '/images/research-moon-aware-transformers.webp',
+      imageSrcSet:
+        '/images/research-moon-aware-transformers-768.webp 768w, /images/research-moon-aware-transformers.webp 1448w',
       imageWidth: 1448,
       imageHeight: 1086,
       imageAlt: 'Orbital network converging on a luminous central celestial sphere',
@@ -59,7 +61,9 @@ export const RESEARCH_PAPER_CATALOG = {
       titleSegments: [
         { text: 'Towards a Unified Theory of Retrograde-Aware Distributed Systems' },
       ],
-      imageSrc: '/images/research/research-retrograde-aware-hero.png',
+      imageSrc: '/images/research/research-retrograde-aware-hero.webp',
+      imageSrcSet:
+        '/images/research/research-retrograde-aware-hero-768.webp 768w, /images/research/research-retrograde-aware-hero.webp 1448w',
       imageWidth: 1448,
       imageHeight: 1086,
       imageAlt:
@@ -93,7 +97,9 @@ export const RESEARCH_PAPER_CATALOG = {
         { text: 'AstroVector: Scaling Zodiac Representation ' },
         { text: 'Beyond Twelve Categories', emphasis: 'pink' },
       ],
-      imageSrc: '/images/research/research-astrovector-manifold.png',
+      imageSrc: '/images/research/research-astrovector-manifold.webp',
+      imageSrcSet:
+        '/images/research/research-astrovector-manifold-768.webp 768w, /images/research/research-astrovector-manifold.webp 1448w',
       imageWidth: 1448,
       imageHeight: 1086,
       imageAlt:
@@ -127,7 +133,9 @@ export const RESEARCH_PAPER_CATALOG = {
         { text: 'The Limits of Science and the ' },
         { text: 'Persistent Advantage of Astrology', emphasis: 'pink' },
       ],
-      imageSrc: '/images/research/research-limits-of-science-hero.png',
+      imageSrc: '/images/research/research-limits-of-science-hero.webp',
+      imageSrcSet:
+        '/images/research/research-limits-of-science-hero-768.webp 768w, /images/research/research-limits-of-science-hero.webp 1448w',
       imageWidth: 1448,
       imageHeight: 1086,
       imageAlt:

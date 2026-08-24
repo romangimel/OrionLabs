@@ -410,22 +410,24 @@ The accessibility pass is complete with accepted visual exceptions. Explicit gol
 
 ### 10. Performance
 
-Performance is the active phase. Do not begin Final Testing until the remaining focused performance work is complete.
+Performance is complete. P1 route and landing-asset work remains intact, and P2 completed the approved secondary-image optimization, dependency cleanup, TrustBar request deferral, clean-install validation, and responsive browser checks.
 
 #### P1 release-performance work
 
 - [x] Deliver responsive desktop/mobile WebP sources for the approved landing hero and a high-density lossless WebP derivative for the small OrionLabs logo mark
 - [x] Split Research manuscripts and Docs/Press/Legal pages out of the initial JavaScript graph while keeping lightweight route and metadata records eager
 
-P1 is complete. P2 dependency cleanup and secondary-image optimization have not started, so Performance remains active.
+P2 reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data and defers their requests until the section approaches the viewport. Subject Signature, Research, and 404 artwork now use visually equivalent responsive WebPs. Direct runtime dependencies decreased from 52 to 11, while `tailwindcss-animate` moved to development tooling. A clean `npm.cmd ci`, the full automated validation suite, the production build, and local browser checks at 1440×900, 1024×768, 430×932, and 375×812 all completed successfully.
 
-- [ ] Optimize large images
-- [ ] Check bundle size
-- [ ] Remove genuinely unnecessary dependencies
-- [ ] Identify and implement worthwhile lazy-loading or code-splitting opportunities
-- [ ] Check page performance, layout shifts, and loading behavior on slower connections
+- [x] Optimize large images
+- [x] Check bundle size
+- [x] Remove genuinely unnecessary dependencies
+- [x] Identify and implement worthwhile lazy-loading or code-splitting opportunities
+- [x] Check page performance, layout shifts, and loading behavior on slower connections
 
-### 11. Final Testing
+### 11. Final Testing / Toolchain Maintenance
+
+This is the active phase. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance work.
 
 - [ ] Test AI failure, timeout, and capacity states
 - [ ] Re-test route refreshes and direct access on the final release candidate

@@ -252,7 +252,8 @@ export function RetrogradePaperContent() {
         <div className="space-y-6">
           <RetrogradeArchitectureFigure />
           <ArtworkFigure
-            src="/images/research/research-retrograde-qualified-conditions.png"
+            src="/images/research/research-retrograde-qualified-conditions.webp"
+            srcSet="/images/research/research-retrograde-qualified-conditions-960.webp 960w, /images/research/research-retrograde-qualified-conditions.webp 1672w"
             width={1672}
             height={941}
             alt="Precision networking and timing hardware viewed through a circular observatory-like aperture under violet light"
