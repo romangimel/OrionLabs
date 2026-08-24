@@ -9,7 +9,7 @@ export interface PaperReference {
   year: string;
   title: string;
   publication: string;
-  href?: string;
+  href: string;
 }
 
 export interface ResearchPaperSection {

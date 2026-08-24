@@ -185,10 +185,8 @@ export const astrovectorPaper = {
       publication: 'Journal of Open Source Software, 3(29), 861.',
       href: 'https://joss.theoj.org/papers/10.21105/joss.00861',
     },
-    { authors: 'Lumen, A., Cross, M. & Reyes, S.', year: '2025', title: 'Zodiac-Conditioned Embeddings for Personality-Shaped Latent Spaces', publication: 'Workshop on Unfalsifiable Machine Learning, 41–52.' },
-    { authors: 'Selene, A., Nox, K. & Vega, R.', year: '2026', title: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions', publication: 'Proceedings of the International Conference on Celestial Computing. doi:10.2026/orion.luna.001.' },
-    { authors: 'Reyes, S. & Selene, A.', year: '2026', title: 'Equal Stereotype Capacity in Commercial Personality Models', publication: 'Proceedings of the Responsible Overgeneralization Symposium, 18–33.' },
-    { authors: 'OrionLabs Research.', year: '2026', title: 'AstroVector Neighborhood Naming and Enterprise Segment Readiness', publication: 'Internal Technical Memorandum OL-ML-041.' },
+    { authors: 'van der Maaten, L. & Hinton, G.', year: '2008', title: 'Visualizing Data using t-SNE', publication: 'Journal of Machine Learning Research, 9, 2579–2605.', href: 'https://www.jmlr.org/papers/v9/vandermaaten08a.html' },
+    { authors: 'Selene, A., Nox, K. & Vega, R.', year: '2026', title: 'Moon-Aware Transformers Outperform Baseline Models Under Controlled Cosmic Conditions', publication: 'Proceedings of the International Conference on Celestial Computing. doi:10.2026/orion.luna.001.', href: '/research/moon-aware-transformers' },
   ] satisfies PaperReference[],
   referencesSection: { number: '09', kicker: 'References', title: 'References' },
   citation: {

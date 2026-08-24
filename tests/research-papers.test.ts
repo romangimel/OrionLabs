@@ -1,9 +1,12 @@
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { astrovectorPaper } from '@/data/astrovector-paper';
 import { limitsPaper } from '@/data/limits-paper';
 import {
   getResearchPaperByPath,
   RESEARCH_PAPERS,
+  type ResearchPaperSlug,
 } from '@/data/research-registry';
 import { retrogradePaper } from '@/data/retrograde-paper';
 import {
@@ -11,6 +14,7 @@ import {
   ASTROVECTOR_SUBCLUSTERS,
   generateAstroVectorProjection,
 } from '@/lib/astrovector-projection';
+import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
 
 describe('research paper registry', () => {
   it('maps only the four approved research routes to their typed paper records', () => {
@@ -51,6 +55,49 @@ describe('research paper registry', () => {
     ]);
     expect(limitsPaper.scorecard[8].slice(2)).toEqual(['68.9', '', '61.4']);
     expect(limitsPaper.scorecard[9].slice(2)).toEqual(['60.0', '', '76.2']);
+  });
+
+  it('gives every reference a valid internal route or secure external URL', () => {
+    const researchRoutes = new Set(
+      Object.values(RESEARCH_PAPERS).map((paper) => paper.route),
+    );
+
+    for (const paper of Object.values(RESEARCH_PAPERS)) {
+      expect(paper.references.length).toBeGreaterThanOrEqual(5);
+
+      for (const reference of paper.references) {
+        expect(reference.href).not.toMatch(/^#?$|placeholder/i);
+
+        if (reference.href.startsWith('/')) {
+          expect(researchRoutes.has(reference.href)).toBe(true);
+          continue;
+        }
+
+        expect(new URL(reference.href).protocol).toBe('https:');
+      }
+    }
+  });
+
+  it('renders all four papers with linked references and safe external attributes', () => {
+    for (const paper of Object.values(RESEARCH_PAPERS)) {
+      const markup = renderToStaticMarkup(
+        createElement(ResearchPaperPage, {
+          paperSlug: paper.slug as ResearchPaperSlug,
+        }),
+      );
+      const externalReferences = paper.references.filter(({ href }) =>
+        href.startsWith('https://'),
+      );
+
+      expect(markup).toContain('id="references"');
+      expect(markup.match(/target="_blank" rel="noopener noreferrer"/g)).toHaveLength(
+        externalReferences.length,
+      );
+
+      for (const reference of paper.references) {
+        expect(markup).toContain(`href="${reference.href}"`);
+      }
+    }
   });
 });
 

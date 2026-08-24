@@ -370,7 +370,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Write the remaining 3 articles
 - [x] Redesign the research section to compliment the 4 articles
 - [x] Create Docs, Legal, and Press pages
-- [ ] Make all research paper sources clickable
+- [x] Make all research paper sources clickable
 
 ### 6. Route and Browser Presentation Finalization
 

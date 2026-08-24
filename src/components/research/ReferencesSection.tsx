@@ -42,21 +42,20 @@ export function ReferencesSection({ paper }: ReferencesSectionProps) {
             className="grid gap-3 border-t border-[hsl(43_60%_70%_/_0.08)] py-5 text-sm leading-relaxed sm:grid-cols-[2.2rem_minmax(0,1fr)]"
           >
             <span className="font-serif text-lg text-[hsl(43_60%_72%)]">{index + 1}.</span>
-            <p className="max-w-[48rem] text-foreground/76">
+            <a
+              href={reference.href}
+              {...(reference.href.startsWith('https://')
+                ? { target: '_blank', rel: 'noopener noreferrer' }
+                : {})}
+              className="group max-w-[48rem] rounded-sm text-foreground/76 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.75)] focus-visible:ring-offset-4 focus-visible:ring-offset-[hsl(262_48%_6%)]"
+            >
               <span className="text-foreground/92">{reference.authors}</span>{' '}
               <span className="text-[hsl(326_50%_68%)]">({reference.year}).</span>{' '}
-              {reference.href ? (
-                <a
-                  href={reference.href}
-                  className="font-medium text-foreground/88 underline decoration-[hsl(43_60%_70%_/_0.32)] underline-offset-4 transition-colors hover:text-foreground"
-                >
-                  {reference.title}.
-                </a>
-              ) : (
-                <span className="font-medium text-foreground/88">{reference.title}.</span>
-              )}{' '}
+              <span className="font-medium text-foreground/88 underline decoration-[hsl(43_60%_70%_/_0.32)] underline-offset-4 transition-colors group-hover:decoration-[hsl(43_60%_70%_/_0.62)]">
+                {reference.title}.
+              </span>{' '}
               <span className="text-muted-foreground">{reference.publication}</span>
-            </p>
+            </a>
           </li>
         ))}
       </ol>
