@@ -63,7 +63,7 @@ export function OptionSelector({
               />
               <span
                 className={cn(
-                  'flex min-h-12 items-center rounded-xl border border-[hsl(43_60%_70%_/_0.14)] bg-[hsl(275_45%_12%_/_0.42)] px-4 text-sm text-foreground/85 transition-all duration-300 hover:border-[hsl(43_60%_70%_/_0.34)] hover:bg-[hsl(280_50%_16%_/_0.55)] peer-checked:border-[hsl(326_75%_68%_/_0.72)] peer-checked:bg-[hsl(326_75%_60%_/_0.15)] peer-checked:text-[hsl(326_82%_78%)] peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[hsl(43_74%_66%_/_0.75)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[hsl(264_45%_8%)]',
+                  'flex min-h-12 items-center rounded-xl border border-[hsl(43_60%_70%_/_0.18)] bg-[hsl(275_45%_12%_/_0.42)] px-4 text-sm text-foreground/85 transition-all duration-300 hover:border-[hsl(43_60%_70%_/_0.34)] hover:bg-[hsl(280_50%_16%_/_0.55)] peer-checked:border-[hsl(326_75%_68%_/_0.72)] peer-checked:bg-[hsl(326_75%_60%_/_0.15)] peer-checked:text-[hsl(326_82%_78%)] peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-[hsl(43_74%_66%_/_0.75)] peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[hsl(264_45%_8%)]',
                   error && 'border-[hsl(0_72%_62%_/_0.68)]',
                 )}
               >

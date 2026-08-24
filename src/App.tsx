@@ -71,24 +71,27 @@ function LandingPage() {
       </div>
 
       <a
+        data-mobile-menu-background
         href="#philosophy"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-[hsl(266_40%_12%)] focus:px-4 focus:py-2 focus:text-sm focus:text-foreground"
       >
         Skip to content
       </a>
       <Navbar />
-      <main>
-        <Hero />
-        <Philosophy />
-        <Technology />
-        <Evidence />
-        <TrustBar />
-        <Voices />
-        <Research />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
+      <div data-mobile-menu-background>
+        <main>
+          <Hero />
+          <Philosophy />
+          <Technology />
+          <Evidence />
+          <TrustBar />
+          <Voices />
+          <Research />
+          <FAQ />
+          <CTA />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

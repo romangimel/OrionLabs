@@ -12,7 +12,7 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           {/* Brand */}
           <div className="max-w-xs">
-            <a href="/" className="flex items-center gap-2" aria-label="OrionLabs home">
+            <a href="/" className="focus-ring-gold flex items-center gap-2 rounded-full" aria-label="OrionLabs home">
               <Logo className="h-9 w-9" />
               <span className="font-serif text-2xl tracking-tight text-foreground">
                 Orion<span className="text-gradient-gold">Labs</span>
@@ -40,7 +40,7 @@ export function Footer() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
+                      className="focus-ring-gold rounded-sm text-sm text-muted-foreground transition-colors duration-200 hover:text-foreground"
                     >
                       {link.label}
                     </a>

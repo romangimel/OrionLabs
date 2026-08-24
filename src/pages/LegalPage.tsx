@@ -305,8 +305,8 @@ export function LegalPage() {
               <h2 className="mx-auto mt-4 max-w-3xl font-serif text-3xl leading-tight text-foreground sm:text-4xl">These documents end where repository evidence ends.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">Unconfirmed provider, deployment, jurisdictional, and ownership claims remain withheld pending a form of validation OrionLabs recognizes as unusually external.</p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <a href="#privacy" className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Review Privacy (Cosmic)<ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" /></a>
-                <a href="/" className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Return to OrionLabs</a>
+                <a href="#privacy" className="focus-ring-gold group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Review Privacy (Cosmic)<ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" /></a>
+                <a href="/" className="focus-ring-gold inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Return to OrionLabs</a>
               </div>
             </aside>
           </article>

@@ -154,10 +154,12 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
 - Stable shareable URLs and downloadable reports
-- Full project-wide accessibility and final launch testing
+- Final launch testing
 
 These are not production-ready and should not be described as complete.
 
-## Immediate next phase
+## Accessibility status and immediate next phase
 
-Cleanup is complete: obsolete helper/demo content and unused code/assets were removed while valid fixtures and active assets were preserved, and technical comments were confirmed accurate. The immediate next phase is Accessibility. Do not begin Performance or final release testing until the project-wide accessibility audit is complete. The operational items under Still deferred remain separate follow-up work.
+The accessibility pass is complete with accepted visual exceptions. Gold keyboard-focus indicators, modal mobile-navigation focus management/background inertness, subtly stronger questionnaire resting boundaries, and reduced-motion mobile-menu behavior are implemented. The accepted exceptions are intentionally muted/supporting text below WCAG AA ordinary-text contrast targets, color-based visual selection for standard questionnaire option cards, and the subtle questionnaire resting boundaries remaining below the 3:1 non-text target. Native radio semantics remain intact. Do not describe OrionLabs as fully WCAG 2.2 AA compliant.
+
+Performance is the immediate next phase. Do not begin Final Testing until the focused performance work is complete. The operational items under Still deferred remain separate follow-up work.

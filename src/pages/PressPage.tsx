@@ -49,7 +49,7 @@ function PressRelease({
       </blockquote>
       {disclosure ? <p className="mt-6 text-xs leading-relaxed text-muted-foreground/68">{disclosure}</p> : null}
       {link ? (
-        <a href={link.href} className="group mt-7 inline-flex min-h-11 items-center gap-2 rounded-full text-sm font-medium text-[hsl(43_60%_76%)] transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)]">
+        <a href={link.href} className="focus-ring-gold group mt-7 inline-flex min-h-11 items-center gap-2 rounded-full text-sm font-medium text-[hsl(43_60%_76%)] transition-colors hover:text-foreground">
           {link.label}<ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
         </a>
       ) : null}
@@ -82,7 +82,7 @@ export function PressPage() {
 
         <nav aria-label="Newsroom sections" className="mt-12 border-y border-[hsl(43_60%_70%_/_0.1)] py-5">
           <ul className="flex flex-wrap gap-x-6 gap-y-3">
-            {PRESS_INDEX.map(({ id, label }) => <li key={id}><a href={`#${id}`} className="text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)]">{label}</a></li>)}
+            {PRESS_INDEX.map(({ id, label }) => <li key={id}><a href={`#${id}`} className="focus-ring-gold rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground">{label}</a></li>)}
           </ul>
         </nav>
       </header>
@@ -182,10 +182,10 @@ export function PressPage() {
             </article>
             <article className="rounded-2xl border border-[hsl(43_60%_70%_/_0.13)] bg-[hsl(262_48%_6%_/_0.54)] p-6"><h3 className="font-serif text-2xl text-gradient-gold">Product imagery</h3><p className="mt-3 text-sm leading-[1.8] text-foreground/78">Approved product imagery may include the landing experience, Subject Signature, report interface, and developer documentation. Screenshots must retain the OrionLabs name, visible context, and any qualifications necessary to prevent a decorative metric from becoming an unsupported external claim.</p><p className="mt-4 text-xs leading-relaxed text-muted-foreground">No downloadable screenshot package is currently published.</p></article>
             <article className="rounded-2xl border border-[hsl(43_60%_70%_/_0.13)] bg-[hsl(262_48%_6%_/_0.54)] p-6"><h3 className="font-serif text-2xl text-gradient-gold">Research figures</h3><p className="mt-3 text-sm leading-[1.8] text-foreground/78">Existing research imagery and code-native figures may be reproduced with the paper title, authors, and OrionLabs Research attribution intact.</p><ul className="mt-4 grid gap-2 text-sm text-[hsl(43_60%_76%)]">
-              <li><a href="/research/moon-aware-transformers" className="hover:text-foreground">Moon-Aware Transformers</a></li>
-              <li><a href="/research/retrograde-aware-distributed-systems" className="hover:text-foreground">Retrograde-Aware Distributed Systems</a></li>
-              <li><a href="/research/astrovector" className="hover:text-foreground">AstroVector</a></li>
-              <li><a href="/research/limits-of-science" className="hover:text-foreground">Limits of Science</a></li>
+              <li><a href="/research/moon-aware-transformers" className="focus-ring-gold rounded-sm hover:text-foreground">Moon-Aware Transformers</a></li>
+              <li><a href="/research/retrograde-aware-distributed-systems" className="focus-ring-gold rounded-sm hover:text-foreground">Retrograde-Aware Distributed Systems</a></li>
+              <li><a href="/research/astrovector" className="focus-ring-gold rounded-sm hover:text-foreground">AstroVector</a></li>
+              <li><a href="/research/limits-of-science" className="focus-ring-gold rounded-sm hover:text-foreground">Limits of Science</a></li>
             </ul></article>
             <article className="rounded-2xl border border-[hsl(43_60%_70%_/_0.13)] bg-[hsl(262_48%_6%_/_0.54)] p-6 md:col-span-2"><h3 className="font-serif text-2xl text-gradient-gold">Fact sheet</h3><p className="mt-3 text-sm leading-[1.8] text-foreground/78">The Company Facts and Company Boilerplate on this page are the canonical on-site media references. A downloadable PDF should not be offered until an actual generated and reviewed file exists.</p></article>
           </div>
@@ -212,8 +212,8 @@ export function PressPage() {
           <p className="mt-4 text-[0.64rem] font-medium uppercase tracking-[0.22em] text-[hsl(43_60%_72%)]">Further context</p>
           <h2 className="mx-auto mt-4 max-w-3xl font-serif text-3xl leading-tight text-foreground sm:text-4xl">Review the evidence before quoting the conclusion.</h2>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <a href="/#research" className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Explore OrionLabs Research</a>
-            <a href="/docs" className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Read the platform documentation</a>
+            <a href="/#research" className="focus-ring-gold inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Explore OrionLabs Research</a>
+            <a href="/docs" className="focus-ring-gold inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Read the platform documentation</a>
           </div>
         </aside>
       </div>

@@ -32,7 +32,7 @@ interface AdditionalContextInputProps {
 }
 
 const controlStyles =
-  'border-[hsl(43_60%_70%_/_0.18)] bg-[hsl(264_45%_7%_/_0.58)] transition-[border-color,box-shadow,background-color] duration-300 hover:border-[hsl(43_60%_70%_/_0.34)] focus-within:border-[hsl(43_74%_66%_/_0.65)] focus-within:ring-2 focus-within:ring-[hsl(43_74%_66%_/_0.18)]';
+  'border-[hsl(43_60%_70%_/_0.22)] bg-[hsl(264_45%_7%_/_0.58)] transition-[border-color,box-shadow,background-color] duration-300 hover:border-[hsl(43_60%_70%_/_0.34)] focus-within:border-[hsl(43_74%_66%_/_0.65)] focus-within:ring-2 focus-within:ring-[hsl(43_74%_66%_/_0.18)]';
 
 function isAllowedValue<T extends string>(
   value: string,

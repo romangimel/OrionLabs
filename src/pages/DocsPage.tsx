@@ -183,14 +183,14 @@ export function DocsPage() {
           <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row">
             <a
               href="#getting-started"
-              className="group inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_78%)] motion-reduce:transform-none"
+              className="focus-ring-gold group inline-flex h-12 items-center gap-2 rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514] shadow-[0_8px_30px_-6px_hsl(43_74%_66%_/_0.4)] transition-transform hover:scale-[1.02] motion-reduce:transform-none"
             >
               Make your first request
               <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1 motion-reduce:transform-none" />
             </a>
             <a
               href="#model-architecture"
-              className="inline-flex h-12 items-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground/90 transition-colors hover:border-[hsl(43_60%_70%_/_0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(43_74%_66%_/_0.7)]"
+              className="focus-ring-gold inline-flex h-12 items-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground/90 transition-colors hover:border-[hsl(43_60%_70%_/_0.5)]"
             >
               Review the architecture
             </a>
@@ -441,8 +441,8 @@ export function DocsPage() {
               <h2 className="mx-auto mt-4 max-w-3xl font-serif text-3xl leading-tight text-foreground sm:text-4xl">Begin with one chart. Escalate only when interpretation requires it.</h2>
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">The Natal Chart API provides the stable foundation. DeepConstellation™, AstroVector™, and the surrounding institutional confidence can be introduced incrementally.</p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                <a href="#getting-started" className="inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Make your first request</a>
-                <a href="#error-codes" className="inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Inspect error handling</a>
+                <a href="#getting-started" className="focus-ring-gold inline-flex h-12 items-center justify-center rounded-full bg-gradient-to-r from-[#F5E6B0] to-[#C9A24A] px-7 text-sm font-semibold text-[#070514]">Make your first request</a>
+                <a href="#error-codes" className="focus-ring-gold inline-flex h-12 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.25)] px-7 text-sm font-medium text-foreground">Inspect error handling</a>
               </div>
             </aside>
           </article>

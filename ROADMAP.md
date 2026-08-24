@@ -401,12 +401,16 @@ The audit closed after responsive checks at 1440×900, 1152×768, 1024×768, 900
 
 ### 9. Accessibility
 
-- [ ] Perform a full keyboard-navigation audit
-- [ ] Check focus visibility and semantic heading order
-- [ ] Check form labels, error messages, and screen-reader structure
-- [ ] Check color contrast, reduced-motion support, and touch-target sizes
+- [x] Perform a full keyboard-navigation audit
+- [x] Check focus visibility and semantic heading order
+- [x] Check form labels, error messages, and screen-reader structure
+- [x] Check color contrast, reduced-motion support, and touch-target sizes
+
+The accessibility pass is complete with accepted visual exceptions. Explicit gold keyboard focus indicators, modal mobile-navigation focus management/background inertness, subtly stronger questionnaire control boundaries, and reduced-motion mobile-menu behavior are implemented. The product owner intentionally accepts certain muted/supporting text below WCAG AA ordinary-text contrast targets and the standard questionnaire option-card selection remaining visually color-based. The subtle resting questionnaire boundary treatment also remains below the 3:1 non-text target (approximately 1.60:1 for text/date inputs and 1.46:1 for standard option cards) because a stronger treatment would materially alter the approved visual hierarchy. Native radio semantics remain intact. OrionLabs must not be described as fully WCAG 2.2 AA compliant.
 
 ### 10. Performance
+
+Performance is the next active phase. Do not begin Final Testing until the focused performance work is complete.
 
 - [ ] Optimize large images
 - [ ] Check bundle size
