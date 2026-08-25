@@ -2,13 +2,20 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import {
+  LANDING_TOP_DESTINATION,
   LANDING_NAV_LINKS,
   navigateAfterMobileMenuClose,
+  navigateToLandingFragmentInPlace,
   scrollToLandingFragment,
 } from '@/lib/landing-navigation';
 
 const navbarSource = readFileSync(
   resolve(process.cwd(), 'src/components/site/Navbar.tsx'),
+  'utf8',
+);
+const appSource = readFileSync(resolve(process.cwd(), 'src/App.tsx'), 'utf8');
+const footerSource = readFileSync(
+  resolve(process.cwd(), 'src/components/site/Footer.tsx'),
   'utf8',
 );
 
@@ -75,5 +82,37 @@ describe('landing navigation', () => {
     expect(scrollToLandingFragment('', resolveTarget)).toBe(false);
     expect(scrollToLandingFragment('#%E0%A4%A', resolveTarget)).toBe(false);
     expect(scrollToLandingFragment('#unknown', resolveTarget)).toBe(false);
+  });
+
+  it('handles the footer home destination in place only when already on Landing', () => {
+    const updateHistory = vi.fn();
+    const scrollToFragment = vi.fn(() => true);
+
+    expect(
+      navigateToLandingFragmentInPlace(
+        LANDING_TOP_DESTINATION,
+        { pathname: '/', hash: '' },
+        updateHistory,
+        scrollToFragment,
+      ),
+    ).toBe(true);
+    expect(updateHistory).toHaveBeenCalledWith('/#top');
+    expect(scrollToFragment).toHaveBeenCalledWith('#top');
+
+    expect(
+      navigateToLandingFragmentInPlace(
+        LANDING_TOP_DESTINATION,
+        { pathname: '/research/astrovector', hash: '' },
+        updateHistory,
+        scrollToFragment,
+      ),
+    ).toBe(false);
+    expect(updateHistory).toHaveBeenCalledTimes(1);
+    expect(scrollToFragment).toHaveBeenCalledTimes(1);
+    expect(footerSource).toContain('href={LANDING_TOP_DESTINATION}');
+  });
+
+  it('places TrustBar directly between Hero and Philosophy on Landing', () => {
+    expect(appSource).toMatch(/<Hero\s*\/>\s*<TrustBar\s*\/>\s*<Philosophy\s*\/>/);
   });
 });

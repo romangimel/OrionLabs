@@ -97,10 +97,10 @@ function LandingPage() {
       <div data-mobile-menu-background>
         <main>
           <Hero />
+          <TrustBar />
           <Philosophy />
           <Technology />
           <Evidence />
-          <TrustBar />
           <Voices />
           <Research />
           <FAQ />

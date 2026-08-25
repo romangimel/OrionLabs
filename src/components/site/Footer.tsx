@@ -1,8 +1,18 @@
 import { Logo } from './Logo';
 import { BackgroundGlow } from './shared/BackgroundGlow';
 import { FOOTER_NAVIGATION } from '@/data/footer-navigation';
+import {
+  LANDING_TOP_DESTINATION,
+  navigateToLandingFragmentInPlace,
+} from '@/lib/landing-navigation';
 
 export function Footer() {
+  const handleHomeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (navigateToLandingFragmentInPlace(LANDING_TOP_DESTINATION)) {
+      event.preventDefault();
+    }
+  };
+
   return (
     <footer className="relative overflow-hidden border-t border-[hsl(43_60%_70%_/_0.1)] bg-transparent pt-20 pb-10">
       {/* Atmospheric violet + pink glow */}
@@ -12,7 +22,12 @@ export function Footer() {
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           {/* Brand */}
           <div className="max-w-xs">
-            <a href="/" className="focus-ring-gold flex items-center gap-2 rounded-full" aria-label="OrionLabs home">
+            <a
+              href={LANDING_TOP_DESTINATION}
+              onClick={handleHomeClick}
+              className="focus-ring-gold flex items-center gap-2 rounded-full"
+              aria-label="OrionLabs home"
+            >
               <Logo className="h-9 w-9" />
               <span className="font-serif text-2xl tracking-tight text-foreground">
                 Orion<span className="text-gradient-gold">Labs</span>

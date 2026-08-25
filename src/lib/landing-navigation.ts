@@ -9,6 +9,7 @@ export const LANDING_NAV_LINKS = [
 ] as const;
 
 export const ANALYSIS_DESTINATION = '/questionnaire';
+export const LANDING_TOP_DESTINATION = '/#top';
 
 type LandingFragmentTarget = Pick<HTMLElement, 'scrollIntoView'>;
 
@@ -41,6 +42,33 @@ export function scrollToLandingFragment(
   }
 
   target.scrollIntoView({ behavior: 'auto', block: 'start' });
+  return true;
+}
+
+/**
+ * Handles a root-fragment destination in place when the visitor is already on
+ * Landing. Other routes keep normal anchor navigation so the document can load
+ * the Landing page before its existing fragment reconciliation runs.
+ */
+export function navigateToLandingFragmentInPlace(
+  destination: string,
+  location: Pick<Location, 'pathname' | 'hash'> = window.location,
+  updateHistory: (destination: string) => void = (nextDestination) =>
+    window.history.pushState(null, '', nextDestination),
+  scrollToFragment: (hash: string) => boolean = scrollToLandingFragment,
+) {
+  const fragmentIndex = destination.indexOf('#');
+  const destinationPath = fragmentIndex >= 0 ? destination.slice(0, fragmentIndex) : destination;
+  const destinationHash = fragmentIndex >= 0 ? destination.slice(fragmentIndex) : '';
+
+  if (location.pathname !== '/' || destinationPath !== '/' || !destinationHash) {
+    return false;
+  }
+
+  if (location.hash !== destinationHash) {
+    updateHistory(destination);
+  }
+  scrollToFragment(destinationHash);
   return true;
 }
 

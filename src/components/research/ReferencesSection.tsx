@@ -1,6 +1,8 @@
-import { Copy, ExternalLink } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { BadgeCheck, Check, Copy, ExternalLink } from 'lucide-react';
 import type { ResearchPaperSharedData } from '@/data/research-types';
 import { startNewAnalysisJourney } from '@/lib/analysis-session';
+import { copyResearchCitation, formatResearchCitation } from '@/lib/research-citation';
 
 interface ReferencesSectionProps {
   paper: ResearchPaperSharedData;
@@ -8,10 +10,38 @@ interface ReferencesSectionProps {
 
 export function ReferencesSection({ paper }: ReferencesSectionProps) {
   const { references, referencesSection, citation, cta } = paper;
+  const [citationCopied, setCitationCopied] = useState(false);
+  const copyResetTimerRef = useRef<number | null>(null);
+  const citationText = formatResearchCitation(citation);
+
+  useEffect(() => {
+    return () => {
+      if (copyResetTimerRef.current !== null) {
+        window.clearTimeout(copyResetTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleStartAnalysis = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     startNewAnalysisJourney();
+  };
+
+  const handleCopyCitation = async () => {
+    const copied = await copyResearchCitation(citationText);
+    setCitationCopied(copied);
+
+    if (!copied) {
+      return;
+    }
+
+    if (copyResetTimerRef.current !== null) {
+      window.clearTimeout(copyResetTimerRef.current);
+    }
+    copyResetTimerRef.current = window.setTimeout(() => {
+      setCitationCopied(false);
+      copyResetTimerRef.current = null;
+    }, 1_500);
   };
 
   return (
@@ -74,14 +104,31 @@ export function ReferencesSection({ paper }: ReferencesSectionProps) {
             </h3>
           </div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[hsl(43_60%_70%_/_0.16)] px-3 py-1.5 text-[0.62rem] uppercase tracking-[0.16em] text-muted-foreground">
-            <Copy aria-hidden="true" className="h-3.5 w-3.5" />
+            <BadgeCheck aria-hidden="true" className="h-3.5 w-3.5" />
             {citation.verificationLabel}
           </span>
         </div>
-        <p className="mt-5 max-w-4xl rounded-xl border border-[hsl(43_60%_70%_/_0.08)] bg-[hsl(280_45%_12%_/_0.4)] p-4 font-mono text-xs leading-relaxed text-foreground/72 sm:p-5">
-          {citation.authors} ({citation.year}). {citation.title}.{' '}
-          <em>{citation.publication}</em>. doi:{citation.doi}
-        </p>
+        <div className="relative mt-5 max-w-4xl rounded-xl border border-[hsl(43_60%_70%_/_0.08)] bg-[hsl(280_45%_12%_/_0.4)]">
+          <p className="p-4 pr-14 font-mono text-xs leading-relaxed text-foreground/72 sm:p-5 sm:pr-16">
+            {citation.authors} ({citation.year}). {citation.title}.{' '}
+            <em>{citation.publication}</em>. doi:{citation.doi}
+          </p>
+          <button
+            type="button"
+            onClick={handleCopyCitation}
+            className="focus-ring-gold absolute right-2.5 top-2.5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(43_60%_70%_/_0.12)] text-muted-foreground transition-colors hover:border-[hsl(43_60%_70%_/_0.28)] hover:text-foreground sm:right-3 sm:top-3"
+            aria-live="polite"
+          >
+            {citationCopied ? (
+              <Check aria-hidden="true" className="h-4 w-4 text-[hsl(43_60%_72%)]" />
+            ) : (
+              <Copy aria-hidden="true" className="h-4 w-4" />
+            )}
+            <span className="sr-only">
+              {citationCopied ? 'Citation copied' : 'Copy citation'}
+            </span>
+          </button>
+        </div>
       </aside>
 
       <div className="mt-14 rounded-[1.75rem] border border-[hsl(43_60%_70%_/_0.15)] bg-[linear-gradient(145deg,hsl(280_55%_13%_/_0.5),hsl(262_50%_6%_/_0.42))] px-5 py-12 text-center sm:px-8 sm:py-14 md:ml-40">

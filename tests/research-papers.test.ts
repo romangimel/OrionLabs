@@ -1,6 +1,10 @@
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import {
+  copyResearchCitation,
+  formatResearchCitation,
+} from '@/lib/research-citation';
 import { astrovectorPaper } from '@/data/astrovector-paper';
 import { limitsPaper } from '@/data/limits-paper';
 import { RESEARCH_PAPER_CATALOG } from '@/data/research-catalog';
@@ -16,6 +20,10 @@ import {
   generateAstroVectorProjection,
 } from '@/lib/astrovector-projection';
 import { ResearchPaperPage } from '@/pages/ResearchPaperPage';
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 describe('research paper registry', () => {
   it('maps only the four approved research routes to their typed paper records', () => {
@@ -104,6 +112,49 @@ describe('research paper registry', () => {
         expect(markup).toContain(`href="${reference.href}"`);
       }
     }
+  });
+
+  it('gives all four papers one accessible copy action and a non-interactive verification status', () => {
+    for (const paper of Object.values(RESEARCH_PAPERS)) {
+      const markup = renderToStaticMarkup(
+        createElement(ResearchPaperPage, {
+          paperSlug: paper.slug as ResearchPaperSlug,
+        }),
+      );
+
+      expect(markup.match(/<button[^>]*type="button"/g)).toHaveLength(1);
+      expect(markup).toContain('<span class="sr-only">Copy citation</span>');
+      expect(markup).toContain('lucide-badge-check');
+      expect(markup).toContain(paper.citation.verificationLabel);
+      expect(markup).not.toContain('aria-label="Citation verified internally"');
+    }
+  });
+
+  it('copies each paper-specific citation as canonical plain text', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    vi.stubGlobal('navigator', { clipboard: { writeText } });
+
+    for (const paper of Object.values(RESEARCH_PAPERS)) {
+      const citationText = formatResearchCitation(paper.citation);
+
+      await expect(copyResearchCitation(citationText)).resolves.toBe(true);
+      expect(writeText).toHaveBeenLastCalledWith(
+        `${paper.citation.authors} (${paper.citation.year}). ${paper.citation.title}. ${paper.citation.publication}. doi:${paper.citation.doi}`,
+      );
+    }
+
+    expect(writeText).toHaveBeenCalledTimes(4);
+  });
+
+  it('keeps the citation content stable and fails gracefully when clipboard access is rejected', async () => {
+    const paper = RESEARCH_PAPERS['moon-aware-transformers'];
+    const citationText = formatResearchCitation(paper.citation);
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText: vi.fn().mockRejectedValue(new Error('Clipboard unavailable')) },
+    });
+
+    await expect(copyResearchCitation(citationText)).resolves.toBe(false);
+    expect(formatResearchCitation(paper.citation)).toBe(citationText);
   });
 });
 

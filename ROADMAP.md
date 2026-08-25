@@ -425,9 +425,28 @@ P2 reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical al
 - [x] Identify and implement worthwhile lazy-loading or code-splitting opportunities
 - [x] Check page performance, layout shifts, and loading behavior on slower connections
 
-### 11. Final Testing / Toolchain Maintenance
+### 11. Security
 
-This is the active phase. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance work.
+This is the active phase.
+
+- [ ] Audit the complete public attack surface and trust boundaries
+- [ ] Audit API input validation, request limits, methods, CORS, caching, and error leakage
+- [ ] Audit Gemini and Groq secret isolation and client/server boundaries
+- [ ] Audit prompt-injection and AI-output handling risks
+- [ ] Audit XSS and unsafe rendering paths for user and generated content
+- [ ] Audit sessionStorage/report persistence trust boundaries and malformed-state handling
+- [ ] Audit abuse resistance, rate limiting, duplicate requests, and denial-of-wallet risk
+- [ ] Audit production HTTP security headers and framing/referrer/permissions policy
+- [ ] Triage npm dependency advisories by actual reachability and exploitability
+- [ ] Audit Vercel deployment configuration, API isolation, environment handling, and production exposure
+- [ ] Audit logging, privacy, and unnecessary data retention
+- [ ] Audit supply-chain/configuration risks and confirm no secrets or server-only code reach the client bundle
+- [ ] Resolve the approved security fix list
+- [ ] Re-run security verification after fixes
+
+### 12. Final Testing / Toolchain Maintenance
+
+This is the next phase after Security. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance work.
 
 - [ ] Test AI failure, timeout, and capacity states
 - [ ] Re-test route refreshes and direct access on the final release candidate
@@ -437,7 +456,7 @@ This is the active phase. The deferred Browserslist data, Vite/Vitest alignment,
 - [ ] Test the complete user journey
 - [ ] Run the final production build
 
-### 12. Documentation, Release Candidate, and Launch
+### 13. Documentation, Release Candidate, and Launch
 
 - [x] Document the current technology stack
 - [x] Document local development setup
