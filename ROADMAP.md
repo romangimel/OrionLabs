@@ -251,11 +251,11 @@ The completed items below are manual behavior checks, not automated regression t
 
 - [x] Questionnaire drafts persist during the active journey and survive a questionnaire refresh
 - [x] Draft and report validators safely reject corrupted stored data
-- [ ] Perform focused browser checks for malformed questionnaire drafts and report records
+- [x] Perform focused browser checks for malformed questionnaire drafts and report records
 - [x] Protected-route recovery: `/calibration` redirects completed active reports directly to `/report`; otherwise `/calibration` and `/report` redirect to `/questionnaire` without protected-content flash when their required session state is absent
 - [x] Verify refreshes and direct navigation for all public routes in a live Vercel environment
 - [x] Verify deployed SPA fallback preserves static assets, Vite development resources, and `/api/*` handling
-- [ ] Manually verify a real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
+- [x] Manually verify a real AI journey: Landing → Questionnaire → Review → Analysis → Vercel Function → Gemini → validated Report → Start Another Analysis
 
 ### Automated Regression Coverage
 
@@ -283,7 +283,7 @@ Do not call the AI provider directly from frontend browser code.
 ### AI Planning
 
 - [x] Choose Google Gemini as the first AI provider
-- [ ] Reconfirm current provider pricing, rate limits, and response capabilities before launch
+- [x] Reconfirm current provider pricing, rate limits, and response capabilities before launch
 - [x] Define the structured AI response format from the `OrionReport` runtime schema
 - [x] Create the OrionLabs system prompt
 - [x] Create the reusable report-generation prompt
@@ -301,7 +301,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Record the product-owner-configured Gemini Firewall policy: 5 requests / 60 seconds / IP for `/api/generate-report`
 - [x] Externally verify the Production Gemini Firewall path, threshold/window, and pre-Function `429` behavior
 - [x] Record the accepted Free-plan limitation: `/api/enhance-context` has no dedicated rule and does not share Gemini's 5-RPM bucket
-- [ ] Confirm Groq provider-side quota and cost exposure during release verification
+- [x] Confirm Groq provider-side quota and cost exposure during release verification
 - [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
 
@@ -454,12 +454,12 @@ Deferred deliberately: streaming request-body enforcement, HSTS pending the fina
 
 ### 12. Final Testing / Toolchain Maintenance
 
-Repository and toolchain work is complete. Vite 6.4.3, Vitest 4.1.11, and `@vitejs/plugin-react` 4.7.0 now share one valid Vite 6 tree; Browserslist metadata is current; native config loading passes; and the `@/*` TypeScript alias no longer relies on deprecated `baseUrl` behavior. Clean install, dependency-tree, tests, current and forward TypeScript checks, lint, application build, and Vercel build all pass. Mobile viewport checks at 430×932 and 375×812 and a safe Production smoke pass are complete with no application console errors. This phase remains open only because the environment could not provide a physical mobile device or a non-Chromium desktop engine for the final manual matrix.
+This phase is complete. Repository and toolchain work is complete: Vite 6.4.3, Vitest 4.1.11, and `@vitejs/plugin-react` 4.7.0 now share one valid Vite 6 tree; Browserslist metadata is current; native config loading passes; and the `@/*` TypeScript alias no longer relies on deprecated `baseUrl` behavior. Clean install, dependency-tree, tests, current and forward TypeScript checks, lint, application build, and Vercel build all pass. Mobile viewport checks at 430×932 and 375×812 and a safe Production smoke pass are complete with no application console errors. The product owner also verified representative Production behavior on a physical mobile device and in Firefox as the secondary desktop browser; both passed with no release-blocking issue found. With the final manual matrix complete, the overall engineering/release work is complete and OrionLabs is release-ready.
 
 - [x] Test AI failure, timeout, and capacity states
 - [x] Re-test route refreshes and direct access on the final release candidate
 - [x] Test multiple desktop widths and around 375px and 430px mobile widths
-- [ ] Test at least one real mobile device and one secondary desktop browser in addition to the main development browser
+- [x] Test at least one real mobile device and one secondary desktop browser in addition to the main development browser
 - [x] Re-confirm no API keys are exposed and no console errors remain
 - [x] Test the complete user journey
 - [x] Run the final production build
