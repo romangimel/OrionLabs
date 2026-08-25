@@ -21,6 +21,9 @@ describe('browser report-generation request', () => {
     ).resolves.toEqual(createValidReport());
 
     const requestBody = JSON.parse(fetchMock.mock.calls[0][1].body as string);
+    expect(fetchMock.mock.calls[0][1].headers).toEqual({
+      'Content-Type': 'application/json',
+    });
     expect(requestBody).toEqual(validGenerationInput);
     expect(requestBody).not.toHaveProperty('birthDate');
     expect(requestBody).not.toHaveProperty('pronouns');

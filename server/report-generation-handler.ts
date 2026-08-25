@@ -7,6 +7,7 @@ import {
   MissingGeminiApiKeyError,
 } from './gemini-report-generator.js';
 import { ANALYSIS_CAPACITY_EXHAUSTED_CODE } from '../src/lib/report-generation-errors.js';
+import { hasJsonContentType } from './http-request.js';
 
 const MAX_REQUEST_BODY_BYTES = 16_384;
 
@@ -44,6 +45,18 @@ export function createReportGenerationHandler(
         { error: { code: 'METHOD_NOT_ALLOWED', message: 'Use POST for this endpoint.' } },
         405,
         { Allow: 'POST' },
+      );
+    }
+
+    if (!hasJsonContentType(request)) {
+      return jsonResponse(
+        {
+          error: {
+            code: 'UNSUPPORTED_MEDIA_TYPE',
+            message: 'Content-Type must be application/json.',
+          },
+        },
+        415,
       );
     }
 

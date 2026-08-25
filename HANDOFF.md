@@ -47,7 +47,7 @@ The four steps are:
 3. Behavioral Snapshot: focus area, behavioral statement
 4. Final Calibration: optional context
 
-All fields except optional context are required. Optional context is limited to 600 characters; an existing over-limit draft remains visible and editable but cannot be enhanced or submitted until corrected. Reference preference remains visible, required, and persisted for Review Answers, but it is never AI input. Generated report prose uses second-person language for every subject.
+All fields except optional context are required. Optional context is limited to 600 characters in controlled input, draft restoration, enhancement, and report-generation input. Attacker-edited oversized stored drafts are rejected instead of restored. Reference preference remains visible, required, and persisted for Review Answers, but it is never AI input. Generated report prose uses second-person language for every subject.
 
 The optional context textarea owns a temporary `Enhance with AI`/`Undo` state. Empty context generates one statement from focus plus behavior; populated context is rewritten without adding facts. The browser uses strict minimized requests: populated mode sends only the exact current context, while empty mode sends only those two selections. The server validates a 4 KB maximum body, calls Groq-hosted `openai/gpt-oss-120b` once with low reasoning and an 8-second timeout, and returns `{ enhancedContext }`. `GROQ_API_KEY` remains server-only, raw context is not logged, and no AI provenance enters the Gemini report input.
 
@@ -89,6 +89,7 @@ Do not roast protected characteristics, medical or mental-health information, tr
 The Vercel Function:
 
 - Accepts only POST
+- Requires `application/json` before reading the body or invoking Gemini
 - Limits total request size
 - Strictly validates the approved input shape
 - Trims/normalizes strings and bounds optional context to 600 characters
@@ -102,7 +103,7 @@ The Vercel Function:
 
 The repository does not establish Gemini billing, quota, retention, or account configuration. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
 
-An external layer may return HTTP 429 before the Function runs, but the repository does not establish whether a Vercel Firewall or other rate-limit rule is configured. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
+The product owner reports that the one available Vercel Firewall custom rule covers `/api/generate-report` at an intended 5 requests per 60 seconds per IP. The repository cannot prove that dashboard state, and coverage, threshold, and pre-Function `429` behavior remain external release-verification work. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
 
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
@@ -112,7 +113,7 @@ The rotating Analysis messages are presentation, not real Gemini stages. They co
 
 Failures show a compact retry action inside the existing Analysis card. The questionnaire draft stays intact. If only browser storage failed, retry attempts persistence again without paying for another model request.
 
-Questionnaire drafts and completed reports remain versioned `sessionStorage` records in the current tab. Completed reports are immutable snapshots with a private UUID, separate active-report pointer, and explicit zodiac/focus/behavior Subject Signature metadata. `/report` consumes only the validated active snapshot through `src/lib/report-storage.ts`; it does not reconstruct signature behavior from generated trait titles. The shared Subject Signature architecture now includes all 12 zodiac geometries with deterministic focus and behavior resolution.
+Questionnaire drafts and completed reports remain versioned `sessionStorage` records in the current tab. Draft restoration requires exact keys, configured enum values, valid date-input syntax, and the existing 80-character name and 600-character optional-context limits. Invalid or attacker-expanded records are removed without throwing. Completed reports are immutable snapshots with a private UUID, separate active-report pointer, and explicit zodiac/focus/behavior Subject Signature metadata. `/report` consumes only the validated active snapshot through `src/lib/report-storage.ts`; it does not reconstruct signature behavior from generated trait titles. The shared Subject Signature architecture now includes all 12 zodiac geometries with deterministic focus and behavior resolution.
 
 ## Local and Vercel development
 
@@ -127,7 +128,11 @@ Use `npx vercel dev` for the complete flow. Plain `npm run dev` runs Vite but do
 
 In Vercel, add `GEMINI_API_KEY` and `GROQ_API_KEY` as sensitive Environment Variables for the intended Development, Preview, and Production environments. `vercel.json` supplies the Vite SPA deep-link fallback while explicitly keeping the physical API namespace and local Vite development resources outside that rewrite.
 
-Repository configuration cannot prove dashboard Firewall coverage for the new endpoint. Before public use, add or verify a per-IP Vercel Firewall rate-limit rule for `/api/enhance-context`; 10 requests per 60 seconds per IP is the recommended starting point. Do not assume a path-specific `/api/generate-report` rule also covers enhancement.
+Both AI Functions require JSON request media types and return controlled JSON errors with `Cache-Control: no-store`; cross-origin JSON requires browser preflight and OrionLabs sends no permissive CORS headers. This reduces drive-by browser-origin abuse but is not direct-client rate limiting.
+
+Under the current Vercel Free-plan constraint, `/api/enhance-context` intentionally has no dedicated custom Firewall rate-limit rule and does not share Gemini's 5-request-per-minute bucket. It retains strict 4 KiB body/schema limits, a 600-character context boundary, minimized inputs, one fixed-model request, an 8-second timeout, no retry, duplicate browser-request suppression, generic errors, and `no-store`. Direct automated callers can still repeat Groq requests, so provider-side quota and cost exposure must be confirmed during release verification.
+
+`vercel.json` applies `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `X-Frame-Options: DENY`, and a `Permissions-Policy` disabling camera, microphone, and geolocation across all paths. HSTS is deferred until the production-domain strategy is final. CSP is deferred until compatibility and a useful staged reporting approach can be verified.
 
 The Function runtime graph uses Node ESM imports: local server imports must be relative and must name their emitted `.js` extension. TypeScript resolves those specifiers to the `.ts` source during development. Keep the frontend `@/` alias out of modules loaded at Function runtime because Vercel does not rewrite TypeScript path mappings in deployed Function files.
 
@@ -150,7 +155,9 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 ## Still deferred
 
 - Real-key local provider smoke test and Vercel preview verification
-- Durable usage accounting and externally verified rate limiting
+- External verification of the owner-configured Gemini Firewall rule and Groq quota/cost exposure
+- Durable Groq rate limiting if a future plan supports an independent rule without weakening Gemini protection
+- Streaming request-body enforcement below the Vercel platform ceiling
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
 - Stable shareable URLs and downloadable reports
@@ -164,4 +171,4 @@ The accessibility pass is complete with accepted visual exceptions. Gold keyboar
 
 Performance is complete. P1 responsive hero/logo delivery and secondary-route code splitting remain intact. P2 added responsive WebP delivery for Subject Signature, Research, and 404 artwork; reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data; deferred those mask requests until the section approaches; removed 40 unused direct runtime declarations; and moved `tailwindcss-animate` to development tooling. Runtime dependencies decreased from 52 to 11, and the clean install decreased from 24,496 files / 264,704,889 bytes to 14,109 files / 207,907,604 bytes. The final build remains split, with 556.28 kB raw / 165.10 kB gzip initial JavaScript and 96.85 kB raw / 16.79 kB gzip CSS.
 
-Final Testing / Toolchain Maintenance is the active phase. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.
+Repository Security implementation is complete. Security remains the active phase until the Production Gemini Firewall rule is externally verified; the accepted absence of a dedicated Groq rule does not itself block closure. Final Testing / Toolchain Maintenance remains next and has not started. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.

@@ -4,6 +4,10 @@ import {
   REFERENCE_PREFERENCES,
   ZODIAC_SIGNS,
 } from '../data/questionnaire.js';
+import {
+  MAX_ADDITIONAL_CONTEXT_LENGTH,
+  MAX_SUBJECT_NAME_LENGTH,
+} from './report-generation-constraints.js';
 
 /**
  * Canonical answer model shared by the questionnaire, review, and calibration routes.
@@ -77,6 +81,30 @@ const EMPTY_ANSWERS: QuestionnaireAnswers = {
   behavioralStatement: '',
   additionalContext: '',
 };
+const QUESTIONNAIRE_ANSWER_KEYS = Object.keys(EMPTY_ANSWERS);
+const QUESTIONNAIRE_DRAFT_KEYS = [
+  'version',
+  'status',
+  'answers',
+  'currentStep',
+  'isReviewing',
+  'pendingReportId',
+] as const;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function hasExactKeys(
+  value: Record<string, unknown>,
+  expectedKeys: readonly string[],
+): boolean {
+  const actualKeys = Object.keys(value);
+  return (
+    actualKeys.length === expectedKeys.length &&
+    expectedKeys.every((key) => Object.prototype.hasOwnProperty.call(value, key))
+  );
+}
 
 /** Creates questionnaire UI state, optionally restored from a validated draft. */
 export function createQuestionnaireState(
@@ -105,12 +133,19 @@ export function createQuestionnaireDraft(
 }
 
 function isQuestionnaireAnswers(value: unknown): value is QuestionnaireAnswers {
-  if (!value || typeof value !== 'object') {
+  if (!isRecord(value) || !hasExactKeys(value, QUESTIONNAIRE_ANSWER_KEYS)) {
     return false;
   }
 
-  const answers = value as Record<string, unknown>;
+  const answers = value;
   if (!Object.keys(EMPTY_ANSWERS).every((key) => typeof answers[key] === 'string')) {
+    return false;
+  }
+
+  if (
+    (answers.firstName as string).length > MAX_SUBJECT_NAME_LENGTH ||
+    (answers.additionalContext as string).length > MAX_ADDITIONAL_CONTEXT_LENGTH
+  ) {
     return false;
   }
 
@@ -141,11 +176,11 @@ function isQuestionnaireStepIndex(value: unknown): value is QuestionnaireStepInd
 }
 
 function isQuestionnaireDraft(value: unknown): value is QuestionnaireDraft {
-  if (!value || typeof value !== 'object') {
+  if (!isRecord(value) || !hasExactKeys(value, QUESTIONNAIRE_DRAFT_KEYS)) {
     return false;
   }
 
-  const draft = value as Record<string, unknown>;
+  const draft = value;
   return (
     draft.version === 1 &&
     draft.status === 'in-progress' &&

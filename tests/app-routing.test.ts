@@ -61,3 +61,27 @@ describe('Vercel SPA fallback', () => {
     expect(fallbackPattern.test('/favicon.ico')).toBe(false);
   });
 });
+
+describe('Vercel security headers', () => {
+  it('applies the approved low-risk headers to every path', () => {
+    const vercelConfig = JSON.parse(
+      readFileSync(resolve(process.cwd(), 'vercel.json'), 'utf8'),
+    ) as {
+      headers: Array<{
+        source: string;
+        headers: Array<{ key: string; value: string }>;
+      }>;
+    };
+    const globalHeaders = vercelConfig.headers[0];
+
+    expect(globalHeaders.source).toBe('/(.*)');
+    expect(Object.fromEntries(
+      globalHeaders.headers.map(({ key, value }) => [key, value]),
+    )).toEqual({
+      'X-Content-Type-Options': 'nosniff',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
+      'X-Frame-Options': 'DENY',
+      'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+    });
+  });
+});

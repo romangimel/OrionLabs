@@ -298,8 +298,10 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Validate and normalize the approved generation input on the server
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
-- [ ] Configure and externally verify Vercel or equivalent upstream rate limiting for report generation
-- [ ] Configure and externally verify a 10 requests / 60 seconds / IP rule for `/api/enhance-context`
+- [x] Record the product-owner-configured Gemini Firewall policy: 5 requests / 60 seconds / IP for `/api/generate-report`
+- [ ] Externally verify the Production Gemini Firewall path, threshold/window, and pre-Function `429` behavior
+- [x] Record the accepted Free-plan limitation: `/api/enhance-context` has no dedicated rule and does not share Gemini's 5-RPM bucket
+- [ ] Confirm Groq provider-side quota and cost exposure during release verification
 - [x] Handle quota exhaustion gracefully in the product
 - [x] Add appropriate server-side diagnostics without exposing private user content
 
@@ -427,22 +429,28 @@ P2 reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical al
 
 ### 11. Security
 
-This is the active phase.
+This is the active phase. Repository implementation and regression verification are complete; Security remains open only for external verification of the Production Gemini Firewall rule. The accepted absence of a dedicated Groq rule under the current Free-plan constraint is a documented launch tradeoff, not a claim that Groq is rate-limited.
 
-- [ ] Audit the complete public attack surface and trust boundaries
-- [ ] Audit API input validation, request limits, methods, CORS, caching, and error leakage
-- [ ] Audit Gemini and Groq secret isolation and client/server boundaries
-- [ ] Audit prompt-injection and AI-output handling risks
-- [ ] Audit XSS and unsafe rendering paths for user and generated content
-- [ ] Audit sessionStorage/report persistence trust boundaries and malformed-state handling
-- [ ] Audit abuse resistance, rate limiting, duplicate requests, and denial-of-wallet risk
-- [ ] Audit production HTTP security headers and framing/referrer/permissions policy
-- [ ] Triage npm dependency advisories by actual reachability and exploitability
-- [ ] Audit Vercel deployment configuration, API isolation, environment handling, and production exposure
-- [ ] Audit logging, privacy, and unnecessary data retention
-- [ ] Audit supply-chain/configuration risks and confirm no secrets or server-only code reach the client bundle
-- [ ] Resolve the approved security fix list
-- [ ] Re-run security verification after fixes
+- [x] Audit the complete public attack surface and trust boundaries
+- [x] Audit API input validation, request limits, methods, CORS, caching, and error leakage
+- [x] Audit Gemini and Groq secret isolation and client/server boundaries
+- [x] Audit prompt-injection and AI-output handling risks
+- [x] Audit XSS and unsafe rendering paths for user and generated content
+- [x] Audit sessionStorage/report persistence trust boundaries and malformed-state handling
+- [x] Audit abuse resistance, rate limiting, duplicate requests, and denial-of-wallet risk
+- [x] Audit production HTTP security headers and framing/referrer/permissions policy
+- [x] Triage npm dependency advisories and delegate toolchain remediation to Final Testing / Toolchain Maintenance
+- [x] Audit Vercel deployment configuration, API isolation, environment handling, and production exposure
+- [x] Audit logging, privacy, and unnecessary data retention
+- [x] Audit supply-chain/configuration risks and confirm no secrets or server-only code reach the client bundle
+- [x] Require JSON request media types before parsing or provider invocation on both AI endpoints
+- [x] Add framing, referrer, permissions, and MIME-sniffing response headers through Vercel configuration
+- [x] Align questionnaire-draft restoration with exact shapes, configured values, and shared field limits
+- [x] Resolve the approved repository security fix list
+- [x] Re-run repository security verification after fixes
+- [ ] Externally verify `/api/generate-report` is covered at 5 requests / 60 seconds / IP and returns `429` before provider execution
+
+Deferred deliberately: streaming request-body enforcement, HSTS pending the final domain strategy, CSP pending compatibility/reporting evidence, Groq provider-side quota/cost verification, and dependency/toolchain advisories assigned to the next phase.
 
 ### 12. Final Testing / Toolchain Maintenance
 

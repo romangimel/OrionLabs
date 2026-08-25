@@ -93,6 +93,9 @@ describe('context-enhancement browser request', () => {
       behavioralStatement: 'I overthink things',
     });
 
+    expect(fetchMock.mock.calls[0][1].headers).toEqual({
+      'Content-Type': 'application/json',
+    });
     expect(JSON.parse(fetchMock.mock.calls[0][1].body as string)).toEqual({
       mode: 'generate',
       focusArea: 'Career',

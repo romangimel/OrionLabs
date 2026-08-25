@@ -21,10 +21,19 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-function createRequest(body: string | unknown, method = 'POST') {
+function createRequest(
+  body: string | unknown,
+  method = 'POST',
+  contentType: string | null = 'application/json',
+) {
+  const headers = new Headers();
+  if (contentType) {
+    headers.set('Content-Type', contentType);
+  }
+
   return new Request('https://orionlabs.test/api/enhance-context', {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     ...(method === 'POST'
       ? { body: typeof body === 'string' ? body : JSON.stringify(body) }
       : {}),
@@ -53,6 +62,38 @@ describe('context-enhancement HTTP handler', () => {
 
     expect(response.status).toBe(200);
     expect(enhanceContext).toHaveBeenCalledWith(validGenerateInput);
+  });
+
+  it('accepts application/json with a charset parameter', async () => {
+    const enhanceContext = vi.fn().mockResolvedValue('A clearer context statement.');
+    const response = await createContextEnhancementHandler(enhanceContext)(
+      createRequest(validEnhanceInput, 'POST', 'application/json; charset=utf-8'),
+    );
+
+    expect(response.status).toBe(200);
+    expect(enhanceContext).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    ['a missing Content-Type', null],
+    ['text/plain', 'text/plain'],
+    ['form-encoded content', 'application/x-www-form-urlencoded'],
+    ['another unsupported media type', 'application/xml'],
+  ])('rejects %s before provider generation', async (_label, contentType) => {
+    const enhanceContext = vi.fn();
+    const response = await createContextEnhancementHandler(enhanceContext)(
+      createRequest(validEnhanceInput, 'POST', contentType),
+    );
+
+    expect(response.status).toBe(415);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(await response.json()).toEqual({
+      error: {
+        code: 'UNSUPPORTED_MEDIA_TYPE',
+        message: 'Content-Type must be application/json.',
+      },
+    });
+    expect(enhanceContext).toHaveBeenCalledTimes(0);
   });
 
   it('accepts POST only', async () => {

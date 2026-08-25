@@ -8,10 +8,19 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-function createRequest(body: unknown, method = 'POST') {
+function createRequest(
+  body: unknown,
+  method = 'POST',
+  contentType: string | null = 'application/json',
+) {
+  const headers = new Headers();
+  if (contentType) {
+    headers.set('Content-Type', contentType);
+  }
+
   return new Request('https://orionlabs.test/api/generate-report', {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     ...(method === 'POST' ? { body: JSON.stringify(body) } : {}),
   });
 }
@@ -26,6 +35,38 @@ describe('report-generation HTTP handler', () => {
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ report: createValidReport() });
     expect(generateReport).toHaveBeenCalledWith(validGenerationInput);
+  });
+
+  it('accepts application/json with a charset parameter', async () => {
+    const generateReport = vi.fn().mockResolvedValue(createValidReport());
+    const response = await createReportGenerationHandler(generateReport)(
+      createRequest(validGenerationInput, 'POST', 'application/json; charset=utf-8'),
+    );
+
+    expect(response.status).toBe(200);
+    expect(generateReport).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([
+    ['a missing Content-Type', null],
+    ['text/plain', 'text/plain'],
+    ['form-encoded content', 'application/x-www-form-urlencoded'],
+    ['another unsupported media type', 'application/xml'],
+  ])('rejects %s before provider generation', async (_label, contentType) => {
+    const generateReport = vi.fn();
+    const response = await createReportGenerationHandler(generateReport)(
+      createRequest(validGenerationInput, 'POST', contentType),
+    );
+
+    expect(response.status).toBe(415);
+    expect(response.headers.get('cache-control')).toBe('no-store');
+    expect(await response.json()).toEqual({
+      error: {
+        code: 'UNSUPPORTED_MEDIA_TYPE',
+        message: 'Content-Type must be application/json.',
+      },
+    });
+    expect(generateReport).toHaveBeenCalledTimes(0);
   });
 
   it('rejects invalid or expanded input before provider generation', async () => {

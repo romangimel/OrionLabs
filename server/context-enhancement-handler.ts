@@ -5,6 +5,7 @@ import {
   MissingGroqApiKeyError,
   enhanceContextWithGroq,
 } from './groq-context-enhancer.js';
+import { hasJsonContentType } from './http-request.js';
 
 export const MAX_CONTEXT_ENHANCEMENT_BODY_BYTES = 4_096;
 
@@ -42,6 +43,18 @@ export function createContextEnhancementHandler(
         { error: { code: 'METHOD_NOT_ALLOWED', message: 'Use POST for this endpoint.' } },
         405,
         { Allow: 'POST' },
+      );
+    }
+
+    if (!hasJsonContentType(request)) {
+      return jsonResponse(
+        {
+          error: {
+            code: 'UNSUPPORTED_MEDIA_TYPE',
+            message: 'Content-Type must be application/json.',
+          },
+        },
+        415,
       );
     }
 
