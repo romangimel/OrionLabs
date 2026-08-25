@@ -5,6 +5,9 @@ import { FadeIn } from './Motion';
 import { PrimaryActionButton, SecondaryActionButton } from './shared/ActionButtons';
 import { prepareNewAnalysisJourney } from '@/lib/analysis-session';
 
+// React 18 forwards the standards-based attribute without a warning only in lowercase.
+const HIGH_FETCH_PRIORITY_ATTRIBUTE = { fetchpriority: 'high' } as const;
+
 /**
  * Establishes the landing page's cinematic first impression and primary actions.
  * Independent background layers keep text contrast, atmospheric imagery, and
@@ -43,7 +46,7 @@ export function Hero() {
           width={1536}
           height={1024}
           loading="eager"
-          fetchPriority="high"
+          {...HIGH_FETCH_PRIORITY_ATTRIBUTE}
           decoding="async"
           className="hero-artwork-image h-full w-full object-cover opacity-[0.96]"
         />
