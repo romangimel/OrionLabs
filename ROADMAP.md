@@ -299,7 +299,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Bound optional user-provided free text
 - [x] Add request-size limits
 - [x] Record the product-owner-configured Gemini Firewall policy: 5 requests / 60 seconds / IP for `/api/generate-report`
-- [ ] Externally verify the Production Gemini Firewall path, threshold/window, and pre-Function `429` behavior
+- [x] Externally verify the Production Gemini Firewall path, threshold/window, and pre-Function `429` behavior
 - [x] Record the accepted Free-plan limitation: `/api/enhance-context` has no dedicated rule and does not share Gemini's 5-RPM bucket
 - [ ] Confirm Groq provider-side quota and cost exposure during release verification
 - [x] Handle quota exhaustion gracefully in the product
@@ -429,7 +429,7 @@ P2 reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical al
 
 ### 11. Security
 
-This is the active phase. Repository implementation and regression verification are complete; Security remains open only for external verification of the Production Gemini Firewall rule. The accepted absence of a dedicated Groq rule under the current Free-plan constraint is a documented launch tradeoff, not a claim that Groq is rate-limited.
+This phase is complete. Repository implementation and regression verification are complete, and Production externally enforced the configured Gemini Firewall rule at 5 requests per 60 seconds per IP. The accepted absence of a dedicated Groq rule under the current Free-plan constraint remains a documented launch tradeoff, not a claim that Groq is rate-limited.
 
 - [x] Audit the complete public attack surface and trust boundaries
 - [x] Audit API input validation, request limits, methods, CORS, caching, and error leakage
@@ -448,13 +448,13 @@ This is the active phase. Repository implementation and regression verification 
 - [x] Align questionnaire-draft restoration with exact shapes, configured values, and shared field limits
 - [x] Resolve the approved repository security fix list
 - [x] Re-run repository security verification after fixes
-- [ ] Externally verify `/api/generate-report` is covered at 5 requests / 60 seconds / IP and returns `429` before provider execution
+- [x] Externally verify `/api/generate-report` is covered at 5 requests / 60 seconds / IP and returns `429` before provider execution
 
 Deferred deliberately: streaming request-body enforcement, HSTS pending the final domain strategy, CSP pending compatibility/reporting evidence, Groq provider-side quota/cost verification, and dependency/toolchain advisories assigned to the next phase.
 
 ### 12. Final Testing / Toolchain Maintenance
 
-This is the next phase after Security. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance work.
+This is the active phase. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance or Security work.
 
 - [ ] Test AI failure, timeout, and capacity states
 - [ ] Re-test route refreshes and direct access on the final release candidate

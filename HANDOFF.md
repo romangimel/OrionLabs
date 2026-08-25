@@ -103,7 +103,7 @@ The Vercel Function:
 
 The repository does not establish Gemini billing, quota, retention, or account configuration. `@google/genai` exposes a numeric HTTP status but no stable structured quota dimensions on the supported error contract, so OrionLabs deliberately does not distinguish RPM, TPM, daily quota, or other resource exhaustion in product copy. Capacity failures show a try-later state, suppress immediate retry, and preserve the questionnaire draft.
 
-The product owner reports that the one available Vercel Firewall custom rule covers `/api/generate-report` at an intended 5 requests per 60 seconds per IP. The repository cannot prove that dashboard state, and coverage, threshold, and pre-Function `429` behavior remain external release-verification work. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies responses that did reach the Function.
+Production verification on 25 August 2026 confirmed that the Vercel Firewall custom rule covers `/api/generate-report` at 5 requests per 60 seconds per IP. Five requests from one source completed normally; the sixth returned a fast Vercel-deny `429` with `x-vercel-mitigated: deny` before normal Function/provider execution. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies capacity responses that did reach the Function.
 
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
@@ -155,7 +155,7 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 ## Still deferred
 
 - Real-key local provider smoke test and Vercel preview verification
-- External verification of the owner-configured Gemini Firewall rule and Groq quota/cost exposure
+- External verification of Groq quota/cost exposure
 - Durable Groq rate limiting if a future plan supports an independent rule without weakening Gemini protection
 - Streaming request-body enforcement below the Vercel platform ceiling
 - Production monitoring and alerting
@@ -165,10 +165,10 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 These are not production-ready and should not be described as complete.
 
-## Accessibility, performance, and immediate next phase
+## Accessibility, performance, and current phase
 
 The accessibility pass is complete with accepted visual exceptions. Gold keyboard-focus indicators, modal mobile-navigation focus management/background inertness, subtly stronger questionnaire resting boundaries, and reduced-motion mobile-menu behavior are implemented. The accepted exceptions are intentionally muted/supporting text below WCAG AA ordinary-text contrast targets, color-based visual selection for standard questionnaire option cards, and the subtle questionnaire resting boundaries remaining below the 3:1 non-text target. Native radio semantics remain intact. Do not describe OrionLabs as fully WCAG 2.2 AA compliant.
 
 Performance is complete. P1 responsive hero/logo delivery and secondary-route code splitting remain intact. P2 added responsive WebP delivery for Subject Signature, Research, and 404 artwork; reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data; deferred those mask requests until the section approaches; removed 40 unused direct runtime declarations; and moved `tailwindcss-animate` to development tooling. Runtime dependencies decreased from 52 to 11, and the clean install decreased from 24,496 files / 264,704,889 bytes to 14,109 files / 207,907,604 bytes. The final build remains split, with 556.28 kB raw / 165.10 kB gzip initial JavaScript and 96.85 kB raw / 16.79 kB gzip CSS.
 
-Repository Security implementation is complete. Security remains the active phase until the Production Gemini Firewall rule is externally verified; the accepted absence of a dedicated Groq rule does not itself block closure. Final Testing / Toolchain Maintenance remains next and has not started. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.
+Security is complete. Repository verification passed, and the Production Gemini Firewall rule was externally confirmed at 5 requests per 60 seconds per IP with a pre-Function `429` on the sixth request; the accepted absence of a dedicated Groq rule did not block closure. Final Testing / Toolchain Maintenance is now active. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.
