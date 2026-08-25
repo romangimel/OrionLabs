@@ -470,16 +470,18 @@ This phase is complete. Repository and toolchain work is complete: Vite 6.4.3, V
 - [x] Document local development setup
 - [x] Document environment variables without exposing secrets
 - [x] Clearly identify the project as satire
-- [ ] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
-- [ ] Verify current Preview and Production deployments, including real Gemini report generation
+- [x] Deploy OrionLabs to Vercel with `main` as Production and feature branches as Previews
+- [x] Verify current Preview and Production deployments, including real Gemini report generation
 - [x] Verify deployed routes support SPA fallback and static assets load correctly
-- [ ] Confirm Production uses the intended Gemini model and frozen configuration
-- [ ] Re-confirm Production rate-limit and capacity handling
-- [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work
+- [x] Confirm Production uses the intended Gemini model and frozen configuration
+- [x] Re-confirm Production rate-limit and capacity handling
+- [x] Re-verify the final Production release candidate after polish, accessibility, and performance work
 - [x] Update the README for the current release candidate
 - [x] Add a concise product preview
 - [x] Add the live URL to the repository README
 - [ ] Add OrionLabs to the portfolio
+
+Release verification on 26 August 2026 confirmed that the current `main` commit is the Ready Production deployment at `orionlabs-ai.vercel.app`, while real non-main branches have produced Ready Preview deployments. The latest suitable Preview passed authenticated landing, questionnaire, representative internal-route, static-asset, and real Gemini report-generation checks. Vercel Authentication prevented an anonymous rendered-browser pass on that Preview, so its route and Function checks used Vercel's authenticated protection bypass without changing deployment settings. The live Production Firewall rule remains active at 5 requests per 60 seconds per IP for `/api/generate-report`; the earlier five-success/one-Vercel-`429` proof remains valid. Focused frozen-prompt, model-option, capacity, retry, persistence, and recovery tests also pass. No new Production Gemini request or Groq request was used for this reconciliation.
 
 ---
 

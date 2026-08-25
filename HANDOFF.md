@@ -105,6 +105,8 @@ The repository does not establish Gemini billing, quota, retention, or account c
 
 Production verification on 25 August 2026 confirmed that the Vercel Firewall custom rule covers `/api/generate-report` at 5 requests per 60 seconds per IP. Five requests from one source completed normally; the sixth returned a fast Vercel-deny `429` with `x-vercel-mitigated: deny` before normal Function/provider execution. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies capacity responses that did reach the Function.
 
+Final deployment reconciliation on 26 August 2026 confirmed that the current `main` commit is the Ready Production deployment at `orionlabs-ai.vercel.app`. Vercel history also proves that non-main branches produce Preview deployments. The latest suitable non-main Preview was Ready and returned `200` for the landing page, questionnaire, a representative research route, its referenced JavaScript asset, and one real Gemini report generation using synthetic input. That Preview is protected by Vercel Authentication, so the route and Function checks used Vercel's authenticated protection bypass; an anonymous rendered-browser journey was not repeated. Current Vercel metadata also confirms that the same 5-request/60-second/IP report-generation Firewall rule remains live with no draft changes.
+
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
 ## Analysis and persistence behavior
@@ -154,7 +156,7 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 
 ## Still deferred
 
-- Real-key local provider smoke test and Vercel preview verification
+- Real-key local provider smoke test
 - External verification of Groq quota/cost exposure
 - Durable Groq rate limiting if a future plan supports an independent rule without weakening Gemini protection
 - Streaming request-body enforcement below the Vercel platform ceiling
@@ -171,3 +173,5 @@ The accessibility pass is complete with accepted visual exceptions. Gold keyboar
 Performance is complete. P1 responsive hero/logo delivery and secondary-route code splitting remain intact. P2 added responsive WebP delivery for Subject Signature, Research, and 404 artwork; reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data; deferred those mask requests until the section approaches; removed 40 unused direct runtime declarations; and moved `tailwindcss-animate` to development tooling. Runtime dependencies decreased from 52 to 11, and the clean install decreased from 24,496 files / 264,704,889 bytes to 14,109 files / 207,907,604 bytes. The final build remains split, with 556.28 kB raw / 165.10 kB gzip initial JavaScript and 96.85 kB raw / 16.79 kB gzip CSS.
 
 Security is complete. Repository verification passed, and the Production Gemini Firewall rule was externally confirmed at 5 requests per 60 seconds per IP with a pre-Function `429` on the sixth request; the accepted absence of a dedicated Groq rule did not block closure. Final Testing / Toolchain Maintenance is complete. Repository/toolchain validation is complete: Vite 6.4.3, Vitest 4.1.11, and `@vitejs/plugin-react` 4.7.0 resolve through one valid Vite 6 tree; Browserslist data is current; native config loading passes; and the `@/*` alias no longer relies on deprecated TypeScript `baseUrl` behavior. Clean install, dependency-tree validation, current and forward TypeScript checks, the full automated suite, the application build, and the Vercel build pass. The product owner's representative Production checks passed on a physical mobile device and in Firefox as the secondary desktop browser, with no release-blocking issue found. OrionLabs is release-ready. The remaining 1 low, 2 moderate, and 7 high npm advisories are dev-only transitive tooling findings; the Production-only audit is clean. The operational items under Still deferred remain separate follow-up work.
+
+Documentation, Release Candidate, and Launch verification is complete. The remaining product-level roadmap item is adding OrionLabs to the portfolio.
