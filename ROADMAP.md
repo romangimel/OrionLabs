@@ -454,15 +454,15 @@ Deferred deliberately: streaming request-body enforcement, HSTS pending the fina
 
 ### 12. Final Testing / Toolchain Maintenance
 
-This is the active phase. The deferred Browserslist data, Vite/Vitest alignment, native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories were intentionally not changed during Performance or Security work.
+Repository and toolchain work is complete. Vite 6.4.3, Vitest 4.1.11, and `@vitejs/plugin-react` 4.7.0 now share one valid Vite 6 tree; Browserslist metadata is current; native config loading passes; and the `@/*` TypeScript alias no longer relies on deprecated `baseUrl` behavior. Clean install, dependency-tree, tests, current and forward TypeScript checks, lint, application build, and Vercel build all pass. Mobile viewport checks at 430×932 and 375×812 and a safe Production smoke pass are complete with no application console errors. This phase remains open only because the environment could not provide a physical mobile device or a non-Chromium desktop engine for the final manual matrix.
 
-- [ ] Test AI failure, timeout, and capacity states
-- [ ] Re-test route refreshes and direct access on the final release candidate
-- [ ] Test multiple desktop widths and around 375px and 430px mobile widths
+- [x] Test AI failure, timeout, and capacity states
+- [x] Re-test route refreshes and direct access on the final release candidate
+- [x] Test multiple desktop widths and around 375px and 430px mobile widths
 - [ ] Test at least one real mobile device and one secondary desktop browser in addition to the main development browser
-- [ ] Re-confirm no API keys are exposed and no console errors remain
-- [ ] Test the complete user journey
-- [ ] Run the final production build
+- [x] Re-confirm no API keys are exposed and no console errors remain
+- [x] Test the complete user journey
+- [x] Run the final production build
 
 ### 13. Documentation, Release Candidate, and Launch
 
@@ -476,9 +476,9 @@ This is the active phase. The deferred Browserslist data, Vite/Vitest alignment,
 - [ ] Confirm Production uses the intended Gemini model and frozen configuration
 - [ ] Re-confirm Production rate-limit and capacity handling
 - [ ] Re-verify the final Production release candidate after polish, accessibility, and performance work
-- [ ] Update the README for the finished version
-- [ ] Add screenshots or a short product preview
-- [ ] Add the live URL to the GitHub repository
+- [x] Update the README for the current release candidate
+- [x] Add a concise product preview
+- [x] Add the live URL to the repository README
 - [ ] Add OrionLabs to the portfolio
 
 ---

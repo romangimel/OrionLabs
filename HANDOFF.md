@@ -161,9 +161,9 @@ The project is Windows/PowerShell; use `npm.cmd` when PowerShell blocks `npm.ps1
 - Production monitoring and alerting
 - Server-side report persistence, accounts, history, deletion, and privacy controls
 - Stable shareable URLs and downloadable reports
-- Final launch testing
+- Physical-mobile and non-Chromium desktop-browser release verification
 
-These are not production-ready and should not be described as complete.
+These items remain operationally deferred, manually unverified, or outside the current product scope and should not be described as complete.
 
 ## Accessibility, performance, and current phase
 
@@ -171,4 +171,4 @@ The accessibility pass is complete with accepted visual exceptions. Gold keyboar
 
 Performance is complete. P1 responsive hero/logo delivery and secondary-route code splitting remain intact. P2 added responsive WebP delivery for Subject Signature, Research, and 404 artwork; reduced the seven TrustBar masks from 288.73 kB to 76.11 kB with identical alpha data; deferred those mask requests until the section approaches; removed 40 unused direct runtime declarations; and moved `tailwindcss-animate` to development tooling. Runtime dependencies decreased from 52 to 11, and the clean install decreased from 24,496 files / 264,704,889 bytes to 14,109 files / 207,907,604 bytes. The final build remains split, with 556.28 kB raw / 165.10 kB gzip initial JavaScript and 96.85 kB raw / 16.79 kB gzip CSS.
 
-Security is complete. Repository verification passed, and the Production Gemini Firewall rule was externally confirmed at 5 requests per 60 seconds per IP with a pre-Function `429` on the sixth request; the accepted absence of a dedicated Groq rule did not block closure. Final Testing / Toolchain Maintenance is now active. Browserslist data, Vite/Vitest alignment, the native config-loader warning, React build-plugin deprecations, install-script notices, and audit advisories remain intentionally deferred. The operational items under Still deferred remain separate follow-up work.
+Security is complete. Repository verification passed, and the Production Gemini Firewall rule was externally confirmed at 5 requests per 60 seconds per IP with a pre-Function `429` on the sixth request; the accepted absence of a dedicated Groq rule did not block closure. Final Testing / Toolchain Maintenance remains active only for the manual physical-mobile and non-Chromium browser matrix. Repository/toolchain work is complete: Vite 6.4.3, Vitest 4.1.11, and `@vitejs/plugin-react` 4.7.0 resolve through one valid Vite 6 tree; Browserslist data is current; native config loading passes; and the `@/*` alias no longer relies on deprecated TypeScript `baseUrl` behavior. Clean install, dependency-tree validation, current and forward TypeScript checks, the full automated suite, the application build, and the Vercel build pass. The remaining 1 low, 2 moderate, and 7 high npm advisories are dev-only transitive tooling findings; the Production-only audit is clean. The operational items under Still deferred remain separate follow-up work.

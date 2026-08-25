@@ -1,8 +1,10 @@
-import path from 'path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 
 const SITE_URL_TOKEN = '__ORIONLABS_SITE_URL__';
+const configDirectory = dirname(fileURLToPath(import.meta.url));
 
 function resolveConfiguredSiteOrigin(value: string | undefined) {
   try {
@@ -31,7 +33,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react(), browserPresentationPlugin(siteOrigin)],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': resolve(configDirectory, './src'),
       },
     },
     optimizeDeps: {
