@@ -11,7 +11,7 @@ import {
 import { ORIONLABS_SYSTEM_PROMPT } from './prompts/orionlabs-system-prompt.js';
 import { buildReportGenerationPrompt } from './prompts/report-generation-prompt.js';
 
-export const GEMINI_REPORT_MODEL = 'gemini-3.6-flash';
+export const GEMINI_REPORT_MODEL = 'gemini-3.7-flash';
 const MAX_GENERATION_ATTEMPTS = 2;
 const GEMINI_PROVIDER_TIMEOUT_MS = 90_000;
 // Vercel permits 120 seconds. Reserve ten seconds for parsing, validation,
@@ -112,7 +112,7 @@ function createGeminiCandidateGenerator(apiKey: string): GenerateCandidate {
     const interaction = await ai.interactions.create(
       {
         model: GEMINI_REPORT_MODEL,
-        generation_config: { thinking_level: 'medium' },
+        generation_config: { thinking_level: 'low' },
         system_instruction: ORIONLABS_SYSTEM_PROMPT,
         input: buildReportGenerationPrompt(input),
         response_format: {

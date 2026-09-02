@@ -153,8 +153,8 @@ describe('Gemini Interactions retry boundary', () => {
     expect(interactionsCreate).toHaveBeenCalledTimes(1);
     expect(interactionsCreate.mock.calls[0]?.[0]).toEqual(
       expect.objectContaining({
-        model: 'gemini-3.6-flash',
-        generation_config: { thinking_level: 'medium' },
+        model: 'gemini-3.7-flash',
+        generation_config: { thinking_level: 'low' },
       }),
     );
     expect(interactionsCreate.mock.calls[0]?.[1]).toEqual({
