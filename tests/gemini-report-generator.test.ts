@@ -1,6 +1,7 @@
 import { ApiError, GoogleGenAI } from '@google/genai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { maxDuration } from '../api/generate-report';
+import vercelConfig from '../vercel.json';
 import {
   GeminiCapacityExhaustedError,
   generateGeminiReport,
@@ -50,6 +51,9 @@ afterEach(() => {
 describe('Gemini retry policy', () => {
   it('configures the Vercel Function for the 120-second execution budget', () => {
     expect(maxDuration).toBe(120);
+    expect(vercelConfig.functions['api/generate-report.ts'].maxDuration).toBe(
+      maxDuration,
+    );
   });
 
   it('retries malformed output once and then accepts a valid report', async () => {
