@@ -13,11 +13,11 @@ import { buildReportGenerationPrompt } from './prompts/report-generation-prompt.
 
 export const GEMINI_REPORT_MODEL = 'gemini-3.6-flash';
 const MAX_GENERATION_ATTEMPTS = 2;
-const GEMINI_PROVIDER_TIMEOUT_MS = 50_000;
-// Vercel permits 60 seconds. Leave five seconds for parsing, validation,
-// persistence, and response completion; only retry when another full provider
-// attempt can still fit in that remaining execution budget.
-const GENERATION_RETRY_DEADLINE_MS = 55_000;
+const GEMINI_PROVIDER_TIMEOUT_MS = 90_000;
+// Vercel permits 120 seconds. Reserve ten seconds for parsing, validation,
+// error handling, serialization, and HTTP completion. A retry is allowed only
+// when another full provider attempt fits inside the remaining internal budget.
+const GENERATION_RETRY_DEADLINE_MS = 110_000;
 const GEMINI_INTERACTIONS_REQUEST_OPTIONS = {
   timeout: GEMINI_PROVIDER_TIMEOUT_MS,
   maxRetries: 0,

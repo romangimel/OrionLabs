@@ -359,7 +359,7 @@ Do not call the AI provider directly from frontend browser code.
 - [x] Evaluate a small representative test set across zodiac, focus, and behavior combinations
 - [x] Compare representative outputs with approved OrionLabs humor examples and confirm consistency
 - [x] Confirm structured-output reliability remains intact and prompt changes do not expand the approved personal-data boundary
-- [x] Freeze the Gemini 3.6 Flash, Medium-thinking production prompts and 50-second configuration
+- [x] Freeze the Gemini 3.6 Flash, Medium-thinking production prompts and maintain a bounded provider timeout
 
 ### 4. Article Rewrite and Shortening
 

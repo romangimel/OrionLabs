@@ -1,5 +1,6 @@
 import { ApiError, GoogleGenAI } from '@google/genai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { maxDuration } from '../api/generate-report';
 import {
   GeminiCapacityExhaustedError,
   generateGeminiReport,
@@ -47,6 +48,10 @@ afterEach(() => {
 });
 
 describe('Gemini retry policy', () => {
+  it('configures the Vercel Function for the 120-second execution budget', () => {
+    expect(maxDuration).toBe(120);
+  });
+
   it('retries malformed output once and then accepts a valid report', async () => {
     const generateCandidate = vi
       .fn()
@@ -90,23 +95,24 @@ describe('Gemini retry policy', () => {
     expect(generateCandidate).toHaveBeenCalledTimes(1);
   });
 
-  it('still retries a transient provider failure once', async () => {
+  it('still retries a sufficiently fast transient provider failure once', async () => {
     const generateCandidate = vi
       .fn()
       .mockRejectedValueOnce(
         createInteractionsProviderError(503, 'InternalServerError'),
       )
       .mockResolvedValueOnce(createValidReport());
+    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(20_000);
 
     await expect(
-      generateReportWithRetry(validGenerationInput, generateCandidate),
+      generateReportWithRetry(validGenerationInput, generateCandidate, getCurrentTime),
     ).resolves.toEqual(createValidReport());
     expect(generateCandidate).toHaveBeenCalledTimes(2);
   });
 
   it('does not retry an SDK connection timeout', async () => {
     const generateCandidate = vi.fn().mockRejectedValue(createConnectionTimeoutError());
-    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(50_000);
+    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(90_000);
 
     await expect(
       generateReportWithRetry(validGenerationInput, generateCandidate, getCurrentTime),
@@ -118,7 +124,7 @@ describe('Gemini retry policy', () => {
     const generateCandidate = vi.fn().mockRejectedValue(
       createInteractionsProviderError(503, 'InternalServerError'),
     );
-    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(50_000);
+    const getCurrentTime = vi.fn().mockReturnValueOnce(0).mockReturnValueOnce(20_001);
 
     await expect(
       generateReportWithRetry(validGenerationInput, generateCandidate, getCurrentTime),
@@ -148,7 +154,7 @@ describe('Gemini Interactions retry boundary', () => {
       }),
     );
     expect(interactionsCreate.mock.calls[0]?.[1]).toEqual({
-      timeout: 50_000,
+      timeout: 90_000,
       maxRetries: 0,
     });
   });
@@ -174,8 +180,8 @@ describe('Gemini Interactions retry boundary', () => {
     );
     expect(interactionsCreate).toHaveBeenCalledTimes(2);
     expect(interactionsCreate.mock.calls.map((call) => call[1])).toEqual([
-      { timeout: 50_000, maxRetries: 0 },
-      { timeout: 50_000, maxRetries: 0 },
+      { timeout: 90_000, maxRetries: 0 },
+      { timeout: 90_000, maxRetries: 0 },
     ]);
   });
 

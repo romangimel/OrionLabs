@@ -78,7 +78,7 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 
 The technical report contract is `OrionReport` in `src/data/report.ts`. Every successful report requires subject, summary, personality analysis with three traits, current-life analysis and forecast, three strengths, three risks, recommended action, exactly three 0-100 integer metrics, and closing verdict.
 
-The production system and report prompts are frozen after final controlled-inference calibration. They target 9/10 roast intensity while preserving analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable closing verdict. Gemini 3.6 Flash runs with Medium thinking and a 50-second provider timeout.
+The production system and report prompts are frozen after final controlled-inference calibration. They target 9/10 roast intensity while preserving analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable closing verdict. Gemini 3.6 Flash runs with Medium thinking and a 90-second provider timeout inside a 120-second Vercel Function limit. This is reliability headroom rather than the expected UX target.
 
 The model may aggressively exaggerate interpretations, inferred behavioral tendencies, metaphors, fake science, celestial framing, and fictional measurements. It must not invent unsupported consequential biography, concrete events, or real-world outcomes. Occasional low-stakes overreach is an accepted limitation of the single-pass architecture; OrionLabs does not use a verifier or repair model.
 
@@ -95,9 +95,9 @@ The Vercel Function:
 - Trims/normalizes strings and bounds optional context to 600 characters
 - Requests Gemini structured JSON from the same schema used at runtime
 - Rejects missing sections, malformed insights, wrong array counts, invalid metrics, or altered application-controlled identity/focus data
-- Makes one initial provider request and at most one retry for transient errors or malformed output when another full provider attempt fits within the 55-second internal budget
+- Makes one initial provider request and at most one retry for transient errors or malformed output when another full provider attempt fits within the 110-second internal budget, leaving a ten-second response reserve
 - Converts Gemini HTTP 429 resource exhaustion into `ANALYSIS_CAPACITY_EXHAUSTED` without spending the immediate second attempt
-- Uses a 50-second provider timeout and explicitly sets Medium thinking
+- Uses a 90-second provider timeout and explicitly sets Medium thinking
 - Disables Gemini SDK transport retries with `maxRetries: 0`
 - Returns safe errors without provider details, stack traces, secrets, or user free text
 
