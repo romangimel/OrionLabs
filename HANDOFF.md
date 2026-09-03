@@ -14,7 +14,7 @@ Landing Page
 -> Review Answers
 -> Analysis Loading Screen
 -> Vercel Function
--> Gemini 3.6 Flash
+-> Gemini 3.7 Flash
 -> Validated Personalized Report
 -> Start Another Analysis
 ```
@@ -65,7 +65,7 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 ## AI architecture
 
 - `api/generate-report.ts` is the single `POST /api/generate-report` Vercel Function.
-- `server/gemini-report-generator.ts` uses the official `@google/genai` SDK and stable `gemini-3.6-flash` model.
+- `server/gemini-report-generator.ts` uses the official `@google/genai` SDK and stable `gemini-3.7-flash` model.
 - `server/prompts/orionlabs-system-prompt.ts` owns the frozen controlled-inference, voice, and safety policy.
 - `server/prompts/report-generation-prompt.ts` owns the frozen report instructions and appends approved runtime data separately.
 - `src/lib/report-schemas.ts` defines strict Zod input/output validation and supplies Gemini's JSON schema through `zod-to-json-schema`.
@@ -78,7 +78,7 @@ Raw birth date, reference preference, report IDs, analytics identifiers, and the
 
 The technical report contract is `OrionReport` in `src/data/report.ts`. Every successful report requires subject, summary, personality analysis with three traits, current-life analysis and forecast, three strengths, three risks, recommended action, exactly three 0-100 integer metrics, and closing verdict.
 
-The production system and report prompts are frozen after final controlled-inference calibration. They target 9/10 roast intensity while preserving analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable closing verdict. Gemini 3.6 Flash runs with Medium thinking and a 90-second provider timeout inside a 120-second Vercel Function limit. This is reliability headroom rather than the expected UX target.
+The production system and report prompts are frozen after final controlled-inference calibration. They target 9/10 roast intensity while preserving analytical coherence, genuine strengths, useful advice, confident fake rigor, and a memorable closing verdict. Gemini 3.7 Flash runs with Low thinking and a 90-second provider timeout inside a 120-second Vercel Function limit. This is reliability headroom rather than the expected UX target.
 
 The model may aggressively exaggerate interpretations, inferred behavioral tendencies, metaphors, fake science, celestial framing, and fictional measurements. It must not invent unsupported consequential biography, concrete events, or real-world outcomes. Occasional low-stakes overreach is an accepted limitation of the single-pass architecture; OrionLabs does not use a verifier or repair model.
 
@@ -97,7 +97,7 @@ The Vercel Function:
 - Rejects missing sections, malformed insights, wrong array counts, invalid metrics, or altered application-controlled identity/focus data
 - Makes one initial provider request and at most one retry for transient errors or malformed output when another full provider attempt fits within the 110-second internal budget, leaving a ten-second response reserve
 - Converts Gemini HTTP 429 resource exhaustion into `ANALYSIS_CAPACITY_EXHAUSTED` without spending the immediate second attempt
-- Uses a 90-second provider timeout and explicitly sets Medium thinking
+- Uses a 90-second provider timeout and explicitly sets Low thinking
 - Disables Gemini SDK transport retries with `maxRetries: 0`
 - Returns safe errors without provider details, stack traces, secrets, or user free text
 
@@ -105,7 +105,7 @@ The repository does not establish Gemini billing, quota, retention, or account c
 
 Production verification on 25 August 2026 confirmed that the Vercel Firewall custom rule covers `/api/generate-report` at 5 requests per 60 seconds per IP. Five requests from one source completed normally; the sixth returned a fast Vercel-deny `429` with `x-vercel-mitigated: deny` before normal Function/provider execution. A plain upstream HTTP 429 is handled safely by the browser as the same broad capacity state, while the semantic OrionLabs code identifies capacity responses that did reach the Function.
 
-Final deployment reconciliation on 26 August 2026 confirmed that the current `main` commit is the Ready Production deployment at `orionlabs-ai.vercel.app`. Vercel history also proves that non-main branches produce Preview deployments. The latest suitable non-main Preview was Ready and returned `200` for the landing page, questionnaire, a representative research route, its referenced JavaScript asset, and one real Gemini report generation using synthetic input. That Preview is protected by Vercel Authentication, so the route and Function checks used Vercel's authenticated protection bypass; an anonymous rendered-browser journey was not repeated. Current Vercel metadata also confirms that the same 5-request/60-second/IP report-generation Firewall rule remains live with no draft changes.
+Deployment reconciliation on 26 August 2026 confirmed the Git-to-Vercel release path: `main` produces the Production deployment at `orionlabs-ai.vercel.app`, while non-main branches produce Preview deployments. The verified non-main Preview returned `200` for the landing page, questionnaire, a representative research route, its referenced JavaScript asset, and one real Gemini report generation using synthetic input. That Preview was protected by Vercel Authentication, so the route and Function checks used Vercel's authenticated protection bypass; an anonymous rendered-browser journey was not repeated. Vercel metadata also confirmed that the same 5-request/60-second/IP report-generation Firewall rule remained live with no draft changes.
 
 The browser validates the returned report again before session storage. Malformed or partial output is never rendered and never falls back to mock content.
 
